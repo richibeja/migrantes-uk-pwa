@@ -1,0 +1,38 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo circular dorado -->
+  <circle cx="96" cy="96" r="96" fill="#FFD700"/>
+  
+  <!-- Bola de lotería principal -->
+  <circle cx="96" cy="96" r="60" fill="#000000"/>
+  <circle cx="96" cy="96" r="55" fill="#1F2937"/>
+  
+  <!-- Números de lotería -->
+  <text x="96" y="85" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="24" font-weight="bold">GANA</text>
+  <text x="96" y="105" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="16" font-weight="bold">FACIL</text>
+  
+  <!-- Bola de lotería pequeña -->
+  <circle cx="40" cy="40" r="15" fill="#FFD700"/>
+  <circle cx="40" cy="40" r="12" fill="#000000"/>
+  <text x="40" y="45" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="12" font-weight="bold">25</text>
+  
+  <!-- Bola de lotería pequeña -->
+  <circle cx="152" cy="40" r="15" fill="#FFD700"/>
+  <circle cx="152" cy="40" r="12" fill="#000000"/>
+  <text x="152" y="45" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="12" font-weight="bold">07</text>
+  
+  <!-- Bola de lotería pequeña -->
+  <circle cx="40" cy="152" r="15" fill="#FFD700"/>
+  <circle cx="40" cy="152" r="12" fill="#000000"/>
+  <text x="40" y="157" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="12" font-weight="bold">13</text>
+  
+  <!-- Bola de lotería pequeña -->
+  <circle cx="152" cy="152" r="15" fill="#FFD700"/>
+  <circle cx="152" cy="152" r="12" fill="#000000"/>
+  <text x="152" y="157" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="12" font-weight="bold">42</text>
+  
+  <!-- Estrellas de confianza -->
+  <path d="M96 20 L98.5 25.5 L104 26.5 L99.5 30.5 L101 36 L96 33 L91 36 L92.5 30.5 L88 26.5 L93.5 25.5 Z" fill="#FFD700"/>
+  <path d="M96 156 L98.5 161.5 L104 162.5 L99.5 166.5 L101 172 L96 169 L91 172 L92.5 166.5 L88 162.5 L93.5 161.5 Z" fill="#FFD700"/>
+  <path d="M20 96 L25.5 98.5 L26.5 104 L30.5 99.5 L36 101 L33 96 L36 91 L30.5 92.5 L26.5 88 L25.5 93.5 Z" fill="#FFD700"/>
+  <path d="M172 96 L177.5 98.5 L178.5 104 L182.5 99.5 L188 101 L185 96 L188 91 L182.5 92.5 L178.5 88 L177.5 93.5 Z" fill="#FFD700"/>
+</svg>

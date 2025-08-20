@@ -1,0 +1,158 @@
+import js from '@eslint/js';
+import nextPlugin from '@next/eslint-plugin-next';
+import reactPlugin from '@eslint/js-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import typescriptPlugin from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+
+export default [
+  js.configs.recommended,
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        React: 'readonly',
+        JSX: 'readonly',
+      },
+    },
+    plugins: {
+      '@next/next': nextPlugin,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      '@typescript-eslint': typescriptPlugin,
+    },
+    rules: {
+      // Next.js rules
+      '@next/next/no-html-link-for-pages': 'error',
+      '@next/next/no-img-element': 'error',
+      '@next/next/no-sync-scripts': 'error',
+      '@next/next/no-unwanted-polyfillio': 'error',
+      '@next/next/no-page-custom-font': 'error',
+      '@next/next/no-css-tags': 'error',
+      '@next/next/no-head-element': 'error',
+      '@next/next/no-google-font-display': 'error',
+      '@next/next/no-before-interactive-script-outside-document': 'error',
+      '@next/next/no-title-in-document-head': 'error',
+      '@next/next/no-duplicate-head': 'error',
+      '@next/next/no-document-import-in-page': 'error',
+      '@next/next/no-head-import-in-page': 'error',
+      '@next/next/no-page-import-in-page': 'error',
+      '@next/next/no-script-component-in-head': 'error',
+      '@next/next/no-styled-jsx-in-document': 'error',
+      '@next/next/no-unwanted-polyfillio': 'error',
+      '@next/next/no-google-font-display': 'error',
+      '@next/next/no-before-interactive-script-outside-document': 'error',
+      '@next/next/no-title-in-document-head': 'error',
+      '@next/next/no-duplicate-head': 'error',
+      '@next/next/no-document-import-in-page': 'error',
+      '@next/next/no-head-import-in-page': 'error',
+      '@next/next/no-page-import-in-page': 'error',
+      '@next/next/no-script-component-in-head': 'error',
+      '@next/next/no-styled-jsx-in-document': 'error',
+
+      // React rules
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react/display-name': 'off',
+      'react/no-unescaped-entities': 'off',
+      'react/no-unknown-property': 'off',
+      'react/no-array-index-key': 'warn',
+      'react/jsx-key': 'error',
+      'react/jsx-no-duplicate-props': 'error',
+      'react/jsx-no-undef': 'error',
+      'react/jsx-uses-vars': 'error',
+      'react/no-children-prop': 'error',
+      'react/no-danger': 'warn',
+      'react/no-deprecated': 'warn',
+      'react/no-direct-mutation-state': 'error',
+      'react/no-find-dom-node': 'error',
+      'react/no-is-mounted': 'error',
+      'react/no-render-return-value': 'error',
+      'react/no-string-refs': 'error',
+      'react/no-unescaped-entities': 'off',
+      'react/no-unknown-property': 'off',
+      'react/require-render-return': 'error',
+      'react/self-closing-comp': 'error',
+      'react/sort-comp': 'off',
+      'react/sort-prop-types': 'off',
+      'react/style-prop-object': 'error',
+      'react/void-dom-elements-no-children': 'error',
+
+      // React Hooks rules
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      // TypeScript rules
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/prefer-const': 'error',
+      '@typescript-eslint/no-var-requires': 'error',
+      '@typescript-eslint/no-empty-function': 'warn',
+      '@typescript-eslint/no-empty-interface': 'warn',
+      '@typescript-eslint/no-inferrable-types': 'warn',
+      '@typescript-eslint/no-namespace': 'warn',
+      '@typescript-eslint/no-this-alias': 'warn',
+      '@typescript-eslint/prefer-namespace-keyword': 'warn',
+      '@typescript-eslint/triple-slash-reference': 'warn',
+      '@typescript-eslint/type-annotation-spacing': 'error',
+      '@typescript-eslint/unified-signatures': 'error',
+
+      // General rules
+      'no-console': 'warn',
+      'no-debugger': 'error',
+      'no-alert': 'warn',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'no-unused-vars': 'off', // Handled by TypeScript
+      'no-undef': 'off', // Handled by TypeScript
+      'no-redeclare': 'off', // Handled by TypeScript
+      'no-unreachable': 'error',
+      'no-constant-condition': 'error',
+      'no-dupe-args': 'error',
+      'no-dupe-keys': 'error',
+      'no-dupe-else-if': 'error',
+      'no-duplicate-case': 'error',
+      'no-empty': 'warn',
+      'no-extra-boolean-cast': 'error',
+      'no-extra-semi': 'error',
+      'no-func-assign': 'error',
+      'no-import-assign': 'error',
+      'no-inner-declarations': 'error',
+      'no-invalid-regexp': 'error',
+      'no-irregular-whitespace': 'error',
+      'no-misleading-character-class': 'error',
+      'no-obj-calls': 'error',
+      'no-prototype-builtins': 'error',
+      'no-regex-spaces': 'error',
+      'no-sparse-arrays': 'error',
+      'no-template-curly-in-string': 'error',
+      'no-unexpected-multiline': 'error',
+      'no-unreachable': 'error',
+      'no-unsafe-finally': 'error',
+      'no-unsafe-negation': 'error',
+      'use-isnan': 'error',
+      'valid-jsdoc': 'off',
+      'valid-typeof': 'error',
+    },
+  },
+  {
+    files: ['**/*.config.{js,ts,mjs}', '**/*.config.*.{js,ts,mjs}'],
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+    },
+  },
+];
+
+export default eslintConfig;
