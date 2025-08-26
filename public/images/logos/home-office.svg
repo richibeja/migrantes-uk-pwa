@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" role="img" aria-label="Home Office (placeholder)">
+  <rect width="240" height="80" rx="10" fill="#0f172a"/>
+  <rect x="10" y="10" width="60" height="60" rx="8" fill="#e5e7eb"/>
+  <text x="85" y="50" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#e5e7eb">Home Office</text>
+</svg>
+

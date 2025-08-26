@@ -7,6 +7,11 @@ export interface ActivationCode {
 }
 
 export const activationCodes: ActivationCode[] = [
+  // Códigos locales visibles en la pantalla de activación
+  { code: 'GANAFACIL', type: 'basic', description: 'Código local', features: ['Activación rápida'] },
+  { code: 'LOTERIA', type: 'basic', description: 'Código local', features: ['Activación rápida'] },
+  { code: 'SUERTE', type: 'basic', description: 'Código local', features: ['Activación rápida'] },
+  { code: 'FORTUNA', type: 'basic', description: 'Código local', features: ['Activación rápida'] },
   {
     code: 'GANAFACIL2024',
     type: 'basic',

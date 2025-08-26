@@ -67,6 +67,8 @@ export default function DashboardPage() {
   const [isLive, setIsLive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('es');
+  const BYPASS_PAYWALL = process.env.NEXT_PUBLIC_BYPASS_PAYWALL === 'true';
+  const [forceActive, setForceActive] = useState(false);
 
   const { isAuthenticated, user, logout, clearAll } = useAuthAdmin();
   const router = useRouter();
@@ -846,6 +848,47 @@ export default function DashboardPage() {
     }
   };
 
+  // Magic link: /dashboard?pass=ok → crea sesión activa local (básico 30 días)
+  useEffect(() => {
+    try {
+      const url = new URL(window.location.href);
+      const pass = url.searchParams.get('pass');
+      if (pass === 'ok') {
+        const randomId = Math.random().toString(36).slice(2, 8);
+        const username = `guest_${randomId}`;
+        const now = Date.now();
+        const expiresAt = new Date(now + 30 * 24 * 60 * 60 * 1000).toISOString();
+        const account = {
+          username,
+          password: null,
+          phone: null,
+          status: 'active',
+          plan: 'basic',
+          expiresAt,
+          isActivated: true,
+          createdAt: new Date().toISOString(),
+        } as any;
+
+        // Guardar sesión actual
+        localStorage.setItem('ganaFacilUser', JSON.stringify(account));
+        // Agregar a lista local si no existe
+        try {
+          const list = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
+          const updated = Array.isArray(list) ? [...list, account] : [account];
+          localStorage.setItem('ganaFacilAccounts', JSON.stringify(updated));
+        } catch {}
+
+        // Forzar activo en este render
+        setForceActive(true);
+
+        // Limpiar el parámetro de la URL
+        url.searchParams.delete('pass');
+        const clean = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : '');
+        window.history.replaceState({}, '', clean);
+      }
+    } catch {}
+  }, []);
+
   // Función para renderizar predicción PROTEGIDA
   const renderPrediction = (prediction: Prediction, lottery: Lottery) => {
     try {
@@ -885,9 +928,9 @@ export default function DashboardPage() {
       <div className="space-y-6">
         <div className="text-center">
           <h4 className="text-gold font-bold text-lg mb-4">🎯 Números Analizados</h4>
-          <div className="grid grid-cols-5 gap-2 mb-4">
+          <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 gap-2 sm:gap-3 mb-4">
             {prediction.numbers.map((num, index) => (
-              <div key={index} className="bg-gold text-black w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
+              <div key={index} className="bg-gold text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg">
                 {num}
               </div>
             ))}
@@ -895,7 +938,7 @@ export default function DashboardPage() {
           {prediction.specialBall && (
             <div className="mt-4">
               <div className="text-sm text-gray-400 mb-2">{lottery.specialBallName}</div>
-              <div className="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-lg mx-auto">
+              <div className="bg-purple-500 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg mx-auto">
                 {prediction.specialBall}
               </div>
             </div>
@@ -925,20 +968,51 @@ export default function DashboardPage() {
   // Verificar autenticación
   useEffect(() => {
     // Verificar si hay usuario en localStorage
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('pass') === 'ok') {
+        // No redirigir mientras aplicamos acceso por enlace
+        return;
+      }
+    } catch {}
     const savedUser = localStorage.getItem('ganaFacilUser');
     if (savedUser) {
       try {
         const userData = JSON.parse(savedUser);
-        console.log('✅ Usuario encontrado en dashboard:', userData.code);
         // Permitir acceso al dashboard
         return;
       } catch (error) {
-        console.log('❌ Error al parsear usuario:', error);
-        // Si hay error, limpiar localStorage corrupto
         localStorage.removeItem('ganaFacilUser');
       }
     }
     
+    // Si no hay usuario y el bypass está activo, crear sesión invitado automáticamente
+    try {
+      if (BYPASS_PAYWALL) {
+        const randomId = Math.random().toString(36).slice(2, 8);
+        const username = `guest_${randomId}`;
+        const now = Date.now();
+        const expiresAt = new Date(now + 30 * 24 * 60 * 60 * 1000).toISOString();
+        const account = {
+          username,
+          password: null,
+          phone: null,
+          status: 'active',
+          plan: 'basic',
+          expiresAt,
+          isActivated: true,
+          createdAt: new Date().toISOString(),
+        } as any;
+        localStorage.setItem('ganaFacilUser', JSON.stringify(account));
+        try {
+          const list = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
+          const updated = Array.isArray(list) ? [...list, account] : [account];
+          localStorage.setItem('ganaFacilAccounts', JSON.stringify(updated));
+        } catch {}
+        return;
+      }
+    } catch {}
+
     // Solo redirigir si no hay usuario en localStorage
     console.log('❌ No hay usuario en localStorage, redirigiendo a /activate');
     router.push('/activate');
@@ -995,7 +1069,7 @@ export default function DashboardPage() {
     }
   }, [router]);
 
-  if (!isLocalAuthenticated) {
+  if (!isLocalAuthenticated && !forceActive) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
         <div className="text-center">
@@ -1017,6 +1091,39 @@ export default function DashboardPage() {
     );
   }
 
+  // Paywall simple si el usuario está pendiente o vencido
+  const stored = typeof window !== 'undefined' ? localStorage.getItem('ganaFacilUser') : null;
+  let mustPay = false;
+  try {
+    if (BYPASS_PAYWALL || forceActive) {
+      mustPay = false;
+    } else if (stored) {
+      const u = JSON.parse(stored);
+      const status = u?.status || 'pending';
+      const expiresAt = u?.expiresAt ? new Date(u.expiresAt) : null;
+      const now = new Date();
+      if (status !== 'active') mustPay = true;
+      if (expiresAt && expiresAt < now) mustPay = true;
+    } else {
+      mustPay = true;
+    }
+  } catch {
+    mustPay = true;
+  }
+
+  if (mustPay) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
+        <div className="max-w-md w-full text-center bg-gray-800/70 border border-gray-700 rounded-2xl p-8">
+          <h1 className="text-2xl font-bold text-gold mb-3">Acceso pendiente</h1>
+          <p className="text-gray-300 mb-6">Tu cuenta aún no está activa. Completa el pago para acceder al dashboard.</p>
+          <a href="https://wa.me/19295909116?text=Quiero%20activar%20mi%20acceso%20a%20GanaF%C3%A1cil" target="_blank" className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg mb-3">💬 Pagar por WhatsApp</a>
+          <div className="text-sm text-gray-400">Si ya pagaste, espera confirmación o intenta de nuevo en unos minutos.</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Header PROTEGIDO */}
@@ -1025,7 +1132,7 @@ export default function DashboardPage() {
           {/* Primera fila: Logo y estado del sistema */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center">
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gold">🎯 GanaFácil</h1>
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gold">🇬🇧 Migrantes UK</h1>
             </div>
             
             {/* Estado del sistema PROTEGIDO */}
@@ -1060,8 +1167,8 @@ export default function DashboardPage() {
           <div className="flex flex-row items-center justify-between space-x-2">
             {/* Información del usuario PROTEGIDA */}
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-300 bg-gray-700 px-2 py-1 rounded-lg">
-                👤 Usuario {user?.code?.slice(-4) || 'N/A'}
+              <span className="text-sm text-gray-300 bg-gray-700 px-2 py-1 rounded-lg blur-sm select-none">
+                👤 Usuario
               </span>
             </div>
             
@@ -1095,32 +1202,7 @@ export default function DashboardPage() {
                 🧹 Limpiar
               </button>
               
-              <button
-                onClick={() => {
-                  try {
-                    const savedUser = localStorage.getItem('ganaFacilUser');
-                    console.log('🔍 Estado de autenticación:');
-                    console.log('isLocalAuthenticated:', isLocalAuthenticated);
-                    console.log('isAuthenticated:', isAuthenticated);
-                    console.log('user:', user);
-                    console.log('localStorage ganaFacilUser:', savedUser);
-                    if (savedUser) {
-                      try {
-                        const userData = JSON.parse(savedUser);
-                        console.log('✅ Usuario parseado:', userData);
-                      } catch (error) {
-                        console.log('❌ Error parseando:', error);
-                      }
-                    }
-                  } catch (error) {
-                    console.error('Error en debug:', error);
-                  }
-                }}
-                className="bg-blue-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-blue-700 transition-colors text-xs"
-                title="Debug autenticación"
-              >
-                🔍 Debug
-              </button>
+              
               
               <button
                 onClick={() => {
@@ -1173,16 +1255,12 @@ export default function DashboardPage() {
       <nav className="bg-gray-800/50 border-b border-gray-700">
         <div className="container mx-auto px-2 sm:px-4">
           <div className="flex space-x-1 overflow-x-auto pb-2 scrollbar-hide">
-            {['predictions', 'rifa', 'results', 'historical', 'engine', 'notifications'].map((tab) => (
+            {['predictions', 'results', 'historical', 'engine', 'notifications'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => {
                   try {
-                    if (tab === 'rifa') {
-                      router.push('/rifa');
-                    } else {
-                      setActiveTab(tab);
-                    }
+                    setActiveTab(tab);
                   } catch (error) {
                     console.error(`Error navegando a ${tab}:`, error);
                   }
@@ -1198,7 +1276,6 @@ export default function DashboardPage() {
                 {tab === 'historical' && '📈 Histórico'}
                 {tab === 'engine' && '⚙️ Motor'}
                 {tab === 'notifications' && '🔔 Notificaciones'}
-                {tab === 'rifa' && '🚗 Mi Rifa'}
               </button>
             ))}
           </div>

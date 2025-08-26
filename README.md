@@ -1,413 +1,165 @@
-# 🎯 GanaFácil - Predicciones de Lotería con Algoritmos Avanzados
+# Migrantes UK — PWA (Next.js + Firebase)
 
-Una aplicación web moderna y potente que proporciona predicciones de lotería usando algoritmos matemáticos avanzados, integración con WhatsApp, pagos PayPal y soporte multiidioma.
+[![Next.js](https://img.shields.io/badge/Next.js-App%20Router-black?logo=next.js)](https://nextjs.org/docs/app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-Web-orange?logo=firebase)](https://firebase.google.com/docs/web)
+[![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?logo=pwa)](https://web.dev/learn/pwa/)
+[![Vercel](https://img.shields.io/badge/Project-Vercel-000?logo=vercel)](https://vercel.com/ganafacils-projects/migrantes-uk-pwa)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fmigrantes-uk-byeudna9m-ganafacils-projects.vercel.app)](https://migrantes-uk-byeudna9m-ganafacils-projects.vercel.app)
+[![PSI Mobile](https://img.shields.io/pagespeed/score/mobile/https/migrantes-uk-byeudna9m-ganafacils-projects.vercel.app?label=PSI%20mobile)](https://pagespeed.web.dev/report?url=https%3A%2F%2Fmigrantes-uk-byeudna9m-ganafacils-projects.vercel.app)
+[![PSI Desktop](https://img.shields.io/pagespeed/score/desktop/https/migrantes-uk-byeudna9m-ganafacils-projects.vercel.app?label=PSI%20desktop)](https://pagespeed.web.dev/report?url=https%3A%2F%2Fmigrantes-uk-byeudna9m-ganafacils-projects.vercel.app)
 
-## ✨ Características Principales
+PWA para apoyar a migrantes en el Reino Unido: formulario Q&A de asilo con validación y autosave, OCR/MRZ local de pasaporte, generación de PDF, subida de documentos a Firebase Storage, directorio curado con fuentes oficiales, asistente con FAQ + traducción, modo offline básico y notificaciones web (FCM). Funciona en iOS/Android vía “Add to Home Screen”.
 
-### 🔮 Predicciones Avanzadas
-- **Algoritmo Anbel**: Patrones matemáticos avanzados para predicciones precisas
-- **Método Probabilístico**: Análisis estadístico de frecuencias y probabilidades
-- **Método Histórico**: Análisis de patrones históricos y tendencias
-- **Filtrado Cruzado**: Combinación inteligente de múltiples algoritmos
+## Características
 
-### 🎰 Loterías Soportadas
-- **Colombia**: Baloto
-- **Reino Unido**: Lotto UK, EuroMillions UK
-- **Europa**: EuroMillions
-- **España**: La Primitiva, Bonoloto
-- **Estados Unidos**: Powerball, Mega Millions, Florida Lotto
+- Autenticación con Firebase (email/anon), perfil y cierre de sesión
+- Q&A de asilo con autosave en IndexedDB (Dexie) y envío a Firestore
+- Generación de PDF en cliente (pdf-lib)
+- Subida de documentos con progreso (Storage) y trazabilidad en Firestore
+- OCR local (tesseract.js) y extracción MRZ (TD3/TD1)
+- Directorio de ayuda con búsqueda y filtros (datos en Firestore)
+- Asistente: FAQ + traducción LibreTranslate
+- PWA: Runtime caching (next-pwa), offline básico, Add to Home Screen
+- Notificaciones web (FCM) y guardado del token por usuario
+- Componentes utilitarios: A2hsHint, EnableNotifications, OnlineSync, DeleteMyData, LegalBanner
 
-### 📱 Integraciones Modernas
-- **WhatsApp**: Contacto directo para soporte y activación
-- **PayPal**: Pagos seguros para códigos de activación
-- **PWA**: Aplicación web progresiva instalable
-- **Multiidioma**: Español e inglés con detección automática
+## Tecnologías
 
-### 🔐 Sistema de Seguridad
-- Códigos de activación únicos y seguros
-- Autenticación de administrador
-- Bloqueo automático por intentos fallidos
-- Gestión de sesiones segura
+- Next.js (App Router), TypeScript, Tailwind CSS, next-pwa
+- Firebase: Auth, Firestore, Storage, Cloud Messaging (FCM)
+- Dexie (IndexedDB), pdf-lib, tesseract.js
+- LibreTranslate para traducción (auto/ES/EN)
 
-## 🚀 Instalación y Configuración
-
-### Requisitos Previos
-- Node.js >= 20.0.0
-- npm >= 10.0.0
-- Git
-
-### Pasos de Instalación
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone https://github.com/tu-usuario/gana-facil.git
-   cd gana-facil
-   ```
-
-2. **Instalar dependencias**
-   ```bash
-   npm install
-   ```
-
-3. **Configurar variables de entorno**
-   ```bash
-   cp .env.local.example .env.local
-   # Editar .env.local con tus configuraciones
-   ```
-
-4. **Ejecutar en desarrollo**
-   ```bash
-   npm run dev
-   ```
-
-5. **Abrir en el navegador**
-   ```
-   http://localhost:3000
-   ```
-
-## 🌐 Despliegue en Vercel
-
-### Configuración Automática
-
-1. **Conectar con GitHub**
-   - Haz fork del repositorio
-   - Conecta tu cuenta de GitHub con Vercel
-   - Importa el proyecto
-
-2. **Configurar variables de entorno en Vercel**
-   ```env
-   NEXT_PUBLIC_APP_URL=https://tu-dominio.vercel.app
-   NEXT_PUBLIC_APP_NAME=GanaFácil
-   ADMIN_USERNAME=admin
-   ADMIN_PASSWORD=ganafacil2025
-   ```
-
-3. **Desplegar**
-   - Vercel detectará automáticamente que es un proyecto Next.js
-   - El build se ejecutará automáticamente
-   - La app estará disponible en tu dominio
-
-### Configuración Manual
-
-1. **Build del proyecto**
-   ```bash
-   npm run build
-   ```
-
-2. **Verificar build**
-   ```bash
-   npm run start
-   ```
-
-3. **Subir a Vercel**
-   ```bash
-   vercel --prod
-   ```
-
-## 📱 Funcionalidades PWA
-
-### Instalación
-- **Chrome/Edge**: Click en el icono de instalación en la barra de direcciones
-- **Safari**: Compartir → Agregar a pantalla de inicio
-- **Android**: Notificación de instalación automática
-
-### Características Offline
-- Caché de recursos estáticos
-- Funcionamiento offline básico
-- Sincronización automática al reconectar
-
-## 💬 Integración WhatsApp
-
-### Configuración
-- Número configurado: `+19295909116`
-- Mensaje automático personalizable
-- Contacto directo para soporte
-
-### Uso
-- Botón flotante en todas las páginas
-- Formularios de contacto integrados
-- Respuesta automática para códigos
-
-## 💳 Integración PayPal
-
-### Configuración
-- Cuenta: `richardbejarano52@gmail.com`
-- Moneda: USD (configurable)
-- Monto: $29.99 por código de activación
-
-### Flujo de Pago
-1. Usuario selecciona opción de pago
-2. Redirección a PayPal
-3. Confirmación de pago
-4. Generación automática de código
-5. Activación inmediata de la cuenta
-
-## 🌍 Sistema Multiidioma
-
-### Idiomas Soportados
-- **Español** (predeterminado)
-- **Inglés** (detectado automáticamente)
-
-### Características
-- Detección automática del idioma del navegador
-- Cambio manual de idioma
-- Persistencia de preferencia
-- Traducción completa de la interfaz
-
-## 🔧 Estructura del Proyecto
+## Estructura (principal)
 
 ```
-gana-facil/
-├── src/
-│   ├── app/                 # Páginas de la aplicación
-│   ├── components/          # Componentes reutilizables
-│   ├── hooks/              # Hooks personalizados
-│   ├── lib/                # Utilidades y APIs
-│   ├── i18n/               # Traducciones
-│   └── types/              # Tipos TypeScript
-├── public/                 # Archivos estáticos
-├── scripts/                # Scripts de utilidad
-└── docs/                   # Documentación
+src/
+  app/
+    login/        # Acceso / registro
+    qna/          # Formulario de asilo
+    letter/       # Generación de PDF
+    upload/       # Subida + OCR/MRZ
+    directory/    # Directorio de ayuda
+    assistant/    # Asistente (FAQ + traducción)
+    profile/      # Perfil y utilidades
+    admin/        # Curado de directory/faq
+  components/
+    A2hsHint.tsx
+    EnableNotifications.tsx
+    OnlineSync.tsx
+    LegalBanner.tsx
+    DeleteMyData.tsx
+  lib/
+    firebase.ts
+    db.ts            # Dexie
+    pdf.ts
+    storage.ts
+    translate.ts
+    notifications.ts
+    ocr/mrz.ts
+public/
+  firebase-messaging-sw.js
 ```
 
-## 🎨 Tecnologías Utilizadas
+## Variables de entorno (.env.local)
 
-### Frontend
-- **Next.js 15**: Framework React con App Router
-- **TypeScript**: Tipado estático
-- **Tailwind CSS 4**: Framework CSS utility-first
-- **Framer Motion**: Animaciones declarativas
-
-### Backend & APIs
-- **Firebase**: Autenticación y base de datos
-- **APIs de Loterías**: Conexiones reales a APIs oficiales
-- **PayPal API**: Procesamiento de pagos
-- **WhatsApp Business API**: Integración de mensajería
-
-### PWA & Performance
-- **Service Worker**: Funcionalidad offline
-- **Manifest.json**: Configuración de app
-- **Lazy Loading**: Carga optimizada
-- **Caché Inteligente**: Gestión de recursos
-
-## 📊 Monitoreo y Analytics
-
-### Métricas Incluidas
-- Eventos de usuario
-- Conversiones de pago
-- Uso de funcionalidades
-- Performance de la aplicación
-
-### Herramientas
-- Google Analytics 4
-- Vercel Analytics
-- Métricas personalizadas
-
-## 🔒 Seguridad
-
-### Medidas Implementadas
-- Autenticación JWT
-- Encriptación bcrypt
-- Rate limiting
-- Validación de entrada
-- Sanitización de datos
-
-### Compliance
-- GDPR ready
-- HTTPS obligatorio
-- Cookies seguras
-- Política de privacidad integrada
-
-## 🚀 Roadmap
-
-### Próximas Funcionalidades
-- [ ] Más loterías internacionales
-- [ ] App móvil nativa
-- [ ] Notificaciones push avanzadas
-- [ ] Sistema de referidos
-- [ ] Dashboard de estadísticas avanzado
-- [ ] Integración con más métodos de pago
-
-### Mejoras Técnicas
-- [ ] GraphQL API
-- [ ] Microservicios
-- [ ] Machine Learning avanzado
-- [ ] Real-time updates
-- [ ] Multi-tenant architecture
-
-## 🤝 Contribución
-
-### Cómo Contribuir
-1. Fork del proyecto
-2. Crear rama feature (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
-### Estándares de Código
-- TypeScript strict mode
-- ESLint + Prettier
-- Conventional Commits
-- Test coverage > 80%
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 📞 Soporte
-
-### Contacto
-- **WhatsApp**: +19295909116
-- **Email**: soporte@ganafacil.com
-- **Documentación**: [docs.ganafacil.com](https://docs.ganafacil.com)
-
-### Comunidad
-- **Discord**: [discord.gg/ganafacil](https://discord.gg/ganafacil)
-- **Telegram**: [t.me/ganafacil](https://t.me/ganafacil)
-- **GitHub Issues**: [github.com/tu-usuario/gana-facil/issues](https://github.com/tu-usuario/gana-facil/issues)
-
-## 🙏 Agradecimientos
-
-- Equipo de desarrollo GanaFácil
-- Comunidad de usuarios
-- Contribuidores de código abierto
-- APIs de loterías oficiales
-
----
-
-**GanaFácil** - Transformando la forma de jugar a la lotería con tecnología avanzada 🎯✨
-
-│   ├── app/                    # App Router de Next.js
-│   │   ├── page.tsx           # Página principal
-│   │   ├── activate/          # Activación de códigos
-│   │   ├── dashboard/         # Dashboard de predicciones
-│   │   ├── admin/             # Panel de administración
-│   │   ├── layout.tsx         # Layout principal
-│   │   └── globals.css        # Estilos globales
-│   ├── components/             # Componentes reutilizables
-│   ├── hooks/                  # Custom hooks
-│   ├── lib/                    # Utilidades y configuraciones
-│   └── config/                 # Configuraciones
-├── public/                     # Archivos estáticos
-│   ├── icons/                  # Iconos de la aplicación
-│   └── manifest.json           # Configuración PWA
-├── firebase/                   # Configuración de Firebase
-└── package.json                # Dependencias del proyecto
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+NEXT_PUBLIC_FCM_VAPID_KEY=
+NEXT_PUBLIC_LIBRETRANSLATE_URL=https://libretranslate.com/translate
 ```
 
-## 🎮 Uso de la Aplicación
+## Desarrollo
 
-### 1. **Acceso Público**
-- Visita la página principal para conocer el servicio
-- Revisa testimonios y características
-
-### 2. **Activación de Código**
-- Navega a `/activate`
-- Ingresa tu código de activación exclusivo
-- Recibe confirmación de activación
-
-### 3. **Dashboard de Predicciones**
-- Accede a `/dashboard` (solo usuarios activados)
-- Visualiza predicciones en tiempo real
-- Filtra por tipo de lotería
-- Revisa estadísticas y confianza
-
-### 4. **Panel de Administración**
-- Accede a `/admin`
-- Credenciales: `admin` / `ganafacil2025`
-- Gestiona códigos de activación
-- Monitorea el sistema
-
-## 🔐 Códigos de Activación
-
-La aplicación incluye códigos de prueba pre-configurados:
-
-- `GANA2025POWER001`
-- `GANA2025MEGA002`
-- `GANA2025EURO003`
-- `GANA2025UK004`
-- `GANA2025SPAIN005`
-
-## 🎨 Personalización
-
-### Colores del Tema
-```css
-:root {
-  --gold: #FFD700;
-  --dark: #0F0F0F;
-  --darker: #000000;
-}
-```
-
-### Efectos Glass
-```css
-.glass-effect {
-  background: rgba(31, 41, 55, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 215, 0, 0.1);
-}
-```
-
-## 📱 Características PWA
-
-- **Instalable**: Se puede instalar como aplicación nativa
-- **Offline**: Funciona sin conexión a internet
-- **Responsive**: Adaptable a cualquier dispositivo
-- **Fast**: Carga rápida y navegación fluida
-
-## 🚀 Despliegue
-
-### Vercel (Recomendado)
 ```bash
-npm install -g vercel
-vercel
+npm install
+npm run dev
+# http://localhost:3000
 ```
 
-### Netlify
+## Capturas de pantalla
+
+> Coloca tus imágenes en `public/screenshots/` y ajusta las rutas si cambias los nombres.
+
+| Login | Q&A | PDF |
+|---|---|---|
+| ![Login](public/screenshots/placeholder.svg) | ![Q&A](public/screenshots/placeholder.svg) | ![PDF](public/screenshots/placeholder.svg) |
+
+| Upload/OCR | Directory | Assistant |
+|---|---|---|
+| ![Upload](public/screenshots/placeholder.svg) | ![Directory](public/screenshots/placeholder.svg) | ![Assistant](public/screenshots/placeholder.svg) |
+
+## Demo
+
+> Este bloque mostrará un GIF corto de la app en uso. Mientras tanto se usa un marcador temporal.
+
+![Demo](public/screenshots/placeholder.svg)
+
+Reemplaza la imagen por `public/screenshots/demo.gif` cuando esté disponible.
+
+## Rutas públicas y flujo
+
+- /login: Acceso (email/registro) y modo invitado
+- /qna: Formulario asilo (autosave IndexedDB, validación, “Enviar a la nube”)
+- /letter: Generar PDF con datos del Q&A
+- /upload: Subir PDF/pasaporte, OCR local, enviar MRZ al Q&A
+- /directory: Búsqueda/filtrado, enlaces oficiales (gov.uk/ONGs)
+- /assistant: FAQ + traducción; sugiere enlaces oficiales
+- /profile: Perfil, “Eliminar mis datos” (IndexedDB + signOut)
+- /admin: Curado de `directory` y `faq` (uso interno)
+
+## PWA y caché
+
+- Add to Home Screen en iOS/Android (A2hsHint)
+- Service Worker de FCM: `public/firebase-messaging-sw.js`
+- next-pwa con RuntimeCaching para imágenes, fuentes y rutas clave
+- Verificado modo offline básico (datos guardados localmente)
+
+## Privacidad y cumplimiento
+
+- Banner Legal: “No es asesoría legal regulada. Información orientativa.”
+- OCR/MRZ en dispositivo: no se suben imágenes salvo acción explícita del usuario
+- Directorio y Asistente enlazan a fuentes oficiales (ej. `https://www.gov.uk`)
+- Botón “Eliminar mis datos”: limpia IndexedDB y cierra sesión
+
+## Despliegue (Vercel)
+
 ```bash
-npm run build
-# Subir carpeta .next a Netlify
+vercel login
+vercel link
+vercel --prod
 ```
 
-### Docker
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
+- Configura las variables de entorno en Project Settings → Environment Variables
+- Opcional: limpiar caché y volver a desplegar si cambias SW/PWA
 
-## 🤝 Contribución
+## Mantenimiento de contenidos (Admin)
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+- `directory`: lista de organizaciones y enlaces (permitir solo dominios oficiales/ONGs reconocidas)
+- `faq`: preguntas frecuentes bilingües (ES/EN). Si falta un idioma, se traduce al vuelo con LibreTranslate
+- Revisión manual antes de publicar entradas nuevas o automatizadas (pendingReview → published)
 
-## 📄 Licencia
+## Roadmap sugerido
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+- Accesibilidad (auditoría completa WCAG)
+- Roles de administrador y trazabilidad de cambios
+- Firma digital simple en PDF y envío por correo
+- Donaciones (Stripe/PayPal) con enlaces a sus páginas oficiales
+- Sincronización de borradores multi-dispositivo
 
-## 📞 Soporte
+## Solución de problemas
 
-- **Email**: soporte@ganafacil.com
-- **Documentación**: [docs.ganafacil.com](https://docs.ganafacil.com)
-- **Issues**: [GitHub Issues](https://github.com/tu-usuario/gana-facil/issues)
+- No muestra “Add to Home Screen”: abre en navegador compatible e interactúa unos segundos
+- No llegan notificaciones: revisa permisos del navegador y `NEXT_PUBLIC_FCM_VAPID_KEY`
+- Offline no funciona: vuelve a instalar la PWA tras desplegar cambios de SW
 
-## 🙏 Agradecimientos
+## Licencia y contacto
 
-- Next.js por el framework increíble
-- Tailwind CSS por los estilos
-- Framer Motion por las animaciones
-- La comunidad de desarrolladores
-
----
-
-**GanaFácil** - Transformando predicciones en realidad 🎯✨
-
-*Desarrollado con ❤️ y Next.js*
+- Licencia MIT
+- Contacto: soporte del proyecto (añadir email/canal preferido)

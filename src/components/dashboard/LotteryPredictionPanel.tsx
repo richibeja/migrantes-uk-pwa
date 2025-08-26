@@ -179,7 +179,7 @@ export default function LotteryPredictionPanel() {
               Análisis avanzado y predicciones para todas las loterías
             </p>
           </div>
-          <div className="flex space-x-3 mt-4 md:mt-0">
+          <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
             <select
               value={selectedLottery}
               onChange={(e) => setSelectedLottery(e.target.value)}
@@ -194,7 +194,7 @@ export default function LotteryPredictionPanel() {
             </select>
             <button 
               onClick={() => generateInitialPredictions()}
-              className="bg-gold text-black px-4 py-2 rounded-lg font-bold hover:bg-yellow-400 transition-colors"
+              className="bg-gold text-black px-4 py-2 rounded-lg font-bold hover:bg-yellow-400 transition-colors w-full sm:w-auto"
             >
               🔄 Actualizar
             </button>
@@ -241,7 +241,7 @@ export default function LotteryPredictionPanel() {
                   Próximo sorteo: {lotteries.find(l => l.id === prediction.id)?.nextDraw}
                 </p>
               </div>
-              <div className="flex items-center space-x-4 mt-4 md:mt-0">
+              <div className="flex flex-wrap items-center gap-4 mt-4 md:mt-0">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-gold mb-1">
                     {prediction.confidence}%
@@ -284,18 +284,18 @@ export default function LotteryPredictionPanel() {
             </div>
 
             {/* Acciones */}
-            <div className="flex space-x-3">
+            <div className="flex flex-wrap gap-3">
               <button 
                 onClick={() => analyzePrediction(prediction.id)}
                 disabled={isAnalyzing}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
+                className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50 w-full sm:w-auto"
               >
                 {isAnalyzing ? ' Analizando...' : '📊 Analizar'}
               </button>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto">
                 📈 Ver Historial
               </button>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors w-full sm:w-auto">
                 📱 Compartir
               </button>
             </div>
@@ -348,14 +348,14 @@ export default function LotteryPredictionPanel() {
       )}
 
       {/* Acciones */}
-      <div className="flex space-x-4">
-        <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors">
+      <div className="flex flex-wrap gap-4">
+        <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors w-full sm:w-auto">
           💾 Exportar Predicciones
         </button>
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto">
           📊 Gráficos Detallados
         </button>
-        <button className="bg-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+        <button className="bg-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors w-full sm:w-auto">
           🔔 Alertas de Predicciones
         </button>
       </div>

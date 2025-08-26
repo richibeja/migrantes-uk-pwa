@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 
 export default function ServiceWorkerRegistration() {
+  // Evitar registro del Service Worker en desarrollo para no interferir con HMR
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
   const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
 
   useEffect(() => {
@@ -13,7 +17,8 @@ export default function ServiceWorkerRegistration() {
 
   const registerServiceWorker = async () => {
     try {
-      const swRegistration = await navigator.serviceWorker.register('/sw.js');
+      // Forzar actualización del SW tras deploys cambiando el query param
+      const swRegistration = await navigator.serviceWorker.register('/sw.js?v=2');
       setRegistration(swRegistration);
       console.log('Service Worker registrado:', swRegistration);
 

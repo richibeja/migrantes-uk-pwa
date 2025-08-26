@@ -18,7 +18,7 @@ const SVG_FILES = [
   { input: 'icon-512x512.svg', output: 'icon-512x512.png', size: '512x512' }
 ];
 
-console.log('🎯 Generando iconos PNG para GanaFácil...\n');
+console.log('🎯 Generando iconos PNG para Migrantes UK...\n');
 
 // Verificar si svgexport está instalado
 try {

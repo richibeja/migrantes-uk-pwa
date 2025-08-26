@@ -293,7 +293,7 @@ const completionPercentage = Math.round((totalSuccessful / totalChecks) * 100);
 
 if (completionPercentage >= 90) {
   log(`🎉 PROYECTO COMPLETADO AL ${completionPercentage}%`, 'green');
-  log('✅ GanaFácil está listo para producción', 'green');
+  log('✅ Migrantes UK está listo para producción', 'green');
 } else if (completionPercentage >= 75) {
   log(`⚠️  PROYECTO COMPLETADO AL ${completionPercentage}%`, 'yellow');
   log('🔄 Algunas funcionalidades pueden necesitar ajustes', 'yellow');

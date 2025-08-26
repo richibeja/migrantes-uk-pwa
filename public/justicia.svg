@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Balanza de la justicia">
+  <g fill="none" stroke="#fbbf24" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mástil -->
+    <path d="M64 16v24"/>
+    <!-- Traviesa -->
+    <path d="M32 40h64"/>
+    <!-- Cadenas -->
+    <path d="M44 40v10M84 40v10"/>
+    <!-- Platos -->
+    <path d="M28 58c0 8 8 14 16 14s16-6 16-14H28z" fill="#fbbf24"/>
+    <path d="M68 58c0 8 8 14 16 14s16-6 16-14H68z" fill="#fbbf24"/>
+    <!-- Base -->
+    <path d="M64 70v30"/>
+    <path d="M44 104h40"/>
+  </g>
+</svg>
+

@@ -1,7 +1,7 @@
 {
-  "name": "GanaFácil - Predicciones Reales de Lotería",
-  "short_name": "GanaFácil",
-  "description": "Predicciones reales de lotería usando algoritmos avanzados: Anbel, probabilístico, histórico y filtrado cruzado",
+  "name": "Migrantes UK",
+  "short_name": "Migrantes UK",
+  "description": "PWA para apoyo a migrantes en Reino Unido: Q&A, OCR/MRZ, PDF, subida a Storage, directorio curado, asistente y offline.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "es",
-  "categories": ["entertainment", "finance", "lifestyle"],
+  "categories": ["utilities", "education", "productivity"],
   "icons": [
     {
       "src": "/icons/favicon.svg",
@@ -52,10 +52,10 @@
   ],
   "shortcuts": [
     {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Acceder a predicciones",
-      "url": "/dashboard",
+      "name": "Q&A Asilo",
+      "short_name": "Q&A",
+      "description": "Formulario de asilo",
+      "url": "/qna",
       "icons": [
         {
           "src": "/icons/icon-192x192.svg",
@@ -64,10 +64,10 @@
       ]
     },
     {
-      "name": "Activar",
-      "short_name": "Activar",
-      "description": "Activar cuenta",
-      "url": "/activate",
+      "name": "Subir documento",
+      "short_name": "Subir",
+      "description": "Subir a Storage / OCR",
+      "url": "/upload",
       "icons": [
         {
           "src": "/icons/icon-192x192.svg",
@@ -85,10 +85,5 @@
     "client_mode": "navigate-existing"
   },
   "handle_links": "preferred",
-  "protocol_handlers": [
-    {
-      "protocol": "web+ganafacil",
-      "url": "/?lottery=%s"
-    }
-  ]
+  "protocol_handlers": []
 }

@@ -14,89 +14,50 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   // Función simple de traducción para evitar errores
-  const t = (key: string): string => {
-    const translations: { [key: string]: string } = {
-      'Preguntas Frecuentes': 'Preguntas Frecuentes',
-      '¿Cómo funciona GanaFácil?': '¿Cómo funciona GanaFácil?',
-      '¿Es seguro usar GanaFácil?': '¿Es seguro usar GanaFácil?',
-      '¿Qué loterías soporta?': '¿Qué loterías soporta?',
-      '¿Cuánto cuesta?': '¿Cuánto cuesta?'
-    };
-    return translations[key] || key;
-  };
+  const t = (key: string): string => key;
 
   const faqData: FAQItem[] = [
     {
-      question: "¿Cómo funcionan los algoritmos de predicción de GanaFácil?",
-      answer: "GanaFácil utiliza 4 métodos avanzados: 1) Algoritmo Anbel con patrones matemáticos complejos, 2) Análisis probabilístico basado en estadísticas históricas, 3) Método histórico de tendencias, y 4) Filtrado cruzado que combina todos los métodos para máxima precisión.",
-      category: "algoritmos",
-      icon: "🔮"
+      question: "¿Cómo funciona la app?",
+      answer: "La PWA incluye Q&A, generación de PDF, subida a Storage, OCR/MRZ en dispositivo, directorio y asistente.",
+      category: "app",
+      icon: "🧭"
     },
     {
-      question: "¿Qué loterías están disponibles en GanaFácil?",
-      answer: "Actualmente soportamos 9 loterías principales: Baloto (Colombia), Lotto UK, EuroMillions UK, EuroMillions (Europa), La Primitiva (España), Bonoloto (España), Powerball (USA), Mega Millions (USA) y Florida Lotto (USA). Cada una con predicciones actualizadas en tiempo real.",
-      category: "loterias",
-      icon: "🎰"
+      question: "¿Qué módulos están disponibles?",
+      answer: "Q&A, carta/PDF, Upload/OCR, Directorio, Asistente, Perfil.",
+      category: "modulos",
+      icon: "🧩"
     },
     {
-      question: "¿Con qué frecuencia se actualizan las predicciones?",
-      answer: "Las predicciones se actualizan automáticamente cada hora. Los números se bloquean hasta el próximo sorteo para mantener la integridad del sistema. Puedes ver la próxima actualización en tu dashboard.",
-      category: "sistema",
-      icon: "⏰"
-    },
-    {
-      question: "¿Es seguro usar GanaFácil?",
-      answer: "Absolutamente. Utilizamos encriptación de nivel bancario, no almacenamos información personal sensible, y todas las transacciones son seguras. Tu privacidad y seguridad son nuestra máxima prioridad.",
+      question: "¿Es segura la app?",
+      answer: "OCR/MRZ en dispositivo, datos locales en IndexedDB y envío a Firestore solo cuando lo confirmas.",
       category: "seguridad",
       icon: "🔒"
     },
     {
-      question: "¿Qué pasa si no gano con las predicciones?",
-      answer: "GanaFácil aumenta significativamente tus probabilidades, pero la lotería siempre tiene un elemento de azar. Sin embargo, nuestros algoritmos están diseñados para maximizar las posibilidades de éxito basándose en análisis matemático avanzado.",
-      category: "garantias",
-      icon: "✅"
+      question: "¿La app reemplaza asesoría legal?",
+      answer: "No. Es informativa. Para asesoría legal acude a profesionales regulados y fuentes oficiales.",
+      category: "legal",
+      icon: "⚖️"
     },
     {
-      question: "¿Puedo usar GanaFácil desde mi móvil?",
-      answer: "¡Sí! GanaFácil es una Progressive Web App (PWA) que funciona perfectamente en todos los dispositivos. Puedes instalarla en tu móvil y recibir notificaciones push de nuevas predicciones.",
+      question: "¿Puedo usar la app desde mi móvil?",
+      answer: "Sí. Es una PWA instalable con soporte offline básico y notificaciones.",
       category: "tecnologia",
       icon: "📱"
     },
     {
-      question: "¿Cómo obtengo mi código de activación?",
-      answer: "Puedes obtener tu código de activación de dos formas: 1) Contactando directamente por WhatsApp al +19295909116, o 2) Pagando de forma segura con PayPal. Ambos métodos te dan acceso inmediato.",
-      category: "activacion",
-      icon: "🔑"
+      question: "¿Qué límites tiene la app?",
+      answer: "No sustituye asesoría legal y algunas funciones requieren conexión (ej. envío a Firestore).",
+      category: "limites",
+      icon: "ℹ️"
     },
     {
-      question: "¿Las predicciones son 100% garantizadas?",
-      answer: "Ningún sistema de predicción puede garantizar el 100% de éxito en la lotería. Sin embargo, GanaFácil utiliza algoritmos matemáticos avanzados que han demostrado aumentar significativamente las probabilidades de ganar.",
-      category: "garantias",
-      icon: "📊"
-    },
-    {
-      question: "¿Puedo cancelar mi suscripción en cualquier momento?",
-      answer: "Sí, puedes cancelar tu acceso en cualquier momento. No hay contratos a largo plazo ni cargos ocultos. Tu código de activación te da acceso completo sin compromisos.",
-      category: "suscripcion",
-      icon: "🔄"
-    },
-    {
-      question: "¿Qué idiomas soporta GanaFácil?",
-      answer: "GanaFácil está disponible en español e inglés, con detección automática del idioma según tu ubicación. Puedes cambiar el idioma manualmente en cualquier momento desde el selector de idioma.",
-      category: "tecnologia",
+      question: "¿Qué idiomas soporta?",
+      answer: "Español e inglés. Próximamente selector manual y detección automática.",
+      category: "idiomas",
       icon: "🌍"
-    },
-    {
-      question: "¿Cómo se calculan las probabilidades de éxito?",
-      answer: "Nuestras probabilidades se basan en análisis de millones de sorteos históricos, patrones matemáticos complejos, y algoritmos de machine learning. Cada predicción incluye un nivel de confianza basado en estos análisis.",
-      category: "algoritmos",
-      icon: "🧮"
-    },
-    {
-      question: "¿Puedo compartir mi código de activación?",
-      answer: "No, cada código de activación es único y personal. Compartirlo puede resultar en la suspensión de tu cuenta. Para mayor seguridad, mantén tu código privado.",
-      category: "seguridad",
-      icon: "🚫"
     }
   ];
 
@@ -135,9 +96,7 @@ export default function FAQ() {
           <h2 className="text-4xl md:text-5xl font-bold text-gold mb-6">
             ❓ Preguntas Frecuentes
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Resolvemos todas tus dudas sobre GanaFácil y cómo funciona nuestro sistema de predicciones
-          </p>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">Resolvemos dudas frecuentes sobre la app y sus módulos principales</p>
         </motion.div>
 
         {/* Filtros de categorías */}

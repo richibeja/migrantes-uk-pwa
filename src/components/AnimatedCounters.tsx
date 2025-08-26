@@ -102,9 +102,7 @@ export default function AnimatedCounters() {
             <h2 className="text-4xl font-bold text-gold mb-4">
               Estadísticas en Tiempo Real
             </h2>
-            <p className="text-xl text-gray-300">
-              Números que demuestran el éxito de GanaFácil
-            </p>
+            <p className="text-xl text-gray-300">Indicadores clave del proyecto</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {counterData.map((counter, index) => (
@@ -136,9 +134,7 @@ export default function AnimatedCounters() {
           <h2 className="text-4xl font-bold text-gold mb-4">
             Estadísticas en Tiempo Real
           </h2>
-          <p className="text-xl text-gray-300">
-            Números que demuestran el éxito de GanaFácil
-          </p>
+          <p className="text-xl text-gray-300">Indicadores clave del proyecto</p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

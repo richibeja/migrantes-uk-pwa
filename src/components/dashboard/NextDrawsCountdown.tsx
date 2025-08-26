@@ -123,7 +123,7 @@ export default function NextDrawsCountdown() {
 
   return (
     <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-600/30">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
         <div>
           <h3 className="text-2xl font-bold text-gold mb-2">
             ⏰ Próximos Sorteos
@@ -134,13 +134,13 @@ export default function NextDrawsCountdown() {
         </div>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="bg-gold text-black px-4 py-2 rounded-lg font-bold hover:bg-yellow-400 transition-colors"
+          className="bg-gold text-black px-4 py-2 rounded-lg font-bold hover:bg-yellow-400 transition-colors w-full sm:w-auto"
         >
           {isExpanded ? '��️ Ver Menos' : '👁️ Ver Todas'}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {visibleDraws.map((draw) => (
           <div
             key={draw.id}
@@ -179,11 +179,11 @@ export default function NextDrawsCountdown() {
               </div>
             </div>
 
-            <div className="mt-4 flex space-x-2">
-              <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors">
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors w-full sm:w-auto">
                 📊 Ver Predicciones
               </button>
-              <button className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors">
+              <button className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors w-full sm:w-auto">
                 🔔 Recordatorio
               </button>
             </div>

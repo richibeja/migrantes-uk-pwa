@@ -1,14 +1,14 @@
 // CONEXIÓN CON GOOGLE SHEETS VÍA APPS SCRIPT
 // URL REAL DE TU NUEVO APPS SCRIPT
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfCoIfOAjWtDYfRzuXJ7Xl2izPizPEqn7T2mr-K0toOup8cY7vgJxwL-EIp4JJ-7ecVg/exec';
+const PROXY_URL = '/api/activate';
 
 // Función para activar código (SOLO verifica, NO borra)
 export async function activarCodigoEnSheets(codigo: string): Promise<boolean> {
   try {
     console.log('🚀 Activando código en Google Sheets:', codigo);
     
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwfCoIfOAjWtDYfRzuXJ7Xl2izPizPEqn7T2mr-K0toOup8cY7vgJxwL-EIp4JJ-7ecVg/exec?action=activar&code=' + encodeURIComponent(codigo), {
+    const response = await fetch(`${PROXY_URL}?action=activar&code=${encodeURIComponent(codigo)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export async function verificarCodigoEnSheets(codigo: string): Promise<boolean> 
   try {
     console.log(' Verificando código en Google Sheets:', codigo);
     
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwfCoIfOAjWtDYfRzuXJ7Xl2izPizPEqn7T2mr-K0toOup8cY7vgJxwL-EIp4JJ-7ecVg/exec?action=verificar&code=' + encodeURIComponent(codigo), {
+    const response = await fetch(`${PROXY_URL}?action=verificar&code=${encodeURIComponent(codigo)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export async function borrarCodigoDeSheets(codigo: string): Promise<boolean> {
   try {
     console.log('🗑️ Borrando código de Google Sheets:', codigo);
     
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwfCoIfOAjWtDYfRzuXJ7Xl2izPizPEqn7T2mr-K0toOup8cY7vgJxwL-EIp4JJ-7ecVg/exec?action=borrar&code=' + encodeURIComponent(codigo), {
+    const response = await fetch(`${PROXY_URL}?action=borrar&code=${encodeURIComponent(codigo)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

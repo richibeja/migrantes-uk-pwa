@@ -1,10 +1,10 @@
 // Configuración de la aplicación
 export const APP_CONFIG = {
-  name: 'GanaFácil',
+  name: 'Migrantes UK',
   version: '1.0.0',
-  description: 'Predicciones reales de lotería usando algoritmos avanzados',
+  description: 'PWA para apoyo a migrantes en Reino Unido',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-  supportEmail: 'soporte@ganafacil.com',
+  supportEmail: 'soporte@migrantes-uk.app',
   maxPredictionsPerUser: 10,
   predictionUpdateInterval: 3600000, // 1 hora
   referralReward: 1000, // Puntos por referido
@@ -304,9 +304,9 @@ export const ROUTES = {
 
 // Configuración de PWA
 export const PWA_CONFIG = {
-  name: 'GanaFácil',
-  shortName: 'GanaFácil',
-  description: 'Predicciones reales de lotería',
+  name: 'Migrantes UK',
+  shortName: 'Migrantes UK',
+  description: 'PWA para apoyo a migrantes en Reino Unido',
   themeColor: '#FFD700',
   backgroundColor: '#000000',
   display: 'standalone',
@@ -317,7 +317,7 @@ export const PWA_CONFIG = {
 
 // Configuración de notificaciones
 export const NOTIFICATION_CONFIG = {
-  title: 'GanaFácil',
+  title: 'Migrantes UK',
   icon: '/icons/icon-192x192.png',
   badge: '/icons/icon-192x192.png',
   vibrate: [200, 100, 200],
@@ -401,6 +401,8 @@ export const LIMITS = {
 
 // Códigos de activación válidos para el sistema
 export const VALID_ACTIVATION_CODES = [
+  // Códigos locales visibles en la pantalla de activación
+  'GANAFACIL', 'LOTERIA', 'SUERTE', 'FORTUNA',
   'GANA2025POWER001',
   'GANA2025MEGA002',
   'GANA2025EURO003',

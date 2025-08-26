@@ -177,7 +177,7 @@ export class LotteryAPI {
         params,
         timeout: 10000,
         headers: {
-          'User-Agent': 'GanaFácil/1.0 (Lottery Results Fetcher)',
+          'User-Agent': 'MigrantesUK/1.0 (Fetcher)',
           'Accept': 'application/json',
           'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8'
         }
@@ -204,7 +204,7 @@ export class LotteryAPI {
       const response = await axios.get(`${alternativeURL}/${lotteryId}`, {
         timeout: 10000,
         headers: {
-          'User-Agent': 'GanaFácil/1.0 (Alternative API)',
+          'User-Agent': 'MigrantesUK/1.0 (Alternative API)',
           'Accept': 'application/json'
         }
       });

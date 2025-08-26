@@ -1,0 +1,19 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAuthed() { return request.auth != null; }
+    function isOwner(uid) { return isAuthed() && request.auth.uid == uid; }
+
+    // Carpeta de pagos por usuario
+    match /payments/{uid}/{allPaths=**} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // Otros subdirectorios privados por usuario
+    match /uploads/{uid}/{allPaths=**} {
+      allow read, write: if isOwner(uid);
+    }
+  }
+}
+
+

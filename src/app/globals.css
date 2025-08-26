@@ -640,3 +640,37 @@ body {
 .bg-gradient-custom {
   background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
 }
+
+/* Marca de agua: Diosa de la justicia */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 200px;
+  height: 200px;
+  background: url('/justicia.svg') no-repeat center;
+  background-size: contain;
+  opacity: 0.18;
+  pointer-events: none;
+  /* efectos desactivados para mayor nitidez */
+  transform: rotate(-2deg);
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  body::after {
+    width: 120px;
+    height: 120px;
+    bottom: 8px;
+    right: 8px;
+    opacity: 0.14;
+  }
+}
+
+@media (min-width: 1024px) {
+  body::after {
+    width: 260px;
+    height: 260px;
+  }
+}

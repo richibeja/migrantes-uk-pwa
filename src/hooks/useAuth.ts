@@ -8,7 +8,7 @@ interface User {
   createdAt: Date;
 }
 
-// Valid test codes
+// Códigos válidos de prueba
 const VALID_CODES = ['DEMO2024', 'PRUEBA123', 'TEST456', 'ADMIN789', 'VIP2025'];
 
 export const useAuth = () => {
@@ -16,76 +16,77 @@ export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check authentication on load
+  // Carga usuario desde localStorage
   useEffect(() => {
-    const checkAuth = () => {
+    const savedUser = localStorage.getItem('ganaFacilUser');
+    if (savedUser) {
       try {
-        const savedUser = localStorage.getItem('ganaFacilUser');
-        if (savedUser) {
-          const userData = JSON.parse(savedUser);
+        const userData = JSON.parse(savedUser);
+        if (userData && userData.id && userData.code && userData.createdAt) {
+          userData.createdAt = new Date(userData.createdAt);
           setUser(userData);
           setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem('ganaFacilUser');
         }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
+      } catch {
         localStorage.removeItem('ganaFacilUser');
       }
-      setIsLoading(false);
-    };
-
-    checkAuth();
+    }
+    setIsLoading(false);
   }, []);
 
-  // MAIN ACTIVATION FUNCTION
-  const activateCode = async (code: string): Promise<{ success: boolean; message: string }> => {
+  // Activar código
+  const activateCode = (code: string): { success: boolean; message: string } => {
     const normalizedCode = (code || '').toString().trim().toUpperCase();
-
     console.log('🚀 ACTIVATING CODE:', normalizedCode);
 
-    // Test codes
     if (VALID_CODES.includes(normalizedCode)) {
       const newUser: User = {
         id: `user_${Date.now()}`,
         code: normalizedCode,
-        createdAt: new Date()
+        createdAt: new Date(),
       };
 
       setUser(newUser);
       setIsAuthenticated(true);
       localStorage.setItem('ganaFacilUser', JSON.stringify(newUser));
 
-      return { success: true, message: "Code activated successfully." };
+      return { success: true, message: 'Code activated successfully.' };
     }
 
-    // Any other code
-    return { success: false, message: "Invalid code." };
+    return { success: false, message: 'Invalid code.' };
   };
 
+  // Cerrar sesión
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('ganaFacilUser');
   };
 
+  // Limpiar todo lo manejado por la app
   const clearAll = () => {
-    localStorage.clear();
+    localStorage.removeItem('ganaFacilUser');
+    localStorage.removeItem('usedCodes');
+    localStorage.removeItem('adminGeneratedCodes');
     setUser(null);
     setIsAuthenticated(false);
     setIsLoading(false);
   };
 
-  const getUsedCodes = () => {
+  const getUsedCodes = (): Record<string, User> => {
     try {
       return JSON.parse(localStorage.getItem('usedCodes') || '{}');
-    } catch (error) {
+    } catch {
       return {};
     }
   };
 
-  const getAdminGeneratedCodes = () => {
+  const getAdminGeneratedCodes = (): string[] => {
     try {
       return JSON.parse(localStorage.getItem('adminGeneratedCodes') || '[]');
-    } catch (error) {
+    } catch {
       return [];
     }
   };
@@ -98,6 +99,6 @@ export const useAuth = () => {
     logout,
     clearAll,
     getUsedCodes,
-    getAdminGeneratedCodes
+    getAdminGeneratedCodes,
   };
 };
