@@ -1,0 +1,177 @@
+{
+  "app": {
+    "name": "Gana Fácil",
+    "description": "Predicciones de Lotería con IA Avanzada"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Dashboard",
+    "activate": "Activar",
+    "sales": "Ventas",
+    "legal": "Legal"
+  },
+  "dashboard": {
+    "title": "Dashboard de Predicciones",
+    "subtitle": "Predicciones en tiempo real para múltiples loterías",
+    "predictions": "Predicciones",
+    "results": "Resultados",
+    "statistics": "Estadísticas",
+    "tickets": "Boletos",
+    "notifications": "Notificaciones"
+  },
+  "predictions": {
+    "title": "Predicciones Disponibles",
+    "confidence": "Confianza",
+    "method": "Método",
+    "numbers": "Números",
+    "specialNumbers": "Números Especiales",
+    "nextUpdate": "Próxima Actualización",
+    "generateNew": "Generar Nuevas",
+    "updating": "Actualizando...",
+    "realTime": "Tiempo Real"
+  },
+  "results": {
+    "title": "Resultados Reales",
+    "drawDate": "Fecha del Sorteo",
+    "drawTime": "Hora del Sorteo",
+    "jackpot": "Premio Mayor",
+    "winners": "Ganadores",
+    "verified": "Verificado",
+    "updated": "Actualizado en tiempo real"
+  },
+  "statistics": {
+    "title": "Centro de Estadísticas",
+    "totalPredictions": "Total Predicciones",
+    "accuracyRate": "Tasa de Acierto",
+    "totalWinnings": "Ganancias Totales",
+    "bestStreak": "Mejor Racha",
+    "monthlyPerformance": "Rendimiento Mensual",
+    "lotteryPerformance": "Rendimiento por Lotería"
+  },
+  "tickets": {
+    "title": "Boletos Digitales",
+    "createNew": "Nuevo Boleto",
+    "status": {
+      "pending": "Pendiente",
+      "won": "Ganador",
+      "lost": "No Ganador",
+      "expired": "Expirado"
+    },
+    "winnings": "Ganancias",
+    "drawDate": "Fecha del Sorteo"
+  },
+  "notifications": {
+    "title": "Centro de Notificaciones",
+    "newPredictions": "Nuevas Predicciones Disponibles",
+    "drawResults": "Resultados Disponibles",
+    "highConfidence": "Predicción de Alta Confianza",
+    "settings": "Configuración"
+  },
+  "sales": {
+    "title": "Predicciones de Lotería con IA Avanzada",
+    "subtitle": "Descubre los números ganadores usando 4 algoritmos científicos que se actualizan cada 10 segundos",
+    "features": {
+      "realTime": "Actualización en Tiempo Real",
+      "algorithms": "4 Algoritmos Científicos",
+      "confidence": "94% de Confianza",
+      "lotteries": "9 Loterías Internacionales",
+      "mobile": "App Móvil PWA",
+      "guarantee": "Garantía de 30 Días"
+    },
+    "plans": {
+      "free": "Plan Gratuito",
+      "premium": "Plan Premium",
+      "pro": "Plan Pro"
+    },
+    "cta": {
+      "activate": "Activar Ahora",
+      "demo": "Ver Demo Gratis",
+      "upgrade": "Upgrade Ahora"
+    }
+  },
+  "legal": {
+    "title": "Aviso Legal",
+    "subtitle": "Información importante sobre el uso de nuestra aplicación",
+    "sections": {
+      "general": "Información General",
+      "purpose": "Propósito de la Aplicación",
+      "limitations": "Limitaciones de Responsabilidad",
+      "responsible": "Uso Responsable",
+      "privacy": "Privacidad y Protección de Datos",
+      "intellectual": "Propiedad Intelectual",
+      "modifications": "Modificaciones y Actualizaciones",
+      "contact": "Contacto y Soporte"
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "info": "Información",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "refresh": "Actualizar",
+    "download": "Descargar",
+    "share": "Compartir",
+    "copy": "Copiar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "hide": "Ocultar",
+    "show": "Mostrar",
+    "enable": "Activar",
+    "disable": "Desactivar",
+    "yes": "Sí",
+    "no": "No",
+    "ok": "OK",
+    "continue": "Continuar",
+    "finish": "Finalizar",
+    "start": "Iniciar",
+    "stop": "Detener",
+    "pause": "Pausar",
+    "resume": "Reanudar"
+  },
+  "lotteries": {
+    "baloto": "Baloto",
+    "powerball": "Powerball",
+    "megaMillions": "Mega Millions",
+    "euromillions": "EuroMillions",
+    "lottoUk": "Lotto UK",
+    "primitiva": "La Primitiva",
+    "bonoloto": "Bonoloto",
+    "floridaLotto": "Florida Lotto"
+  },
+  "methods": {
+    "anbel": "Método Anbel",
+    "probabilistic": "Método Probabilístico",
+    "historical": "Método Histórico",
+    "crossFilter": "Método Filtrado Cruzado"
+  },
+  "time": {
+    "now": "Ahora",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "tomorrow": "Mañana",
+    "thisWeek": "Esta Semana",
+    "lastWeek": "Semana Pasada",
+    "thisMonth": "Este Mes",
+    "lastMonth": "Mes Pasado",
+    "thisYear": "Este Año",
+    "lastYear": "Año Pasado"
+  },
+  "currency": {
+    "usd": "USD",
+    "eur": "EUR",
+    "gbp": "GBP",
+    "cop": "COP"
+  }
+}

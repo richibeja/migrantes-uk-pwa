@@ -11,7 +11,7 @@ export interface CloudCode {
 
 export async function createCloudCode(code: string): Promise<void> {
   const normalized = (code || '').trim().toUpperCase();
-  const ref = doc(db, 'codes', normalized);
+  const ref = doc(db!, 'codes', normalized);
   await setDoc(ref, {
     code: normalized,
     used: false,
@@ -24,7 +24,7 @@ export async function createCloudCode(code: string): Promise<void> {
 export async function checkCloudCode(code: string): Promise<{ exists: boolean; used: boolean; }>
 {
   const normalized = (code || '').trim().toUpperCase();
-  const ref = doc(db, 'codes', normalized);
+  const ref = doc(db!, 'codes', normalized);
   const snap = await getDoc(ref);
   if (!snap.exists()) return { exists: false, used: false };
   const data = snap.data() as any;
@@ -33,7 +33,7 @@ export async function checkCloudCode(code: string): Promise<{ exists: boolean; u
 
 export async function markCloudCodeUsed(code: string, username: string): Promise<void> {
   const normalized = (code || '').trim().toUpperCase();
-  const ref = doc(db, 'codes', normalized);
+  const ref = doc(db!, 'codes', normalized);
   await updateDoc(ref, {
     used: true,
     usedBy: username || null,
@@ -42,7 +42,7 @@ export async function markCloudCodeUsed(code: string, username: string): Promise
 }
 
 export async function listCloudCodes(): Promise<CloudCode[]> {
-  const ref = collection(db, 'codes');
+  const ref = collection(db!, 'codes');
   const q = query(ref, orderBy('createdAt', 'desc'));
   const snap = await getDocs(q);
   return snap.docs.map(d => ({ ...(d.data() as any) })) as CloudCode[];

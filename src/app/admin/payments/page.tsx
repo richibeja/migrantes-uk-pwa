@@ -10,7 +10,7 @@ export default function AdminPaymentsPage() {
   const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
-    const unsubAuth = auth.onAuthStateChanged(async (u) => {
+    const unsubAuth = auth && auth.onAuthStateChanged(async (u) => {
       if (!u) { setIsAdmin(false); return; }
       // Asumimos claim admin en token; para demo permitimos acceso directo
       try {
@@ -18,12 +18,14 @@ export default function AdminPaymentsPage() {
         setIsAdmin(!!token.claims.admin);
       } catch { setIsAdmin(false); }
     });
-    return () => unsubAuth();
+    return () => {
+      if (unsubAuth) unsubAuth();
+    };
   }, []);
 
   useEffect(() => {
     if (!isAdmin) return;
-    const q = query(collection(db, 'payments'), orderBy('createdAt','desc'));
+    const q = query(collection(db!, 'payments'), orderBy('createdAt','desc'));
     const unsub = onSnapshot(q, (snap) => {
       setItems(snap.docs.map(d => ({ id: d.id, ...(d.data() as any) })));
     });
@@ -31,7 +33,7 @@ export default function AdminPaymentsPage() {
   }, [isAdmin]);
 
   async function setStatus(id: string, status: 'validated'|'rejected') {
-    await updateDoc(doc(db, 'payments', id), { status });
+    await updateDoc(doc(db!, 'payments', id), { status });
     alert(status === 'validated' ? 'Pago validado' : 'Pago rechazado');
   }
 

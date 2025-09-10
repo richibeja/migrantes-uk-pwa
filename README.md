@@ -139,6 +139,43 @@ vercel --prod
 - Configura las variables de entorno en Project Settings → Environment Variables
 - Opcional: limpiar caché y volver a desplegar si cambias SW/PWA
 
+## Despliegue (Firebase Functions + reglas)
+
+Requisitos: Firebase CLI, `.firebaserc` con `default: migrantes-uk`, `firebase.json` en raíz, y `.env.local` con claves de Firebase Web.
+
+```bash
+# Compilar Functions
+cd functions
+npm ci
+npm run build
+cd ..
+
+# Seleccionar proyecto y desplegar
+firebase use migrantes-uk
+firebase deploy --only "functions,firestore:rules"
+
+# Despliegue por función específica (opcional)
+firebase deploy --only "functions:getPublicCaseByCode"
+```
+
+Funciones incluidas:
+- getPublicCaseByCode: devuelve datos públicos por CASE_CODE (vista /track/[code])
+- reserveUserCode, reserveCaseCode: reserva códigos únicos
+- onPaymentValidated: al validar pago, marca `cases/{caseId}.status = pagado` y notifica
+
+Notas:
+- Si es la primera vez, el CLI habilitará APIs (Cloud Functions, Build, Artifact Registry); reintenta tras 2–3 minutos.
+- Si usas PowerShell, pon comillas en `--only "functions,firestore:rules"`.
+
+## Plan de pruebas rápido
+
+1) Crear caso: `/cases/new` → verifica `amount`, `paymentMethod: "whatsapp"`, `timeline` inicial
+2) Ficha caso: `/cases/[id]` → muestra `CASE_CODE`, link “Ver como cliente ↗”, timeline y botón WhatsApp si `pendiente_pago`
+3) Seguimiento público: `/track/CASE_CODE` → estado + timeline (sin PII via Cloud Function)
+4) Paywall dashboard: botón WhatsApp dinámico con `CASE_CODE/amount` si hay `pendiente_pago`; si no, genérico. Link “Ver como cliente ↗” si hay `caseCode`
+5) Admin: `/admin` → “Gestión de Casos” (`/admin/cases`) → búsqueda por `CASE_CODE`, plantillas WhatsApp, seguimiento público, reasignación (solo admin)
+6) Validaciones: asesores leen solo `assignedTo`; no pueden cambiar `assignedTo/status/uid`. `onPaymentValidated` actualiza caso al validar pago.
+
 ## Mantenimiento de contenidos (Admin)
 
 - `directory`: lista de organizaciones y enlaces (permitir solo dominios oficiales/ONGs reconocidas)

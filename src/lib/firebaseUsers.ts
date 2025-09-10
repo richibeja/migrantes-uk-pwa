@@ -16,7 +16,7 @@ export interface CloudUser {
 }
 
 export async function createCloudUser(user: CloudUser): Promise<void> {
-  const ref = doc(db, 'users', user.username);
+  const ref = doc(db!, 'users', user.username);
   await setDoc(ref, {
     username: user.username,
     password: user.password || '',
@@ -30,7 +30,7 @@ export async function createCloudUser(user: CloudUser): Promise<void> {
 }
 
 export async function getCloudUser(username: string): Promise<CloudUser | null> {
-  const ref = doc(db, 'users', username);
+  const ref = doc(db!, 'users', username);
   const snap = await getDoc(ref);
   if (!snap.exists()) return null;
   const data = snap.data() as any;
@@ -47,7 +47,7 @@ export async function getCloudUser(username: string): Promise<CloudUser | null> 
 }
 
 export async function updateCloudUserActivation(username: string, status: CloudUserStatus, plan: CloudUserPlan, expiresAt: string | null): Promise<void> {
-  const ref = doc(db, 'users', username);
+  const ref = doc(db!, 'users', username);
   await updateDoc(ref, {
     status,
     plan: plan || null,
@@ -57,7 +57,7 @@ export async function updateCloudUserActivation(username: string, status: CloudU
 }
 
 export async function listCloudUsers(): Promise<CloudUser[]> {
-  const ref = collection(db, 'users');
+  const ref = collection(db!, 'users');
   const q = query(ref, orderBy('updatedAt', 'desc'));
   const snap = await getDocs(q);
   return snap.docs.map(d => {

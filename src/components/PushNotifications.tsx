@@ -51,7 +51,7 @@ export default function PushNotifications() {
         }
         onMessage(messaging, (payload) => {
           try {
-            const title = payload?.notification?.title || 'Migrantes UK';
+            const title = payload?.notification?.title || 'Gana Fácil';
             const body = payload?.notification?.body || 'Actualización disponible.';
             // Simple in-app alert for foreground messages
             alert(`${title}: ${body}`);

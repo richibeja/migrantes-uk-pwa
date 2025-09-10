@@ -1,29 +1,63 @@
 'use client';
 
-export default function SimpleTranslator() {
-  const translateToEnglish = () => {
-    try {
-      const currentUrl = window.location.href;
-      const translateUrl = `https://translate.google.com/translate?u=${encodeURIComponent(currentUrl)}&sl=es&tl=en`;
-      window.open(translateUrl, '_blank');
-    } catch (error) {
-      console.log('Traducción abierta en nueva pestaña');
+import { useState, useEffect } from 'react';
+import { Globe } from 'lucide-react';
+
+interface SimpleTranslatorProps {
+  onLanguageChange?: (language: string) => void;
+}
+
+export default function SimpleTranslator({ onLanguageChange }: SimpleTranslatorProps) {
+  const [language, setLanguage] = useState('en');
+
+  useEffect(() => {
+    // Obtener idioma guardado o detectar idioma del navegador
+    const savedLanguage = localStorage.getItem('language') || 
+      (navigator.language.startsWith('es') ? 'es' : 'en');
+    setLanguage(savedLanguage);
+    
+    // Notificar cambio inicial
+    if (onLanguageChange) {
+      onLanguageChange(savedLanguage);
+    }
+  }, [onLanguageChange]);
+
+  const handleLanguageChange = (newLang: string) => {
+    setLanguage(newLang);
+    localStorage.setItem('language', newLang);
+    
+    // Notificar cambio
+    if (onLanguageChange) {
+      onLanguageChange(newLang);
     }
   };
 
   return (
-    <div className="simple-translator">
-      <div className="flex items-center gap-2">
-        <span className="text-gray-400 text-xs">🌐</span>
-        
-        {/* Solo Español e Inglés */}
-        <span className="text-gray-300 text-xs">🇪🇸 ES</span>
-        <button
-          onClick={translateToEnglish}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs transition-colors"
-        >
-          🇺🇸 EN
-        </button>
+    <div className="fixed top-4 right-4 z-50">
+      <div className="bg-white rounded-lg shadow-lg p-2">
+        <div className="flex items-center space-x-2">
+          <Globe className="w-4 h-4 text-gray-600" />
+          <button
+            onClick={() => handleLanguageChange('en')}
+            className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+              language === 'en' 
+                ? 'bg-blue-600 text-white' 
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            EN
+          </button>
+          <button
+            onClick={() => handleLanguageChange('es')}
+            className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+              language === 'es' 
+                ? 'bg-blue-600 text-white' 
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            ES
+          </button>
+        </div>
       </div>
     </div>
   );

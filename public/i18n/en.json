@@ -1,0 +1,177 @@
+{
+  "app": {
+    "name": "Easy Win",
+    "description": "Lottery Predictions with Advanced AI"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "activate": "Activate",
+    "sales": "Sales",
+    "legal": "Legal"
+  },
+  "dashboard": {
+    "title": "Predictions Dashboard",
+    "subtitle": "Real-time predictions for multiple lotteries",
+    "predictions": "Predictions",
+    "results": "Results",
+    "statistics": "Statistics",
+    "tickets": "Tickets",
+    "notifications": "Notifications"
+  },
+  "predictions": {
+    "title": "Available Predictions",
+    "confidence": "Confidence",
+    "method": "Method",
+    "numbers": "Numbers",
+    "specialNumbers": "Special Numbers",
+    "nextUpdate": "Next Update",
+    "generateNew": "Generate New",
+    "updating": "Updating...",
+    "realTime": "Real Time"
+  },
+  "results": {
+    "title": "Real Results",
+    "drawDate": "Draw Date",
+    "drawTime": "Draw Time",
+    "jackpot": "Jackpot",
+    "winners": "Winners",
+    "verified": "Verified",
+    "updated": "Updated in real time"
+  },
+  "statistics": {
+    "title": "Statistics Center",
+    "totalPredictions": "Total Predictions",
+    "accuracyRate": "Accuracy Rate",
+    "totalWinnings": "Total Winnings",
+    "bestStreak": "Best Streak",
+    "monthlyPerformance": "Monthly Performance",
+    "lotteryPerformance": "Performance by Lottery"
+  },
+  "tickets": {
+    "title": "Digital Tickets",
+    "createNew": "New Ticket",
+    "status": {
+      "pending": "Pending",
+      "won": "Winner",
+      "lost": "Not Winner",
+      "expired": "Expired"
+    },
+    "winnings": "Winnings",
+    "drawDate": "Draw Date"
+  },
+  "notifications": {
+    "title": "Notification Center",
+    "newPredictions": "New Predictions Available",
+    "drawResults": "Results Available",
+    "highConfidence": "High Confidence Prediction",
+    "settings": "Settings"
+  },
+  "sales": {
+    "title": "Lottery Predictions with Advanced AI",
+    "subtitle": "Discover winning numbers using 4 scientific algorithms that update every 10 seconds",
+    "features": {
+      "realTime": "Real-Time Updates",
+      "algorithms": "4 Scientific Algorithms",
+      "confidence": "94% Confidence",
+      "lotteries": "9 International Lotteries",
+      "mobile": "Mobile PWA App",
+      "guarantee": "30-Day Guarantee"
+    },
+    "plans": {
+      "free": "Free Plan",
+      "premium": "Premium Plan",
+      "pro": "Pro Plan"
+    },
+    "cta": {
+      "activate": "Activate Now",
+      "demo": "View Free Demo",
+      "upgrade": "Upgrade Now"
+    }
+  },
+  "legal": {
+    "title": "Legal Notice",
+    "subtitle": "Important information about the use of our application",
+    "sections": {
+      "general": "General Information",
+      "purpose": "Application Purpose",
+      "limitations": "Liability Limitations",
+      "responsible": "Responsible Use",
+      "privacy": "Privacy and Data Protection",
+      "intellectual": "Intellectual Property",
+      "modifications": "Modifications and Updates",
+      "contact": "Contact and Support"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "download": "Download",
+    "share": "Share",
+    "copy": "Copy",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "hide": "Hide",
+    "show": "Show",
+    "enable": "Enable",
+    "disable": "Disable",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "continue": "Continue",
+    "finish": "Finish",
+    "start": "Start",
+    "stop": "Stop",
+    "pause": "Pause",
+    "resume": "Resume"
+  },
+  "lotteries": {
+    "baloto": "Baloto",
+    "powerball": "Powerball",
+    "megaMillions": "Mega Millions",
+    "euromillions": "EuroMillions",
+    "lottoUk": "Lotto UK",
+    "primitiva": "La Primitiva",
+    "bonoloto": "Bonoloto",
+    "floridaLotto": "Florida Lotto"
+  },
+  "methods": {
+    "anbel": "Anbel Method",
+    "probabilistic": "Probabilistic Method",
+    "historical": "Historical Method",
+    "crossFilter": "Cross Filter Method"
+  },
+  "time": {
+    "now": "Now",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "thisWeek": "This Week",
+    "lastWeek": "Last Week",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "thisYear": "This Year",
+    "lastYear": "Last Year"
+  },
+  "currency": {
+    "usd": "USD",
+    "eur": "EUR",
+    "gbp": "GBP",
+    "cop": "COP"
+  }
+}

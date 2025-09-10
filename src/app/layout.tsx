@@ -7,25 +7,23 @@ import { I18nProvider } from '@/components/I18nProvider';
 import LanguageToggle from '@/components/LanguageToggle';
 import PushNotifications from '@/components/PushNotifications';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const cookieStore = await cookies();
-  const langCookie = cookieStore.get('lang')?.value;
-  const lang = (langCookie === 'en' || langCookie === 'es') ? langCookie : 'es';
-  const d = getDictionary(lang);
+export function generateMetadata(): Metadata {
+  // Para exportación estática, usamos configuración por defecto
+  const d = getDictionary('es'); // Idioma por defecto
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://migrantes-uk-pwa.vercel.app'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://gana-facil-rifa-d5609.web.app'),
     title: d['meta.title'],
     description: d['meta.description'],
     keywords: d['meta.keywords'],
-    authors: [{ name: 'Migrantes UK' }],
-    creator: 'Migrantes UK',
-    publisher: 'Migrantes UK',
+    authors: [{ name: 'Gana Fácil' }],
+    creator: 'Gana Fácil',
+    publisher: 'Gana Fácil',
     robots: 'index, follow',
     openGraph: {
       title: d['meta.og.title'],
       description: d['meta.og.description'],
       type: 'website',
-      locale: lang === 'en' ? 'en_GB' : 'es_ES',
+      locale: 'es_ES',
     },
     twitter: {
       card: 'summary_large_image',
@@ -35,9 +33,9 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// Forzar render dinámico para evitar HTML cacheado en CDN
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// Configuración para exportación estática
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -46,15 +44,13 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Detect cookie language server-side for html lang
-  const cookieStore = await cookies();
-  const cookieLang = cookieStore.get('lang')?.value;
-  const htmlLang = cookieLang === 'en' ? 'en' : 'es';
+  // Para exportación estática, usamos idioma por defecto
+  const htmlLang = 'es';
   return (
     <html lang={htmlLang} data-scroll-behavior="smooth">
       <body>

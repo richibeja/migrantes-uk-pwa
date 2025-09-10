@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enlaces Únicos Funcional - GANA FÁCIL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .success { border-color: #4CAF50; background: #f1f8e9; }
+        .error { border-color: #f44336; background: #ffebee; }
+        .info { border-color: #2196F3; background: #e3f2fd; }
+        .warning { border-color: #ff9800; background: #fff3e0; }
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover { opacity: 0.9; }
+        .code {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            word-break: break-all;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        .link-button {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 5px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+        }
+        .link-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 TEST ENLACES ÚNICOS FUNCIONAL - GANA FÁCIL</h1>
+        
+        <div class="test-section warning">
+            <h2>⚠️ IMPORTANTE</h2>
+            <p>La aplicación Next.js debe estar ejecutándose en <strong>http://localhost:3003</strong></p>
+            <p>Si no está ejecutándose, ejecuta: <code>npm run dev</code></p>
+        </div>
+
+        <div class="test-section">
+            <h2>🔗 Test 1: Generar Enlace Único</h2>
+            <div class="step">
+                <strong>Paso 1:</strong> Haz clic en el botón de abajo para generar un enlace único
+            </div>
+            <div class="step">
+                <strong>Paso 2:</strong> Haz clic en el enlace generado para probarlo
+            </div>
+            <div class="step">
+                <strong>Paso 3:</strong> Verifica que se active automáticamente
+            </div>
+            <button onclick="generarEnlaceUnico()">🔗 GENERAR ENLACE ÚNICO</button>
+            <div id="enlaceResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔄 Test 2: Probar Uso Múltiple</h2>
+            <div class="step">
+                <strong>Paso 1:</strong> Genera un enlace único
+            </div>
+            <div class="step">
+                <strong>Paso 2:</strong> Haz clic en el enlace (primera vez) - debe funcionar
+            </div>
+            <div class="step">
+                <strong>Paso 3:</strong> Haz clic en el mismo enlace (segunda vez) - debe dar error
+            </div>
+            <button onclick="probarUsoMultiple()">🔄 PROBAR USO MÚLTIPLE</button>
+            <div id="multipleResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Test 3: Verificar Estado del Sistema</h2>
+            <button onclick="verificarEstado()">🔍 VERIFICAR ESTADO</button>
+            <div id="estadoResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📱 Enlaces de Prueba</h2>
+            <a href="http://localhost:3003/activate" target="_blank" class="button">🔑 Página de Activación</a>
+            <a href="http://localhost:3003/dashboard" target="_blank" class="button">🚀 Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        let enlaceGenerado = null;
+        let tokenGenerado = null;
+
+        function generarEnlaceUnico() {
+            const token = 'TEST' + Math.random().toString(36).substr(2, 8).toUpperCase();
+            const enlace = `http://localhost:3003/activate?token=${token}`;
+            
+            // Simular guardado del enlace usando el nuevo sistema
+            const enlaceData = {
+                token: token,
+                userId: 'test_user_' + Date.now(),
+                userEmail: 'test@ganafacil.com',
+                plan: 'premium',
+                isUsed: false,
+                createdAt: new Date().toISOString(),
+                expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+            };
+            
+            // Guardar usando el nuevo sistema
+            const existingEnlaces = localStorage.getItem('ganaFacilEnlacesUnicos');
+            const enlacesArray = existingEnlaces ? JSON.parse(existingEnlaces) : [];
+            enlacesArray.push([token, enlaceData]);
+            localStorage.setItem('ganaFacilEnlacesUnicos', JSON.stringify(enlacesArray));
+            
+            enlaceGenerado = enlace;
+            tokenGenerado = token;
+            
+            document.getElementById('enlaceResult').innerHTML = `
+                <div class="result success">
+                    <h3>✅ Enlace Único Generado</h3>
+                    <p><strong>Token:</strong> <span class="code">${token}</span></p>
+                    <p><strong>Enlace:</strong> <span class="code">${enlace}</span></p>
+                    <p><strong>Instrucciones:</strong></p>
+                    <ol>
+                        <li>Haz clic en el enlace de abajo</li>
+                        <li>Verifica que se active automáticamente</li>
+                        <li>Verifica que te redirija al dashboard</li>
+                    </ol>
+                    <a href="${enlace}" target="_blank" class="link-button">🚀 PROBAR ENLACE ÚNICO</a>
+                </div>
+            `;
+        }
+
+        function probarUsoMultiple() {
+            if (!enlaceGenerado) {
+                document.getElementById('multipleResult').innerHTML = `
+                    <div class="result error">
+                        <h3>❌ No hay enlace generado</h3>
+                        <p>Primero genera un enlace único.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById('multipleResult').innerHTML = `
+                <div class="result warning">
+                    <h3>🔄 Prueba de Uso Múltiple</h3>
+                    <p><strong>Enlace:</strong> <span class="code">${enlaceGenerado}</span></p>
+                    <p><strong>Instrucciones:</strong></p>
+                    <ol>
+                        <li>Haz clic en el enlace de abajo (primera vez)</li>
+                        <li>Verifica que se active y redirija al dashboard</li>
+                        <li>Vuelve a hacer clic en el mismo enlace (segunda vez)</li>
+                        <li>Verifica que muestre error "Este enlace ya fue usado"</li>
+                    </ol>
+                    <a href="${enlaceGenerado}" target="_blank" class="link-button">🔄 PROBAR USO MÚLTIPLE</a>
+                </div>
+            `;
+        }
+
+        function verificarEstado() {
+            const isActivated = localStorage.getItem('ganafacil_activated');
+            const savedUser = localStorage.getItem('ganaFacilUser');
+            const savedEnlaces = localStorage.getItem('ganaFacilEnlacesUnicos');
+            
+            let estado = 'No activado';
+            let usuario = 'No hay usuario';
+            let enlaces = 'No hay enlaces';
+            
+            if (isActivated === 'true') {
+                estado = '✅ Activado';
+            }
+            
+            if (savedUser) {
+                try {
+                    const userData = JSON.parse(savedUser);
+                    usuario = `✅ ${userData.name} (${userData.email})`;
+                } catch (error) {
+                    usuario = '❌ Error al cargar usuario';
+                }
+            }
+            
+            if (savedEnlaces) {
+                try {
+                    const enlacesArray = JSON.parse(savedEnlaces);
+                    enlaces = `✅ ${enlacesArray.length} enlace(s) guardado(s)`;
+                } catch (error) {
+                    enlaces = '❌ Error al cargar enlaces';
+                }
+            }
+            
+            document.getElementById('estadoResult').innerHTML = `
+                <div class="result info">
+                    <h3>📊 Estado del Sistema</h3>
+                    <p><strong>Activación:</strong> ${estado}</p>
+                    <p><strong>Usuario:</strong> ${usuario}</p>
+                    <p><strong>Enlaces:</strong> ${enlaces}</p>
+                    <p><strong>Token actual:</strong> ${tokenGenerado || 'No generado'}</p>
+                </div>
+            `;
+        }
+
+        // Inicializar
+        verificarEstado();
+    </script>
+</body>
+</html>

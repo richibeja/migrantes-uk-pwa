@@ -1,6 +1,6 @@
 // Configuración de la aplicación
 export const APP_CONFIG = {
-  name: 'Migrantes UK',
+  name: 'Gana Fácil',
   version: '1.0.0',
   description: 'PWA para apoyo a migrantes en Reino Unido',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
@@ -304,8 +304,8 @@ export const ROUTES = {
 
 // Configuración de PWA
 export const PWA_CONFIG = {
-  name: 'Migrantes UK',
-  shortName: 'Migrantes UK',
+  name: 'Gana Fácil',
+  shortName: 'Gana Fácil',
   description: 'PWA para apoyo a migrantes en Reino Unido',
   themeColor: '#FFD700',
   backgroundColor: '#000000',
@@ -317,7 +317,7 @@ export const PWA_CONFIG = {
 
 // Configuración de notificaciones
 export const NOTIFICATION_CONFIG = {
-  title: 'Migrantes UK',
+  title: 'Gana Fácil',
   icon: '/icons/icon-192x192.png',
   badge: '/icons/icon-192x192.png',
   vibrate: [200, 100, 200],

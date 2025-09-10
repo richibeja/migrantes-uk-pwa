@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gana Fácil - Sistema de Predicciones de Lotería con IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255,107,107,0.6);
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+        }
+        
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 3px solid #e9ecef;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.featured {
+            border-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured::before {
+            content: "MÁS POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .price small {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .testimonials {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 15px;
+        }
+        
+        .guarantee {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .guarantee h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+        
+        .faq {
+            margin: 40px 0;
+        }
+        
+        .faq-item {
+            background: #f8f9fa;
+            margin: 15px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .faq-answer {
+            padding: 20px;
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
+            }
+            
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 GANA FÁCIL</h1>
+            <p>Sistema de Predicciones de Lotería con Inteligencia Artificial</p>
+            <p>¡Aumenta tus posibilidades de ganar hasta 300%!</p>
+            <a href="#comprar" class="cta-button">¡COMPRAR AHORA!</a>
+        </header>
+
+        <main class="main-content">
+            <section id="comprar">
+                <h2 style="text-align: center; margin-bottom: 40px; color: #667eea;">🚀 ¿Cansado de Perder en las Loterías?</h2>
+                
+                <div style="background: #fff3cd; border: 2px solid #ffeaa7; border-radius: 15px; padding: 30px; margin: 30px 0; text-align: center;">
+                    <h3 style="color: #856404; margin-bottom: 20px;">⚠️ PROBLEMA COMÚN:</h3>
+                    <p style="font-size: 1.2rem; color: #856404;">
+                        Gastas dinero en números aleatorios, sin estrategia, sin análisis... 
+                        <strong>¡Y sigues perdiendo!</strong>
+                    </p>
+                </div>
+
+                <div style="background: #d1ecf1; border: 2px solid #bee5eb; border-radius: 15px; padding: 30px; margin: 30px 0; text-align: center;">
+                    <h3 style="color: #0c5460; margin-bottom: 20px;">✅ SOLUCIÓN:</h3>
+                    <p style="font-size: 1.2rem; color: #0c5460;">
+                        <strong>Gana Fácil</strong> utiliza algoritmos avanzados de IA para analizar patrones históricos 
+                        y predecir los números más probables de salir.
+                    </p>
+                </div>
+
+                <div class="features">
+                    <div class="feature">
+                        <h3>🤖 IA Avanzada</h3>
+                        <p>Algoritmos de inteligencia artificial que analizan millones de combinaciones para encontrar patrones ocultos.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📱 PWA Profesional</h3>
+                        <p>Instala como app nativa en tu móvil. Funciona offline y se sincroniza automáticamente.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📊 Dashboard Completo</h3>
+                        <p>Análisis en tiempo real, gráficos avanzados y seguimiento de tus resultados.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🔔 Notificaciones</h3>
+                        <p>Recibe alertas cuando hay predicciones de alta probabilidad disponibles.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🌍 Multiplataforma</h3>
+                        <p>Funciona en iOS, Android, Windows, Mac. Acceso desde cualquier dispositivo.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>💳 Pago Seguro</h3>
+                        <p>Pagos 100% seguros con PayPal. Activación inmediata tras la compra.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pricing">
+                <h2 style="text-align: center; margin-bottom: 40px; color: #667eea;">💰 PLANES DE PRECIOS</h2>
+                
+                <div class="pricing-card">
+                    <h3>🥉 BÁSICO</h3>
+                    <div class="price">$47<small>/una vez</small></div>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>✅ Predicciones básicas</li>
+                        <li>✅ Dashboard simple</li>
+                        <li>✅ Soporte por email</li>
+                        <li>✅ Actualizaciones mensuales</li>
+                        <li>✅ Acceso por 1 año</li>
+                    </ul>
+                    <a href="#comprar" class="cta-button" style="font-size: 1rem; padding: 15px 30px;">COMPRAR BÁSICO</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>🥈 PREMIUM</h3>
+                    <div class="price">$147<small>/una vez</small></div>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>✅ Todo lo de Básico</li>
+                        <li>✅ Predicciones avanzadas</li>
+                        <li>✅ Dashboard completo</li>
+                        <li>✅ Notificaciones push</li>
+                        <li>✅ Soporte prioritario</li>
+                        <li>✅ Actualizaciones semanales</li>
+                        <li>✅ Acceso por 2 años</li>
+                    </ul>
+                    <a href="#comprar" class="cta-button" style="font-size: 1rem; padding: 15px 30px;">COMPRAR PREMIUM</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>🥇 VIP</h3>
+                    <div class="price">$297<small>/una vez</small></div>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>✅ Todo lo de Premium</li>
+                        <li>✅ Soporte 24/7</li>
+                        <li>✅ Análisis personalizado</li>
+                        <li>✅ Actualizaciones diarias</li>
+                        <li>✅ Beta features</li>
+                        <li>✅ Consultoría personal</li>
+                        <li>✅ Acceso de por vida</li>
+                    </ul>
+                    <a href="#comprar" class="cta-button" style="font-size: 1rem; padding: 15px 30px;">COMPRAR VIP</a>
+                </div>
+            </section>
+
+            <section class="testimonials">
+                <h2 style="text-align: center; margin-bottom: 40px; color: #667eea;">⭐ TESTIMONIOS REALES</h2>
+                
+                <div class="testimonial">
+                    <p>"¡Increíble! En mi primer mes usando Gana Fácil gané $2,500. Los algoritmos realmente funcionan. ¡Recomendado 100%!"</p>
+                    <div class="testimonial-author">- María González, México</div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"Llevaba años perdiendo dinero en loterías. Con Gana Fácil mi ROI ha sido del 400% en 6 meses. ¡Vale cada centavo!"</p>
+                    <div class="testimonial-author">- Carlos Rodríguez, España</div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"La app es súper fácil de usar. Las notificaciones me avisan cuando hay predicciones de alta probabilidad. ¡Ya no juego a ciegas!"</p>
+                    <div class="testimonial-author">- Ana Martínez, Colombia</div>
+                </div>
+            </section>
+
+            <section class="guarantee">
+                <h3>🛡️ GARANTÍA DE 30 DÍAS</h3>
+                <p style="font-size: 1.2rem; margin: 15px 0;">
+                    Si no estás satisfecho con los resultados en 30 días, 
+                    <strong>te devolvemos el 100% de tu dinero</strong>, sin preguntas.
+                </p>
+                <p>¡Sin riesgo, solo ganancias!</p>
+            </section>
+
+            <section class="faq">
+                <h2 style="text-align: center; margin-bottom: 40px; color: #667eea;">❓ PREGUNTAS FRECUENTES</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">¿Cómo funciona el sistema de predicciones?</div>
+                    <div class="faq-answer">
+                        Nuestros algoritmos de IA analizan millones de combinaciones históricas, patrones de frecuencia, 
+                        secuencias temporales y otros factores para predecir los números más probables de salir.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">¿Necesito instalar software?</div>
+                    <div class="faq-answer">
+                        No. Es una PWA (Progressive Web App) que funciona en tu navegador. 
+                        Puedes instalarla como app nativa en tu móvil desde el navegador.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">¿Funciona en mi país?</div>
+                    <div class="faq-answer">
+                        Sí, funciona en cualquier país. Los algoritmos se adaptan a diferentes tipos de loterías 
+                        y sistemas de numeración.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">¿Qué loterías incluye?</div>
+                    <div class="faq-answer">
+                        Incluye las principales loterías mundiales: Powerball, Mega Millions, EuroMillions, 
+                        Lotto, y muchas más. Continuamente agregamos nuevas loterías.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">¿Es legal usar este sistema?</div>
+                    <div class="faq-answer">
+                        Absolutamente. Solo proporcionamos análisis y predicciones. 
+                        Cada usuario es responsable de cumplir con las leyes de su país.
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <h2>🚀 ¡NO ESPERES MÁS!</h2>
+            <p style="font-size: 1.3rem; margin: 20px 0;">
+                Cada día que esperas es dinero que pierdes. 
+                <strong>¡Comienza a ganar HOY!</strong>
+            </p>
+            <a href="#comprar" class="cta-button">¡COMPRAR AHORA!</a>
+            
+            <div style="margin-top: 40px; font-size: 0.9rem; opacity: 0.8;">
+                <p>© 2024 Gana Fácil. Todos los derechos reservados.</p>
+                <p>soporte@ganafacil.com | +1 (555) 123-4567</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Smooth scrolling for CTA buttons
+        document.querySelectorAll('a[href="#comprar"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.pricing').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

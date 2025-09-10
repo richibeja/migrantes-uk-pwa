@@ -185,8 +185,8 @@ function RegisterPage() {
 
         <div className="text-center">
           <a
-            href={`https://wa.me/19295909116?text=${encodeURIComponent(
-              'Hola, necesito ayuda con Migrantes UK.'
+            href={`https://wa.me/18053080769?text=${encodeURIComponent(
+              'Hola, necesito ayuda con Gana Fácil.'
             )}`}
             target="_blank"
             className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg"

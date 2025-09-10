@@ -24,7 +24,7 @@ function caseCodeFor(date: Date) {
   return `UKC-${y}${m}${d}-${suf}`;
 }
 
-export const reserveUserCode = functions.https.onCall(async (data, context) => {
+export const reserveUserCode = functions.https.onCall(async (data: unknown, context: functions.https.CallableContext) => {
   if (!context.auth) throw new functions.https.HttpsError('unauthenticated','auth required');
   const uid = context.auth.uid;
   for (let i=0;i<10;i++) {
@@ -39,10 +39,12 @@ export const reserveUserCode = functions.https.onCall(async (data, context) => {
   throw new functions.https.HttpsError('resource-exhausted','unable to reserve code');
 });
 
-export const reserveCaseCode = functions.https.onCall(async (data, context) => {
+export const reserveCaseCode = functions.https.onCall(async (data: { caseId?: string } | unknown, context: functions.https.CallableContext) => {
   if (!context.auth) throw new functions.https.HttpsError('unauthenticated','auth required');
   const uid = context.auth.uid;
-  const caseId = String(data?.caseId || '');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const payload = data as any;
+  const caseId = String(payload?.caseId || '');
   if (!caseId) throw new functions.https.HttpsError('invalid-argument','caseId required');
   for (let i=0;i<10;i++) {
     const code = caseCodeFor(new Date());
@@ -58,18 +60,21 @@ export const reserveCaseCode = functions.https.onCall(async (data, context) => {
 
 export const onPaymentValidated = functions.firestore
   .document('payments/{paymentId}')
-  .onUpdate(async (change, context) => {
-    const before = change.before.data();
-    const after = change.after.data();
-    if (before.status !== 'validated' && after.status === 'validated') {
-      const caseId = after.caseId as string;
+  .onUpdate(async (
+    change: functions.Change<admin.firestore.DocumentSnapshot>,
+    context: functions.EventContext
+  ) => {
+    const before = change.before.data() as any | undefined;
+    const after = change.after.data() as any | undefined;
+    if ((before?.status) !== 'validated' && (after?.status) === 'validated') {
+      const caseId = String(after?.caseId || '');
       if (caseId) {
         await db.collection('cases').doc(caseId).set({ status: 'pagado' }, { merge: true });
         // enviar notificación FCM al dueño
-        const uid = after.uid as string;
+        const uid = String(after?.uid || '');
         if (uid) {
           const tokensSnap = await db.collection(`users/${uid}/tokens`).get();
-          const tokens = tokensSnap.docs.map(d => d.id);
+          const tokens = tokensSnap.docs.map((d: admin.firestore.QueryDocumentSnapshot) => d.id);
           if (tokens.length) {
             await admin.messaging().sendEachForMulticast({
               tokens,
@@ -83,4 +88,55 @@ export const onPaymentValidated = functions.firestore
     return null;
   });
 
+export const getPublicCaseByCode = functions.https.onCall(async (data: unknown, context: functions.https.CallableContext) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const payload = data as any;
+  const raw = String(payload?.caseCode || '').trim().toUpperCase();
+  if (!raw) throw new functions.https.HttpsError('invalid-argument','caseCode required');
+
+  try {
+    const metaRef = db.collection('indexes').doc('caseCodes').collection(raw).doc('meta');
+    const metaSnap = await metaRef.get();
+    if (!metaSnap.exists) {
+      return { exists: false };
+    }
+    const meta = metaSnap.data() as any;
+    const caseId = String(meta?.caseId || '');
+    if (!caseId) {
+      return { exists: false };
+    }
+
+    const caseSnap = await db.collection('cases').doc(caseId).get();
+    if (!caseSnap.exists) {
+      return { exists: false };
+    }
+    const c = caseSnap.data() as any;
+
+    const serializeDate = (d: any) => {
+      try { return d?.toDate ? d.toDate().toISOString() : (d ?? null); } catch { return null; }
+    };
+
+    const timeline = Array.isArray(c?.timeline)
+      ? c.timeline.map((x: any) => ({
+          step: String(x?.step || ''),
+          date: serializeDate(x?.date),
+          note: x?.note ? String(x.note) : null,
+        }))
+      : [];
+
+    return {
+      exists: true,
+      caseId,
+      caseCode: String(c?.caseCode || raw),
+      title: c?.title ? String(c.title) : null,
+      amount: typeof c?.amount === 'number' ? c.amount : null,
+      status: c?.status ? String(c.status) : 'borrador',
+      updatedAt: serializeDate(c?.updatedAt) || serializeDate(c?.createdAt),
+      timeline,
+    };
+  } catch (e: any) {
+    console.error('getPublicCaseByCode error', e);
+    throw new functions.https.HttpsError('internal','unexpected');
+  }
+});
 

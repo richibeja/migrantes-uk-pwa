@@ -5,31 +5,56 @@ import { listCloudUsers, getCloudUser, updateCloudUserActivation, createCloudUse
 import { createCloudCode, listCloudCodes } from '@/lib/firebaseCodes';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/components/I18nProvider';
+import { Brain, Crown, Target, Users, Settings, BarChart3, Shield, Zap, MessageCircle, Bot } from 'lucide-react';
+import AnbelAIChat from '@/components/AnbelAIChat';
+import { ADMIN_SECURITY_CONFIG, verifyAdminPassword, createAdminSession, isAdminSessionValid, clearAdminSession, formatSessionTimeRemaining } from '@/config/admin-security';
 
 export default function AdminClient() {
   const router = useRouter();
   const { t } = useI18n();
   const [isChecking, setIsChecking] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   useEffect(() => {
-    try {
-      const savedUser = localStorage.getItem('ganaFacilUser');
-      if (savedUser) {
-        const user = JSON.parse(savedUser);
-        if (user?.isAdmin === true) {
-          setIsAuthorized(true);
-          setIsChecking(false);
-          return;
-        }
-      }
-      router.push('/login');
-    } catch {
-      router.push('/login');
-    } finally {
+    // Verificar sesión de admin existente
+    if (isAdminSessionValid()) {
+      // Sesión válida
+      setIsAuthorized(true);
       setIsChecking(false);
+      return;
     }
-  }, [router]);
+    
+    // Mostrar modal de contraseña
+    setIsChecking(false);
+    setShowPasswordModal(true);
+  }, []);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (verifyAdminPassword(adminPassword)) {
+      // Contraseña correcta
+      createAdminSession();
+      
+      setIsAuthorized(true);
+      setShowPasswordModal(false);
+      setPasswordError('');
+      setAdminPassword('');
+    } else {
+      // Contraseña incorrecta
+      setPasswordError(ADMIN_SECURITY_CONFIG.MESSAGES.INCORRECT_PASSWORD);
+      setAdminPassword('');
+    }
+  };
+
+  const handleLogout = () => {
+    clearAdminSession();
+    setIsAuthorized(false);
+    setShowPasswordModal(true);
+  };
 
   const [generatedCodes, setGeneratedCodes] = useState<string[]>([]);
   const [message, setMessage] = useState('');
@@ -163,14 +188,125 @@ export default function AdminClient() {
   };
 
   if (isChecking) return <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4"><p className="text-gold text-xl">Verificando…</p></div>;
-  if (!isAuthorized) return <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4"><p className="text-gray-300">Redirigiendo a login…</p></div>;
+  
+  // Modal de contraseña
+  if (showPasswordModal) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+        <div className="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 max-w-md w-full">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center mb-6">
+              <div className="relative">
+                <Brain className="w-16 h-16 text-purple-400" />
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-400 rounded-full animate-pulse flex items-center justify-center">
+                  <Shield className="w-4 h-4 text-white" />
+                </div>
+              </div>
+            </div>
+            
+            <h1 className="text-3xl font-bold text-white mb-4">
+              🔐 ACCESO ADMINISTRADOR
+            </h1>
+            <p className="text-purple-200 mb-6">
+              Ingresa la contraseña de administrador para acceder
+            </p>
+          </div>
+
+          <form onSubmit={handlePasswordSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Contraseña de Administrador
+              </label>
+              <input
+                type="password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Ingresa la contraseña..."
+                required
+                autoFocus
+              />
+              {passwordError && (
+                <p className="mt-2 text-sm text-red-400">{passwordError}</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+            >
+              🚀 ACCEDER AL ADMIN
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => router.push('/')}
+              className="text-gray-400 hover:text-white transition-colors text-sm"
+            >
+              ← Volver al inicio
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
-      <div className="max-w-4xl w-full space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">Admin</h1>
-          <p className="text-gray-400">Gestión de usuarios y códigos</p>
+    <div className="min-h-screen bg-gray-900 px-4 py-8">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Header con Agente Anbel IA */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-6">
+            <div className="relative">
+              <Brain className="w-16 h-16 text-purple-400" />
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full animate-pulse flex items-center justify-center">
+                <Crown className="w-4 h-4 text-white" />
+              </div>
+            </div>
+          </div>
+          
+          <h1 className="text-5xl font-bold text-white mb-4">
+            🧠 ADMIN - AGENTE ANBEL IA
+          </h1>
+          <p className="text-xl text-purple-200 mb-2">
+            Panel de administración con inteligencia artificial avanzada
+          </p>
+          <p className="text-sm text-green-400 mb-6">
+            🔐 Sesión activa - {formatSessionTimeRemaining()}
+          </p>
+          
+          {/* Botones de navegación */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <a
+              href="/anbel-ai"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
+            >
+              <Bot className="w-5 h-5" />
+              <span>AGENTE ANBEL IA</span>
+            </a>
+            <a
+              href="/dashboard"
+              className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-6 py-3 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
+            >
+              <Target className="w-5 h-5" />
+              <span>DASHBOARD</span>
+            </a>
+            <a
+              href="/predictions"
+              className="bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold px-6 py-3 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
+            >
+              <BarChart3 className="w-5 h-5" />
+              <span>PREDICCIONES</span>
+            </a>
+            <button
+              onClick={handleLogout}
+              className="bg-gradient-to-r from-red-600 to-red-700 text-white font-bold px-6 py-3 rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
+            >
+              <Shield className="w-5 h-5" />
+              <span>CERRAR SESIÓN</span>
+            </button>
+          </div>
         </div>
 
         {message && (
@@ -253,8 +389,9 @@ export default function AdminClient() {
             </div>
           </div>
 
-          <div className="flex gap-4 mb-6">
+          <div className="flex gap-4 mb-6 flex-wrap">
             <button onClick={generateCode} className="bg-gradient-to-r from-gold to-yellow-500 text-black font-bold py-3 px-6 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105">🎯 Generar Nuevo Código</button>
+            <a href="/admin/generate-codes-frontend" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">📧 Generar Códigos Frontend</a>
             <button onClick={clearCodes} className="bg-gradient-to-r from-red-600 to-red-700 text-white font-bold py-3 px-6 rounded-lg hover:from-red-500 hover:to-red-600 transition-all duration-300">🗑️ Limpiar Códigos</button>
             <button onClick={refreshCloudCodes} className="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-500 hover:to-blue-600 transition-all duration-300">🔄 Actualizar Códigos (Cloud)</button>
           </div>
@@ -275,6 +412,57 @@ export default function AdminClient() {
           <div className="mt-8 text-center">
             <button onClick={() => window.history.back()} className="text-gray-400 hover:text-white transition-colors text-sm">← Volver</button>
           </div>
+        </div>
+
+        {/* Estadísticas del Sistema */}
+        <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <h3 className="text-2xl font-bold text-white mb-6 text-center">
+            📊 ESTADÍSTICAS DEL SISTEMA
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white/10 rounded-lg p-6 text-center">
+              <Users className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+              <h4 className="text-xl font-bold text-white mb-2">Usuarios Activos</h4>
+              <p className="text-3xl font-bold text-gold">{accounts.filter(a => a.status === 'active').length}</p>
+              <p className="text-sm text-gray-300">Total: {accounts.length}</p>
+            </div>
+            
+            <div className="bg-white/10 rounded-lg p-6 text-center">
+              <Shield className="w-12 h-12 text-green-400 mx-auto mb-3" />
+              <h4 className="text-xl font-bold text-white mb-2">Códigos Generados</h4>
+              <p className="text-3xl font-bold text-gold">{cloudCodes.length}</p>
+              <p className="text-sm text-gray-300">Disponibles: {cloudCodes.filter(c => !c.used).length}</p>
+            </div>
+            
+            <div className="bg-white/10 rounded-lg p-6 text-center">
+              <Zap className="w-12 h-12 text-yellow-400 mx-auto mb-3" />
+              <h4 className="text-xl font-bold text-white mb-2">Sistema Online</h4>
+              <p className="text-3xl font-bold text-green-400">100%</p>
+              <p className="text-sm text-gray-300">Operativo</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat del Agente Anbel IA */}
+        <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <h3 className="text-2xl font-bold text-white mb-6 text-center">
+            🤖 CHAT CON AGENTE ANBEL IA
+          </h3>
+          <p className="text-center text-purple-200 mb-6">
+            Asistencia inteligente para administración del sistema
+          </p>
+          
+          <AnbelAIChat
+            userId="admin-user"
+            language="es"
+            onPredictionGenerated={(prediction: any) => {
+              console.log('Predicción generada desde admin:', prediction);
+            }}
+            onAnalysisGenerated={(analysis: any) => {
+              console.log('Análisis generado desde admin:', analysis);
+            }}
+          />
         </div>
       </div>
     </div>

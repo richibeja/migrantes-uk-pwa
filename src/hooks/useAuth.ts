@@ -8,8 +8,14 @@ interface User {
   createdAt: Date;
 }
 
-// Códigos válidos de prueba
-const VALID_CODES = ['DEMO2024', 'PRUEBA123', 'TEST456', 'ADMIN789', 'VIP2025'];
+// Códigos válidos de prueba + códigos reales
+const VALID_CODES = [
+  'DEMO2024', 'PRUEBA123', 'TEST456', 'ADMIN789', 'VIP2025',
+  'GANAFACIL', 'LOTERIA', 'SUERTE', 'FORTUNA',
+  'GANA2025POWER001', 'GANA2025MEGA002', 'GANA2025EURO003',
+  'GANA2025UK004', 'GANA2025SPAIN005', 'DEMO2025TEST001',
+  'FREE2025TRIAL001', 'VIP2025ACCESS001'
+];
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);

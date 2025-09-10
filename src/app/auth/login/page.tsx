@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import React, { useState } from 'react';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -16,8 +16,21 @@ export default function AuthLoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Completar login si venimos de signInWithRedirect
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const res = await getRedirectResult(auth!);
+        if (res?.user) {
+          await postLoginSetup(res.user.uid);
+          router.push('/dashboard');
+        }
+      } catch {}
+    })();
+  }, [router]);
+
   async function postLoginSetup(uid: string) {
-    const userRef = doc(db, 'users', uid);
+    const userRef = doc(db!, 'users', uid);
     const snap = await getDoc(userRef);
     let userCode = snap.data()?.userCode as string | undefined;
     if (!userCode) {
@@ -26,6 +39,20 @@ export default function AuthLoginPage() {
         await setDoc(userRef, { userCode }, { merge: true });
       } catch {}
     }
+    try {
+      const profileSnap = await getDoc(userRef);
+      const u = profileSnap.exists() ? profileSnap.data() as any : {};
+      const account = {
+        username: u?.email || 'user',
+        name: u?.name || '',
+        phone: u?.phone || '',
+        status: 'active',
+        plan: u?.plan || 'free',
+        expiresAt: u?.expiresAt || null,
+        userCode: userCode || u?.userCode || ''
+      } as any;
+      localStorage.setItem('ganaFacilUser', JSON.stringify(account));
+    } catch {}
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -33,7 +60,7 @@ export default function AuthLoginPage() {
     setError('');
     setLoading(true);
     try {
-      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const cred = await signInWithEmailAndPassword(auth!, email, password);
       await postLoginSetup(cred.user.uid);
       router.push('/dashboard');
     } catch (e: any) {
@@ -47,9 +74,26 @@ export default function AuthLoginPage() {
     try {
       setError(''); setLoading(true);
       const provider = new GoogleAuthProvider();
-      const cred = await signInWithPopup(auth, provider);
-      await postLoginSetup(cred.user.uid);
-      router.push('/dashboard');
+      const ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+      const isIOS = /iPhone|iPad|iPod/i.test(ua);
+      const isSafari = /Safari\//.test(ua) && !/Chrome\//.test(ua);
+      if (isIOS || isSafari) {
+        await signInWithRedirect(auth!, provider);
+        return;
+      }
+      try {
+        const cred = await signInWithPopup(auth!, provider);
+        await postLoginSetup(cred.user.uid);
+        router.push('/dashboard');
+      } catch (e: any) {
+        // Fallback si el popup fue bloqueado
+        const code = e?.code || '';
+        if (String(code).includes('popup') || String(code).includes('blocked')) {
+          await signInWithRedirect(auth!, provider);
+          return;
+        }
+        throw e;
+      }
     } catch (e: any) {
       setError(e?.message || 'Error con Google');
     } finally {

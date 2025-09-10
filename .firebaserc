@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "migrantes-uk",
+    "firebase deploy --only storage": "gana-facil-rifa-d5609"
+  },
+  "targets": {},
+  "etags": {}
+}

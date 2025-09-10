@@ -10,7 +10,7 @@ interface WhatsAppButtonProps {
 export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   variant = 'default',
   phoneNumber = '+19295909116',
-  message = 'Hola, necesito ayuda con Migrantes UK. ¿Podrías orientarme?',
+  message = 'Hola, necesito ayuda con Gana Fácil. ¿Podrías orientarme?',
   className = ''
 }) => {
   const handleWhatsAppClick = () => {

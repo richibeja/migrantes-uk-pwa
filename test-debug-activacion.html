@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Activación - GANA FÁCIL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .success { border-color: #4CAF50; background: #f1f8e9; }
+        .error { border-color: #f44336; background: #ffebee; }
+        .info { border-color: #2196F3; background: #e3f2fd; }
+        .warning { border-color: #ff9800; background: #fff3e0; }
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover { opacity: 0.9; }
+        .code {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            word-break: break-all;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐛 DEBUG ACTIVACIÓN - GANA FÁCIL</h1>
+        
+        <div class="test-section warning">
+            <h2>⚠️ IMPORTANTE</h2>
+            <p>La aplicación Next.js debe estar ejecutándose en <strong>http://localhost:3003</strong></p>
+            <p>Si no está ejecutándose, ejecuta: <code>npm run dev</code></p>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 Test de Conectividad</h2>
+            <button onclick="testConectividad()">Probar Conectividad</button>
+            <div id="conectividadResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔑 Test de Activación con Código</h2>
+            <button onclick="testActivacionCodigo()">Probar Activación con Código</button>
+            <div id="activacionResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔗 Test de Activación con Enlace</h2>
+            <button onclick="testActivacionEnlace()">Probar Activación con Enlace</button>
+            <div id="enlaceResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Log de Debug</h2>
+            <div id="debugLog" class="log"></div>
+            <button onclick="limpiarLog()">Limpiar Log</button>
+        </div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function limpiarLog() {
+            document.getElementById('debugLog').innerHTML = '';
+        }
+
+        async function testConectividad() {
+            log('🔍 Iniciando test de conectividad...');
+            
+            try {
+                const response = await fetch('http://localhost:3003/activate');
+                log(`✅ Conectividad OK - Status: ${response.status}`);
+                
+                document.getElementById('conectividadResult').innerHTML = `
+                    <div class="result success">
+                        <h3>✅ Conectividad OK</h3>
+                        <p>La aplicación Next.js está ejecutándose correctamente</p>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                    </div>
+                `;
+            } catch (error) {
+                log(`❌ Error de conectividad: ${error.message}`);
+                document.getElementById('conectividadResult').innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error de Conectividad</h3>
+                        <p>No se puede conectar a la aplicación Next.js</p>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Solución:</strong> Ejecuta <code>npm run dev</code></p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testActivacionCodigo() {
+            log('🔑 Iniciando test de activación con código...');
+            
+            try {
+                // Simular activación con código GANAFACIL
+                const userData = {
+                    id: 'test_user_' + Date.now(),
+                    email: 'test@ganafacil.com',
+                    name: 'Usuario Test',
+                    plan: 'premium',
+                    isActivated: true,
+                    activatedAt: new Date().toISOString(),
+                    activationMethod: 'code_ganafacil'
+                };
+
+                // Guardar en localStorage
+                localStorage.setItem('ganaFacilUser', JSON.stringify(userData));
+                localStorage.setItem('ganafacil_activated', 'true');
+                
+                log('✅ Usuario guardado en localStorage');
+                log(`📧 Email: ${userData.email}`);
+                log(`🎯 Plan: ${userData.plan}`);
+                log(`🔑 Método: ${userData.activationMethod}`);
+
+                // Verificar que se guardó correctamente
+                const savedUser = localStorage.getItem('ganaFacilUser');
+                const isActivated = localStorage.getItem('ganafacil_activated');
+                
+                log(`💾 Usuario guardado: ${savedUser ? 'Sí' : 'No'}`);
+                log(`🔓 Activado: ${isActivated}`);
+
+                document.getElementById('activacionResult').innerHTML = `
+                    <div class="result success">
+                        <h3>✅ Activación con Código OK</h3>
+                        <p>Usuario creado y guardado en localStorage</p>
+                        <p><strong>Email:</strong> ${userData.email}</p>
+                        <p><strong>Plan:</strong> ${userData.plan}</p>
+                        <p><strong>Método:</strong> ${userData.activationMethod}</p>
+                        <a href="http://localhost:3003/dashboard" target="_blank" class="button">🚀 Probar Dashboard</a>
+                    </div>
+                `;
+            } catch (error) {
+                log(`❌ Error en activación: ${error.message}`);
+                document.getElementById('activacionResult').innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error en Activación</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testActivacionEnlace() {
+            log('🔗 Iniciando test de activación con enlace...');
+            
+            try {
+                const token = 'TEST' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                const enlace = `http://localhost:3003/activate?token=${token}`;
+                
+                log(`🔑 Token generado: ${token}`);
+                log(`🔗 Enlace: ${enlace}`);
+
+                // Simular guardado del enlace
+                const linkData = {
+                    token: token,
+                    userId: 'test_user_' + Date.now(),
+                    userEmail: 'test@ganafacil.com',
+                    plan: 'premium',
+                    isUsed: false,
+                    createdAt: new Date().toISOString(),
+                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+                };
+                
+                localStorage.setItem('ganaFacilUniqueLinks', JSON.stringify([[token, linkData]]));
+                log('✅ Enlace guardado en localStorage');
+
+                document.getElementById('enlaceResult').innerHTML = `
+                    <div class="result success">
+                        <h3>✅ Enlace Único Generado</h3>
+                        <p><strong>Token:</strong> <span class="code">${token}</span></p>
+                        <p><strong>Enlace:</strong> <span class="code">${enlace}</span></p>
+                        <a href="${enlace}" target="_blank" class="button">🚀 Probar Enlace Único</a>
+                    </div>
+                `;
+            } catch (error) {
+                log(`❌ Error en enlace: ${error.message}`);
+                document.getElementById('enlaceResult').innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error en Enlace</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Inicializar
+        log('🚀 Debug de activación iniciado');
+        log('📱 Verifica la consola del navegador para más detalles');
+    </script>
+</body>
+</html>

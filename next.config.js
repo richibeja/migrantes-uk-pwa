@@ -3,6 +3,24 @@ const nextConfig = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  // output: 'export', // Comentado para permitir API routes en desarrollo
+  // distDir: 'out',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        has: [
+          { type: 'header', key: 'host', value: 'migrantes-uk-pwa.vercel.app' },
+        ],
+        destination: '/landing',
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {

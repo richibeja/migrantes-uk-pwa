@@ -23,11 +23,11 @@ export default function AuthRegisterPage() {
     setError('');
     setLoading(true);
     try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const cred = await createUserWithEmailAndPassword(auth!, email, password);
       if (name) await updateProfile(cred.user, { displayName: name });
       const uid = cred.user.uid;
       const userCode = await reserveUserCodeForUid(uid);
-      await setDoc(doc(db, 'users', uid), {
+      await setDoc(doc(db!, 'users', uid), {
         userCode,
         name,
         email,
@@ -35,6 +35,10 @@ export default function AuthRegisterPage() {
         status: 'active',
         createdAt: new Date().toISOString(),
       }, { merge: true });
+      try {
+        const account = { username: email, name, phone, status: 'active', plan: 'free', expiresAt: null, userCode } as any;
+        localStorage.setItem('ganaFacilUser', JSON.stringify(account));
+      } catch {}
       router.push('/dashboard');
     } catch (e: any) {
       setError(e?.message || 'Error al crear la cuenta');

@@ -74,7 +74,7 @@ function ActivateUserLinkPage() {
 	return (
 		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
 			<div className={`max-w-md w-full text-center p-6 rounded-xl border ${ok ? 'border-green-500 bg-green-900/30 text-green-100' : 'border-yellow-500 bg-yellow-900/30 text-yellow-100'}`}>
-				<h1 className="text-2xl font-bold mb-3">Migrantes UK</h1>
+				<h1 className="text-2xl font-bold mb-3">Gana Fácil</h1>
 				<p className="mb-4">{message}</p>
 				<div className="flex gap-3 justify-center">
 					<a href="/dashboard" className="bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg">{t('activateUser.goDashboard')}</a>

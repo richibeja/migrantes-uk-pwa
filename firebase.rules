@@ -3,7 +3,11 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAuthed() { return request.auth != null; }
     function isOwner(uid) { return isAuthed() && request.auth.uid == uid; }
-    function isAdmin() { return isAuthed() && request.auth.token.admin == true; }
+    function userRole() {
+      return isAuthed() ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role : null;
+    }
+    function isAdmin() { return userRole() == 'admin'; }
+    function isAdvisor() { return userRole() == 'asesor'; }
 
     // Perfiles de usuario
     match /users/{uid} {
@@ -14,12 +18,21 @@ service cloud.firestore {
 
     // Trámites (cases) con campo uid (dueño)
     match /cases/{caseId} {
-      allow read: if isAdmin() || (isAuthed() && resource.data.uid == request.auth.uid);
+      allow read: if isAdmin() ||
+                  (isAuthed() && resource.data.uid == request.auth.uid) ||
+                  (isAdvisor() && resource.data.assignedTo == request.auth.uid);
       // Crear solo dueño
       allow create: if isAuthed() && request.resource.data.uid == request.auth.uid;
       // Actualizar: dueño puede actualizar cualquier campo EXCEPTO status; admin puede todo
       allow update: if isAdmin() || (
         isAuthed() && resource.data.uid == request.auth.uid && request.resource.data.status == resource.data.status
+      ) || (
+        // Asesor puede actualizar timeline y attachments del caso asignado, sin cambiar status ni owner
+        isAdvisor() && resource.data.assignedTo == request.auth.uid &&
+        request.resource.data.status == resource.data.status &&
+        request.resource.data.uid == resource.data.uid &&
+        // Evitar que el asesor se reasigne o cambie el asignado
+        request.resource.data.assignedTo == resource.data.assignedTo
       );
       allow delete: if isAdmin() || (isAuthed() && resource.data.uid == request.auth.uid);
     }
