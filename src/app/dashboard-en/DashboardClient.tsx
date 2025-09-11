@@ -772,16 +772,6 @@ export default function DashboardClient() {
                 >
                   🏆 Last Draw
                 </button>
-                <button
-                  onClick={() => setActiveTab('clubs')}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    activeTab === 'clubs'
-                      ? 'bg-gold text-black'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  👥 ANBEL Clubs
-                </button>
                 
                 {/* Featured Predictions Button */}
                 <a
@@ -851,57 +841,14 @@ export default function DashboardClient() {
                   ⚡ Update
                 </button>
                 
-                <button
-                  onClick={() => {
-                    try {
-                      clearAll();
-                      localStorage.clear();
-                      window.location.href = '/';
-                    } catch (error) {
-                      console.error('Clear error:', error);
-                    }
-                  }}
-                  className="bg-gray-600 text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors text-xs font-medium"
-                  title="Clear All Data"
-                >
-                  🧹 Clear
-                </button>
-                
+                {/* Simplified buttons - only important ones */}
                 <a
                   href="/admin"
-                  className="bg-purple-600 text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors text-xs font-medium"
+                  className="bg-purple-600 text-white px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
                   title="Admin Panel"
                 >
-                  🔧 Admin
+                  👑 Admin
                 </a>
-                
-                <button
-                  onClick={() => {
-                    try {
-                      window.location.reload();
-                    } catch (error) {
-                      console.error('Reload error:', error);
-                    }
-                  }}
-                  className="bg-blue-600 text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-xs font-medium"
-                  title="Refresh Page"
-                >
-                  🔄 Reset
-                </button>
-                
-                <button
-                  onClick={() => {
-                    try {
-                      window.location.reload();
-                    } catch (error) {
-                      console.error('Update error:', error);
-                    }
-                  }}
-                  className="bg-green-600 text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-green-700 transition-colors text-xs font-medium"
-                  title="Update Data"
-                >
-                  ⚡ Update
-                </button>
               </div>
             </div>
           </div>
@@ -1448,51 +1395,6 @@ export default function DashboardClient() {
           </div>
         )}
 
-        {activeTab === 'clubs' && (
-          <div className="space-y-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gold mb-4">👥 ANBEL Clubs</h2>
-              <p className="text-gray-300 text-lg">
-                Join exclusive prediction clubs and increase your winning chances as a team
-              </p>
-            </div>
-
-            {/* Clubs content will be added here */}
-            <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-4xl">👥</span>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">ANBEL Clubs</h3>
-              <p className="text-gray-400 mb-6">
-                Integrated clubs system - Complete functionality available
-              </p>
-              <a
-                href="/clubs-en"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
-              >
-                View Complete Clubs
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* Subscription Plans Tab */}
-        {activeTab === 'plans' && (
-          <div>
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gold mb-4">💳 Subscription Plans</h2>
-              <p className="text-gray-300 text-lg">Choose the plan that best fits your needs</p>
-            </div>
-            <SubscriptionPlans />
-          </div>
-        )}
-
-        {/* Testimonials Tab */}
-        {activeTab === 'testimonials' && (
-          <div>
-            <TestimonialsSection />
-          </div>
-        )}
       </main>
 
       {/* Analysis Modal */}
