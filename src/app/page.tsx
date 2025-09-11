@@ -108,6 +108,76 @@ export default function Home() {
                 🔑 Activar Código
               </a>
             </div>
+            
+            {/* Botones de Registro y Login */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="/auth/register"
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/50"
+              >
+                📝 Crear Cuenta
+              </a>
+              <a
+                href="/auth/login"
+                className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-purple-400 hover:to-purple-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+              >
+                🔐 Iniciar Sesión
+              </a>
+              <a
+                href="/register"
+                className="bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                📋 Registro Alternativo
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Métodos de Acceso */}
+      <div className="py-16 bg-gradient-to-r from-blue-900/30 to-purple-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">¿Cómo Acceder a GANA FÁCIL?</h2>
+            <p className="text-lg text-gray-300">Elige el método que prefieras para comenzar</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-800/50 rounded-2xl p-6 border border-blue-500/50 text-center">
+              <div className="text-4xl mb-4">🔑</div>
+              <h3 className="text-xl font-bold text-blue-400 mb-3">Código de Activación</h3>
+              <p className="text-gray-300 mb-4">Usa un código de activación para acceso inmediato</p>
+              <a
+                href="/activate"
+                className="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition-colors"
+              >
+                Activar Código
+              </a>
+            </div>
+            
+            <div className="bg-gray-800/50 rounded-2xl p-6 border border-green-500/50 text-center">
+              <div className="text-4xl mb-4">📝</div>
+              <h3 className="text-xl font-bold text-green-400 mb-3">Crear Cuenta</h3>
+              <p className="text-gray-300 mb-4">Regístrate con email y contraseña para acceso completo</p>
+              <a
+                href="/auth/register"
+                className="inline-block bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors"
+              >
+                Crear Cuenta
+              </a>
+            </div>
+            
+            <div className="bg-gray-800/50 rounded-2xl p-6 border border-purple-500/50 text-center">
+              <div className="text-4xl mb-4">🔐</div>
+              <h3 className="text-xl font-bold text-purple-400 mb-3">Iniciar Sesión</h3>
+              <p className="text-gray-300 mb-4">Si ya tienes cuenta, inicia sesión aquí</p>
+              <a
+                href="/auth/login"
+                className="inline-block bg-purple-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-600 transition-colors"
+              >
+                Iniciar Sesión
+              </a>
+            </div>
           </div>
         </div>
       </div>
