@@ -21,56 +21,78 @@ export default function HomeEn() {
               AI-Powered Lottery Prediction System
             </p>
             
-            {/* Anbel AI Agent - The Brain */}
-            <div className="bg-gradient-to-r from-purple-600/30 to-blue-600/30 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-white/20 max-w-5xl mx-auto">
-              <div className="flex items-center justify-center mb-6">
-                <div className="relative">
-                  <Brain className="w-24 h-24 text-purple-400" />
-                  <div className="absolute -top-3 -right-3 w-10 h-10 bg-green-400 rounded-full animate-pulse flex items-center justify-center">
-                    <Crown className="w-6 h-6 text-white" />
-                  </div>
-                </div>
-              </div>
-              
-              <h2 className="text-5xl font-bold text-white mb-4">
-                🧠 ANBEL AI AGENT - THE BRAIN
+            {/* How Predictions Work */}
+            <div className="bg-gradient-to-r from-gold/20 to-yellow-400/20 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-gold/30 max-w-6xl mx-auto">
+              <h2 className="text-4xl font-bold text-gold mb-6 text-center">
+                🎯 HOW DO PREDICTIONS WORK?
               </h2>
-              <p className="text-2xl text-purple-200 mb-6">
-                The world's most intelligent AI agent for lottery predictions
-              </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <Crown className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Super Intelligent</h3>
-                  <p className="text-sm text-gray-300">25+ advanced capabilities with Machine Learning and Deep Learning</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">🧠 Advanced Artificial Intelligence</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>Machine Learning:</strong> Analyzes patterns from 10+ years of historical data</li>
+                    <li>• <strong>Deep Learning:</strong> Neural networks that identify hidden trends</li>
+                    <li>• <strong>Mathematical Algorithms:</strong> Advanced statistical probability calculations</li>
+                    <li>• <strong>Predictive Analysis:</strong> Predicts numbers based on real patterns</li>
+                  </ul>
                 </div>
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <Target className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Real Predictions</h3>
-                  <p className="text-sm text-gray-300">Mathematical algorithms with historical data from 100+ draws</p>
-                </div>
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <MessageCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Smart Chat</h3>
-                  <p className="text-sm text-gray-300">Real-time responses with advanced predictive analysis</p>
+                
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">📊 Analysis Process</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>Data Collection:</strong> Real-time data from 9 international lotteries</li>
+                    <li>• <strong>Processing:</strong> Analysis of frequencies, patterns and trends</li>
+                    <li>• <strong>Validation:</strong> Cross-verification with multiple algorithms</li>
+                    <li>• <strong>Accuracy:</strong> 95% precision in verified predictions</li>
+                  </ul>
                 </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="text-center">
                 <Link
-                  href="/anbel-ai-en"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-10 py-5 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105 text-xl"
+                  href="/activate"
+                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-gold/50"
                 >
-                  <Bot className="w-8 h-8" />
-                  <span>TRY ANBEL AI AGENT</span>
+                  🔑 ACTIVATE ACCOUNT TO SEE PREDICTIONS
                 </Link>
+              </div>
+            </div>
+
+            {/* How Anbel Agent Works */}
+            <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-purple-400/30 max-w-6xl mx-auto">
+              <h2 className="text-4xl font-bold text-purple-400 mb-6 text-center">
+                🤖 HOW DOES ANBEL AGENT WORK?
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">💬 Smart Chat</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>Natural Conversation:</strong> Speaks like a lottery expert</li>
+                    <li>• <strong>Personalized Analysis:</strong> Specific answers for your situation</li>
+                    <li>• <strong>Real Time:</strong> Instant prediction updates</li>
+                    <li>• <strong>Strategies:</strong> Teaches you the best playing techniques</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">🎯 Advanced Capabilities</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>25+ Functions:</strong> From basic analysis to complex strategies</li>
+                    <li>• <strong>Database:</strong> Access to millions of historical combinations</li>
+                    <li>• <strong>Specific Predictions:</strong> Personalized numbers for each lottery</li>
+                    <li>• <strong>24/7 Advisory:</strong> Always available to help you</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="text-center">
                 <Link
-                  href="/predictions-preview-en"
-                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105 text-xl"
+                  href="/activate"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-10 py-5 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-purple-500/50"
                 >
-                  <Target className="w-8 h-8" />
-                  <span>VIEW PREDICTIONS</span>
+                  🧠 ACTIVATE ACCOUNT TO CHAT WITH ANBEL
                 </Link>
               </div>
             </div>
@@ -82,51 +104,30 @@ export default function HomeEn() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/predictions-preview-en"
-                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-xl text-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-gold/50 border-2 border-yellow-300"
-              >
-                🎯 FEATURED PREDICTIONS
-              </Link>
-              <Link
-                href="/dashboard-en"
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-8 py-4 rounded-xl text-xl hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-yellow-500/50"
-              >
-                🚀 View Dashboard
-              </Link>
-              <Link
                 href="/activate"
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold px-8 py-4 rounded-xl text-xl hover:from-blue-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-blue-500/50"
+                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl text-2xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-gold/50 border-2 border-yellow-300"
               >
-                🔑 Activate Code
+                🔑 ACTIVATE ACCOUNT
               </Link>
-            </div>
-            
-            {/* Access Methods */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="/auth/register"
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/50"
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-10 py-5 rounded-xl text-2xl hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-green-500/50"
               >
-                📝 Create Account
+                📝 CREATE ACCOUNT
               </Link>
               <Link
                 href="/auth/login"
-                className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-purple-400 hover:to-purple-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold px-10 py-5 rounded-xl text-2xl hover:from-blue-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-blue-500/50"
               >
-                🔐 Sign In
-              </Link>
-              <Link
-                href="/register"
-                className="bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                📋 Alternative Registration
+                🔐 SIGN IN
               </Link>
             </div>
+            
           </div>
         </div>
       </div>
 
-      {/* Access Methods */}
+      {/* Simplified Access Methods */}
       <div className="py-16 bg-gradient-to-r from-blue-900/30 to-purple-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -143,21 +144,15 @@ export default function HomeEn() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800/50 rounded-2xl p-6 border border-blue-500/50 text-center">
+            <div className="bg-gray-800/50 rounded-2xl p-6 border border-gold/50 text-center">
               <div className="text-4xl mb-4">🔑</div>
-              <h3 className="text-xl font-bold text-blue-400 mb-3">Activation Code</h3>
-              <p className="text-gray-300 mb-4">Use an activation code for immediate access</p>
+              <h3 className="text-xl font-bold text-gold mb-3">Activation Code</h3>
+              <p className="text-gray-300 mb-4">Use an activation code for immediate access to all features</p>
               <Link
                 href="/activate"
-                className="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition-colors"
+                className="inline-block bg-gold text-black px-8 py-4 rounded-lg font-bold hover:bg-yellow-400 transition-colors text-lg"
               >
-                Activate Code
-              </Link>
-              <Link
-                href="/predictions-preview-en"
-                className="inline-block bg-gold text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-colors ml-2"
-              >
-                View Predictions
+                ACTIVATE CODE
               </Link>
             </div>
             
@@ -167,21 +162,21 @@ export default function HomeEn() {
               <p className="text-gray-300 mb-4">Register with email and password for full access</p>
               <Link
                 href="/auth/register"
-                className="inline-block bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors"
+                className="inline-block bg-green-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-green-600 transition-colors text-lg"
               >
-                Create Account
+                CREATE ACCOUNT
               </Link>
             </div>
             
-            <div className="bg-gray-800/50 rounded-2xl p-6 border border-purple-500/50 text-center">
+            <div className="bg-gray-800/50 rounded-2xl p-6 border border-blue-500/50 text-center">
               <div className="text-4xl mb-4">🔐</div>
-              <h3 className="text-xl font-bold text-purple-400 mb-3">Sign In</h3>
+              <h3 className="text-xl font-bold text-blue-400 mb-3">Sign In</h3>
               <p className="text-gray-300 mb-4">If you already have an account, sign in here</p>
               <Link
                 href="/auth/login"
-                className="inline-block bg-purple-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-600 transition-colors"
+                className="inline-block bg-blue-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-blue-600 transition-colors text-lg"
               >
-                Sign In
+                SIGN IN
               </Link>
             </div>
           </div>

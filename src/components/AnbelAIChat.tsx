@@ -192,7 +192,7 @@ export default function AnbelAIChat({
     return (
       <div className="fixed bottom-4 right-4 z-50">
         <div className="bg-red-600 text-white p-4 rounded-lg shadow-lg max-w-sm">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 mb-3">
             <AlertCircle className="w-6 h-6" />
             <div>
               <p className="font-semibold">
@@ -203,6 +203,12 @@ export default function AnbelAIChat({
               </p>
             </div>
           </div>
+          <a
+            href="/activate"
+            className="block w-full bg-gold text-black text-center py-2 px-4 rounded-lg font-bold hover:bg-yellow-400 transition-colors"
+          >
+            {language === 'es' ? '🔑 ACTIVAR CUENTA' : '🔑 ACTIVATE ACCOUNT'}
+          </a>
         </div>
       </div>
     );

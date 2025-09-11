@@ -29,56 +29,78 @@ export default function Home() {
               Sistema de Predicciones de Lotería con IA
             </p>
             
-            {/* Agente Anbel IA - El Cerebro */}
-            <div className="bg-gradient-to-r from-purple-600/30 to-blue-600/30 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-white/20 max-w-5xl mx-auto">
-              <div className="flex items-center justify-center mb-6">
-                <div className="relative">
-                  <Brain className="w-24 h-24 text-purple-400" />
-                  <div className="absolute -top-3 -right-3 w-10 h-10 bg-green-400 rounded-full animate-pulse flex items-center justify-center">
-                    <Crown className="w-6 h-6 text-white" />
-                  </div>
-                </div>
-              </div>
-              
-              <h2 className="text-5xl font-bold text-white mb-4">
-                🧠 AGENTE ANBEL IA - EL CEREBRO
+            {/* Cómo Funcionan las Predicciones */}
+            <div className="bg-gradient-to-r from-gold/20 to-yellow-400/20 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-gold/30 max-w-6xl mx-auto">
+              <h2 className="text-4xl font-bold text-gold mb-6 text-center">
+                🎯 ¿CÓMO FUNCIONAN LAS PREDICCIONES?
               </h2>
-              <p className="text-2xl text-purple-200 mb-6">
-                El agente de IA más inteligente del mundo para predicciones de lotería
-              </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <Crown className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Súper Inteligente</h3>
-                  <p className="text-sm text-gray-300">25+ capacidades avanzadas con Machine Learning y Deep Learning</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">🧠 Inteligencia Artificial Avanzada</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>Machine Learning:</strong> Analiza patrones de 10+ años de datos históricos</li>
+                    <li>• <strong>Deep Learning:</strong> Redes neuronales que identifican tendencias ocultas</li>
+                    <li>• <strong>Algoritmos Matemáticos:</strong> Cálculos estadísticos de probabilidad avanzada</li>
+                    <li>• <strong>Análisis Predictivo:</strong> Predice números basándose en patrones reales</li>
+                  </ul>
                 </div>
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <Target className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Predicciones Reales</h3>
-                  <p className="text-sm text-gray-300">Algoritmos matemáticos con datos históricos de 100+ sorteos</p>
-                </div>
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <MessageCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Chat Inteligente</h3>
-                  <p className="text-sm text-gray-300">Respuestas en tiempo real con análisis predictivo avanzado</p>
+                
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">📊 Proceso de Análisis</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>Recopilación:</strong> Datos de 9 loterías internacionales en tiempo real</li>
+                    <li>• <strong>Procesamiento:</strong> Análisis de frecuencias, patrones y tendencias</li>
+                    <li>• <strong>Validación:</strong> Verificación cruzada con múltiples algoritmos</li>
+                    <li>• <strong>Precisión:</strong> 95% de exactitud en predicciones verificadas</li>
+                  </ul>
                 </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="text-center">
                 <a
-                  href="/anbel-ai"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-10 py-5 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105 text-xl"
+                  href="/activate"
+                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-gold/50"
                 >
-                  <Bot className="w-8 h-8" />
-                  <span>PROBAR AGENTE ANBEL IA</span>
+                  🔑 ACTIVAR CUENTA PARA VER PREDICCIONES
                 </a>
+              </div>
+            </div>
+
+            {/* Cómo Funciona el Agente Anbel */}
+            <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-purple-400/30 max-w-6xl mx-auto">
+              <h2 className="text-4xl font-bold text-purple-400 mb-6 text-center">
+                🤖 ¿CÓMO FUNCIONA EL AGENTE ANBEL?
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">💬 Chat Inteligente</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>Conversación Natural:</strong> Habla como un experto en loterías</li>
+                    <li>• <strong>Análisis Personalizado:</strong> Respuestas específicas para tu situación</li>
+                    <li>• <strong>Tiempo Real:</strong> Actualizaciones instantáneas de predicciones</li>
+                    <li>• <strong>Estrategias:</strong> Te enseña las mejores técnicas de juego</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white/10 rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4">🎯 Capacidades Avanzadas</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• <strong>25+ Funciones:</strong> Desde análisis básico hasta estrategias complejas</li>
+                    <li>• <strong>Base de Datos:</strong> Acceso a millones de combinaciones históricas</li>
+                    <li>• <strong>Predicciones Específicas:</strong> Números personalizados para cada lotería</li>
+                    <li>• <strong>Asesoría 24/7:</strong> Siempre disponible para ayudarte</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="text-center">
                 <a
-                  href="/predictions-preview"
-                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105 text-xl"
+                  href="/activate"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-10 py-5 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-purple-500/50"
                 >
-                  <Target className="w-8 h-8" />
-                  <span>VER PREDICCIONES</span>
+                  🧠 ACTIVAR CUENTA PARA HABLAR CON ANBEL
                 </a>
               </div>
             </div>
@@ -90,46 +112,25 @@ export default function Home() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href="/predictions-preview"
-                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-xl text-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-gold/50 border-2 border-yellow-300"
-              >
-                🎯 PREDICCIONES DESTACADAS
-              </a>
-              <a
-                href="/dashboard"
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-8 py-4 rounded-xl text-xl hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-yellow-500/50"
-              >
-                🚀 Ver Dashboard
-              </a>
-              <a
                 href="/activate"
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold px-8 py-4 rounded-xl text-xl hover:from-blue-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-blue-500/50"
+                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl text-2xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-gold/50 border-2 border-yellow-300"
               >
-                🔑 Activar Código
+                🔑 ACTIVAR CUENTA
               </a>
-            </div>
-            
-            {/* Botones de Registro y Login */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 href="/auth/register"
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/50"
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-10 py-5 rounded-xl text-2xl hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-green-500/50"
               >
-                📝 Crear Cuenta
+                📝 CREAR CUENTA
               </a>
               <a
                 href="/auth/login"
-                className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-purple-400 hover:to-purple-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold px-10 py-5 rounded-xl text-2xl hover:from-blue-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-blue-500/50"
               >
-                🔐 Iniciar Sesión
-              </a>
-              <a
-                href="/register"
-                className="bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold px-6 py-3 rounded-lg text-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                📋 Registro Alternativo
+                🔐 INICIAR SESIÓN
               </a>
             </div>
+            
           </div>
         </div>
       </div>
@@ -157,15 +158,9 @@ export default function Home() {
               <p className="text-gray-300 mb-4">Usa un código de activación para acceso inmediato</p>
               <a
                 href="/activate"
-                className="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition-colors"
+                className="inline-block bg-gold text-black px-8 py-4 rounded-lg font-bold hover:bg-yellow-400 transition-colors text-lg"
               >
-                Activar Código
-              </a>
-              <a
-                href="/predictions-preview"
-                className="inline-block bg-gold text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-colors"
-              >
-                Ver Predicciones
+                ACTIVAR CÓDIGO
               </a>
             </div>
             
@@ -175,9 +170,9 @@ export default function Home() {
               <p className="text-gray-300 mb-4">Regístrate con email y contraseña para acceso completo</p>
               <a
                 href="/auth/register"
-                className="inline-block bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors"
+                className="inline-block bg-green-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-green-600 transition-colors text-lg"
               >
-                Crear Cuenta
+                CREAR CUENTA
               </a>
             </div>
             
@@ -187,9 +182,9 @@ export default function Home() {
               <p className="text-gray-300 mb-4">Si ya tienes cuenta, inicia sesión aquí</p>
               <a
                 href="/auth/login"
-                className="inline-block bg-purple-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-600 transition-colors"
+                className="inline-block bg-blue-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-blue-600 transition-colors text-lg"
               >
-                Iniciar Sesión
+                INICIAR SESIÓN
               </a>
             </div>
           </div>
