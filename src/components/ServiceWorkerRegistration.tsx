@@ -8,8 +8,7 @@ export default function ServiceWorkerRegistration() {
     return null;
   }
   
-  // TEMPORAL: Deshabilitar SW hasta que Vercel se actualice completamente
-  return null;
+  // Service Worker reactivado con configuración corregida
   const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
 
   useEffect(() => {
@@ -20,8 +19,10 @@ export default function ServiceWorkerRegistration() {
 
   const registerServiceWorker = async () => {
     try {
-      // Forzar actualización del SW tras deploys cambiando el query param
-      const swRegistration = await navigator.serviceWorker.register('/sw.js?v=2');
+      // Registrar Service Worker con configuración corregida
+      const swRegistration = await navigator.serviceWorker.register('/sw-simple.js', {
+        scope: '/',
+      });
       setRegistration(swRegistration);
       console.log('Service Worker registrado:', swRegistration);
 

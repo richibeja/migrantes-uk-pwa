@@ -71,14 +71,52 @@ export default function ActivatePage() {
     setError('');
 
     try {
-      // Usar el sistema frontend que SÍ funciona
-      const result = frontendCodeSystem.validateCode(code.toUpperCase());
+      const codeToValidate = code.toUpperCase();
+      let result = null;
+      let userData = null;
 
+      // 1. Primero intentar con el sistema frontend
+      result = frontendCodeSystem.validateCode(codeToValidate);
+      
       if (result.valid) {
+        userData = result.userData;
+      } else {
+        // 2. Si no funciona, intentar con códigos del admin (localStorage)
+        const adminCodes = JSON.parse(localStorage.getItem('ganaFacilActivationCodes') || '[]');
+        const adminCode = adminCodes.find((c: any) => c.code === codeToValidate && !c.used);
+        
+        if (adminCode) {
+          // Marcar como usado
+          adminCode.used = true;
+          adminCode.usedAt = new Date().toISOString();
+          adminCode.usedBy = 'usuario@ganafacil.com';
+          localStorage.setItem('ganaFacilActivationCodes', JSON.stringify(adminCodes));
+          
+          // Crear datos de usuario
+          userData = {
+            id: `user_${Date.now()}`,
+            email: adminCode.email,
+            name: adminCode.email.split('@')[0],
+            plan: adminCode.plan,
+            activated: true,
+            activatedAt: new Date().toISOString(),
+            method: 'admin_code',
+            code: codeToValidate
+          };
+          
+          // Guardar en localStorage
+          localStorage.setItem('ganaFacilUser', JSON.stringify(userData));
+          localStorage.setItem('ganafacil_activated', 'true');
+          
+          result = { valid: true, message: 'Cuenta activada exitosamente' };
+        }
+      }
+
+      if (result && result.valid && userData) {
         setIsActivated(true);
         setUserInfo({
-          name: result.userData!.name,
-          email: result.userData!.email,
+          name: userData.name,
+          email: userData.email,
           phone: ''
         });
         
@@ -87,7 +125,7 @@ export default function ActivatePage() {
           window.location.href = '/dashboard';
         }, 2000);
       } else {
-        setError(result.message);
+        setError(result?.message || 'Código no válido');
       }
       
     } catch (error) {
