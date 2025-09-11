@@ -56,6 +56,10 @@
     {
       "source": "/sw-simple.js",
       "destination": "/sw-simple.js"
+    },
+    {
+      "source": "/test-sw.js",
+      "destination": "/test-sw.js"
     }
   ],
   "env": {

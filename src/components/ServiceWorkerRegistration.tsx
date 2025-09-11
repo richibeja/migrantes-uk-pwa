@@ -19,8 +19,9 @@ export default function ServiceWorkerRegistration() {
 
   const registerServiceWorker = async () => {
     try {
-      // Registrar Service Worker con ruta correcta para Vercel
-      const swRegistration = await navigator.serviceWorker.register('/sw.js', {
+      // Registrar Service Worker con parámetro de versión para forzar actualización
+      const version = Date.now(); // Usar timestamp para forzar actualización
+      const swRegistration = await navigator.serviceWorker.register(`/sw.js?v=${version}`, {
         scope: '/',
       });
       console.log('✅ Service Worker registrado correctamente:', swRegistration);
