@@ -89,10 +89,10 @@ export default function HomeEn() {
               
               <div className="text-center">
                 <Link
-                  href="/activate"
+                  href="/anbel-ai-en"
                   className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-10 py-5 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-purple-500/50"
                 >
-                  🧠 ACTIVATE ACCOUNT TO CHAT WITH ANBEL
+                  🧠 CHAT WITH ANBEL AI
                 </Link>
               </div>
             </div>
