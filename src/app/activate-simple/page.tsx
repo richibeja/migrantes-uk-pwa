@@ -27,6 +27,7 @@ export default function ExcelActivatePage() {
   });
   const [intentosFallidos, setIntentosFallidos] = useState(0);
   const [showCodes, setShowCodes] = useState(false);
+  const [countdown, setCountdown] = useState(3);
 
   const MAX_INTENTOS = 3;
 
@@ -130,10 +131,18 @@ export default function ExcelActivatePage() {
     setIntentosFallidos(0); // Reset intentos en éxito
     setIsLoading(false);
 
-    // Redirigir automáticamente después de 2 segundos
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 2000);
+    // Iniciar countdown y redirección
+    setCountdown(3);
+    const countdownInterval = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(countdownInterval);
+          window.location.replace('/dashboard');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
 
   const handleExport = () => {
@@ -178,7 +187,7 @@ export default function ExcelActivatePage() {
             Plan: <span className="text-purple-400 font-bold">{userInfo.plan.toUpperCase()}</span>
           </p>
           <p className="text-gray-400 text-sm mb-4">
-            Redirigiendo al dashboard en unos segundos...
+            Redirigiendo al dashboard en <span className="text-green-400 font-bold text-lg">{countdown}</span> segundos...
           </p>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-6"></div>
           <div className="space-y-3">
