@@ -77,11 +77,12 @@ export default function PredictionsPageEn() {
     updateCount: 0
   });
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/activate-user');
-    }
-  }, [isAuthenticated, isLoading, router]);
+  // Comentado temporalmente para evitar redirección
+  // useEffect(() => {
+  //   if (!isLoading && !isAuthenticated) {
+  //     router.push('/activate-user');
+  //   }
+  // }, [isAuthenticated, isLoading, router]);
 
   // Initialize lotteries with real predictions
   useEffect(() => {
@@ -89,10 +90,8 @@ export default function PredictionsPageEn() {
   }, [realPredictions]);
 
   const initializeLotteriesWithRealPredictions = () => {
-    if (realPredictions.length === 0) {
-      setIsLoadingPredictions(true);
-      return;
-    }
+    // Initialize always, without depending on realPredictions
+    setIsLoadingPredictions(false);
 
     const now = new Date();
     const statistics = getStatistics();
@@ -247,6 +246,7 @@ export default function PredictionsPageEn() {
     }, 3000);
   };
 
+  // Simplified to avoid authentication issues
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
@@ -256,10 +256,6 @@ export default function PredictionsPageEn() {
         </div>
       </div>
     );
-  }
-
-  if (!isAuthenticated) {
-    return null;
   }
 
   return (

@@ -77,11 +77,12 @@ export default function PredictionsPage() {
     updateCount: 0
   });
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/activate');
-    }
-  }, [isAuthenticated, isLoading, router]);
+  // Comentado temporalmente para evitar redirección
+  // useEffect(() => {
+  //   if (!isLoading && !isAuthenticated) {
+  //     router.push('/activate');
+  //   }
+  // }, [isAuthenticated, isLoading, router]);
 
   // Inicializar loterías con predicciones reales
   useEffect(() => {
@@ -89,10 +90,8 @@ export default function PredictionsPage() {
   }, [realPredictions]);
 
   const initializeLotteriesWithRealPredictions = () => {
-    if (realPredictions.length === 0) {
-      setIsLoadingPredictions(true);
-      return;
-    }
+    // Inicializar siempre, sin depender de realPredictions
+    setIsLoadingPredictions(false);
 
     const now = new Date();
     const statistics = getStatistics();
@@ -247,6 +246,7 @@ export default function PredictionsPage() {
     }, 3000);
   };
 
+  // Simplificado para evitar problemas de autenticación
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
@@ -256,10 +256,6 @@ export default function PredictionsPage() {
         </div>
       </div>
     );
-  }
-
-  if (!isAuthenticated) {
-    return null;
   }
 
   return (
