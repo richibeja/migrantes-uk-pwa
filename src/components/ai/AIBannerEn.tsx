@@ -10,6 +10,8 @@ interface AIBannerProps {
 }
 
 export default function AIBannerEn({ onOpenAI, isVisible = true, onClose }: AIBannerProps) {
+  if (!isVisible) return null;
+
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentFeature, setCurrentFeature] = useState(0);
 
@@ -23,16 +25,12 @@ export default function AIBannerEn({ onOpenAI, isVisible = true, onClose }: AIBa
   ];
 
   useEffect(() => {
-    if (isVisible) {
-      setIsAnimating(true);
-      const interval = setInterval(() => {
-        setCurrentFeature(prev => (prev + 1) % features.length);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [isVisible, features.length]);
-
-  if (!isVisible) return null;
+    setIsAnimating(true);
+    const interval = setInterval(() => {
+      setCurrentFeature(prev => (prev + 1) % features.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [features.length]);
 
   return (
     <div className={`fixed top-0 left-0 right-0 z-50 transform transition-all duration-500 ${
