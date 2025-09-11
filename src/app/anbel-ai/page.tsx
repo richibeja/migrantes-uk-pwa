@@ -80,7 +80,7 @@ export default function AnbelAIPage() {
   // Initialize with welcome message
   useEffect(() => {
     const initializeChat = () => {
-      if (messages.length === 0 && user) {
+      if (messages.length === 0) {
         const welcomeMessage: ChatMessage = {
           id: '1',
           type: 'anbel',
@@ -95,7 +95,7 @@ export default function AnbelAIPage() {
     // Use setTimeout to ensure this runs after component mount
     const timer = setTimeout(initializeChat, 100);
     return () => clearTimeout(timer);
-  }, [user]); // Only depend on user
+  }, []); // Empty dependency array to run only once
 
   const handlePredictionGenerated = (prediction: any) => {
     console.log('Prediction generated:', prediction);

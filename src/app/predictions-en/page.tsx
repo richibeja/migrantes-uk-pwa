@@ -82,7 +82,7 @@ export default function PredictionsPageEn() {
     if (!isLoading && !isAuthenticated) {
       router.push('/activate');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading]); // Removed router dependency
 
   // Initialize lotteries with real predictions
   useEffect(() => {
