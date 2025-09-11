@@ -7,6 +7,9 @@ export default function ServiceWorkerRegistration() {
   if (process.env.NODE_ENV !== 'production') {
     return null;
   }
+  
+  // TEMPORAL: Deshabilitar SW hasta que Vercel se actualice completamente
+  return null;
   const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
 
   useEffect(() => {
