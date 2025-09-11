@@ -59,7 +59,6 @@ src/
     notifications.ts
     ocr/mrz.ts
 public/
-  firebase-messaging-sw.js
 ```
 
 ## Variables de entorno (.env.local)
@@ -117,7 +116,6 @@ Reemplaza la imagen por `public/screenshots/demo.gif` cuando esté disponible.
 ## PWA y caché
 
 - Add to Home Screen en iOS/Android (A2hsHint)
-- Service Worker de FCM: `public/firebase-messaging-sw.js`
 - next-pwa con RuntimeCaching para imágenes, fuentes y rutas clave
 - Verificado modo offline básico (datos guardados localmente)
 

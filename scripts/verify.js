@@ -62,11 +62,9 @@ const requiredFiles = [
   'tsconfig.json',
   'vercel.json',
   'public/manifest.json',
-  'public/sw.js',
   'src/app/layout.tsx',
   'src/app/page.tsx',
   'src/app/globals.css',
-  'src/components/ServiceWorkerRegistration.tsx',
   'src/components/WhatsAppButton.tsx',
   'src/components/PayPalButton.tsx',
   'src/components/LanguageSelector.tsx',
@@ -133,18 +131,7 @@ try {
   logError('Error leyendo tailwind.config.ts');
 }
 
-// Verificar Service Worker
-log('\n🔧 VERIFICANDO SERVICE WORKER', 'bright');
-try {
-  const swFile = fs.readFileSync('public/sw.js', 'utf8');
-  if (swFile.includes('CACHE_NAME') && swFile.includes('install') && swFile.includes('fetch')) {
-    logSuccess('Service Worker implementado correctamente');
-  } else {
-    logWarning('Service Worker puede estar incompleto');
-  }
-} catch (error) {
-  logError('Error leyendo public/sw.js');
-}
+// Service Worker removido del proyecto
 
 // Verificar manifest.json
 log('\n📱 VERIFICANDO MANIFEST PWA', 'bright');
@@ -176,7 +163,6 @@ try {
 // Verificar componentes principales
 log('\n🧩 VERIFICANDO COMPONENTES PRINCIPALES', 'bright');
 const components = [
-  'ServiceWorkerRegistration',
   'WhatsAppButton', 
   'PayPalButton',
   'LanguageSelector',
@@ -306,7 +292,7 @@ log('\n📋 PRÓXIMOS PASOS RECOMENDADOS:', 'bright');
 log('1. Ejecutar: npm run dev', 'cyan');
 log('2. Verificar que no hay errores en la consola del navegador', 'cyan');
 log('3. Probar todas las funcionalidades principales', 'cyan');
-log('4. Verificar PWA y Service Worker', 'cyan');
+log('4. Verificar PWA', 'cyan');
 log('5. Ejecutar: npm run build (para producción)', 'cyan');
 
 log('\n🚀 ¡GANAFÁCIL ESTÁ CASI LISTO!', 'green');

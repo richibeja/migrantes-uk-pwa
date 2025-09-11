@@ -390,8 +390,8 @@ export default function AdminClient() {
           </div>
 
           <div className="flex gap-4 mb-6 flex-wrap">
-            <button onClick={generateCode} className="bg-gradient-to-r from-gold to-yellow-500 text-black font-bold py-3 px-6 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105">🎯 Generar Nuevo Código</button>
-            <a href="/admin/generate-codes-frontend" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">📧 Generar Códigos Frontend</a>
+            <a href="/admin/codes" className="bg-gradient-to-r from-gold to-yellow-500 text-black font-bold py-3 px-6 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105">🔑 Ver Códigos de Activación</a>
+            <a href="/admin-simple" className="bg-gradient-to-r from-green-600 to-green-500 text-white font-bold py-3 px-6 rounded-lg hover:from-green-500 hover:to-green-400 transition-all duration-300 transform hover:scale-105">📊 Admin Simple (Excel)</a>
             <button onClick={clearCodes} className="bg-gradient-to-r from-red-600 to-red-700 text-white font-bold py-3 px-6 rounded-lg hover:from-red-500 hover:to-red-600 transition-all duration-300">🗑️ Limpiar Códigos</button>
             <button onClick={refreshCloudCodes} className="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-500 hover:to-blue-600 transition-all duration-300">🔄 Actualizar Códigos (Cloud)</button>
           </div>

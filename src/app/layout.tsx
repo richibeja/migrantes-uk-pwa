@@ -2,10 +2,8 @@ import { Metadata, type Viewport } from 'next';
 import { cookies } from 'next/headers';
 import { getDictionary } from '@/i18n/dictionaries';
 import './globals.css';
-import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import { I18nProvider } from '@/components/I18nProvider';
 import LanguageToggle from '@/components/LanguageToggle';
-import PushNotifications from '@/components/PushNotifications';
 
 export function generateMetadata(): Metadata {
   // Para exportación estática, usamos configuración por defecto
@@ -62,9 +60,7 @@ export default function RootLayout({
           <main id="main" tabIndex={-1}>
             {children}
           </main>
-          <PushNotifications />
         </I18nProvider>
-        <ServiceWorkerRegistration />
       </body>
     </html>
   );

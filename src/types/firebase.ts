@@ -1,21 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
-// Interfaces para casos de soporte
-export interface SupportCase {
-  id: string;
-  userId: string;
-  subject: string;
-  description: string;
-  status: 'open' | 'in_progress' | 'resolved' | 'closed' | 'pagado';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-  assignedTo?: string;
-  // Propiedades adicionales para compatibilidad
-  title?: string;
-  caseCode?: string;
-  amount?: number;
-}
+// Interfaces para casos de soporte - ELIMINADO (no es de lotería)
 
 // Interfaces para usuarios
 export interface User {

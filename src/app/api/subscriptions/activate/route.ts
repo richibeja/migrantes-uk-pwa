@@ -1,9 +1,16 @@
-// API para activar suscripciones
+// API para activar suscripciones - TEMPORALMENTE DESHABILITADA
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/config/firebase';
-import { collection, addDoc, setDoc, doc, serverTimestamp } from 'firebase/firestore';
+// import { db } from '@/config/firebase';
+// import { collection, addDoc, setDoc, doc, serverTimestamp } from 'firebase/firestore';
 
 export async function POST(request: NextRequest) {
+  // TEMPORALMENTE DESHABILITADA - Firebase API Key Error
+  return NextResponse.json({ 
+    success: false, 
+    error: 'API temporalmente deshabilitada' 
+  }, { status: 503 });
+  
+  /* CÓDIGO ORIGINAL COMENTADO
   try {
     const {
       userId,
@@ -75,4 +82,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+  */
 }

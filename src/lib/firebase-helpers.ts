@@ -13,7 +13,6 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { 
-  SupportCase, 
   User, 
   Payment, 
   FormData, 
@@ -84,14 +83,7 @@ export const getDocuments = async <T>(
 };
 
 // Funciones específicas para cada colección
-export const getSupportCase = async (caseId: string): Promise<SupportCase | null> => {
-  return await getDocument<SupportCase>('cases', caseId);
-};
-
-export const getSupportCases = async (userId?: string): Promise<SupportCase[]> => {
-  const constraints = userId ? [where('userId', '==', userId)] : [];
-  return await getDocuments<SupportCase>('cases', constraints);
-};
+// Funciones de casos eliminadas (no es de lotería)
 
 export const getUser = async (userId: string): Promise<User | null> => {
   return await getDocument<User>('users', userId);
