@@ -77,12 +77,12 @@ export default function PredictionsPage() {
     updateCount: 0
   });
 
-  // Comentado temporalmente para evitar redirección
-  // useEffect(() => {
-  //   if (!isLoading && !isAuthenticated) {
-  //     router.push('/activate');
-  //   }
-  // }, [isAuthenticated, isLoading, router]);
+  // Verificar autenticación - las predicciones requieren activación
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/activate');
+    }
+  }, [isAuthenticated, isLoading, router]);
 
   // Inicializar loterías con predicciones reales
   useEffect(() => {

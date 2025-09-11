@@ -77,12 +77,12 @@ export default function PredictionsPageEn() {
     updateCount: 0
   });
 
-  // Comentado temporalmente para evitar redirección
-  // useEffect(() => {
-  //   if (!isLoading && !isAuthenticated) {
-  //     router.push('/activate-user');
-  //   }
-  // }, [isAuthenticated, isLoading, router]);
+  // Verificar autenticación - las predicciones requieren activación
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/activate-user');
+    }
+  }, [isAuthenticated, isLoading, router]);
 
   // Initialize lotteries with real predictions
   useEffect(() => {

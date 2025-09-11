@@ -74,7 +74,7 @@ export default function Home() {
                   <span>PROBAR AGENTE ANBEL IA</span>
                 </a>
                 <a
-                  href="/predictions"
+                  href="/predictions-preview"
                   className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105 text-xl"
                 >
                   <Target className="w-8 h-8" />
@@ -90,7 +90,7 @@ export default function Home() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href="/predictions"
+                href="/predictions-preview"
                 className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-xl text-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-gold/50 border-2 border-yellow-300"
               >
                 🎯 PREDICCIONES DESTACADAS
@@ -152,6 +152,12 @@ export default function Home() {
                 className="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition-colors"
               >
                 Activar Código
+              </a>
+              <a
+                href="/predictions-preview"
+                className="inline-block bg-gold text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-colors"
+              >
+                Ver Predicciones
               </a>
             </div>
             
