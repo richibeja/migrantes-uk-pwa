@@ -34,7 +34,7 @@ export default function AnbelAIPageEn() {
   }
 
   if (!isAuthenticated) {
-    router.push('/activate-user');
+    router.push('/activate');
     return null;
   }
 

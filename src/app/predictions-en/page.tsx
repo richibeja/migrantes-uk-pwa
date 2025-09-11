@@ -80,7 +80,7 @@ export default function PredictionsPageEn() {
   // Verificar autenticación - las predicciones requieren activación
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/activate-user');
+      router.push('/activate');
     }
   }, [isAuthenticated, isLoading, router]);
 
