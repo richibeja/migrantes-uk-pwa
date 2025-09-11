@@ -171,7 +171,7 @@ export default function DashboardClient() {
     };
 
     checkActivation();
-  }, [router, BYPASS_PAYWALL, forceActive]);
+  }, []); // Empty dependency array to run only once
 
   // Mobile detection
   useEffect(() => {

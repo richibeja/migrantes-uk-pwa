@@ -1379,7 +1379,7 @@ export default function DashboardPage() {
     }, 30000);
     
     return () => clearInterval(interval);
-  }, [isLive]);
+  }, []); // Empty dependency array to run only once
 
   // Verificar autenticación basada en localStorage
   const [isLocalAuthenticated, setIsLocalAuthenticated] = useState(false);

@@ -85,8 +85,13 @@ export default function AnbelAIChat({
 
   // Auto-scroll al final
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const timer = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array to run only once
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || !isActive) return;
