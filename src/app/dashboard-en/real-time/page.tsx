@@ -14,7 +14,7 @@ export default function RealTimeDashboardEn() {
     if (!isLoading && !isAuthenticated) {
       router.push('/activate-user');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading]); // Removed router dependency
 
   if (isLoading) {
     return (

@@ -61,10 +61,15 @@ export default function AnbelAIDashboard({
 
   // Cargar dashboard inteligente
   useEffect(() => {
-    if (isActive && !isInitializing) {
-      loadDashboard();
-    }
-  }, [isActive, isInitializing, userId]);
+    const initializeDashboard = () => {
+      if (isActive && !isInitializing) {
+        loadDashboard();
+      }
+    };
+
+    const timer = setTimeout(initializeDashboard, 100);
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array to run only once
 
   const loadDashboard = async () => {
     try {

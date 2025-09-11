@@ -57,26 +57,31 @@ export default function AnbelAIChat({
 
   // Mensaje de bienvenida
   useEffect(() => {
-    if (isActive && !isInitializing) {
-      const welcomeMessage: ChatMessage = {
-        id: 'welcome',
-        type: 'anbel',
-        content: language === 'es' 
-          ? '¡Hola! Soy Anbel IA, tu agente súper inteligente de predicciones de lotería. ¿En qué puedo ayudarte?'
-          : 'Hello! I\'m Anbel AI, your super intelligent lottery prediction agent. How can I help you?',
-        timestamp: new Date().toISOString(),
-        confidence: 100,
-        accuracy: 100,
-        recommendations: language === 'es' 
-          ? ['Generar predicción', 'Analizar patrones', 'Ver estadísticas']
-          : ['Generate prediction', 'Analyze patterns', 'View statistics'],
-        nextActions: language === 'es'
-          ? ['Escribir mensaje', 'Seleccionar lotería', 'Ver dashboard']
-          : ['Type message', 'Select lottery', 'View dashboard']
-      };
-      setMessages([welcomeMessage]);
-    }
-  }, [isActive, isInitializing, language]);
+    const initializeWelcome = () => {
+      if (isActive && !isInitializing && messages.length === 0) {
+        const welcomeMessage: ChatMessage = {
+          id: 'welcome',
+          type: 'anbel',
+          content: language === 'es' 
+            ? '¡Hola! Soy Anbel IA, tu agente súper inteligente de predicciones de lotería. ¿En qué puedo ayudarte?'
+            : 'Hello! I\'m Anbel AI, your super intelligent lottery prediction agent. How can I help you?',
+          timestamp: new Date().toISOString(),
+          confidence: 100,
+          accuracy: 100,
+          recommendations: language === 'es' 
+            ? ['Generar predicción', 'Analizar patrones', 'Ver estadísticas']
+            : ['Generate prediction', 'Analyze patterns', 'View statistics'],
+          nextActions: language === 'es'
+            ? ['Escribir mensaje', 'Seleccionar lotería', 'Ver dashboard']
+            : ['Type message', 'Select lottery', 'View dashboard']
+        };
+        setMessages([welcomeMessage]);
+      }
+    };
+
+    const timer = setTimeout(initializeWelcome, 100);
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array to run only once
 
   // Auto-scroll al final
   useEffect(() => {
