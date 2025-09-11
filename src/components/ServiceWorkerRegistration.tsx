@@ -19,21 +19,11 @@ export default function ServiceWorkerRegistration() {
 
   const registerServiceWorker = async () => {
     try {
-      // Intentar registrar el nuevo Service Worker
-      let swRegistration;
-      try {
-        swRegistration = await navigator.serviceWorker.register('/sw-simple.js', {
-          scope: '/',
-        });
-        console.log('✅ Service Worker nuevo registrado:', swRegistration);
-      } catch (error) {
-        console.log('⚠️ Nuevo SW no disponible, intentando con el original...');
-        // Fallback al Service Worker original si el nuevo no está disponible
-        swRegistration = await navigator.serviceWorker.register('/sw.js', {
-          scope: '/',
-        });
-        console.log('✅ Service Worker original registrado:', swRegistration);
-      }
+      // Registrar Service Worker con ruta correcta para Vercel
+      const swRegistration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+      });
+      console.log('✅ Service Worker registrado correctamente:', swRegistration);
       
       setRegistration(swRegistration);
 
