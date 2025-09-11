@@ -130,10 +130,10 @@ export default function ExcelActivatePage() {
     setIntentosFallidos(0); // Reset intentos en éxito
     setIsLoading(false);
 
-    // Redirigir automáticamente después de 3 segundos
+    // Redirigir automáticamente después de 2 segundos
     setTimeout(() => {
       window.location.href = '/dashboard';
-    }, 3000);
+    }, 2000);
   };
 
   const handleExport = () => {
@@ -177,16 +177,24 @@ export default function ExcelActivatePage() {
           <p className="text-gray-400 text-sm mb-4">
             Plan: <span className="text-purple-400 font-bold">{userInfo.plan.toUpperCase()}</span>
           </p>
-          <p className="text-gray-400 text-sm mb-6">
+          <p className="text-gray-400 text-sm mb-4">
             Redirigiendo al dashboard en unos segundos...
           </p>
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <a 
-            href="/dashboard" 
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
-          >
-            Ir al Dashboard Ahora
-          </a>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-6"></div>
+          <div className="space-y-3">
+            <a 
+              href="/dashboard" 
+              className="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center"
+            >
+              🚀 Ir al Dashboard Ahora
+            </a>
+            <a 
+              href="/" 
+              className="block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors text-center"
+            >
+              🏠 Ir al Inicio
+            </a>
+          </div>
         </div>
       </div>
     );
