@@ -39,6 +39,7 @@ interface HistoricalPattern {
 }
 
 export default function PredictionEngine() {
+  return (
   const [algorithms, setAlgorithms] = useState<PredictionAlgorithm[]>([
     {
       id: 'ensemble-ml',
@@ -309,7 +310,6 @@ export default function PredictionEngine() {
     }
   };
 
-  return (
     <div className="space-y-6">
       {/* Panel del Motor de Predicciones Avanzado */}
       <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-600/30">

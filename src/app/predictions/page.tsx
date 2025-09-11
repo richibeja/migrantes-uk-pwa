@@ -53,6 +53,7 @@ interface Lottery {
 }
 
 export default function PredictionsPage() {
+    return (
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [lotteries, setLotteries] = useState<Lottery[]>([]);
@@ -248,7 +249,6 @@ export default function PredictionsPage() {
 
   // Simplificado para evitar problemas de autenticación
   if (isLoading) {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gold mx-auto mb-4"></div>

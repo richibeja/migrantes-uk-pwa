@@ -19,6 +19,7 @@ interface CodigoUnico {
 }
 
 export default function AdminGenerateCodesPage() {
+  return (
   const [userEmail, setUserEmail] = useState('');
   const [plan, setPlan] = useState('premium');
   const [codigos, setCodigos] = useState<CodigoUnico[]>([]);
@@ -105,7 +106,6 @@ export default function AdminGenerateCodesPage() {
     return 'Disponible';
   };
 
-  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
       <div className="max-w-6xl mx-auto">
         <div className="bg-gray-800/70 border border-gray-700 rounded-2xl p-8">

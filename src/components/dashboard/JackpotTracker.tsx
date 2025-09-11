@@ -13,6 +13,7 @@ interface JackpotData {
 }
 
 export default function JackpotTracker() {
+    return (
   const [jackpots, setJackpots] = useState<JackpotData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -52,7 +53,6 @@ export default function JackpotTracker() {
   }, []);
 
   if (isLoading) {
-    return (
       <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/50">
         <div className="animate-pulse">
           <div className="h-6 bg-gray-700 rounded mb-4"></div>

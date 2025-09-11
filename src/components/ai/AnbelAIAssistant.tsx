@@ -42,6 +42,8 @@ export default function AnbelAIAssistant({
   onMinimize,
   userPreferences 
 }: AnbelAIAssistantProps) {
+  if (!isOpen) return null;
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -851,8 +853,6 @@ ${experience === 'beginner' ? `
       handleSendMessage();
     }
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${

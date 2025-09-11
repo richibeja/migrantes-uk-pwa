@@ -95,7 +95,6 @@ export default function ActivatePage() {
   ];
 
   if (isActivated) {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
         <div className="max-w-md w-full mx-4">
           <div className="bg-gray-800/50 rounded-2xl p-8 text-center border border-gray-600/50">

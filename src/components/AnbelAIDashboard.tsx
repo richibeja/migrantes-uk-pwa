@@ -38,6 +38,7 @@ export default function AnbelAIDashboard({
   onPredictionGenerated,
   onAnalysisGenerated 
 }: AnbelAIDashboardProps) {
+    return () => clearTimeout(timer);
   const [activeTab, setActiveTab] = useState<'overview' | 'predictions' | 'analysis' | 'settings'>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -68,7 +69,6 @@ export default function AnbelAIDashboard({
     };
 
     const timer = setTimeout(initializeDashboard, 100);
-    return () => clearTimeout(timer);
   }, []); // Empty dependency array to run only once
 
   const loadDashboard = async () => {

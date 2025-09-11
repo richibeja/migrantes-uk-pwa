@@ -9,6 +9,7 @@ interface DashboardSecurityGuardProps {
 }
 
 export default function DashboardSecurityGuard({ children }: DashboardSecurityGuardProps) {
+    return (
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
@@ -51,7 +52,6 @@ export default function DashboardSecurityGuard({ children }: DashboardSecurityGu
   }, []);
 
   if (isChecking) {
-    return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
         <div className="text-center">
           <Loader2 className="w-16 h-16 text-purple-400 animate-spin mx-auto mb-4" />

@@ -9,6 +9,7 @@ interface AdminTicketsClientProps {
 }
 
 export default function AdminTicketsClient({ clubId }: AdminTicketsClientProps) {
+        return <Check className="w-5 h-5 text-green-400" />;
   const [tickets, setTickets] = useState<ClubTicket[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<'todos' | 'pendientes' | 'verificados' | 'rechazados'>('todos');
@@ -95,7 +96,6 @@ export default function AdminTicketsClient({ clubId }: AdminTicketsClientProps) 
   const getEstadoIcon = (estado: string) => {
     switch (estado) {
       case 'verificado':
-        return <Check className="w-5 h-5 text-green-400" />;
       case 'rechazado':
         return <XCircle className="w-5 h-5 text-red-400" />;
       case 'pendiente':

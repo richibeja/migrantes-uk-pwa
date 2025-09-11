@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminSimplePage() {
+      case 'premium': return <Crown className="w-4 h-4 text-purple-400" />;
   const [codes, setCodes] = useState<ExcelCode[]>([]);
   const [stats, setStats] = useState<any>({});
   const [showAddForm, setShowAddForm] = useState(false);
@@ -105,7 +106,6 @@ export default function AdminSimplePage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'premium': return <Crown className="w-4 h-4 text-purple-400" />;
       case 'vip': return <Star className="w-4 h-4 text-yellow-400" />;
       case 'basic': return <Zap className="w-4 h-4 text-blue-400" />;
       default: return <Key className="w-4 h-4 text-gray-400" />;

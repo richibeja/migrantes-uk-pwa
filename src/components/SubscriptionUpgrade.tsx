@@ -31,6 +31,7 @@ export default function SubscriptionUpgrade({
   onUpgrade, 
   currentAction 
 }: SubscriptionUpgradeProps) {
+    if (feature.includes('Predicciones')) return <Zap className="w-5 h-5" />;
   const [selectedPlan, setSelectedPlan] = useState<string>('premium');
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -54,7 +55,6 @@ export default function SubscriptionUpgrade({
   };
 
   const getFeatureIcon = (feature: string) => {
-    if (feature.includes('Predicciones')) return <Zap className="w-5 h-5" />;
     if (feature.includes('Loterías')) return <Star className="w-5 h-5" />;
     if (feature.includes('Actualización')) return <TrendingUp className="w-5 h-5" />;
     if (feature.includes('Notificaciones')) return <Bell className="w-5 h-5" />;

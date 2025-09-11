@@ -13,6 +13,7 @@ interface AnalyticsData {
 }
 
 export default function LotteryAnalytics() {
+    return (
   const [analytics, setAnalytics] = useState<AnalyticsData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
@@ -53,7 +54,6 @@ export default function LotteryAnalytics() {
   }, []);
 
   if (isLoading) {
-    return (
       <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/50">
         <div className="animate-pulse">
           <div className="h-6 bg-gray-700 rounded mb-4"></div>

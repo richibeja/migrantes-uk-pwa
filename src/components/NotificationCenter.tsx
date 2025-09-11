@@ -19,6 +19,7 @@ interface NotificationCenterProps {
 }
 
 export default function NotificationCenter({ isOpen, onClose }: NotificationCenterProps) {
+      case 'success': return <Check className="w-5 h-5 text-green-500" />;
   const [notifications, setNotifications] = useState<NotificationConfig[]>([]);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [settings, setSettings] = useState({
@@ -104,7 +105,6 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'success': return <Check className="w-5 h-5 text-green-500" />;
       case 'warning': return <AlertCircle className="w-5 h-5 text-yellow-500" />;
       case 'error': return <X className="w-5 h-5 text-red-500" />;
       default: return <Info className="w-5 h-5 text-blue-500" />;

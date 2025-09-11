@@ -15,6 +15,7 @@ interface LotteryResult {
 }
 
 export default function ResultsTracker() {
+  return (
   const [results, setResults] = useState<LotteryResult[]>([]);
   const [selectedLottery, setSelectedLottery] = useState('all');
   const [timeFilter, setTimeFilter] = useState('week');
@@ -134,7 +135,6 @@ export default function ResultsTracker() {
     ? Math.round((filteredResults.filter(r => r.status === 'hit').length / filteredResults.length) * 100)
     : 0;
 
-  return (
     <div className="space-y-6">
       {/* Panel de Control */}
       <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-600/30">

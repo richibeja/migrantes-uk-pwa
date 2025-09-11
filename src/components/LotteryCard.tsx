@@ -16,6 +16,7 @@ interface LotteryCardProps {
 }
 
 export default function LotteryCard({ lottery, onRefresh }: LotteryCardProps) {
+  return (
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<string>('');
   const [forecast, setForecast] = useState<number[]>([]);
@@ -119,7 +120,6 @@ export default function LotteryCard({ lottery, onRefresh }: LotteryCardProps) {
     }
   };
 
-  return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}

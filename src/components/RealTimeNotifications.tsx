@@ -12,6 +12,7 @@ interface Notification {
 }
 
 export default function RealTimeNotifications() {
+    return () => clearInterval(interval);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -54,7 +55,6 @@ export default function RealTimeNotifications() {
       setUnreadCount(prev => prev + 1);
     }, 45000); // Cada 45 segundos
 
-    return () => clearInterval(interval);
   }, []);
 
   const markAsRead = (id: string) => {

@@ -9,6 +9,7 @@ import AnbelAIChat from '@/components/AnbelAIChat';
 import YouTubeVideo from '@/components/YouTubeVideo';
 
 export default function SalesPage() {
+  return (
   const [activeTab, setActiveTab] = useState('features');
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
@@ -29,7 +30,6 @@ export default function SalesPage() {
     }
   }, []);
 
-  return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       {/* AI Banner */}
       <AIBanner 

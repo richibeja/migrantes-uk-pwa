@@ -10,6 +10,7 @@ import AnbelAIChat from '@/components/AnbelAIChat';
 import { ADMIN_SECURITY_CONFIG, verifyAdminPassword, createAdminSession, isAdminSessionValid, clearAdminSession, formatSessionTimeRemaining } from '@/config/admin-security';
 
 export default function AdminClient() {
+  if (isChecking) return <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4"><p className="text-gold text-xl">Verificando…</p></div>;
   const router = useRouter();
   const { t } = useI18n();
   const [isChecking, setIsChecking] = useState(true);
@@ -187,7 +188,6 @@ export default function AdminClient() {
     }
   };
 
-  if (isChecking) return <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4"><p className="text-gold text-xl">Verificando…</p></div>;
   
   // Modal de contraseña
   if (showPasswordModal) {

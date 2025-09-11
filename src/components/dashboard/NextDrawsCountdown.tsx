@@ -14,6 +14,7 @@ interface NextDraw {
 }
 
 export default function NextDrawsCountdown() {
+    return () => clearInterval(timer);
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: string }>({});
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -102,7 +103,6 @@ export default function NextDrawsCountdown() {
       setTimeLeft(newTimeLeft);
     }, 1000);
 
-    return () => clearInterval(timer);
   }, [nextDraws]);
 
   const getUrgencyColor = (timeString: string): string => {

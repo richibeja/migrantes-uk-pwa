@@ -23,6 +23,7 @@ interface SubscriptionStatus {
 }
 
 export default function RealTimeSubscriptionStatus() {
+        return <Gift className="w-5 h-5" />;
   const { user, isAuthenticated } = useAuth();
   const [subscription, setSubscription] = useState<SubscriptionStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +56,6 @@ export default function RealTimeSubscriptionStatus() {
   const getPlanIcon = (planId: string) => {
     switch (planId) {
       case 'free':
-        return <Gift className="w-5 h-5" />;
       case 'basic':
         return <Zap className="w-5 h-5" />;
       case 'premium':

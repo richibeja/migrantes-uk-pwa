@@ -31,6 +31,7 @@ interface DigitalTicket {
 }
 
 export default function DigitalTickets() {
+      case 'won': return <Check className="w-5 h-5 text-green-500" />;
   const [tickets, setTickets] = useState<DigitalTicket[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<DigitalTicket | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -145,7 +146,6 @@ export default function DigitalTickets() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'won': return <Check className="w-5 h-5 text-green-500" />;
       case 'lost': return <XCircle className="w-5 h-5 text-red-500" />;
       case 'expired': return <XCircle className="w-5 h-5 text-gray-500" />;
       default: return <Calendar className="w-5 h-5 text-yellow-500" />;

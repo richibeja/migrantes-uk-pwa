@@ -49,6 +49,7 @@ interface Prediction {
 }
 
 export default function AnbelAIPageEn() {
+    return (
   const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
   const [activeView, setActiveView] = useState<'dashboard' | 'chat'>('dashboard');
@@ -61,7 +62,6 @@ export default function AnbelAIPageEn() {
   const [currentEmotion, setCurrentEmotion] = useState<string>('neutral');
 
   if (isLoading) {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>

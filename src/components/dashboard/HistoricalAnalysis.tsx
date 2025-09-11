@@ -12,6 +12,7 @@ interface HistoricalData {
 }
 
 export default function HistoricalAnalysis() {
+    return (
   const [data, setData] = useState<HistoricalData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLottery, setSelectedLottery] = useState('all');
@@ -60,7 +61,6 @@ export default function HistoricalAnalysis() {
     : data.filter(item => item.lottery === selectedLottery);
 
   if (isLoading) {
-    return (
       <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/50">
         <div className="animate-pulse">
           <div className="h-6 bg-gray-700 rounded mb-4"></div>

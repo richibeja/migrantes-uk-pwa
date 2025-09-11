@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 export default function GoogleTranslate() {
+  return (
   const [currentLanguage, setCurrentLanguage] = useState('es');
 
   const languages = [
@@ -28,7 +29,6 @@ export default function GoogleTranslate() {
     window.open(translateUrl, '_blank');
   };
 
-  return (
     <div className="google-translate-container">
       <div className="relative group">
         <button className="flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded-lg transition-colors text-sm">

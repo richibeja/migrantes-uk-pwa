@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function StatisticsPage() {
+  return (
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
 
   const stats = {
@@ -26,7 +27,6 @@ export default function StatisticsPage() {
     predictionsToday: 45
   };
 
-  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Header */}
       <div className="bg-gray-800/90 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">

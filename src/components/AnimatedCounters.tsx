@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function AnimatedCounters() {
+    return () => observer.disconnect();
   const [counters, setCounters] = useState({
     users: 0,
     predictions: 0,
@@ -29,7 +30,6 @@ export default function AnimatedCounters() {
       observer.observe(element);
     }
 
-    return () => observer.disconnect();
   }, []);
 
   const animateCounters = () => {

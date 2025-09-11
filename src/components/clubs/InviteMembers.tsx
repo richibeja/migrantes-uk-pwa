@@ -17,6 +17,7 @@ export default function InviteMembers({
   currentUserId, 
   referralCount = 0 
 }: InviteMembersProps) {
+  return (
   const [invitationLink, setInvitationLink] = useState('');
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
@@ -67,7 +68,6 @@ export default function InviteMembers({
 
   const rewards = calculateReferralRewards(referralCount);
 
-  return (
     <div className="bg-gray-800/90 rounded-xl p-6 border border-gray-700">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">

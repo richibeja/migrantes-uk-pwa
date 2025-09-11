@@ -15,6 +15,7 @@ const CODIGOS_VALIDOS = {
 };
 
 export default function ExcelActivatePage() {
+    return (
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('');
@@ -165,7 +166,6 @@ export default function ExcelActivatePage() {
   const availableCodes = getAvailableCodes();
 
   if (isActivated) {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center bg-gray-800/70 border border-gray-700 rounded-2xl p-8">
           <div className="flex items-center justify-center mb-6">

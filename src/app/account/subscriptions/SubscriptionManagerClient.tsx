@@ -6,6 +6,7 @@ import { SUBSCRIPTION_PLANS, UserSubscription } from '@/types/subscriptions';
 import { getCurrentPlan, isSubscriptionActive, getDiasRestantes, isInTrial } from '@/utils/permissions';
 
 export default function SubscriptionManagerClient() {
+    return (
   const [currentSubscription, setCurrentSubscription] = useState<UserSubscription | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -57,7 +58,6 @@ export default function SubscriptionManagerClient() {
   };
 
   if (isLoading) {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gold mx-auto mb-4"></div>

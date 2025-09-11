@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 export default function ProfilePage() {
+  return (
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState({
     name: 'Usuario Demo',
@@ -42,7 +43,6 @@ export default function ProfilePage() {
     setIsEditing(false);
   };
 
-  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Header */}
       <div className="bg-gray-800/90 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">

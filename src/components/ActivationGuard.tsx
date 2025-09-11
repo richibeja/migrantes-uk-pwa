@@ -9,6 +9,7 @@ interface ActivationGuardProps {
 }
 
 export default function ActivationGuard({ children }: ActivationGuardProps) {
+    return (
   const { isActivated, isLoading } = useActivation();
   const router = useRouter();
 
@@ -19,7 +20,6 @@ export default function ActivationGuard({ children }: ActivationGuardProps) {
   }, [isActivated, isLoading, router]);
 
   if (isLoading) {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">

@@ -25,6 +25,7 @@ interface AnalysisResult {
 }
 
 export default function LotteryPredictionPanel() {
+    return (
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [analysis, setAnalysis] = useState<AnalysisResult[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,7 +80,6 @@ export default function LotteryPredictionPanel() {
     : predictions.filter(p => p.lotteryName === selectedLottery);
 
   if (isLoading) {
-    return (
       <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/50">
         <div className="animate-pulse">
           <div className="h-6 bg-gray-700 rounded mb-4"></div>

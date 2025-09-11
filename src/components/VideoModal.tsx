@@ -10,6 +10,7 @@ interface VideoModalProps {
 }
 
 export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
+      return () => clearInterval(interval);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -46,7 +47,6 @@ export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProp
       const interval = setInterval(() => {
         setCurrentStep(prev => (prev + 1) % demoSteps.length);
       }, 4000);
-      return () => clearInterval(interval);
     }
   }, [isPlaying, demoSteps.length]);
 

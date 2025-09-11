@@ -39,6 +39,7 @@ export default function AnbelAIChat({
   onPredictionGenerated,
   onAnalysisGenerated 
 }: AnbelAIChatProps) {
+    return () => clearTimeout(timer);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -80,7 +81,6 @@ export default function AnbelAIChat({
     };
 
     const timer = setTimeout(initializeWelcome, 100);
-    return () => clearTimeout(timer);
   }, []); // Empty dependency array to run only once
 
   // Auto-scroll al final

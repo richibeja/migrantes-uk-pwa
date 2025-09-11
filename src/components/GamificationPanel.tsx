@@ -9,6 +9,7 @@ interface GamificationPanelProps {
 }
 
 export default function GamificationPanel({ userId, language }: GamificationPanelProps) {
+    return (
   const [userLevel, setUserLevel] = useState<any>(null);
   const [achievements, setAchievements] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -74,7 +75,6 @@ export default function GamificationPanel({ userId, language }: GamificationPane
   };
 
   if (loading) {
-    return (
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 rounded-lg mb-4">
         <div className="animate-pulse">
           <div className="h-4 bg-white/20 rounded w-1/3 mb-2"></div>

@@ -11,6 +11,7 @@ interface FAQItem {
 }
 
 export default function FAQ() {
+  return (
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   // Función simple de traducción para evitar errores
@@ -83,7 +84,6 @@ export default function FAQ() {
     );
   };
 
-  return (
     <div className="py-16 px-4 bg-gray-900/30">
       <div className="max-w-7xl mx-auto">
         {/* Título */}

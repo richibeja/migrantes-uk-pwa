@@ -7,6 +7,7 @@ import { ADMIN_SECURITY_CONFIG, isAdminSessionValid } from '@/config/admin-secur
 import { useRouter } from 'next/navigation';
 
 export default function AdminCodesPage() {
+  return (
   const [codes, setCodes] = useState<any[]>([]);
   const [stats, setStats] = useState({ total: 0, available: 0 });
   const [message, setMessage] = useState('');
@@ -38,7 +39,6 @@ export default function AdminCodesPage() {
     }
   };
 
-  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
       <div className="max-w-6xl mx-auto">
         <div className="bg-gray-800/70 border border-gray-700 rounded-2xl p-8">

@@ -15,12 +15,12 @@ export default function SubscriptionPlans({
   onSelectPlan, 
   showAnnual = true 
 }: SubscriptionPlansProps) {
+        return <Gift className="w-6 h-6" />;
   const [isAnnual, setIsAnnual] = useState(showAnnual);
 
   const getPlanIcon = (planId: string) => {
     switch (planId) {
       case 'gratis':
-        return <Gift className="w-6 h-6" />;
       case 'basico':
         return <Zap className="w-6 h-6" />;
       case 'premium':

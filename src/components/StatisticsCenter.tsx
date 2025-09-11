@@ -44,6 +44,7 @@ interface LotteryStats {
 }
 
 export default function StatisticsCenter() {
+    return (
   const [stats, setStats] = useState<PredictionStats | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month' | 'year'>('month');
   const [isLoading, setIsLoading] = useState(true);
@@ -106,7 +107,6 @@ export default function StatisticsCenter() {
   };
 
   if (isLoading) {
-    return (
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-gray-200 rounded w-1/3"></div>

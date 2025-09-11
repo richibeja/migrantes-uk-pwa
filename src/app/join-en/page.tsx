@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Users, Star, Check, ArrowRight, Copy, Share2 } from 'lucide-react';
 
 export default function JoinEnPage() {
+  return (
   const router = useRouter();
   const [invitationCode, setInvitationCode] = useState('');
   const [isValidating, setIsValidating] = useState(false);
@@ -59,7 +60,6 @@ export default function JoinEnPage() {
     // Show copy notification
   };
 
-  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900 py-16">

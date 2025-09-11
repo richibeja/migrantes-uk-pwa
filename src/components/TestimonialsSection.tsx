@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { getRandomTestimonials, getTestimonialStats, type Testimonial } from '@/lib/testimonials';
 
 export default function TestimonialsSection() {
+  return (
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [stats, setStats] = useState(getTestimonialStats());
 
@@ -23,7 +24,6 @@ export default function TestimonialsSection() {
     });
   };
 
-  return (
     <div className="bg-gray-900 py-16">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}

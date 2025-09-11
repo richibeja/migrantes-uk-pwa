@@ -68,6 +68,7 @@ interface Notification {
 }
 
 export default function DashboardClient() {
+    return () => window.removeEventListener('resize', checkMobile);
   const analytics = useAnalytics();
   const [activeTab, setActiveTab] = useState('loterias');
   const [lotteries, setLotteries] = useState<Lottery[]>([]);
@@ -181,7 +182,6 @@ export default function DashboardClient() {
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Simulate live status

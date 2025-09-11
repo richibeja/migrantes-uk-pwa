@@ -10,6 +10,7 @@ interface MyTicketsClientProps {
 }
 
 export default function MyTicketsClient({ clubId }: MyTicketsClientProps) {
+        return <Check className="w-5 h-5 text-green-400" />;
   const [tickets, setTickets] = useState<ClubTicket[]>([]);
   const [stats, setStats] = useState<ClubStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -113,7 +114,6 @@ export default function MyTicketsClient({ clubId }: MyTicketsClientProps) {
   const getEstadoIcon = (estado: string) => {
     switch (estado) {
       case 'verificado':
-        return <Check className="w-5 h-5 text-green-400" />;
       case 'rechazado':
         return <XCircle className="w-5 h-5 text-red-400" />;
       case 'pendiente':

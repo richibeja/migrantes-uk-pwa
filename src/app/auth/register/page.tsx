@@ -9,6 +9,7 @@ import { reserveUserCodeForUid } from '@/lib/codes';
 import BackNav from '@/components/BackNav';
 
 export default function AuthRegisterPage() {
+  return (
   const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -47,7 +48,6 @@ export default function AuthRegisterPage() {
     }
   }
 
-  return (
     <div className="min-h-screen bg-black text-white p-6 md:p-10">
       <BackNav />
       <div className="flex items-center justify-center">

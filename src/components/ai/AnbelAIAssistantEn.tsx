@@ -34,6 +34,8 @@ export default function AnbelAIAssistantEn({
   onMinimize,
   userPreferences 
 }: AnbelAIAssistantProps) {
+  if (!isOpen) return null;
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -524,8 +526,6 @@ Are you interested in any specific plan or want more details?`;
       handleSendMessage();
     }
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${

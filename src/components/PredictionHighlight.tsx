@@ -56,6 +56,7 @@ interface PredictionHighlightProps {
 }
 
 export default function PredictionHighlight({ lottery, onAnalyze }: PredictionHighlightProps) {
+    if (confidence >= 95) return <Crown className="w-5 h-5" />;
   const [copiedNumbers, setCopiedNumbers] = useState<string | null>(null);
   const [showAllPredictions, setShowAllPredictions] = useState(false);
 
@@ -77,7 +78,6 @@ export default function PredictionHighlight({ lottery, onAnalyze }: PredictionHi
   };
 
   const getConfidenceIcon = (confidence: number) => {
-    if (confidence >= 95) return <Crown className="w-5 h-5" />;
     if (confidence >= 90) return <Star className="w-5 h-5" />;
     if (confidence >= 85) return <TrendingUp className="w-5 h-5" />;
     return <AlertCircle className="w-5 h-5" />;

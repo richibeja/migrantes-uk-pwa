@@ -21,6 +21,7 @@ export default function UploadTicketModal({
   userName,
   onTicketUploaded 
 }: UploadTicketModalProps) {
+  if (!isOpen) return null;
   const [foto, setFoto] = useState<File | null>(null);
   const [fotoPreview, setFotoPreview] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
@@ -223,7 +224,6 @@ export default function UploadTicketModal({
     }
   };
 
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">

@@ -5,9 +5,9 @@ import { Brain, Crown, MessageCircle, Bot, Target, Sparkles } from 'lucide-react
 import Link from 'next/link';
 
 export default function HomeEn() {
+  return (
   const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
 
-  return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
