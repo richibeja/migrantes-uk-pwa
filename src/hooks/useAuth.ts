@@ -1,110 +1,117 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-interface User {
-  id: string;
-  code: string;
-  createdAt: Date;
-}
-
-// Códigos válidos de prueba + códigos reales
-const VALID_CODES = [
-  'DEMO2024', 'PRUEBA123', 'TEST456', 'ADMIN789', 'VIP2025',
-  'GANAFACIL', 'LOTERIA', 'SUERTE', 'FORTUNA',
-  'GANA2025POWER001', 'GANA2025MEGA002', 'GANA2025EURO003',
-  'GANA2025UK004', 'GANA2025SPAIN005', 'DEMO2025TEST001',
-  'FREE2025TRIAL001', 'VIP2025ACCESS001'
-];
+import { 
+  validateCode, 
+  createUser, 
+  saveUser, 
+  loadUser, 
+  clearUser, 
+  isUserAuthenticated, 
+  isUserAdmin,
+  User 
+} from '@/lib/unified-auth';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Carga usuario desde localStorage
+  // Cargar usuario al inicializar
   useEffect(() => {
-    const savedUser = localStorage.getItem('ganaFacilUser');
-    if (savedUser) {
+    const checkAuth = () => {
       try {
-        const userData = JSON.parse(savedUser);
-        if (userData && userData.id && userData.code && userData.createdAt) {
-          userData.createdAt = new Date(userData.createdAt);
-          setUser(userData);
+        const loadedUser = loadUser();
+        if (loadedUser) {
+          setUser(loadedUser);
           setIsAuthenticated(true);
+          setIsAdmin(loadedUser.isAdmin || false);
         } else {
-          localStorage.removeItem('ganaFacilUser');
+          setUser(null);
+          setIsAuthenticated(false);
+          setIsAdmin(false);
         }
-      } catch {
-        localStorage.removeItem('ganaFacilUser');
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+        setUser(null);
+        setIsAuthenticated(false);
+        setIsAdmin(false);
       }
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   // Activar código
-  const activateCode = (code: string): { success: boolean; message: string } => {
-    const normalizedCode = (code || '').toString().trim().toUpperCase();
-    console.log('🚀 ACTIVATING CODE:', normalizedCode);
+  const activateCode = (code: string, email?: string, username?: string): { success: boolean; message: string } => {
+    try {
+      const validation = validateCode(code);
+      
+      if (!validation.valid) {
+        return { success: false, message: 'Código no válido' };
+      }
 
-    if (VALID_CODES.includes(normalizedCode)) {
-      const newUser: User = {
-        id: `user_${Date.now()}`,
-        code: normalizedCode,
-        createdAt: new Date(),
-      };
-
+      const newUser = createUser(code, email, username);
+      saveUser(newUser);
+      
       setUser(newUser);
       setIsAuthenticated(true);
-      localStorage.setItem('ganaFacilUser', JSON.stringify(newUser));
+      setIsAdmin(newUser.isAdmin || false);
 
-      return { success: true, message: 'Code activated successfully.' };
+      return { 
+        success: true, 
+        message: `¡Código activado exitosamente! Plan: ${newUser.plan.toUpperCase()}` 
+      };
+    } catch (error) {
+      console.error('Error activating code:', error);
+      return { success: false, message: 'Error al activar el código' };
     }
-
-    return { success: false, message: 'Invalid code.' };
   };
 
   // Cerrar sesión
   const logout = () => {
+    clearUser();
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('ganaFacilUser');
+    setIsAdmin(false);
   };
 
-  // Limpiar todo lo manejado por la app
-  const clearAll = () => {
-    localStorage.removeItem('ganaFacilUser');
-    localStorage.removeItem('usedCodes');
-    localStorage.removeItem('adminGeneratedCodes');
-    setUser(null);
-    setIsAuthenticated(false);
-    setIsLoading(false);
+  // Verificar si el usuario está autenticado
+  const checkAuth = () => {
+    const authStatus = isUserAuthenticated();
+    const adminStatus = isUserAdmin();
+    setIsAuthenticated(authStatus);
+    setIsAdmin(adminStatus);
+    return authStatus;
   };
 
-  const getUsedCodes = (): Record<string, User> => {
-    try {
-      return JSON.parse(localStorage.getItem('usedCodes') || '{}');
-    } catch {
-      return {};
-    }
+  // Obtener información del usuario
+  const getUserInfo = () => {
+    return user;
   };
 
-  const getAdminGeneratedCodes = (): string[] => {
-    try {
-      return JSON.parse(localStorage.getItem('adminGeneratedCodes') || '[]');
-    } catch {
-      return [];
-    }
+  // Verificar si el usuario tiene un plan específico
+  const hasPlan = (plan: 'basic' | 'premium' | 'vip') => {
+    return user?.plan === plan;
+  };
+
+  // Verificar si el usuario está activo
+  const isActive = () => {
+    return user?.status === 'active' && user?.isActivated;
   };
 
   return {
     user,
     isAuthenticated,
     isLoading,
+    isAdmin,
     activateCode,
     logout,
-    clearAll,
-    getUsedCodes,
-    getAdminGeneratedCodes,
+    checkAuth,
+    getUserInfo,
+    hasPlan,
+    isActive
   };
 };

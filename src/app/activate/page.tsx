@@ -2,20 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { Check, Key, ArrowRight, AlertCircle, Shield, Users, Crown, Loader2, Link, Mail, Download, Eye } from 'lucide-react';
-
-// Base de datos de códigos válidos (en producción esto estaría en un servidor)
-const CODIGOS_VALIDOS = {
-  "GANA1234": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "premium" },
-  "PREM5678": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "premium" },
-  "VIP9012": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "vip" },
-  "FACIL3456": { estado: "USADO", email: "juan@email.com", expiracion: "2024-12-31", plan: "basic" },
-  "GANAFACIL": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "premium" },
-  "PREMIUM123": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "premium" },
-  "VIP456": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "vip" },
-  "BASIC789": { estado: "DISPONIBLE", email: "", expiracion: "2024-12-31", plan: "basic" }
-};
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function ActivatePage() {
+  const { activateCode, isAuthenticated } = useAuth();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [isActivated, setIsActivated] = useState(false);
@@ -31,6 +23,13 @@ export default function ActivatePage() {
 
   const MAX_INTENTOS = 3;
 
+  // Redirigir si ya está autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router]);
+
   const activarCodigo = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -44,34 +43,6 @@ export default function ActivatePage() {
         return;
       }
 
-      const codigo = code.toUpperCase().trim();
-      console.log('🔍 Validating code:', codigo);
-      console.log('🔍 Email:', email);
-
-      // Verificar si el código existe
-      if (!CODIGOS_VALIDOS[codigo]) {
-        setIntentosFallidos(prev => prev + 1);
-        setError('Código inválido');
-        setIsLoading(false);
-        return;
-      }
-
-      const codigoInfo = CODIGOS_VALIDOS[codigo];
-
-      // Verificar si ya fue usado
-      if (codigoInfo.estado === 'USADO') {
-        setError('Este código ya fue utilizado');
-        setIsLoading(false);
-        return;
-      }
-
-      // Verificar expiración
-      if (new Date() > new Date(codigoInfo.expiracion)) {
-        setError('Código expirado');
-        setIsLoading(false);
-        return;
-      }
-
       // Verificar límite de intentos
       if (intentosFallidos >= MAX_INTENTOS) {
         setError('Demasiados intentos fallidos. Intenta más tarde.');
@@ -79,265 +50,244 @@ export default function ActivatePage() {
         return;
       }
 
-      // ✅ ACTIVACIÓN EXITOSA
-      codigoInfo.estado = 'USADO';
-      codigoInfo.email = email;
-      codigoInfo.fechaActivacion = new Date().toLocaleDateString();
+      // Simular delay de validación
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
-      console.log(`✅ Código ${codigo} activado para ${email}`);
+      // Usar el sistema unificado de autenticación
+      const result = activateCode(code, email, email.split('@')[0]);
 
-      // Crear usuario activado
-      const userData = {
-        id: `user_${Date.now()}`,
-        email: email,
-        name: email.split('@')[0],
-        plan: codigoInfo.plan,
-        activated: true,
-        activatedAt: new Date().toISOString(),
-        method: 'single_use_code',
-        code: codigo
-      };
+      if (!result.success) {
+        setError(result.message);
+        setIntentosFallidos(prev => prev + 1);
+        setIsLoading(false);
+        return;
+      }
 
-      // Guardar en localStorage
-      localStorage.setItem('ganaFacilUser', JSON.stringify(userData));
-      localStorage.setItem('ganafacil_activated', 'true');
-
+      // Activación exitosa
       setIsActivated(true);
       setUserInfo({
-        name: userData.name,
-        email: userData.email,
-        plan: userData.plan
+        name: email.split('@')[0],
+        email: email,
+        plan: 'premium' // Se obtendrá del sistema unificado
       });
 
-      // Limpiar formulario
-      setEmail('');
-      setCode('');
-
-      // Redirigir al dashboard después de 3 segundos
+      // Redirigir después de 3 segundos
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        router.push('/dashboard');
       }, 3000);
 
     } catch (error) {
       console.error('Error activating code:', error);
       setError('Error al activar el código. Intenta de nuevo.');
+      setIntentosFallidos(prev => prev + 1);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const descargarReporte = () => {
-    let codigosUsados = [];
-
-    for (const [codigo, info] of Object.entries(CODIGOS_VALIDOS)) {
-      if (info.estado === 'USADO') {
-        codigosUsados.push({
-          codigo: codigo,
-          email: info.email,
-          fecha: info.fechaActivacion,
-          plan: info.plan
-        });
-      }
-    }
-
-    if (codigosUsados.length === 0) {
-      alert('No hay códigos usados');
-      return;
-    }
-
-    // Crear CSV
-    let csv = 'Código,Email,Fecha Activación,Plan\n';
-    codigosUsados.forEach(item => {
-      csv += `${item.codigo},${item.email},${item.fecha},${item.plan}\n`;
-    });
-
-    // Descargar
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `codigos_usados_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-  };
-
-  const getCodigosDisponibles = () => {
-    return Object.entries(CODIGOS_VALIDOS)
-      .filter(([_, info]) => info.estado === 'DISPONIBLE')
-      .map(([codigo, info]) => ({ codigo, plan: info.plan }));
-  };
+  // Códigos de prueba disponibles
+  const codigosPrueba = [
+    { code: 'GANAFACIL', plan: 'Premium', desc: 'Código principal' },
+    { code: 'PREMIUM123', plan: 'Premium', desc: 'Código premium' },
+    { code: 'VIP456', plan: 'VIP', desc: 'Código VIP' },
+    { code: 'BASIC789', plan: 'Básico', desc: 'Código básico' },
+    { code: 'DEMO2024', plan: 'Básico', desc: 'Código demo' }
+  ];
 
   if (isActivated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
-        <div className="max-w-md w-full text-center bg-gray-800/70 border border-gray-700 rounded-2xl p-8">
-          <div className="flex items-center justify-center mb-6">
-            <div className="relative">
-              <Check className="w-16 h-16 text-green-400" />
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full animate-pulse flex items-center justify-center">
-                <Crown className="w-4 h-4 text-white" />
-              </div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
+        <div className="max-w-md w-full mx-4">
+          <div className="bg-gray-800/50 rounded-2xl p-8 text-center border border-gray-600/50">
+            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Check className="w-10 h-10 text-white" />
+            </div>
+            
+            <h1 className="text-3xl font-bold text-gold mb-4">¡CUENTA ACTIVADA!</h1>
+            <p className="text-gray-300 mb-6">
+              Bienvenido a GANA FÁCIL, <strong>{userInfo.name}</strong>
+            </p>
+            
+            <div className="bg-gray-700/50 rounded-lg p-4 mb-6">
+              <div className="text-gold font-bold text-xl mb-2">Plan: {userInfo.plan.toUpperCase()}</div>
+              <div className="text-gray-300 text-sm">Acceso completo al sistema</div>
+            </div>
+            
+            <div className="text-gray-400 text-sm mb-6">
+              Redirigiendo al dashboard en unos segundos...
+            </div>
+            
+            <div className="flex space-x-3">
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="flex-1 bg-gold text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-colors"
+              >
+                Ir al Dashboard Ahora
+              </button>
+              <button
+                onClick={() => router.push('/')}
+                className="flex-1 bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors"
+              >
+                Ir al Inicio
+              </button>
             </div>
           </div>
-          
-          <h1 className="text-3xl font-bold text-white mb-4">
-            🎉 ¡CUENTA ACTIVADA!
-          </h1>
-          <p className="text-gray-300 mb-2">
-            Bienvenido a GANA FÁCIL, {userInfo.name}
-          </p>
-          <p className="text-gray-400 text-sm mb-4">
-            Plan: <span className="text-purple-400 font-bold">{userInfo.plan.toUpperCase()}</span>
-          </p>
-          <p className="text-gray-400 text-sm mb-6">
-            Redirigiendo al dashboard en unos segundos...
-          </p>
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
-      <div className="max-w-md w-full text-center bg-gray-800/70 border border-gray-700 rounded-2xl p-8">
-        <div className="flex items-center justify-center mb-6">
-          <div className="relative">
-            <Shield className="w-16 h-16 text-purple-400" />
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-400 rounded-full animate-pulse flex items-center justify-center">
-              <Key className="w-4 h-4 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+      {/* Header */}
+      <div className="bg-gray-800/90 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="text-4xl">🔑</div>
+              <div>
+                <h1 className="text-3xl font-bold text-gold">ACTIVAR CUENTA</h1>
+                <p className="text-gray-300">Activa tu acceso a GANA FÁCIL</p>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <h1 className="text-3xl font-bold text-white mb-4">
-          🎯 Activar Código Premium
-        </h1>
-        <p className="text-gray-300 mb-8">
-          Ingresa tu email y código de activación
-        </p>
-
-        <form onSubmit={activarCodigo} className="space-y-4">
-          <div>
-            <label className="block text-gray-300 text-sm font-medium mb-2">
-              <Mail className="w-4 h-4 inline mr-2" />
-              Email:
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-300 text-sm font-medium mb-2">
-              <Key className="w-4 h-4 inline mr-2" />
-              Código de Activación:
-            </label>
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="GANA1234"
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              required
-            />
-          </div>
-
-          {/* Códigos de prueba */}
-          <div className="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4">
-            <h3 className="text-yellow-400 font-bold mb-2">💡 Códigos de Prueba</h3>
-            <div className="flex flex-wrap gap-2 text-sm">
-              {getCodigosDisponibles().slice(0, 4).map(({ codigo, plan }) => (
-                <span key={codigo} className="bg-gray-700 px-2 py-1 rounded text-yellow-200">
-                  {codigo}
-                </span>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowCodes(!showCodes)}
-              className="mt-2 text-yellow-300 text-xs hover:text-yellow-200 flex items-center mx-auto"
+            
+            <a
+              href="/"
+              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
             >
-              <Eye className="w-3 h-3 mr-1" />
-              {showCodes ? 'Ocultar' : 'Ver todos'}
-            </button>
-            {showCodes && (
-              <div className="mt-2 text-xs text-gray-300">
-                {getCodigosDisponibles().map(({ codigo, plan }) => (
-                  <div key={codigo} className="flex justify-between">
-                    <span>{codigo}</span>
-                    <span className="text-purple-400">{plan}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+              ← Volver al Inicio
+            </a>
           </div>
-
-          {/* Información de intentos */}
-          {intentosFallidos > 0 && (
-            <div className="bg-orange-900/30 border border-orange-500/50 rounded-lg p-3">
-              <p className="text-orange-200 text-sm">
-                Intentos fallidos: {intentosFallidos}/{MAX_INTENTOS}
-              </p>
-            </div>
-          )}
-
-          {error && (
-            <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4">
-              <div className="flex items-center">
-                <AlertCircle className="w-5 h-5 text-red-400 mr-2" />
-                <span className="text-red-200 text-sm">{error}</span>
-              </div>
-            </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={isLoading || intentosFallidos >= MAX_INTENTOS}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-purple-500/50 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Activando...
-              </>
-            ) : (
-              <>
-                <Check className="w-5 h-5 mr-2" />
-                Activar Código
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Botón de reporte para admin */}
-        <div className="mt-6 pt-4 border-t border-gray-600">
-          <button
-            onClick={descargarReporte}
-            className="text-gray-400 hover:text-white text-sm flex items-center mx-auto"
-          >
-            <Download className="w-4 h-4 mr-1" />
-            📊 Descargar Códigos Usados
-          </button>
         </div>
+      </div>
 
-        <div className="mt-6 text-center">
-          <div className="flex justify-center gap-4 mb-4">
-            <a href="/activate-simple" className="text-green-400 hover:text-green-300 text-sm">
-              📊 Sistema Simple (Excel)
-            </a>
-            <a href="/admin-simple" className="text-blue-400 hover:text-blue-300 text-sm">
-              🔧 Admin Simple
-            </a>
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-md mx-auto">
+          <div className="bg-gray-800/50 rounded-2xl p-8 border border-gray-600/50">
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                <Key className="w-8 h-8 text-black" />
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2">Código de Activación</h2>
+              <p className="text-gray-300">Ingresa tu código para acceder al sistema</p>
+            </div>
+
+            <form onSubmit={activarCodigo} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-gold focus:outline-none"
+                  placeholder="tu@email.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Código de Activación
+                </label>
+                <input
+                  type="text"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.toUpperCase())}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-gold focus:outline-none"
+                  placeholder="GANAFACIL"
+                  required
+                />
+              </div>
+
+              {error && (
+                <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 flex items-center space-x-2">
+                  <AlertCircle className="w-5 h-5 text-red-400" />
+                  <span className="text-red-400">{error}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-gold to-yellow-400 text-black font-bold py-3 px-6 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Activando...</span>
+                  </>
+                ) : (
+                  <>
+                    <Check className="w-5 h-5" />
+                    <span>Activar Acceso</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Códigos de prueba */}
+            <div className="mt-8">
+              <button
+                onClick={() => setShowCodes(!showCodes)}
+                className="w-full text-center text-gold hover:text-yellow-400 transition-colors flex items-center justify-center space-x-2"
+              >
+                <Eye className="w-4 h-4" />
+                <span>💡 Códigos de Prueba</span>
+              </button>
+              
+              {showCodes && (
+                <div className="mt-4 space-y-2">
+                  {codigosPrueba.map((codigo) => (
+                    <div key={codigo.code} className="bg-gray-700/50 rounded-lg p-3 flex items-center justify-between">
+                      <div>
+                        <div className="text-white font-mono">{codigo.code}</div>
+                        <div className="text-gray-400 text-sm">{codigo.desc}</div>
+                      </div>
+                      <div className="text-gold text-sm font-bold">{codigo.plan}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Información adicional */}
+            <div className="mt-8 text-center">
+              <p className="text-gray-400 text-sm">
+                ¿Necesitas ayuda? Contacta soporte
+              </p>
+              <div className="flex justify-center space-x-4 mt-4">
+                <a
+                  href="/activate-simple"
+                  className="text-gold hover:text-yellow-400 transition-colors text-sm"
+                >
+                  Sistema Simple
+                </a>
+                <a
+                  href="/admin-simple"
+                  className="text-gold hover:text-yellow-400 transition-colors text-sm"
+                >
+                  Admin Simple
+                </a>
+              </div>
+            </div>
           </div>
-          <p className="text-gray-400 text-sm">
-            ¿Necesitas ayuda? Contacta soporte
-          </p>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="bg-gray-800/50 backdrop-blur-md border-t border-gray-700 mt-12">
+        <div className="container mx-auto px-4 py-6">
+          <div className="text-center text-gray-400">
+            <p className="text-sm">
+              <strong>GANA FÁCIL</strong> - Sistema de Activación
+            </p>
+            <p className="text-xs mt-1">
+              Sistema unificado de autenticación
+            </p>
+          </div>
         </div>
       </div>
     </div>
