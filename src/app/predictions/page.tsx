@@ -87,7 +87,7 @@ export default function PredictionsPage() {
   // Inicializar loterías con predicciones reales
   useEffect(() => {
     initializeLotteriesWithRealPredictions();
-  }, [realPredictions]);
+  }, []); // Empty dependency array to run only once
 
   const initializeLotteriesWithRealPredictions = () => {
     // Inicializar siempre, sin depender de realPredictions
