@@ -129,6 +129,11 @@ export default function ExcelActivatePage() {
     setCode('');
     setIntentosFallidos(0); // Reset intentos en éxito
     setIsLoading(false);
+
+    // Redirigir automáticamente después de 3 segundos
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 3000);
   };
 
   const handleExport = () => {
@@ -175,7 +180,13 @@ export default function ExcelActivatePage() {
           <p className="text-gray-400 text-sm mb-6">
             Redirigiendo al dashboard en unos segundos...
           </p>
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-4"></div>
+          <a 
+            href="/dashboard" 
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+          >
+            Ir al Dashboard Ahora
+          </a>
         </div>
       </div>
     );
