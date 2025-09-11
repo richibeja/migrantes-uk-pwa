@@ -94,7 +94,7 @@ export default function PredictionsPage() {
     setIsLoadingPredictions(false);
 
     const now = new Date();
-    const statistics = getStatistics();
+    const statisticsData = getStatistics();
     
     // Agrupar predicciones por lotería
     const predictionsByLottery = realPredictions.reduce((acc, pred) => {
@@ -314,11 +314,11 @@ export default function PredictionsPage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
             <div className="bg-black/20 rounded-lg p-4">
-              <div className="text-2xl font-bold">{statistics.averageConfidence}%</div>
+              <div className="text-2xl font-bold">{statisticsData.averageConfidence}%</div>
               <div className="text-sm">Confianza Promedio</div>
             </div>
             <div className="bg-black/20 rounded-lg p-4">
-              <div className="text-2xl font-bold">{statistics.totalPredictions}</div>
+              <div className="text-2xl font-bold">{statisticsData.totalPredictions}</div>
               <div className="text-sm">Predicciones Totales</div>
             </div>
             <div className="bg-black/20 rounded-lg p-4">
