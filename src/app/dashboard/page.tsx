@@ -1347,7 +1347,7 @@ export default function DashboardPage() {
     // Solo redirigir si no hay usuario en localStorage
     console.log('❌ No hay usuario en localStorage, redirigiendo a /activate');
     router.push('/activate');
-  }, [router]);
+  }, []); // Empty dependency array to run only once
 
   // Inicializar loterías
   useEffect(() => {
@@ -1418,7 +1418,7 @@ export default function DashboardPage() {
     
     // Si no está activado, redirigir
     router.push('/activate');
-  }, [router]);
+  }, []); // Empty dependency array to run only once
 
   if (!isLocalAuthenticated && !forceActive) {
     return (

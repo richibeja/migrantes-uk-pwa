@@ -28,7 +28,7 @@ export default function ActivatePage() {
     if (isAuthenticated) {
       router.push('/dashboard');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated]); // Removed router dependency
 
   const activarCodigo = async (e: React.FormEvent) => {
     e.preventDefault();

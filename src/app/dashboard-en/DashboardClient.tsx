@@ -143,7 +143,7 @@ export default function DashboardClient() {
     };
 
     checkAuth();
-  }, [router]);
+  }, []); // Empty dependency array to run only once
 
   // Check if user is activated
   useEffect(() => {

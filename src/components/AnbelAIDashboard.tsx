@@ -124,8 +124,13 @@ export default function AnbelAIDashboard({
   };
 
   useEffect(() => {
-    loadStatistics();
-  }, [getAgentStatistics]);
+    const loadStats = () => {
+      loadStatistics();
+    };
+
+    const timer = setTimeout(loadStats, 100);
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array to run only once
 
   if (isInitializing) {
     return (
