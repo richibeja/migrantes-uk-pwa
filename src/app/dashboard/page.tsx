@@ -1299,32 +1299,21 @@ export default function DashboardPage() {
         return;
       }
     } catch {}
-    // Verificar activación
-    const isActivated = localStorage.getItem('ganafacil_activated');
+    
+    // Verificar activación usando el sistema unificado
     const savedUser = localStorage.getItem('ganaFacilUser');
     
-    if (isActivated === 'true' || savedUser) {
+    if (savedUser) {
       try {
-        if (savedUser) {
-          const userData = JSON.parse(savedUser);
+        const userData = JSON.parse(savedUser);
+        // Verificar si el usuario es válido
+        if (userData && (userData.isActivated || userData.status === 'active')) {
           // Permitir acceso al dashboard
           return;
         }
-        // Si está activado pero no hay usuario, crear uno temporal
-        if (isActivated === 'true') {
-          const tempUser = {
-            id: 'user1',
-            name: 'Usuario Demo',
-            email: 'demo@ganafacil.com',
-            activated: true,
-            planId: 'gratis'
-          };
-          localStorage.setItem('ganaFacilUser', JSON.stringify(tempUser));
-          return;
-        }
       } catch (error) {
+        console.error('Error parsing user data:', error);
         localStorage.removeItem('ganaFacilUser');
-        localStorage.removeItem('ganafacil_activated');
       }
     }
     
