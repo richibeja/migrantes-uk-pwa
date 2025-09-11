@@ -79,17 +79,23 @@ export default function AnbelAIPageEn() {
 
   // Initialize with welcome message
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcomeMessage: ChatMessage = {
-        id: '1',
-        type: 'anbel',
-        content: `Hello ${user?.name || 'User'}! I'm Anbel, your Super Intelligent AI Agent. I can help you with lottery predictions, analysis, and strategies. What would you like to know?`,
-        timestamp: new Date().toISOString(),
-        confidence: 100
-      };
-      setMessages([welcomeMessage]);
-    }
-  }, []); // Empty dependency array to run only once
+    const initializeChat = () => {
+      if (messages.length === 0 && user) {
+        const welcomeMessage: ChatMessage = {
+          id: '1',
+          type: 'anbel',
+          content: `Hello ${user?.username || user?.email || 'User'}! I'm Anbel, your Super Intelligent AI Agent. I can help you with lottery predictions, analysis, and strategies. What would you like to know?`,
+          timestamp: new Date().toISOString(),
+          confidence: 100
+        };
+        setMessages([welcomeMessage]);
+      }
+    };
+
+    // Use setTimeout to ensure this runs after component mount
+    const timer = setTimeout(initializeChat, 100);
+    return () => clearTimeout(timer);
+  }, [user]); // Only depend on user
 
   const handlePredictionGenerated = (prediction: any) => {
     console.log('Prediction generated:', prediction);
