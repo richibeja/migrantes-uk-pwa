@@ -89,7 +89,7 @@ export default function AnbelAIPageEn() {
       };
       setMessages([welcomeMessage]);
     }
-  }, [messages.length, user?.name]);
+  }, []); // Empty dependency array to run only once
 
   const handlePredictionGenerated = (prediction: any) => {
     console.log('Prediction generated:', prediction);
