@@ -6,7 +6,6 @@ import { SUBSCRIPTION_PLANS, UserSubscription } from '@/types/subscriptions';
 import { getCurrentPlan, isSubscriptionActive, getDiasRestantes, isInTrial } from '@/utils/permissions';
 
 export default function SubscriptionManagerClient() {
-    return (
   const [currentSubscription, setCurrentSubscription] = useState<UserSubscription | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUpgrade, setShowUpgrade] = useState(false);

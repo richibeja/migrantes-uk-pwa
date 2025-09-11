@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function GoogleTranslate() {
-  return (
+
   const [currentLanguage, setCurrentLanguage] = useState('es');
 
   const languages = [

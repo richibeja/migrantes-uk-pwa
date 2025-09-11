@@ -9,7 +9,7 @@ interface VoiceInterfaceProps {
 }
 
 export default function VoiceInterface({ onMessage, language }: VoiceInterfaceProps) {
-  return (
+
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [transcript, setTranscript] = useState('');

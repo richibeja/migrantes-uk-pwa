@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { analytics, type ConversionFunnel } from '@/lib/analytics';
 
 export default function AnalyticsPage() {
-    return (
+
   const [funnel, setFunnel] = useState<ConversionFunnel[]>([]);
+  return (
   const [engagement, setEngagement] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 

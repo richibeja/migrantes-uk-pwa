@@ -10,6 +10,7 @@ interface VideoModalProps {
 }
 
 export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
+) => clearInterval(interval);
       return () => clearInterval(interval);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

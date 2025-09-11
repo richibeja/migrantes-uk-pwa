@@ -13,8 +13,9 @@ interface JackpotData {
 }
 
 export default function JackpotTracker() {
-    return (
+
   const [jackpots, setJackpots] = useState<JackpotData[]>([]);
+  return (
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

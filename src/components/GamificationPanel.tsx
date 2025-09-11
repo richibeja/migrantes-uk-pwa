@@ -9,8 +9,9 @@ interface GamificationPanelProps {
 }
 
 export default function GamificationPanel({ userId, language }: GamificationPanelProps) {
-    return (
+
   const [userLevel, setUserLevel] = useState<any>(null);
+  return (
   const [achievements, setAchievements] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

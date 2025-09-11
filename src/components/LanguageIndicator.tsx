@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 
 export default function LanguageIndicator() {
-    return () => {
+) => {
   const [currentLanguage, setCurrentLanguage] = useState('es');
+  return (
 
   useEffect(() => {
     // Función para detectar el idioma actual

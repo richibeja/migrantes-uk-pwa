@@ -49,8 +49,9 @@ interface ClubDashboardClientProps {
 }
 
 export default function ClubDashboardClient({ clubId }: ClubDashboardClientProps) {
-    return (
+
   const [club, setClub] = useState<Club | null>(null);
+    return (
   const [miembros, setMiembros] = useState<Miembro[]>([]);
   const [jugadas, setJugadas] = useState<Jugada[]>([]);
   const [activeTab, setActiveTab] = useState('overview');

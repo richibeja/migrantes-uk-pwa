@@ -44,8 +44,9 @@ interface LotteryStats {
 }
 
 export default function StatisticsCenter() {
-    return (
+
   const [stats, setStats] = useState<PredictionStats | null>(null);
+  return (
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month' | 'year'>('month');
   const [isLoading, setIsLoading] = useState(true);
 

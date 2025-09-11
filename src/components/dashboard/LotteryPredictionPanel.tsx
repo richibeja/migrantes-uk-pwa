@@ -25,8 +25,9 @@ interface AnalysisResult {
 }
 
 export default function LotteryPredictionPanel() {
-    return (
+
   const [predictions, setPredictions] = useState<Prediction[]>([]);
+  return (
   const [analysis, setAnalysis] = useState<AnalysisResult[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLottery, setSelectedLottery] = useState<string>('all');

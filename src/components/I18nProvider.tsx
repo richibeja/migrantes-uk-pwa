@@ -12,7 +12,6 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  return (
   const [lang, setLangState] = useState<Language>("es");
 
   // Initial detection: localStorage -> navigator -> default ES
@@ -43,6 +42,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<I18nContextValue>(() => ({ lang, setLang, t }), [lang, setLang, t]);
 
+  return (
     <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
   );
 }

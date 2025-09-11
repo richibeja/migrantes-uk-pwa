@@ -8,7 +8,7 @@ interface SimpleTranslatorProps {
 }
 
 export default function SimpleTranslator({ onLanguageChange }: SimpleTranslatorProps) {
-  return (
+
   const [language, setLanguage] = useState('en');
 
   useEffect(() => {

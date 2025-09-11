@@ -6,8 +6,9 @@ import { collection, onSnapshot, orderBy, query, updateDoc, doc } from 'firebase
 import BackNav from '@/components/BackNav';
 
 export default function AdminPaymentsPage() {
-    return () => {
+) => {
   const [isAdmin, setIsAdmin] = useState(false);
+    return () => unsub();
   const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {

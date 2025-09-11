@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useI18n } from '@/components/I18nProvider';
 
 function ActivateUserLinkPage() {
-	return (
 	const router = useRouter();
 	const { t } = useI18n();
 	const [message, setMessage] = useState<string>(t('activateUser.applying'));
@@ -72,6 +71,7 @@ function ActivateUserLinkPage() {
 		}
 	}, [router]);
 
+	return (
 		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
 			<div className={`max-w-md w-full text-center p-6 rounded-xl border ${ok ? 'border-green-500 bg-green-900/30 text-green-100' : 'border-yellow-500 bg-yellow-900/30 text-yellow-100'}`}>
 				<h1 className="text-2xl font-bold mb-3">Gana Fácil</h1>

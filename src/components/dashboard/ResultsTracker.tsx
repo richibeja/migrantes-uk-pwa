@@ -15,7 +15,7 @@ interface LotteryResult {
 }
 
 export default function ResultsTracker() {
-  return (
+
   const [results, setResults] = useState<LotteryResult[]>([]);
   const [selectedLottery, setSelectedLottery] = useState('all');
   const [timeFilter, setTimeFilter] = useState('week');

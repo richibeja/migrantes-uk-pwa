@@ -38,6 +38,7 @@ export default function AnbelAIDashboard({
   onPredictionGenerated,
   onAnalysisGenerated 
 }: AnbelAIDashboardProps) {
+) => clearTimeout(timer);
     return () => clearTimeout(timer);
   const [activeTab, setActiveTab] = useState<'overview' | 'predictions' | 'analysis' | 'settings'>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);

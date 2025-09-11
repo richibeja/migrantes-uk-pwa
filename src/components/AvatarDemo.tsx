@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export default function AvatarDemo() {
+) => clearInterval(interval);
       return () => clearInterval(interval);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

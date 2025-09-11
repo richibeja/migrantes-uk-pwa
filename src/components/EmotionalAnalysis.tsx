@@ -10,7 +10,7 @@ interface EmotionalAnalysisProps {
 }
 
 export default function EmotionalAnalysis({ userId, language, onEmotionChange }: EmotionalAnalysisProps) {
-  return (
+
   const [currentEmotion, setCurrentEmotion] = useState<any>(null);
   const [emotionHistory, setEmotionHistory] = useState<any[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);

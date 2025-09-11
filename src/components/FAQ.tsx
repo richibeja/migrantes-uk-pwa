@@ -11,7 +11,7 @@ interface FAQItem {
 }
 
 export default function FAQ() {
-  return (
+
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   // Función simple de traducción para evitar errores

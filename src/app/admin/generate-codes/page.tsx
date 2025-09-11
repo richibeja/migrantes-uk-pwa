@@ -19,7 +19,7 @@ interface CodigoUnico {
 }
 
 export default function AdminGenerateCodesPage() {
-  return (
+
   const [userEmail, setUserEmail] = useState('');
   const [plan, setPlan] = useState('premium');
   const [codigos, setCodigos] = useState<CodigoUnico[]>([]);

@@ -68,7 +68,6 @@ interface Notification {
 }
 
 export default function DashboardClient() {
-    return () => window.removeEventListener('resize', checkMobile);
   const analytics = useAnalytics();
   const [activeTab, setActiveTab] = useState('loterias');
   const [lotteries, setLotteries] = useState<Lottery[]>([]);

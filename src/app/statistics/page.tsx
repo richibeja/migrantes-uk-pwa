@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function StatisticsPage() {
-  return (
+
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
 
   const stats = {

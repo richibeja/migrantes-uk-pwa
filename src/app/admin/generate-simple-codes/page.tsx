@@ -16,7 +16,7 @@ interface CodigoSimple {
 }
 
 export default function AdminGenerateSimpleCodesPage() {
-  return (
+
   const [userEmail, setUserEmail] = useState('');
   const [plan, setPlan] = useState('premium');
   const [codigos, setCodigos] = useState<CodigoSimple[]>([]);

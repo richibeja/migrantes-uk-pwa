@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export default function ProfilePage() {
-  return (
+
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState({
     name: 'Usuario Demo',

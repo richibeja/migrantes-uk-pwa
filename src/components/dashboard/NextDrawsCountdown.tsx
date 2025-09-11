@@ -14,6 +14,7 @@ interface NextDraw {
 }
 
 export default function NextDrawsCountdown() {
+) => clearInterval(timer);
     return () => clearInterval(timer);
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: string }>({});
   const [isExpanded, setIsExpanded] = useState(false);

@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function ReferralsPage() {
-  return (
+
   const [copied, setCopied] = useState(false);
   
   const referralCode = 'GANAFACIL2024';

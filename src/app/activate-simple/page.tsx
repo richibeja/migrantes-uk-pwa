@@ -15,7 +15,7 @@ const CODIGOS_VALIDOS = {
 };
 
 export default function ExcelActivatePage() {
-    return (
+
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('');

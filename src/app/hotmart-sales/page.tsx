@@ -5,7 +5,7 @@ import SubscriptionPlans from '@/components/SubscriptionPlans';
 import TestimonialsSection from '@/components/TestimonialsSection';
 
 export default function HotmartSalesPage() {
-  return (
+
   const [selectedPlan, setSelectedPlan] = useState<string>('free');
   const [showPlans, setShowPlans] = useState(false);
 

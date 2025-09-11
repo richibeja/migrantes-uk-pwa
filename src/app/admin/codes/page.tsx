@@ -7,7 +7,7 @@ import { ADMIN_SECURITY_CONFIG, isAdminSessionValid } from '@/config/admin-secur
 import { useRouter } from 'next/navigation';
 
 export default function AdminCodesPage() {
-  return (
+
   const [codes, setCodes] = useState<any[]>([]);
   const [stats, setStats] = useState({ total: 0, available: 0 });
   const [message, setMessage] = useState('');

@@ -6,7 +6,7 @@ import AIBanner from '@/components/ai/AIBanner';
 import AnbelAIChat from '@/components/AnbelAIChat';
 
 export default function Home() {
-  return (
+
   const [isAIBannerVisible, setIsAIBannerVisible] = useState(true);
   const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
 

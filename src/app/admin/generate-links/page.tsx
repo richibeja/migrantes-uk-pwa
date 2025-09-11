@@ -19,7 +19,7 @@ interface GeneratedLink {
 }
 
 export default function AdminGenerateLinksPage() {
-  return (
+
   const [userEmail, setUserEmail] = useState('');
   const [plan, setPlan] = useState('premium');
   const [generatedLinks, setGeneratedLinks] = useState<GeneratedLink[]>([]);

@@ -17,7 +17,7 @@ export default function InviteMembers({
   currentUserId, 
   referralCount = 0 
 }: InviteMembersProps) {
-  return (
+
   const [invitationLink, setInvitationLink] = useState('');
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);

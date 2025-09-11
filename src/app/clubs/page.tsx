@@ -17,8 +17,9 @@ interface Club {
 }
 
 export default function ClubsPage() {
-    return (
+
   const [clubs, setClubs] = useState<Club[]>([]);
+  return (
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   

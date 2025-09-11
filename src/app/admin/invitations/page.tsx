@@ -5,8 +5,9 @@ import { Plus, Copy, Trash2, Eye, EyeOff, RefreshCw, Users, Shield, Crown } from
 import { invitationSystem } from '@/lib/invitation-system';
 
 export default function InvitationsPage() {
-    return (
+
   const [invitations, setInvitations] = useState<any[]>([]);
+  return (
   const [isLoading, setIsLoading] = useState(true);
   const [showPasswords, setShowPasswords] = useState(false);
   const [newInvitation, setNewInvitation] = useState({

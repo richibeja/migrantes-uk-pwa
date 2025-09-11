@@ -9,7 +9,7 @@ interface SubscriptionPlansProps {
 }
 
 export default function SubscriptionPlans({ onPlanSelect, currentPlan }: SubscriptionPlansProps) {
-  return (
+
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string>('');
 

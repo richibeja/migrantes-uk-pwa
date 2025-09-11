@@ -9,7 +9,7 @@ import AnbelAIChat from '@/components/AnbelAIChat';
 import YouTubeVideo from '@/components/YouTubeVideo';
 
 export default function SalesPage() {
-  return (
+
   const [activeTab, setActiveTab] = useState('features');
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);

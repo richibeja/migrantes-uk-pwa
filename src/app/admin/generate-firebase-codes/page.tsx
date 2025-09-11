@@ -18,7 +18,7 @@ interface FirebaseCode {
 }
 
 export default function AdminGenerateFirebaseCodesPage() {
-  return (
+
   const [userEmail, setUserEmail] = useState('');
   const [plan, setPlan] = useState('premium');
   const [codes, setCodes] = useState<FirebaseCode[]>([]);

@@ -13,8 +13,9 @@ interface AnalyticsData {
 }
 
 export default function LotteryAnalytics() {
-    return (
+
   const [analytics, setAnalytics] = useState<AnalyticsData[]>([]);
+  return (
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
 

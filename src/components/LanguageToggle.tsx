@@ -8,7 +8,7 @@ interface LanguageToggleProps {
 }
 
 export default function LanguageToggle({ onLanguageChange }: LanguageToggleProps) {
-  return (
+
   const [language, setLanguage] = useState('en');
 
   useEffect(() => {

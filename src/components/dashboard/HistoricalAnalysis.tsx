@@ -12,8 +12,9 @@ interface HistoricalData {
 }
 
 export default function HistoricalAnalysis() {
-    return (
+
   const [data, setData] = useState<HistoricalData[]>([]);
+  return (
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLottery, setSelectedLottery] = useState('all');
 

@@ -39,7 +39,6 @@ export default function AnbelAIChat({
   onPredictionGenerated,
   onAnalysisGenerated 
 }: AnbelAIChatProps) {
-    return () => clearTimeout(timer);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);

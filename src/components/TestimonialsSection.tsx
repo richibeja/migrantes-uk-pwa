@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { getRandomTestimonials, getTestimonialStats, type Testimonial } from '@/lib/testimonials';
 
 export default function TestimonialsSection() {
-  return (
+
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [stats, setStats] = useState(getTestimonialStats());
 

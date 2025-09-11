@@ -39,7 +39,7 @@ interface HistoricalPattern {
 }
 
 export default function PredictionEngine() {
-  return (
+
   const [algorithms, setAlgorithms] = useState<PredictionAlgorithm[]>([
     {
       id: 'ensemble-ml',
@@ -107,7 +107,6 @@ export default function PredictionEngine() {
       complexity: 'Alto',
       dataPoints: 40000
     }
-  ]);
 
   const [currentPrediction, setCurrentPrediction] = useState<PredictionResult | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);

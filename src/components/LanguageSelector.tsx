@@ -5,8 +5,9 @@ import { Globe, Check } from 'lucide-react';
 import { i18n } from '@/lib/i18n';
 
 export default function LanguageSelector() {
-    return () => {
+) => {
   const [currentLanguage, setCurrentLanguage] = useState('es');
+  return (
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {

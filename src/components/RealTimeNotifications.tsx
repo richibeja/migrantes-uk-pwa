@@ -12,6 +12,7 @@ interface Notification {
 }
 
 export default function RealTimeNotifications() {
+) => clearInterval(interval);
     return () => clearInterval(interval);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpen, setIsOpen] = useState(false);
