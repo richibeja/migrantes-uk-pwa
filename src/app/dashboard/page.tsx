@@ -1710,23 +1710,6 @@ export default function DashboardPage() {
               📊 ANÁLISIS
             </button>
             
-            <button
-              onClick={() => {
-                // Mostrar predicciones específicas
-                console.log('🎯 Mostrando predicciones específicas...');
-                setSelectedLottery(lotteries[0]); // Seleccionar primera lotería
-                addNotification({
-                  type: 'prediction',
-                  title: '🎯 Predicciones Específicas',
-                  message: 'Mostrando predicciones detalladas para cada lotería con análisis personalizado.',
-                  priority: 'high'
-                });
-              }}
-              className="bg-red-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-red-700 transition-colors text-xs mr-2"
-              title="Predicciones Específicas"
-            >
-              🎯 PREDICCIONES
-            </button>
               
               <button
                 onClick={() => {
@@ -1748,42 +1731,6 @@ export default function DashboardPage() {
                 ⚡ ACTIVAR IA
               </button>
               
-              <button
-                onClick={() => {
-                  // Generar predicciones para todas las loterías
-                  console.log('🎯 Generando predicciones...');
-                  setLotteries(prev => prev.map(lottery => {
-                    const newPrediction = {
-                      id: `pred-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                      numbers: [],
-                      confidence: Math.floor(Math.random() * 20) + 80, // 80-100%
-                      specialBall: 0,
-                      analysisStatus: 'pending' as const,
-                      createdAt: new Date().toISOString(),
-                      analysisMethods: ['Anbel', 'Probabilístico', 'Histórico', 'Filtrado Cruzado'],
-                      lastUpdated: new Date().toISOString(),
-                      nextUpdate: new Date(Date.now() + 10 * 60 * 1000).toISOString()
-                    };
-                    
-                    return {
-                      ...lottery,
-                      predictions: [newPrediction, ...lottery.predictions.slice(0, 2)]
-                    };
-                  }));
-                  
-                // Mostrar notificación
-                addNotification({
-                  type: 'prediction',
-                  title: '🎯 Predicciones Generadas',
-                  message: 'Nuevas predicciones disponibles para todas las loterías. ¡Analiza los números!',
-                  priority: 'high'
-                });
-                }}
-                className="bg-gradient-to-r from-gold to-yellow-500 text-black px-1 sm:px-2 py-2 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 text-xs mr-2 font-bold"
-                title="Generar Predicciones"
-              >
-                🎯 GENERAR
-              </button>
               <button
                 onClick={() => {
                   try {
