@@ -1610,129 +1610,14 @@ export default function DashboardPage() {
                 🚪 Cerrar
               </button>
               
-              <button
-                onClick={() => {
-                  try {
-                    clearAll();
-                  } catch (error) {
-                    console.error('Error limpiando:', error);
-                  }
-                }}
-                className="bg-gray-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-gray-700 transition-colors text-xs"
-                title="Limpiar todo (debug)"
-              >
-                🧹 Limpiar
-              </button>
-              
-              
-              
+              {/* Botones simplificados - solo los importantes */}
               <a
                 href="/admin"
-                className="bg-purple-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-purple-700 transition-colors text-xs"
-                title="Acceder al Panel de Administración"
+                className="bg-purple-600 text-white px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+                title="Panel de Administración"
               >
-                🔧 Admin
+                👑 Admin
               </a>
-              
-              <button
-                onClick={() => {
-                  try {
-                    localStorage.clear();
-                    window.location.reload();
-                  } catch (error) {
-                    console.error('Error en reset:', error);
-                  }
-                }}
-                className="bg-orange-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-orange-700 transition-colors text-xs"
-                title="Reset completo"
-              >
-                🔄 Reset
-              </button>
-              
-            <button
-              onClick={() => setIsAIAssistantOpen(true)}
-              className="bg-purple-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-purple-700 transition-colors text-xs mr-2"
-              title="Abrir ANBEL AI Assistant"
-            >
-              🧠 ANBEL IA
-            </button>
-            
-            <button
-              onClick={() => setShowVoiceInterface(!showVoiceInterface)}
-              className="bg-green-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-green-700 transition-colors text-xs mr-2"
-              title="Interfaz de Voz"
-            >
-              🎤 VOZ
-            </button>
-            
-            <button
-              onClick={() => setShowGamification(!showGamification)}
-              className="bg-yellow-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-yellow-700 transition-colors text-xs mr-2"
-              title="Gamificación"
-            >
-              🏆 GAMING
-            </button>
-            
-            <button
-              onClick={() => setShowEmotionalAnalysis(!showEmotionalAnalysis)}
-              className="bg-pink-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-pink-700 transition-colors text-xs mr-2"
-              title="Análisis Emocional"
-            >
-              😊 EMOCIONES
-            </button>
-            
-            <button
-              onClick={() => {
-                // Mostrar análisis detallado de todas las loterías
-                console.log('📊 Mostrando análisis detallado...');
-                setShowAnalysisModal(true);
-                addNotification({
-                  type: 'system',
-                  title: '📊 Análisis Detallado',
-                  message: 'Mostrando análisis completo de todas las loterías con patrones y tendencias.',
-                  priority: 'high'
-                });
-              }}
-              className="bg-blue-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-blue-700 transition-colors text-xs mr-2"
-              title="Análisis Detallado"
-            >
-              📊 ANÁLISIS
-            </button>
-            
-              
-              <button
-                onClick={() => {
-                  // Activar el agente Anbel IA
-                  console.log('🤖 Activando Agente Anbel IA...');
-                  // Forzar actualización del estado
-                  setForceActive(true);
-                  // Mostrar notificación
-        addNotification({
-          type: 'system',
-          title: '🧠 Agente Anbel IA Activado',
-          message: 'El agente súper inteligente está ahora funcionando. ¡Puedes generar predicciones!',
-          priority: 'high'
-        });
-                }}
-                className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 text-xs mr-2"
-                title="Activar Agente Anbel IA"
-              >
-                ⚡ ACTIVAR IA
-              </button>
-              
-              <button
-                onClick={() => {
-                  try {
-                    updateRealTimeData();
-                  } catch (error) {
-                    console.error('Error actualizando datos:', error);
-                  }
-                }}
-                className="bg-green-600 text-white px-1 sm:px-2 py-2 rounded-lg hover:bg-green-700 transition-colors text-xs"
-                title="Actualizar datos en tiempo real"
-              >
-                ⚡ Actualizar
-              </button>
             </div>
           </div>
         </div>
@@ -1742,7 +1627,7 @@ export default function DashboardPage() {
       <nav className="bg-gray-800/50 border-b border-gray-700">
         <div className="container mx-auto px-2 sm:px-4">
           <div className="flex space-x-1 overflow-x-auto pb-2 scrollbar-hide">
-            {['predictions', 'last-draw', 'results', 'historical', 'engine', 'notifications', 'plans', 'testimonials'].map((tab) => (
+            {['predictions', 'last-draw', 'results'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => {
@@ -1761,11 +1646,6 @@ export default function DashboardPage() {
                 {tab === 'predictions' && '🎯 Predicciones'}
                 {tab === 'last-draw' && '🏆 Último Sorteo'}
                 {tab === 'results' && '📊 Resultados'}
-                {tab === 'historical' && '📈 Histórico'}
-                {tab === 'engine' && '⚙️ Motor'}
-                {tab === 'notifications' && '🔔 Notificaciones'}
-                {tab === 'plans' && '💳 Planes'}
-                {tab === 'testimonials' && '🏆 Testimonios'}
               </button>
             ))}
           </div>
