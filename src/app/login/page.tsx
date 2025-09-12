@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 function LoginPage() {
-    return (
   const { t } = useI18n();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -99,6 +98,7 @@ function LoginPage() {
   };
 
   if (!isClient) {
+    return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gold"></div>
       </div>

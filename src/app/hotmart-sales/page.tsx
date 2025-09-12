@@ -14,6 +14,7 @@ export default function HotmartSalesPage() {
     setShowPlans(false);
   };
 
+  return (
     <div className="min-h-screen bg-gray-900">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black py-20">

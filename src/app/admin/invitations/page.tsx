@@ -7,7 +7,6 @@ import { invitationSystem } from '@/lib/invitation-system';
 export default function InvitationsPage() {
 
   const [invitations, setInvitations] = useState<any[]>([]);
-  return (
   const [isLoading, setIsLoading] = useState(true);
   const [showPasswords, setShowPasswords] = useState(false);
   const [newInvitation, setNewInvitation] = useState({
@@ -83,6 +82,7 @@ export default function InvitationsPage() {
   };
 
   if (isLoading) {
+    return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <RefreshCw className="w-16 h-16 text-purple-400 animate-spin mx-auto mb-4" />

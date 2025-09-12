@@ -74,14 +74,14 @@ export default function ExcelActivatePage() {
     console.log('🔍 Validating code:', codigo);
 
     // Verificar si el código existe
-    if (!CODIGOS_VALIDOS[codigo]) {
+    if (!CODIGOS_VALIDOS[codigo as keyof typeof CODIGOS_VALIDOS]) {
       setIntentosFallidos(prev => prev + 1);
       setMessage('❌ Código no encontrado');
       setIsLoading(false);
       return;
     }
 
-    const codigoInfo = CODIGOS_VALIDOS[codigo];
+    const codigoInfo = CODIGOS_VALIDOS[codigo as keyof typeof CODIGOS_VALIDOS];
 
     // Verificar si ya fue usado
     if (codigoInfo.estado === 'USADO') {
@@ -100,7 +100,6 @@ export default function ExcelActivatePage() {
     // ✅ ACTIVACIÓN EXITOSA
     codigoInfo.estado = 'USADO';
     codigoInfo.email = email;
-    codigoInfo.fechaActivacion = new Date().toLocaleDateString();
 
     console.log(`✅ Código ${codigo} activado para ${email}`);
 
@@ -150,7 +149,7 @@ export default function ExcelActivatePage() {
     let csv = 'Código,Tipo,Estado,Email Usuario,Fecha Activación,Expiración\n';
     
     Object.entries(CODIGOS_VALIDOS).forEach(([codigo, info]) => {
-      csv += `${codigo},${info.plan},${info.estado === 'USADO' ? 'USADO' : 'DISPONIBLE'},${info.email || ''},${info.fechaActivacion || ''},${info.expiracion}\n`;
+      csv += `${codigo},${info.plan},${info.estado === 'USADO' ? 'USADO' : 'DISPONIBLE'},${info.email || ''},N/A,${info.expiracion}\n`;
     });
 
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -166,6 +165,7 @@ export default function ExcelActivatePage() {
   const availableCodes = getAvailableCodes();
 
   if (isActivated) {
+    return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center bg-gray-800/70 border border-gray-700 rounded-2xl p-8">
           <div className="flex items-center justify-center mb-6">

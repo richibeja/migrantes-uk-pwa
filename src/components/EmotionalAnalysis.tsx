@@ -75,6 +75,7 @@ export default function EmotionalAnalysis({ userId, language, onEmotionChange }:
     return texts[emotion as keyof typeof texts] || 'Desconocido';
   };
 
+  return (
     <div className="space-y-4">
       {/* Análisis Actual */}
       {currentEmotion && (

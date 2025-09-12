@@ -6,7 +6,6 @@ import { createCloudUser, getCloudUser } from '@/lib/firebaseUsers';
 import { useI18n } from '@/components/I18nProvider';
 
 function RegisterPage() {
-    return (
   const { t } = useI18n();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -91,6 +90,7 @@ function RegisterPage() {
   };
 
   if (!isClient) {
+    return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gold"></div>
       </div>

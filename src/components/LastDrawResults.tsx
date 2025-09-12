@@ -9,7 +9,6 @@ interface LastDrawResultsProps {
 }
 
 export default function LastDrawResults({ className = '' }: LastDrawResultsProps) {
-    return (
   const { results, isLoading, lastUpdate, error, refresh } = useRealLotteryResults();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -50,6 +49,7 @@ export default function LastDrawResults({ className = '' }: LastDrawResultsProps
   };
 
   if (isLoading && results.length === 0) {
+    return (
       <div className={`bg-gray-800/90 rounded-xl p-6 border border-gray-700 ${className}`}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold mx-auto mb-4"></div>

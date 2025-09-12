@@ -46,6 +46,7 @@ export default function SubscriptionPlans({ onPlanSelect, currentPlan }: Subscri
     }
   };
 
+  return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gold mb-4">

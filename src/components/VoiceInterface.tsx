@@ -56,6 +56,7 @@ export default function VoiceInterface({ onMessage, language }: VoiceInterfacePr
     }
   };
 
+  return (
     <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 rounded-lg mb-4">
       <h3 className="text-white font-bold mb-3 flex items-center">
         🎤 {language === 'es' ? 'Interfaz de Voz' : 'Voice Interface'}

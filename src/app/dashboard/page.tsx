@@ -77,7 +77,6 @@ interface Notification {
 }
 
 export default function DashboardPage() {
-        return (
   const analytics = useAnalytics();
   const [activeTab, setActiveTab] = useState('loterias');
   const [lotteries, setLotteries] = useState<Lottery[]>([]);
@@ -1218,6 +1217,7 @@ export default function DashboardPage() {
   const renderPrediction = (prediction: Prediction, lottery: Lottery) => {
     try {
       if (prediction.analysisStatus === 'pending') {
+        return (
           <div className="text-center py-6 sm:py-8">
             <div className="text-gray-400 text-base sm:text-lg mb-4 sm:mb-6">
               🔒 Los números están ocultos hasta el análisis

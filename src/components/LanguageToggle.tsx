@@ -69,6 +69,7 @@ export default function LanguageToggle({ onLanguageChange }: LanguageToggleProps
     }
   };
 
+  return (
     <div className="fixed top-4 right-4 z-50">
       <div className="bg-white rounded-lg shadow-lg p-2">
         <div className="flex items-center space-x-2">

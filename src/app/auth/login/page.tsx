@@ -10,7 +10,6 @@ import { reserveUserCodeCallable } from '@/lib/functions';
 import BackNav from '@/components/BackNav';
 
 export default function AuthLoginPage() {
-  return (
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -102,6 +101,7 @@ export default function AuthLoginPage() {
     }
   }
 
+  return (
     <div className="min-h-screen bg-black text-white p-6 md:p-10">
       <BackNav />
       <div className="flex items-center justify-center">

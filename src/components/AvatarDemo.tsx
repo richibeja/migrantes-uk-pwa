@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export default function AvatarDemo() {
-) => clearInterval(interval);
-      return () => clearInterval(interval);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(0);
@@ -24,6 +22,7 @@ export default function AvatarDemo() {
       const interval = setInterval(() => {
         setCurrentMessage(prev => (prev + 1) % messages.length);
       }, 3000);
+      return () => clearInterval(interval);
     }
   }, [isPlaying, messages.length]);
 
