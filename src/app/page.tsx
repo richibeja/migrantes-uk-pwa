@@ -183,11 +183,11 @@ export default function Home() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://gana-facil-1xvgreq9y-ganafacils-projects.vercel.app/demo-ia" className="px-8 py-4 bg-white text-purple-600 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center gap-2">
+            <a href="/demo-ia" className="px-8 py-4 bg-white text-purple-600 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center gap-2">
               <Zap className="h-5 w-5" />
               Probar Demo Interactiva
             </a>
-            <a href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all flex items-center gap-2">
+            <a href="/activate-whatsapp" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all flex items-center gap-2">
               <MessageCircle className="h-5 w-5" />
               Activar con WhatsApp
             </a>
@@ -374,7 +374,7 @@ export default function Home() {
                 </li>
               </ul>
               <a 
-                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                href="/activate-whatsapp" 
                 className="w-full bg-green-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-600 transition-all block text-center"
               >
                 Comenzar Gratis
@@ -408,7 +408,7 @@ export default function Home() {
                 </li>
               </ul>
               <a 
-                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                href="/activate-whatsapp" 
                 className="w-full bg-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-600 transition-all block text-center"
               >
                 Seleccionar Plan
@@ -451,7 +451,7 @@ export default function Home() {
                 </li>
               </ul>
               <a 
-                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                href="/activate-whatsapp" 
                 className="w-full bg-white text-purple-600 py-3 px-6 rounded-xl font-semibold hover:bg-gray-100 transition-all block text-center"
               >
                 Seleccionar Plan
@@ -493,7 +493,7 @@ export default function Home() {
                 </li>
               </ul>
               <a 
-                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                href="/activate-whatsapp" 
                 className="w-full bg-yellow-500 text-black py-3 px-6 rounded-xl font-semibold hover:bg-yellow-400 transition-all block text-center"
               >
                 Seleccionar Plan
@@ -535,14 +535,14 @@ export default function Home() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a 
-                href="https://gana-facil-1xvgreq9y-ganafacils-projects.vercel.app/demo-ia" 
+                href="/demo-ia" 
                 className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2"
               >
                 <Zap className="h-6 w-6" />
                 Probar Demo GRATIS
               </a>
               <a 
-                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                href="/activate-whatsapp" 
                 className="bg-yellow-400 text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2"
               >
                 <MessageCircle className="h-6 w-6" />
