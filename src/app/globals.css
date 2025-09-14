@@ -17,13 +17,9 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
 }
 
 /* GANAFACIL ANBEL IA Styles */
@@ -75,6 +71,44 @@ body {
 
 .fade-in-up {
   animation: fadeInUp 0.6s ease-out;
+}
+
+/* Global Styles for All Pages */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Default text colors for all pages */
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+
+p, span, div {
+  color: white;
+}
+
+/* Override gray colors globally */
+.text-gray-800, .text-gray-700, .text-gray-600, .text-gray-500 {
+  color: white !important;
+}
+
+.text-black {
+  color: white !important;
+}
+
+/* Override white backgrounds */
+.bg-white {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bg-gray-50, .bg-gray-100 {
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 /* Responsive Design */
