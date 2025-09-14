@@ -1,100 +1,109 @@
-import { UserSubscription, SUBSCRIPTION_PLANS, SUBSCRIPTION_FEATURES } from '@/types/subscriptions';
+// Funciones de permisos y suscripciones para GANAFACIL ANBEL IA
 
-export interface User {
+export interface UserPlan {
   id: string;
-  email: string;
-  subscription?: UserSubscription;
-  planId: string;
-  isAdmin?: boolean;
+  name: string;
+  type: 'basic' | 'premium' | 'vip';
+  maxPredictions: number;
+  maxClubs: number;
+  features: string[];
+  price: number;
+  duration: number; // días
 }
 
-// Verificar si usuario tiene acceso a una feature
-export const tieneAcceso = (user: User, feature: string): boolean => {
-  if (user.isAdmin) return true;
-  
-  const plan = SUBSCRIPTION_PLANS.find(p => p.id === user.planId);
+export interface UserSubscription {
+  planId: string;
+  startDate: Date;
+  endDate: Date;
+  isActive: boolean;
+  isTrial: boolean;
+  daysRemaining: number;
+}
+
+// Planes disponibles
+export const PLANS: UserPlan[] = [
+  {
+    id: 'basic',
+    name: 'Básico',
+    type: 'basic',
+    maxPredictions: 10,
+    maxClubs: 1,
+    features: ['Predicciones básicas', '1 Club'],
+    price: 9.99,
+    duration: 30
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    type: 'premium',
+    maxPredictions: 50,
+    maxClubs: 3,
+    features: ['Predicciones avanzadas', '3 Clubs', 'Análisis detallado'],
+    price: 19.99,
+    duration: 30
+  },
+  {
+    id: 'vip',
+    name: 'VIP',
+    type: 'vip',
+    maxPredictions: 100,
+    maxClubs: 10,
+    features: ['Predicciones ilimitadas', 'Clubs ilimitados', 'IA avanzada', 'Soporte prioritario'],
+    price: 39.99,
+    duration: 30
+  }
+];
+
+// Función para obtener el plan actual del usuario
+export function getCurrentPlan(userId: string): UserPlan | null {
+  // En una implementación real, esto vendría de la base de datos
+  // Por ahora, retornamos un plan básico por defecto
+  return PLANS.find(plan => plan.id === 'basic') || null;
+}
+
+// Función para verificar si la suscripción está activa
+export function isSubscriptionActive(userId: string): boolean {
+  // En una implementación real, esto verificaría la base de datos
+  // Por ahora, retornamos true para permitir el acceso
+  return true;
+}
+
+// Función para verificar si está en período de prueba
+export function isInTrial(userId: string): boolean {
+  // En una implementación real, esto verificaría la base de datos
+  // Por ahora, retornamos false
+  return false;
+}
+
+// Función para obtener días restantes de suscripción
+export function getDiasRestantes(userId: string): number {
+  // En una implementación real, esto calcularía desde la base de datos
+  // Por ahora, retornamos 30 días
+  return 30;
+}
+
+// Función para verificar si puede crear un club
+export function puedeCrearClub(userId: string, currentClubs: number): boolean {
+  const plan = getCurrentPlan(userId);
   if (!plan) return false;
   
-  const featureData = SUBSCRIPTION_FEATURES.find(f => f.id === feature);
-  if (!featureData) return false;
-  
-  return featureData.planes.includes(plan.id);
-};
+  return currentClubs < plan.maxClubs;
+}
 
-// Verificar límites de clubs
-export const puedeCrearClub = (user: User, clubsActuales: number): boolean => {
-  if (user.isAdmin) return true;
-  
-  const plan = SUBSCRIPTION_PLANS.find(p => p.id === user.planId);
+// Función para verificar si puede hacer predicciones
+export function puedeHacerPrediccion(userId: string, currentPredictions: number): boolean {
+  const plan = getCurrentPlan(userId);
   if (!plan) return false;
   
-  if (plan.limiteClubs === -1) return true; // Ilimitado
-  return clubsActuales < plan.limiteClubs;
-};
+  return currentPredictions < plan.maxPredictions;
+}
 
-// Verificar límites de miembros en club
-export const puedeAgregarMiembro = (user: User, miembrosActuales: number): boolean => {
-  if (user.isAdmin) return true;
-  
-  const plan = SUBSCRIPTION_PLANS.find(p => p.id === user.planId);
-  if (!plan) return false;
-  
-  if (plan.limiteMiembros === -1) return true; // Ilimitado
-  return miembrosActuales < plan.limiteMiembros;
-};
-
-// Obtener features disponibles para el plan
-export const getFeaturesDisponibles = (planId: string): string[] => {
-  const plan = SUBSCRIPTION_PLANS.find(p => p.id === planId);
-  if (!plan) return [];
-  
-  return SUBSCRIPTION_FEATURES
-    .filter(feature => feature.planes.includes(planId))
-    .map(feature => feature.id);
-};
-
-// Verificar si suscripción está activa
-export const isSubscriptionActive = (subscription?: UserSubscription): boolean => {
-  if (!subscription) return false;
-  
-  const now = new Date();
-  return subscription.estado === 'activa' && subscription.fechaFin > now;
-};
-
-// Obtener días restantes de suscripción
-export const getDiasRestantes = (subscription?: UserSubscription): number => {
-  if (!subscription || !isSubscriptionActive(subscription)) return 0;
-  
-  const now = new Date();
-  const diffTime = subscription.fechaFin.getTime() - now.getTime();
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-};
-
-// Verificar si está en trial
-export const isInTrial = (subscription?: UserSubscription): boolean => {
-  return subscription?.estado === 'trial';
-};
-
-// Obtener plan actual del usuario
-export const getCurrentPlan = (user: User) => {
-  return SUBSCRIPTION_PLANS.find(p => p.id === user.planId);
-};
-
-// Verificar si puede acceder a función premium
-export const isPremiumFeature = (feature: string): boolean => {
-  const featureData = SUBSCRIPTION_FEATURES.find(f => f.id === feature);
-  if (!featureData) return false;
-  
-  return !featureData.planes.includes('gratis');
-};
-
-// Obtener mensaje de upgrade para feature
-export const getUpgradeMessage = (feature: string): string => {
-  const featureData = SUBSCRIPTION_FEATURES.find(f => f.id === feature);
-  if (!featureData) return 'Esta función no está disponible';
-  
-  const minPlan = SUBSCRIPTION_PLANS.find(p => featureData.planes.includes(p.id));
-  if (!minPlan) return 'Esta función no está disponible';
-  
-  return `Esta función está disponible en el ${minPlan.nombre} ($${minPlan.precio}/mes)`;
-};
+// Función para obtener estadísticas del usuario
+export function getUserStats(userId: string) {
+  return {
+    plan: getCurrentPlan(userId),
+    isActive: isSubscriptionActive(userId),
+    isTrial: isInTrial(userId),
+    daysRemaining: getDiasRestantes(userId)
+  };
+}

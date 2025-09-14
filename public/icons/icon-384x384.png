@@ -1,0 +1,3 @@
+# PNG Icon 384x384
+# Este es un placeholder. En producción, usar una librería como sharp para generar PNGs reales.
+# Comando sugerido: npx sharp-cli -i icon-384x384.svg -o icon-384x384.png

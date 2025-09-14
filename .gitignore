@@ -128,3 +128,6 @@ ui-debug.log
 .vercel
 
 .vercel
+
+# Local Netlify folder
+.netlify

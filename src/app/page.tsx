@@ -1,262 +1,721 @@
 'use client';
 
-import { useState } from 'react';
-import { Brain, Crown, MessageCircle, Bot, Target, Sparkles } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Brain, Crown, MessageCircle, Bot, Target, Sparkles, ChartLine, Bolt, Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Zap, BarChart3, Shield, Lock, Award, CheckCircle } from 'lucide-react';
 import AIBanner from '@/components/ai/AIBanner';
-import AnbelAIChat from '@/components/AnbelAIChat';
+import ImprovedChatbot from '@/components/chatbot/ImprovedChatbot';
+import PWAInstallBannerBilingual from '@/components/pwa/PWAInstallBannerBilingual';
+import ConnectionStatusBilingual from '@/components/pwa/ConnectionStatusBilingual';
+import PWADiagnostic from '@/components/pwa/PWADiagnostic';
+import { GanaFacilTabs } from '@/components/Tabs';
+import Chatbot from '@/components/Chatbot';
+import SmoothScroll from '@/components/SmoothScroll';
+import ScrollProgress from '@/components/ScrollProgress';
+import BackToTop from '@/components/BackToTop';
+import Analytics from '@/components/Analytics';
 
 export default function Home() {
-
   const [isAIBannerVisible, setIsAIBannerVisible] = useState(true);
-  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
+  const [isChatbotVisible, setIsChatbotVisible] = useState(false);
+  const [isPWAInstallVisible, setIsPWAInstallVisible] = useState(true);
+
+  // Counter animation for statistics
+  useEffect(() => {
+    const animateCounters = () => {
+      const counters = document.querySelectorAll('.stat-number');
+      counters.forEach(counter => {
+        const target = parseInt(counter.textContent?.replace(/[^\d]/g, '') || '0');
+        let current = 0;
+        const increment = target / 50;
+        
+        const updateCounter = () => {
+          if (current < target) {
+            current += increment;
+            const displayValue = Math.round(current);
+            counter.textContent = displayValue + (counter.textContent?.includes('%') ? '%' : '+');
+            setTimeout(updateCounter, 40);
+          } else {
+            counter.textContent = target + (counter.textContent?.includes('%') ? '%' : '+');
+          }
+        };
+        
+        updateCounter();
+      });
+    };
+
+    // Smooth scroll for navigation links
+    const handleSmoothScroll = (e: Event) => {
+      const target = e.target as HTMLAnchorElement;
+      const href = target.getAttribute('href');
+      if (href?.startsWith('#')) {
+        e.preventDefault();
+        const targetElement = document.querySelector(href);
+        if (targetElement) {
+          window.scrollTo({
+            top: (targetElement as HTMLElement).offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      }
+    };
+
+    // Add event listeners
+    document.querySelectorAll('nav a, .btn-outline').forEach(anchor => {
+      anchor.addEventListener('click', handleSmoothScroll);
+    });
+
+    // Intersection Observer for counter animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) {
+      observer.observe(statsSection);
+    }
+
+    return () => {
+      document.querySelectorAll('nav a, .btn-outline').forEach(anchor => {
+        anchor.removeEventListener('click', handleSmoothScroll);
+      });
+    };
+  }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+    <main className="min-h-screen bg-gray-50 text-gray-800">
       {/* AI Banner */}
       <AIBanner 
-        onOpenAI={() => setIsAIAssistantOpen(true)}
+        onOpenAI={() => {}}
         isVisible={isAIBannerVisible}
         onClose={() => setIsAIBannerVisible(false)}
       />
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-red-500/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-6">
-              🎯 GANA FÁCIL
-            </h1>
-            <p className="text-2xl md:text-3xl text-gray-300 mb-4">
-              Sistema de Predicciones de Lotería con IA
-            </p>
-            
-            {/* Cómo Funcionan las Predicciones */}
-            <div className="bg-gradient-to-r from-gold/20 to-yellow-400/20 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-gold/30 max-w-6xl mx-auto">
-              <h2 className="text-4xl font-bold text-gold mb-6 text-center">
-                🎯 ¿CÓMO FUNCIONAN LAS PREDICCIONES?
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div className="bg-white/10 rounded-lg p-6">
-                  <h3 className="text-2xl font-bold text-white mb-4">🧠 Inteligencia Artificial Avanzada</h3>
-                  <ul className="space-y-3 text-gray-300">
-                    <li>• <strong>Machine Learning:</strong> Analiza patrones de 10+ años de datos históricos</li>
-                    <li>• <strong>Deep Learning:</strong> Redes neuronales que identifican tendencias ocultas</li>
-                    <li>• <strong>Algoritmos Matemáticos:</strong> Cálculos estadísticos de probabilidad avanzada</li>
-                    <li>• <strong>Análisis Predictivo:</strong> Predice números basándose en patrones reales</li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/10 rounded-lg p-6">
-                  <h3 className="text-2xl font-bold text-white mb-4">📊 Proceso de Análisis</h3>
-                  <ul className="space-y-3 text-gray-300">
-                    <li>• <strong>Recopilación:</strong> Datos de 9 loterías internacionales en tiempo real</li>
-                    <li>• <strong>Procesamiento:</strong> Análisis de frecuencias, patrones y tendencias</li>
-                    <li>• <strong>Validación:</strong> Verificación cruzada con múltiples algoritmos</li>
-                    <li>• <strong>Precisión:</strong> 95% de exactitud en predicciones verificadas</li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <a
-                  href="/activate"
-                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-gold/50"
-                >
-                  🔑 ACTIVAR CUENTA PARA VER PREDICCIONES
-                </a>
-              </div>
-            </div>
 
-            {/* Cómo Funciona el Agente Anbel */}
-            <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-purple-400/30 max-w-6xl mx-auto">
-              <h2 className="text-4xl font-bold text-purple-400 mb-6 text-center">
-                🤖 ¿CÓMO FUNCIONA EL AGENTE ANBEL?
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div className="bg-white/10 rounded-lg p-6">
-                  <h3 className="text-2xl font-bold text-white mb-4">💬 Chat Inteligente</h3>
-                  <ul className="space-y-3 text-gray-300">
-                    <li>• <strong>Conversación Natural:</strong> Habla como un experto en loterías</li>
-                    <li>• <strong>Análisis Personalizado:</strong> Respuestas específicas para tu situación</li>
-                    <li>• <strong>Tiempo Real:</strong> Actualizaciones instantáneas de predicciones</li>
-                    <li>• <strong>Estrategias:</strong> Te enseña las mejores técnicas de juego</li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/10 rounded-lg p-6">
-                  <h3 className="text-2xl font-bold text-white mb-4">🎯 Capacidades Avanzadas</h3>
-                  <ul className="space-y-3 text-gray-300">
-                    <li>• <strong>25+ Funciones:</strong> Desde análisis básico hasta estrategias complejas</li>
-                    <li>• <strong>Base de Datos:</strong> Acceso a millones de combinaciones históricas</li>
-                    <li>• <strong>Predicciones Específicas:</strong> Números personalizados para cada lotería</li>
-                    <li>• <strong>Asesoría 24/7:</strong> Siempre disponible para ayudarte</li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <a
-                  href="/anbel-ai"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-10 py-5 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 text-xl shadow-2xl hover:shadow-purple-500/50"
-                >
-                  🧠 HABLAR CON ANBEL IA
-                </a>
-              </div>
+      {/* Header */}
+      <header className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-4 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <Brain className="h-8 w-8 text-green-400" />
+              <span className="text-2xl font-bold">GanaFácil</span>
             </div>
             
-            <p className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto">
-              Algoritmos avanzados de inteligencia artificial que analizan patrones históricos 
-              para predecir los números más probables de salir en 9 loterías internacionales.
-            </p>
+            <nav className="hidden md:flex gap-6">
+              <a href="#features" className="hover:text-yellow-400 transition-colors">Características</a>
+              <a href="#demo" className="hover:text-yellow-400 transition-colors">Cómo Funciona</a>
+              <a href="#stats" className="hover:text-yellow-400 transition-colors">Resultados</a>
+              <a href="#pricing" className="hover:text-yellow-400 transition-colors">Precios</a>
+            </nav>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href="/activate"
-                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-10 py-5 rounded-xl text-2xl hover:from-yellow-400 hover:to-gold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-gold/50 border-2 border-yellow-300"
-              >
-                🔑 ACTIVAR CUENTA
+            <div className="flex gap-3">
+              <a href="/auth/login" className="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all">
+                Iniciar Sesión
               </a>
-              <a
-                href="/auth/register"
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-10 py-5 rounded-xl text-2xl hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-green-500/50"
-              >
-                📝 CREAR CUENTA
+              <a href="/auth/register" className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all">
+                Registrarse
               </a>
-              <a
-                href="/auth/login"
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold px-10 py-5 rounded-xl text-2xl hover:from-blue-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-blue-500/50"
-              >
-                🔐 INICIAR SESIÓN
+              <a href="/page-en" className="px-4 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm">
+                🇺🇸 EN
               </a>
             </div>
-            
           </div>
         </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            Predicciones de Lotería con Inteligencia Artificial
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
+            Descubre el poder de Anbel IA, nuestro sistema avanzado que analiza patrones y probabilidades para ayudarte a tomar decisiones más inteligentes.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+            <a href="/auth/register-us-es" className="px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105">
+              Prueba Gratuita (US)
+            </a>
+            <a href="/demo-ia" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all">
+              Demo Interactiva
+            </a>
+            <button 
+              onClick={() => setIsChatbotVisible(true)}
+              className="px-8 py-4 bg-purple-500 text-white rounded-full text-lg font-semibold hover:bg-purple-600 transition-all transform hover:scale-105 flex items-center gap-2"
+            >
+              <MessageCircle className="h-5 w-5" />
+              Chat con IA
+            </button>
+          </div>
+          </div>
+      </section>
+
+      {/* Interactive Demo Section */}
+      <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-6">Experimenta Anbel IA Ahora</h2>
+          <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+            Prueba nuestras capacidades de predicción sin registrarte. Genera predicciones de demostración y descubre el poder de la inteligencia artificial.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+              <Zap className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-3">Predicciones Instantáneas</h3>
+              <p className="text-gray-300">Genera predicciones en tiempo real con nuestros algoritmos avanzados</p>
+            </div>
+            
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+              <BarChart3 className="h-12 w-12 text-green-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-3">Análisis Detallado</h3>
+              <p className="text-gray-300">Obtén explicaciones detalladas del razonamiento de cada predicción</p>
       </div>
 
-      {/* Métodos de Acceso */}
-      <div className="py-16 bg-gradient-to-r from-blue-900/30 to-purple-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">¿Cómo Acceder a GANA FÁCIL?</h2>
-            <p className="text-lg text-gray-300">Elige el método que prefieras para comenzar</p>
-            <div className="mt-4">
-              <a
-                href="/page-en"
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
-              >
-                🇺🇸 English Version
-              </a>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+              <Brain className="h-12 w-12 text-blue-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-3">Múltiples Algoritmos</h3>
+              <p className="text-gray-300">Prueba diferentes algoritmos: Anbel, Probabilístico e Histórico</p>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800/50 rounded-2xl p-6 border border-blue-500/50 text-center">
-              <div className="text-4xl mb-4">🔑</div>
-              <h3 className="text-xl font-bold text-blue-400 mb-3">Código de Activación</h3>
-              <p className="text-gray-300 mb-4">Usa un código de activación para acceso inmediato</p>
-              <a
-                href="/activate"
-                className="inline-block bg-gold text-black px-8 py-4 rounded-lg font-bold hover:bg-yellow-400 transition-colors text-lg"
-              >
-                ACTIVAR CÓDIGO
-              </a>
-            </div>
-            
-            <div className="bg-gray-800/50 rounded-2xl p-6 border border-green-500/50 text-center">
-              <div className="text-4xl mb-4">📝</div>
-              <h3 className="text-xl font-bold text-green-400 mb-3">Crear Cuenta</h3>
-              <p className="text-gray-300 mb-4">Regístrate con email y contraseña para acceso completo</p>
-              <a
-                href="/auth/register"
-                className="inline-block bg-green-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-green-600 transition-colors text-lg"
-              >
-                CREAR CUENTA
-              </a>
-            </div>
-            
-            <div className="bg-gray-800/50 rounded-2xl p-6 border border-purple-500/50 text-center">
-              <div className="text-4xl mb-4">🔐</div>
-              <h3 className="text-xl font-bold text-purple-400 mb-3">Iniciar Sesión</h3>
-              <p className="text-gray-300 mb-4">Si ya tienes cuenta, inicia sesión aquí</p>
-              <a
-                href="/auth/login"
-                className="inline-block bg-blue-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-blue-600 transition-colors text-lg"
-              >
-                INICIAR SESIÓN
-              </a>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://gana-facil-1xvgreq9y-ganafacils-projects.vercel.app/demo-ia" className="px-8 py-4 bg-white text-purple-600 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center gap-2">
+              <Zap className="h-5 w-5" />
+              Probar Demo Interactiva
+            </a>
+            <a href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all flex items-center gap-2">
+              <MessageCircle className="h-5 w-5" />
+              Activar con WhatsApp
+            </a>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Features Section */}
-      <div className="py-20 bg-gray-900/50">
+      <section className="py-20 bg-white" id="features">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">Potenciado por Anbel IA</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <ChartLine className="h-16 w-16 text-blue-500 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Análisis Predictivo</h3>
+              <p className="text-gray-600">Nuestros algoritmos analizan miles de sorteos históricos para identificar patrones y tendencias.</p>
+            </div>
+            
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <Bot className="h-16 w-16 text-blue-500 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Asistente Inteligente</h3>
+              <p className="text-gray-600">Conversa con nuestro asistente IA que te guiará y responderá tus preguntas sobre predicciones.</p>
+            </div>
+            
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <Bolt className="h-16 w-16 text-blue-500 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Resultados en Tiempo Real</h3>
+              <p className="text-gray-600">Obtén predicciones actualizadas al instante con los últimos datos de sorteos.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Demo Section with Functional Tabs */}
+      <section className="py-20 bg-gray-100" id="demo">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-6 text-gray-800">Experimenta el poder de la predicción inteligente</h2>
+            <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+              Nuestra tecnología analiza múltiples factores simultáneamente para generar predicciones con alto porcentaje de precisión.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="/demo-ia" className="inline-block px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all text-center">
+                Probar Demo Gratis
+              </a>
+              <a href="/pricing-us-es" className="inline-block px-8 py-4 bg-purple-500 text-white rounded-full text-lg font-semibold hover:bg-purple-600 transition-all text-center">
+                Ver Precios US
+              </a>
+              <a href="/activate-whatsapp" className="inline-block px-8 py-4 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 transition-all text-center">
+                Activar por WhatsApp
+              </a>
+            </div>
+          </div>
+          
+          {/* Functional Tabs */}
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <GanaFacilTabs />
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white stats" id="stats">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-12">Resultados Comprobados</h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            <div className="p-6">
+              <div className="text-5xl font-bold mb-3 stat-number">94.5%</div>
+              <div className="text-lg opacity-90">Precisión del algoritmo Anbel</div>
+            </div>
+            
+            <div className="p-6">
+              <div className="text-5xl font-bold mb-3 stat-number">1,240+</div>
+              <div className="text-lg opacity-90">Predicciones exitosas</div>
+            </div>
+            
+            <div className="p-6">
+              <div className="text-5xl font-bold mb-3 stat-number">4</div>
+              <div className="text-lg opacity-90">Algoritmos integrados</div>
+            </div>
+            
+            <div className="p-6">
+              <div className="text-5xl font-bold mb-3 stat-number">98%</div>
+              <div className="text-lg opacity-90">Satisfacción de usuarios</div>
+            </div>
+          </div>
+
+          {/* Testimonials */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold text-xl">
+                  M
+                </div>
+                <div className="ml-4">
+                  <h4 className="font-bold text-lg">María González</h4>
+                  <div className="flex text-yellow-400">
+                    ⭐⭐⭐⭐⭐
+                  </div>
+                </div>
+              </div>
+              <p className="text-blue-100 italic">
+                "¡Increíble! GanaFácil me ayudó a ganar $2,500 en Powerball. 
+                Sus predicciones son muy precisas y fáciles de entender."
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center text-black font-bold text-xl">
+                  J
+                </div>
+                <div className="ml-4">
+                  <h4 className="font-bold text-lg">Juan Pérez</h4>
+                  <div className="flex text-yellow-400">
+                    ⭐⭐⭐⭐⭐
+                  </div>
+                </div>
+              </div>
+              <p className="text-blue-100 italic">
+                "La IA de Anbel es impresionante. He estado usando la app 
+                por 3 meses y ya recuperé mi inversión 10 veces."
+              </p>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center text-black font-bold text-xl">
+                  A
+                </div>
+                <div className="ml-4">
+                  <h4 className="font-bold text-lg">Ana Rodríguez</h4>
+                  <div className="flex text-yellow-400">
+                    ⭐⭐⭐⭐⭐
+                  </div>
+                </div>
+              </div>
+              <p className="text-blue-100 italic">
+                "Me encanta la interfaz y lo fácil que es usar. 
+                Las notificaciones me mantienen al día con los mejores números."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-20 bg-white" id="pricing">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">¿Por qué Gana Fácil?</h2>
-            <p className="text-xl text-gray-400">Tecnología de vanguardia para maximizar tus posibilidades de ganar</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Planes de Suscripción</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Elige el plan que mejor se adapte a tus necesidades. Todos incluyen acceso completo a Anbel IA.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Plan Prueba Gratis */}
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Prueba Gratis</h3>
+                <div className="text-4xl font-bold text-green-600 mb-2">GRATIS</div>
+                <div className="text-sm text-gray-500 line-through">$4.99</div>
+                <p className="text-gray-600 mt-2">3 días</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-left">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Predicciones básicas (3 sorteos)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Acceso a estadísticas básicas</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Soporte por WhatsApp</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Sin compromiso</span>
+                </li>
+              </ul>
+              <a 
+                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                className="w-full bg-green-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-600 transition-all block text-center"
+              >
+                Comenzar Gratis
+              </a>
+            </div>
+
+            {/* Plan Básico */}
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan Básico</h3>
+                <div className="text-4xl font-bold text-blue-600 mb-2">$3.99</div>
+                <div className="text-sm text-gray-500 line-through">$4.99</div>
+                <p className="text-gray-600 mt-2">1 semana</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-left">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Predicciones para 5 sorteos</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Estadísticas detalladas</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Soporte por WhatsApp</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Notificaciones básicas</span>
+                </li>
+              </ul>
+              <a 
+                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                className="w-full bg-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-600 transition-all block text-center"
+              >
+                Seleccionar Plan
+              </a>
+            </div>
+
+            {/* Plan Premium - MÁS POPULAR */}
+            <div className="bg-gradient-to-br from-purple-500 to-blue-600 text-white rounded-2xl p-8 text-center relative transform scale-105 shadow-2xl">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">
+                  MÁS POPULAR
+                </span>
+              </div>
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold mb-2">Plan Premium</h3>
+                <div className="text-4xl font-bold mb-2">$11.99</div>
+                <div className="text-sm text-yellow-200 line-through">$14.99</div>
+                <p className="text-purple-100 mt-2">1 mes</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-left">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Predicciones para todos los sorteos</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Análisis avanzados con IA</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Soporte prioritario</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Notificaciones push</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Historial de predicciones</span>
+                </li>
+              </ul>
+              <a 
+                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                className="w-full bg-white text-purple-600 py-3 px-6 rounded-xl font-semibold hover:bg-gray-100 transition-all block text-center"
+              >
+                Seleccionar Plan
+              </a>
+            </div>
+
+            {/* Plan VIP */}
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan VIP</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">$28.99</div>
+                <div className="text-sm text-gray-500 line-through">$39.99</div>
+                <p className="text-gray-600 mt-2">3 meses</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-left">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Acceso completo a todas las funciones</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Predicciones exclusivas VIP</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Soporte VIP 24/7</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Consultoría personalizada</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Análisis de tendencias</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Alertas premium</span>
+                </li>
+              </ul>
+              <a 
+                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                className="w-full bg-yellow-500 text-black py-3 px-6 rounded-xl font-semibold hover:bg-yellow-400 transition-all block text-center"
+              >
+                Seleccionar Plan
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-green-500 to-blue-600 text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              ¿Listo para Cambiar tu Vida?
+            </h2>
+            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+              Únete a más de 10,000 usuarios que ya están ganando con GanaFácil
+            </p>
+            
+            {/* Urgency Elements */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+              <div className="flex items-center gap-2 bg-red-500/20 px-4 py-2 rounded-full border border-red-400/30">
+                <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-semibold">Oferta Limitada</span>
+              </div>
+              <div className="flex items-center gap-2 bg-yellow-500/20 px-4 py-2 rounded-full border border-yellow-400/30">
+                <span className="text-sm font-semibold">Solo 24 horas restantes</span>
+              </div>
+            </div>
+
+            {/* Pricing Highlight */}
+            <div className="bg-white/20 rounded-2xl p-6 mb-8 max-w-2xl mx-auto">
+              <div className="text-3xl font-bold mb-2">Prueba GRATIS por 3 días</div>
+              <div className="text-lg text-blue-200 mb-4">Luego solo $11.99/mes</div>
+              <div className="text-sm text-gray-300 line-through">Valor normal: $29.99/mes</div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a 
+                href="https://gana-facil-1xvgreq9y-ganafacils-projects.vercel.app/demo-ia" 
+                className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2"
+              >
+                <Zap className="h-6 w-6" />
+                Probar Demo GRATIS
+              </a>
+              <a 
+                href="https://gana-facil-d1i0w0f8j-ganafacils-projects.vercel.app/activate-whatsapp" 
+                className="bg-yellow-400 text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2"
+              >
+                <MessageCircle className="h-6 w-6" />
+                Activar Ahora
+              </a>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-6 text-sm text-blue-200">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-400" />
+                <span>Sin compromiso</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-400" />
+                <span>Cancelar en cualquier momento</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-400" />
+                <span>Soporte 24/7</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Security & Guarantee Section */}
+      <section className="py-16 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Tu Seguridad es Nuestra Prioridad
+            </h2>
+            <p className="text-lg text-gray-600">
+              Protegemos tu información con los más altos estándares de seguridad
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800/50 rounded-2xl p-8 border border-gray-700 hover:border-yellow-400/50 transition-all duration-300">
-              <div className="text-4xl mb-4">🤖</div>
-              <h3 className="text-2xl font-bold text-yellow-400 mb-4">IA Avanzada</h3>
-              <p className="text-gray-300">Algoritmos de inteligencia artificial que analizan millones de combinaciones para encontrar patrones ocultos.</p>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">Garantía de 30 Días</h3>
+              <p className="text-gray-600">
+                Si no estás satisfecho, te devolvemos tu dinero sin preguntas
+              </p>
             </div>
             
-            <div className="bg-gray-800/50 rounded-2xl p-8 border border-gray-700 hover:border-yellow-400/50 transition-all duration-300">
-              <div className="text-4xl mb-4">📱</div>
-              <h3 className="text-2xl font-bold text-yellow-400 mb-4">PWA Profesional</h3>
-              <p className="text-gray-300">Instala como app nativa en tu móvil. Funciona offline y se sincroniza automáticamente.</p>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">Datos Seguros</h3>
+              <p className="text-gray-600">
+                Encriptación SSL y cumplimiento con GDPR para proteger tu privacidad
+              </p>
             </div>
             
-            <div className="bg-gray-800/50 rounded-2xl p-8 border border-gray-700 hover:border-yellow-400/50 transition-all duration-300">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-2xl font-bold text-yellow-400 mb-4">Tiempo Real</h3>
-              <p className="text-gray-300">Predicciones que se actualizan constantemente con los últimos datos y análisis.</p>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Crown className="h-8 w-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">Certificado de Calidad</h3>
+              <p className="text-gray-600">
+                Algoritmos verificados y probados por expertos en estadísticas
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Stats Section */}
-      <div className="py-20">
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
-              <div className="text-4xl font-bold text-yellow-400 mb-2">9</div>
-              <div className="text-gray-400">Loterías Internacionales</div>
+              <h3 className="text-2xl font-bold mb-4">GanaFácil</h3>
+              <p className="text-gray-300 mb-6">
+                La plataforma de predicción de lotería más avanzada, potenciada por inteligencia artificial.
+              </p>
+              
+              <div className="flex gap-4">
+                <a href="#" className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                  <Facebook className="h-5 w-5" />
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+                  <Twitter className="h-5 w-5" />
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
+                  <Instagram className="h-5 w-5" />
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                  <Youtube className="h-5 w-5" />
+                </a>
+              </div>
             </div>
+            
             <div>
-              <div className="text-4xl font-bold text-yellow-400 mb-2">95%</div>
-              <div className="text-gray-400">Precisión Promedio</div>
+              <h3 className="text-xl font-bold mb-4">Enlaces Rápidos</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Inicio</a></li>
+                <li><a href="#features" className="text-gray-300 hover:text-green-400 transition-colors">Características</a></li>
+                <li><a href="#demo" className="text-gray-300 hover:text-green-400 transition-colors">Cómo Funciona</a></li>
+                <li><a href="#stats" className="text-gray-300 hover:text-green-400 transition-colors">Resultados</a></li>
+              </ul>
             </div>
+            
             <div>
-              <div className="text-4xl font-bold text-yellow-400 mb-2">24/7</div>
-              <div className="text-gray-400">Actualizaciones</div>
+              <h3 className="text-xl font-bold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Términos de Servicio</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Política de Privacidad</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Responsabilidad</a></li>
+              </ul>
             </div>
+            
             <div>
-              <div className="text-4xl font-bold text-yellow-400 mb-2">3</div>
-              <div className="text-gray-400">Algoritmos de IA</div>
+              <h3 className="text-xl font-bold mb-4">Contacto</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2 text-gray-300">
+                  <Mail className="h-4 w-4" />
+                  info@ganafacil.com
+                </li>
+                <li className="flex items-center gap-2 text-gray-300">
+                  <Phone className="h-4 w-4" />
+                  +1 (234) 567-8900
+                </li>
+                <li className="flex items-center gap-2 text-gray-300">
+                  <MapPin className="h-4 w-4" />
+                  Ciudad, País
+                </li>
+              </ul>
             </div>
           </div>
+          
+          <div className="border-t border-gray-700 pt-8 text-center">
+            <p className="text-gray-400">
+              &copy; 2023 GanaFácil - Todos los derechos reservados. Juega responsablemente.
+            </p>
+          </div>
         </div>
-      </div>
-      
-      {/* Chat del Agente Anbel IA - El Cerebro */}
-      <AnbelAIChat
-        userId="home-visitor"
-        language="es"
-        onPredictionGenerated={(prediction) => {
-          console.log('Predicción generada desde página principal:', prediction);
-        }}
-        onAnalysisGenerated={(analysis) => {
-          console.log('Análisis generado desde página principal:', analysis);
-        }}
+      </footer>
+
+      {/* Improved Chatbot */}
+      <ImprovedChatbot 
+        isVisible={isChatbotVisible}
+        onClose={() => setIsChatbotVisible(false)}
       />
+
+      {/* PWA Components */}
+      <PWAInstallBannerBilingual 
+        isVisible={isPWAInstallVisible}
+        onClose={() => setIsPWAInstallVisible(false)}
+        language="es"
+      />
+      <ConnectionStatusBilingual language="es" />
+      <PWADiagnostic />
+      
+      {/* Chatbot */}
+      <Chatbot />
+      
+      {/* Smooth Scroll */}
+      <SmoothScroll />
+      
+      {/* Scroll Progress */}
+      <ScrollProgress />
+      
+      {/* Back to Top */}
+      <BackToTop />
+      
+      {/* Analytics */}
+      <Analytics />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import RealTimeUSLotteryResultsEn from '@/components/RealTimeUSLotteryResultsEn';
+import RealTimeUSLotteryResults from '@/components/RealTimeUSLotteryResults';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -12,9 +12,9 @@ export default function RealTimeDashboardEn() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/activate-user');
+      router.push('/activate');
     }
-  }, [isAuthenticated, isLoading]); // Removed router dependency
+  }, [isAuthenticated, isLoading]);
 
   if (isLoading) {
     return (
@@ -53,20 +53,20 @@ export default function RealTimeDashboardEn() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main content */}
       <div className="container mx-auto px-4 py-8">
-        <RealTimeUSLotteryResultsEn />
+        <RealTimeUSLotteryResults />
       </div>
 
-      {/* Footer */}
+      {/* Informative footer */}
       <div className="bg-gray-800/50 backdrop-blur-md border-t border-gray-700 mt-12">
         <div className="container mx-auto px-4 py-6">
           <div className="text-center text-gray-400">
             <p className="text-sm">
-              <strong>EASY WIN</strong> - Real-Time Prediction System
+              <strong>GANA FÁCIL</strong> - Real-Time Prediction System
             </p>
             <p className="text-xs mt-1">
-              Data updated every 2 minutes • Official US Lottery APIs
+              Data updated every 2 minutes • Official US lottery APIs
             </p>
           </div>
         </div>

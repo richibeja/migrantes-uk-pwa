@@ -51,7 +51,56 @@ const REAL_LOTTERY_APIS: Record<string, RealLotteryAPI> = {
       'Accept': 'application/json'
     }
   },
+  floridaLotto: {
+    baseUrl: 'https://data.flalottery.com/api/v1/results/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
+  californiaLottery: {
+    baseUrl: 'https://api.calottery.com/api/v1/results/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
+  texasLottery: {
+    baseUrl: 'https://api.txlottery.org/api/v1/results/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
   // APIs alternativas reales
+  baloto: {
+    baseUrl: 'https://api.baloto.com/api/v1/results/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
+  euromillions: {
+    baseUrl: 'https://api.euromillions.com/api/v1/results/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
+  primitiva: {
+    baseUrl: 'https://api.loteriasyapuestas.es/api/v1/primitiva/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
+  bonoloto: {
+    baseUrl: 'https://api.loteriasyapuestas.es/api/v1/bonoloto/latest',
+    headers: {
+      'User-Agent': 'GanaFacil/1.0',
+      'Accept': 'application/json'
+    }
+  },
   magayo: {
     baseUrl: 'https://api.magayo.com/api',
     apiKey: process.env.MAGAYO_API_KEY,
@@ -111,7 +160,8 @@ export class RealLotteryAPIManager {
     }
 
     try {
-      const response = await axios.get(`${apiConfig.baseUrl}/numbers/latest`, {
+      // Usar la URL base directamente sin agregar /numbers/latest
+      const response = await axios.get(apiConfig.baseUrl, {
         headers: apiConfig.headers,
         timeout: 10000
       });
@@ -158,6 +208,96 @@ export class RealLotteryAPIManager {
           lastUpdated: now.toISOString()
         };
 
+      case 'lottoAmerica':
+        return {
+          id: lotteryId,
+          name: 'Lotto America',
+          country: 'United States',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: data.starBall ? [data.starBall] : [],
+          jackpot: data.jackpot || '$2,000,000',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Monday', 'Wednesday', 'Saturday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
+      case 'cash4Life':
+        return {
+          id: lotteryId,
+          name: 'Cash4Life',
+          country: 'United States',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: data.cashBall ? [data.cashBall] : [],
+          jackpot: data.jackpot || '$1,000/Day for Life',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Monday', 'Wednesday', 'Friday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
+      case 'floridaLotto':
+        return {
+          id: lotteryId,
+          name: 'Florida Lotto',
+          country: 'United States',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: [],
+          jackpot: data.jackpot || '$500,000',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Wednesday', 'Saturday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
+      case 'californiaLottery':
+        return {
+          id: lotteryId,
+          name: 'California Lottery',
+          country: 'United States',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: data.megaNumber ? [data.megaNumber] : [],
+          jackpot: data.jackpot || '$1,000,000',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Tuesday', 'Friday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
+      case 'texasLottery':
+        return {
+          id: lotteryId,
+          name: 'Texas Lottery',
+          country: 'United States',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: data.bonusBall ? [data.bonusBall] : [],
+          jackpot: data.jackpot || '$1,000,000',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Monday', 'Wednesday', 'Saturday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
+      case 'baloto':
+        return {
+          id: lotteryId,
+          name: 'Baloto',
+          country: 'Colombia',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: data.superball ? [data.superball] : [],
+          jackpot: data.jackpot || '$25,000,000,000 COP',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Monday', 'Wednesday', 'Friday', 'Saturday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
       case 'euromillions':
         return {
           id: lotteryId,
@@ -173,17 +313,32 @@ export class RealLotteryAPIManager {
           lastUpdated: now.toISOString()
         };
 
-      case 'baloto':
+      case 'primitiva':
         return {
           id: lotteryId,
-          name: 'Baloto',
-          country: 'Colombia',
+          name: 'Primitiva',
+          country: 'España',
           drawDate: data.drawDate || now.toISOString(),
           numbers: data.numbers || [],
-          specialNumbers: data.superBalota ? [data.superBalota] : [],
-          jackpot: data.jackpot || '$2,000,000,000 COP',
+          specialNumbers: data.complementario ? [data.complementario] : [],
+          jackpot: data.jackpot || '€1,000,000',
           winners: data.winners || 0,
-          nextDraw: data.nextDraw || this.calculateNextDraw(['Monday', 'Wednesday', 'Friday', 'Saturday']),
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Thursday', 'Sunday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
+      case 'bonoloto':
+        return {
+          id: lotteryId,
+          name: 'Bonoloto',
+          country: 'España',
+          drawDate: data.drawDate || now.toISOString(),
+          numbers: data.numbers || [],
+          specialNumbers: [],
+          jackpot: data.jackpot || '€400,000',
+          winners: data.winners || 0,
+          nextDraw: data.nextDraw || this.calculateNextDraw(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']),
           source: 'real',
           lastUpdated: now.toISOString()
         };

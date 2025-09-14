@@ -1,47 +1,60 @@
+const withPWA = require('@ducanh2912/next-pwa').default({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+  sw: 'sw.js',
+  buildExcludes: [/middleware-manifest\.json$/],
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'google-fonts',
+        expiration: {
+          maxEntries: 4,
+          maxAgeSeconds: 365 * 24 * 60 * 60 // 365 días
+        }
+      }
+    },
+    {
+      urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'google-fonts-static',
+        expiration: {
+          maxEntries: 4,
+          maxAgeSeconds: 365 * 24 * 60 * 60 // 365 días
+        }
+      }
+    }
+  ]
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  // output: 'export', // Comentado para permitir API routes en desarrollo
-  // distDir: 'out',
-  trailingSlash: true,
-  images: {
-    unoptimized: true
-  },
+  
   async redirects() {
     return [
       {
         source: '/',
-        has: [
-          { type: 'header', key: 'host', value: 'migrantes-uk-pwa.vercel.app' },
-        ],
-        destination: '/landing',
+        destination: '/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/activate-simple',
+        destination: '/activate',
         permanent: false,
       },
     ];
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate' },
-        ],
-      },
-    ];
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/favicon.ico',
-        destination: '/favicon.svg',
-      },
-      {
-        source: '/justicia.png',
-        destination: '/justicia.svg',
-      },
-    ];
-  },
+  
+  images: {
+    unoptimized: true
+  }
 };
-module.exports = nextConfig;
+
+module.exports = withPWA(nextConfig);

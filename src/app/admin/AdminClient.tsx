@@ -287,25 +287,11 @@ export default function AdminClient() {
           {/* Botones de navegación */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <a
-              href="/anbel-ai"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
-            >
-              <Bot className="w-5 h-5" />
-              <span>AGENTE ANBEL IA</span>
-            </a>
-            <a
               href="/dashboard"
               className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-6 py-3 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
             >
               <Target className="w-5 h-5" />
               <span>DASHBOARD</span>
-            </a>
-            <a
-              href="/predictions"
-              className="bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold px-6 py-3 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
-            >
-              <BarChart3 className="w-5 h-5" />
-              <span>PREDICCIONES</span>
             </a>
             <button
               onClick={handleLogout}

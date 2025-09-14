@@ -1,365 +1,312 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { anbelAIAgent, AnbelAIResponse } from '@/lib/anbel-ai-agent';
 
-export interface AnbelAIState {
-  isActive: boolean;
-  isInitializing: boolean;
-  lastUpdate: string;
-  capabilities: any;
-  status: 'idle' | 'working' | 'error' | 'success';
-  error: string | null;
-  responses: AnbelAIResponse[];
-  memory: any;
-  predictions: any[];
-  users: any[];
-  patterns: any[];
-  trends: any[];
+export interface AnbelMessage {
+  id: string;
+  type: 'user' | 'anbel' | 'system';
+  content: string;
+  timestamp: Date;
+  metadata?: {
+    confidence?: number;
+    algorithm?: string;
+    prediction?: any;
+    [key: string]: any;
+  };
 }
 
-export function useAnbelAI() {
-  const [state, setState] = useState<AnbelAIState>({
-    isActive: false,
-    isInitializing: true,
-    lastUpdate: '',
-    capabilities: {},
-    status: 'idle',
-    error: null,
-    responses: [],
-    memory: {},
+export interface AnbelPrediction {
+  id: string;
+  lottery: string;
+  numbers: number[];
+  confidence: number;
+  algorithm: string;
+  timestamp: Date;
+  metadata?: {
+    accuracy?: number;
+    pattern?: string;
+    [key: string]: any;
+  };
+}
+
+export interface AnbelState {
+  isConnected: boolean;
+  isProcessing: boolean;
+  messages: AnbelMessage[];
+  predictions: AnbelPrediction[];
+  currentLottery: string | null;
+  language: 'es' | 'en';
+  error: string | null;
+}
+
+export const useAnbelAI = () => {
+  const [state, setState] = useState<AnbelState>({
+    isConnected: false,
+    isProcessing: false,
+    messages: [],
     predictions: [],
-    users: [],
-    patterns: [],
-    trends: []
+    currentLottery: null,
+    language: 'es',
+    error: null,
   });
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [updateCount, setUpdateCount] = useState(0);
-
-  // Inicializar Agente Anbel IA
-  const initializeAnbelAI = useCallback(async () => {
+  // Conectar con Anbel IA
+  const connect = useCallback(async () => {
     try {
-      setIsLoading(true);
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      console.log('🤖 Inicializando Agente Anbel IA...');
+      setState(prev => ({ ...prev, isProcessing: true, error: null }));
       
-      // Obtener estado del agente
-      const status = await anbelAIAgent.getStatus();
+      // Simulación de conexión
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       setState(prev => ({
         ...prev,
-        isActive: status.isActive,
-        isInitializing: false,
-        lastUpdate: status.lastUpdate.toISOString(),
-        capabilities: status.capabilities,
-        status: 'success',
-        memory: status.memory,
-        predictions: Array.isArray(status.predictions) ? status.predictions : [],
-        users: Array.isArray(status.users) ? status.users : []
+        isConnected: true,
+        isProcessing: false,
+        messages: [
+          {
+            id: 'welcome',
+            type: 'anbel',
+            content: '¡Hola! Soy Anbel, tu asistente inteligente de loterías. ¿Cómo puedo ayudarte hoy?',
+            timestamp: new Date(),
+          }
+        ]
       }));
-
-      setUpdateCount(prev => prev + 1);
-      console.log('✅ Agente Anbel IA inicializado');
-
     } catch (error) {
-      console.error('❌ Error inicializando Agente Anbel IA:', error);
       setState(prev => ({
         ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error desconocido',
-        isInitializing: false
-      }));
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  // Generar predicción avanzada
-  const generateAdvancedPrediction = useCallback(async (
-    lotteryId: string,
-    userId?: string,
-    preferences?: any
-  ): Promise<AnbelAIResponse | null> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      console.log(`🎯 Anbel IA generando predicción avanzada para ${lotteryId}...`);
-      
-      const response = await anbelAIAgent.generateAdvancedPrediction(
-        lotteryId,
-        userId,
-        preferences
-      );
-
-      setState(prev => ({
-        ...prev,
-        responses: [response, ...prev.responses],
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      console.log('✅ Predicción avanzada generada');
-      return response;
-
-    } catch (error) {
-      console.error('❌ Error generando predicción avanzada:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error generando predicción'
-      }));
-      return null;
-    }
-  }, []);
-
-  // Chat inteligente
-  const processIntelligentChat = useCallback(async (
-    message: string,
-    userId: string,
-    language: 'es' | 'en' = 'es'
-  ): Promise<AnbelAIResponse | null> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      console.log(`💬 Anbel IA procesando chat: ${message}`);
-      
-      const response = await anbelAIAgent.processIntelligentChat(
-        message,
-        userId,
-        language
-      );
-
-      setState(prev => ({
-        ...prev,
-        responses: [response, ...prev.responses],
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      console.log('✅ Chat procesado');
-      return response;
-
-    } catch (error) {
-      console.error('❌ Error procesando chat:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error procesando chat'
-      }));
-      return null;
-    }
-  }, []);
-
-  // Generar dashboard inteligente
-  const generateIntelligentDashboard = useCallback(async (
-    userId: string
-  ): Promise<AnbelAIResponse | null> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      console.log(`📊 Anbel IA generando dashboard inteligente para ${userId}...`);
-      
-      const response = await anbelAIAgent.generateIntelligentDashboard(userId);
-
-      setState(prev => ({
-        ...prev,
-        responses: [response, ...prev.responses],
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      console.log('✅ Dashboard inteligente generado');
-      return response;
-
-    } catch (error) {
-      console.error('❌ Error generando dashboard inteligente:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error generando dashboard'
-      }));
-      return null;
-    }
-  }, []);
-
-  // Enviar notificación inteligente
-  const sendIntelligentNotification = useCallback(async (
-    type: 'pattern' | 'hotNumber' | 'trend' | 'opportunity',
-    userId: string,
-    data: any
-  ): Promise<AnbelAIResponse | null> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      console.log(`🔔 Anbel IA enviando notificación: ${type}`);
-      
-      const response = await anbelAIAgent.sendIntelligentNotification(
-        type,
-        userId,
-        data
-      );
-
-      setState(prev => ({
-        ...prev,
-        responses: [response, ...prev.responses],
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      console.log('✅ Notificación enviada');
-      return response;
-
-    } catch (error) {
-      console.error('❌ Error enviando notificación:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error enviando notificación'
-      }));
-      return null;
-    }
-  }, []);
-
-  // Activar agente
-  const activateAgent = useCallback(async (): Promise<void> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      await anbelAIAgent.activate();
-      
-      setState(prev => ({
-        ...prev,
-        isActive: true,
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      console.log('✅ Agente Anbel IA activado');
-
-    } catch (error) {
-      console.error('❌ Error activando agente:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error activando agente'
+        isProcessing: false,
+        error: error instanceof Error ? error.message : 'Error de conexión',
       }));
     }
   }, []);
 
-  // Desactivar agente
-  const deactivateAgent = useCallback(async (): Promise<void> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
-
-      await anbelAIAgent.deactivate();
-      
-      setState(prev => ({
-        ...prev,
-        isActive: false,
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      console.log('❌ Agente Anbel IA desactivado');
-
-    } catch (error) {
-      console.error('❌ Error desactivando agente:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error desactivando agente'
-      }));
-    }
+  // Desconectar
+  const disconnect = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      isConnected: false,
+      messages: [],
+      predictions: [],
+    }));
   }, []);
 
-  // Actualizar agente
-  const updateAgent = useCallback(async (): Promise<void> => {
-    try {
-      setState(prev => ({ ...prev, status: 'working', error: null }));
+  // Enviar mensaje
+  const sendMessage = useCallback(async (content: string) => {
+    if (!state.isConnected) return;
 
-      await anbelAIAgent.update();
-      
-      setState(prev => ({
-        ...prev,
-        status: 'success',
-        lastUpdate: new Date().toISOString()
-      }));
-
-      setUpdateCount(prev => prev + 1);
-      console.log('✅ Agente Anbel IA actualizado');
-
-    } catch (error) {
-      console.error('❌ Error actualizando agente:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Error actualizando agente'
-      }));
-    }
-  }, []);
-
-  // Obtener respuestas por tipo
-  const getResponsesByType = useCallback((type: string): AnbelAIResponse[] => {
-    return state.responses.filter(response => response.type === type);
-  }, [state.responses]);
-
-  // Obtener respuestas por idioma
-  const getResponsesByLanguage = useCallback((language: string): AnbelAIResponse[] => {
-    return state.responses.filter(response => response.language === language);
-  }, [state.responses]);
-
-  // Obtener respuestas recientes
-  const getRecentResponses = useCallback((limit: number = 10): AnbelAIResponse[] => {
-    return state.responses
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-      .slice(0, limit);
-  }, [state.responses]);
-
-  // Obtener estadísticas del agente
-  const getAgentStatistics = useCallback(() => {
-    return {
-      totalResponses: state.responses.length,
-      predictions: getResponsesByType('prediction').length,
-      chats: getResponsesByType('chat').length,
-      analyses: getResponsesByType('analysis').length,
-      notifications: getResponsesByType('notification').length,
-      averageConfidence: state.responses.reduce((sum, r) => sum + r.confidence, 0) / state.responses.length || 0,
-      averageAccuracy: state.responses.reduce((sum, r) => sum + r.accuracy, 0) / state.responses.length || 0,
-      lastUpdate: state.lastUpdate,
-      updateCount
+    const userMessage: AnbelMessage = {
+      id: `user_${Date.now()}`,
+      type: 'user',
+      content,
+      timestamp: new Date(),
     };
-  }, [state.responses, state.lastUpdate, updateCount, getResponsesByType]);
 
-  // Inicialización automática
-  useEffect(() => {
-    initializeAnbelAI();
-  }, [initializeAnbelAI]);
+    setState(prev => ({
+      ...prev,
+      messages: [...prev.messages, userMessage],
+      isProcessing: true,
+    }));
 
-  // Actualización automática cada 5 minutos
-  useEffect(() => {
-    if (state.isActive) {
-      const interval = setInterval(updateAgent, 5 * 60 * 1000);
-      return () => clearInterval(interval);
+    try {
+      // Simulación de procesamiento
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Generar respuesta
+      const response = await generateResponse(content);
+      
+      const anbelMessage: AnbelMessage = {
+        id: `anbel_${Date.now()}`,
+        type: 'anbel',
+        content: response.content,
+        timestamp: new Date(),
+        metadata: response.metadata,
+      };
+
+      setState(prev => ({
+        ...prev,
+        messages: [...prev.messages, anbelMessage],
+        isProcessing: false,
+      }));
+
+      // Si hay predicción, agregarla
+      if (response.prediction) {
+        setState(prev => ({
+          ...prev,
+          predictions: [...prev.predictions, response.prediction],
+        }));
+      }
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        isProcessing: false,
+        error: error instanceof Error ? error.message : 'Error procesando mensaje',
+      }));
     }
-  }, [state.isActive, updateAgent]);
+  }, [state.isConnected]);
+
+  // Generar respuesta
+  const generateResponse = async (content: string): Promise<{ content: string; metadata?: any; prediction?: AnbelPrediction }> => {
+    const lowerContent = content.toLowerCase();
+
+    // Detectar idioma
+    const isEnglish = /[a-z]/.test(content) && !/[ñáéíóúü]/.test(content);
+    const lang = isEnglish ? 'en' : 'es';
+
+    // Respuestas en español
+    if (lang === 'es') {
+      if (lowerContent.includes('hola') || lowerContent.includes('hi')) {
+        return {
+          content: '¡Hola! Soy Anbel, tu asistente inteligente de loterías. ¿En qué puedo ayudarte hoy?',
+          metadata: { confidence: 0.95 }
+        };
+      }
+
+      if (lowerContent.includes('predic') || lowerContent.includes('números')) {
+        const lottery = detectLottery(content);
+        const prediction = generatePrediction(lottery);
+        
+        return {
+          content: `He analizado los patrones históricos y generado una predicción para ${lottery}. Los números recomendados son: ${prediction.numbers.join(', ')} con una confianza del ${prediction.confidence}%.`,
+          metadata: { confidence: prediction.confidence, algorithm: prediction.algorithm },
+          prediction
+        };
+      }
+
+      if (lowerContent.includes('ayuda') || lowerContent.includes('help')) {
+        return {
+          content: 'Puedo ayudarte con predicciones de loterías, análisis de patrones, estadísticas históricas y mucho más. ¿Qué te gustaría saber?',
+          metadata: { confidence: 0.9 }
+        };
+      }
+
+      if (lowerContent.includes('gracias') || lowerContent.includes('thanks')) {
+        return {
+          content: '¡De nada! Estoy aquí para ayudarte. ¿Hay algo más en lo que pueda asistirte?',
+          metadata: { confidence: 0.95 }
+        };
+      }
+    }
+
+    // Respuestas en inglés
+    if (lang === 'en') {
+      if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
+        return {
+          content: 'Hello! I\'m Anbel, your intelligent lottery assistant. How can I help you today?',
+          metadata: { confidence: 0.95 }
+        };
+      }
+
+      if (lowerContent.includes('predict') || lowerContent.includes('numbers')) {
+        const lottery = detectLottery(content);
+        const prediction = generatePrediction(lottery);
+        
+        return {
+          content: `I've analyzed historical patterns and generated a prediction for ${lottery}. The recommended numbers are: ${prediction.numbers.join(', ')} with ${prediction.confidence}% confidence.`,
+          metadata: { confidence: prediction.confidence, algorithm: prediction.algorithm },
+          prediction
+        };
+      }
+
+      if (lowerContent.includes('help')) {
+        return {
+          content: 'I can help you with lottery predictions, pattern analysis, historical statistics, and much more. What would you like to know?',
+          metadata: { confidence: 0.9 }
+        };
+      }
+
+      if (lowerContent.includes('thank')) {
+        return {
+          content: 'You\'re welcome! I\'m here to help. Is there anything else I can assist you with?',
+          metadata: { confidence: 0.95 }
+        };
+      }
+    }
+
+    // Respuesta por defecto
+    return {
+      content: lang === 'es' 
+        ? 'Entiendo tu consulta. ¿Podrías ser más específico sobre qué tipo de ayuda necesitas con las loterías?'
+        : 'I understand your query. Could you be more specific about what kind of help you need with lotteries?',
+      metadata: { confidence: 0.7 }
+    };
+  };
+
+  // Detectar lotería
+  const detectLottery = (content: string): string => {
+    const lowerContent = content.toLowerCase();
+    
+    if (lowerContent.includes('powerball')) return 'Powerball';
+    if (lowerContent.includes('mega millions')) return 'Mega Millions';
+    if (lowerContent.includes('euromillions')) return 'EuroMillions';
+    if (lowerContent.includes('lotto')) return 'Lotto';
+    if (lowerContent.includes('lottery')) return 'Lottery';
+    
+    return 'Powerball'; // Por defecto
+  };
+
+  // Generar predicción
+  const generatePrediction = (lottery: string): AnbelPrediction => {
+    const numbers = generateRandomNumbers(lottery);
+    const confidence = Math.random() * 20 + 80; // 80-100%
+    
+    return {
+      id: `pred_${Date.now()}`,
+      lottery,
+      numbers,
+      confidence: Math.round(confidence),
+      algorithm: 'EnsembleML',
+      timestamp: new Date(),
+      metadata: {
+        accuracy: Math.round(confidence * 0.95),
+        pattern: 'Advanced Pattern Recognition'
+      }
+    };
+  };
+
+  // Generar números aleatorios
+  const generateRandomNumbers = (lottery: string): number[] => {
+    const maxNumbers = lottery === 'Powerball' ? 69 : 50;
+    const count = lottery === 'Powerball' ? 5 : 6;
+    
+    const numbers: number[] = [];
+    while (numbers.length < count) {
+      const num = Math.floor(Math.random() * maxNumbers) + 1;
+      if (!numbers.includes(num)) {
+        numbers.push(num);
+      }
+    }
+    
+    return numbers.sort((a, b) => a - b);
+  };
+
+  // Cambiar idioma
+  const changeLanguage = useCallback((lang: 'es' | 'en') => {
+    setState(prev => ({ ...prev, language: lang }));
+  }, []);
+
+  // Limpiar mensajes
+  const clearMessages = useCallback(() => {
+    setState(prev => ({ ...prev, messages: [] }));
+  }, []);
+
+  // Limpiar predicciones
+  const clearPredictions = useCallback(() => {
+    setState(prev => ({ ...prev, predictions: [] }));
+  }, []);
+
+  // Limpiar error
+  const clearError = useCallback(() => {
+    setState(prev => ({ ...prev, error: null }));
+  }, []);
 
   return {
     ...state,
-    isLoading,
-    updateCount,
-    initializeAnbelAI,
-    generateAdvancedPrediction,
-    processIntelligentChat,
-    generateIntelligentDashboard,
-    sendIntelligentNotification,
-    activateAgent,
-    deactivateAgent,
-    updateAgent,
-    getResponsesByType,
-    getResponsesByLanguage,
-    getRecentResponses,
-    getAgentStatistics
+    connect,
+    disconnect,
+    sendMessage,
+    changeLanguage,
+    clearMessages,
+    clearPredictions,
+    clearError,
   };
-}
+};

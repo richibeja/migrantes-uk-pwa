@@ -1,77 +1,117 @@
 {
-  "name": "Migrantes UK",
-  "short_name": "Migrantes UK",
-  "description": "PWA para apoyo a migrantes en Reino Unido: Q&A, OCR/MRZ, PDF, subida a Storage, directorio curado, asistente y offline.",
+  "name": "GanaFácil - Anbel IA",
+  "short_name": "GanaFácil",
+  "description": "Sistema de predicciones de lotería con inteligencia artificial avanzada",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#FFD700",
+  "background_color": "#ffffff",
+  "theme_color": "#2196F3",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "es",
-  "categories": ["utilities", "education", "productivity"],
+  "dir": "ltr",
+  "categories": ["finance", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/icons/favicon.svg",
+      "src": "/icons/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-32x32.png",
       "sizes": "32x32",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "/icons/icon-192x192.svg",
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "/icons/apple-touch-icon.svg",
-      "sizes": "180x180",
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-512x512.svg",
-      "sizes": "512x512",
+      "src": "/favicon.svg",
+      "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshots/mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "Q&A Asilo",
-      "short_name": "Q&A",
-      "description": "Formulario de asilo",
-      "url": "/qna",
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Acceder al dashboard principal",
+      "url": "/dashboard",
       "icons": [
         {
-          "src": "/icons/icon-192x192.svg",
-          "sizes": "192x192"
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
         }
       ]
     },
     {
-      "name": "Subir documento",
-      "short_name": "Subir",
-      "description": "Subir a Storage / OCR",
-      "url": "/upload",
+      "name": "Activar Código",
+      "short_name": "Activar",
+      "description": "Activar código de acceso",
+      "url": "/activate",
       "icons": [
         {
-          "src": "/icons/icon-192x192.svg",
-          "sizes": "192x192"
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Chat Anbel IA",
+      "short_name": "Anbel",
+      "description": "Chat con Anbel IA",
+      "url": "/dashboard?tab=chat",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
         }
       ]
     }
@@ -85,5 +125,35 @@
     "client_mode": "navigate-existing"
   },
   "handle_links": "preferred",
-  "protocol_handlers": []
+  "scope_extensions": [
+    {
+      "origin": "https://ganafaci-anbel-pwa.vercel.app"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+ganafacil",
+      "url": "/activate?code=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/upload",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/vnd.ms-excel": [".xls"],
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }

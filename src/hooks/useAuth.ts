@@ -1,117 +1,386 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { 
-  validateCode, 
-  createUser, 
-  saveUser, 
-  loadUser, 
-  clearUser, 
-  isUserAuthenticated, 
-  isUserAdmin,
-  User 
-} from '@/lib/unified-auth';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  plan: 'basic' | 'premium' | 'vip' | 'admin';
+  isActive: boolean;
+  isAdmin: boolean;
+  isPremium: boolean;
+  isVip: boolean;
+  createdAt: Date;
+  lastLogin: Date;
+  permissions: string[];
+  subscription?: {
+    id: string;
+    plan: string;
+    status: 'active' | 'inactive' | 'cancelled' | 'expired';
+    startDate: Date;
+    endDate: Date;
+    autoRenew: boolean;
+  };
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  name: string;
+  confirmPassword: string;
+}
+
+export interface ActivationData {
+  email: string;
+  code: string;
+}
 
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const router = useRouter();
+  const [authState, setAuthState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: true,
+    error: null,
+  });
 
-  // Cargar usuario al inicializar
+  // Cargar estado de autenticación desde localStorage
   useEffect(() => {
-    const checkAuth = () => {
+    const loadAuthState = () => {
       try {
-        const loadedUser = loadUser();
-        if (loadedUser) {
-          setUser(loadedUser);
-          setIsAuthenticated(true);
-          setIsAdmin(loadedUser.isAdmin || false);
+        const storedUser = localStorage.getItem('anbel_user');
+        const storedToken = localStorage.getItem('anbel_token');
+        
+        if (storedUser && storedToken) {
+          const user = JSON.parse(storedUser);
+          setAuthState({
+            user: {
+              ...user,
+              createdAt: new Date(user.createdAt),
+              lastLogin: new Date(user.lastLogin),
+              subscription: user.subscription ? {
+                ...user.subscription,
+                startDate: new Date(user.subscription.startDate),
+                endDate: new Date(user.subscription.endDate),
+              } : undefined,
+            },
+            isAuthenticated: true,
+            isLoading: false,
+            error: null,
+          });
         } else {
-          setUser(null);
-          setIsAuthenticated(false);
-          setIsAdmin(false);
+          setAuthState(prev => ({
+            ...prev,
+            isLoading: false,
+          }));
         }
       } catch (error) {
-        console.error('Error checking authentication:', error);
-        setUser(null);
-        setIsAuthenticated(false);
-        setIsAdmin(false);
+        console.error('Error loading auth state:', error);
+        setAuthState({
+          user: null,
+          isAuthenticated: false,
+          isLoading: false,
+          error: 'Error loading authentication state',
+        });
       }
-      setIsLoading(false);
     };
 
-    checkAuth();
+    loadAuthState();
   }, []);
 
-  // Activar código
-  const activateCode = (code: string, email?: string, username?: string): { success: boolean; message: string } => {
+  // Función de login
+  const login = useCallback(async (credentials: LoginCredentials) => {
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
+
     try {
-      const validation = validateCode(code);
-      
-      if (!validation.valid) {
-        return { success: false, message: 'Código no válido' };
+      // Simulación de API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Validación básica
+      if (!credentials.email || !credentials.password) {
+        throw new Error('Email and password are required');
       }
 
-      const newUser = createUser(code, email, username);
-      saveUser(newUser);
-      
-      setUser(newUser);
-      setIsAuthenticated(true);
-      setIsAdmin(newUser.isAdmin || false);
-
-      return { 
-        success: true, 
-        message: `¡Código activado exitosamente! Plan: ${newUser.plan.toUpperCase()}` 
+      // Simulación de usuario
+      const user: User = {
+        id: '1',
+        email: credentials.email,
+        name: credentials.email.split('@')[0],
+        plan: 'premium',
+        isActive: true,
+        isAdmin: false,
+        isPremium: true,
+        isVip: false,
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        permissions: ['dashboard:view', 'anbel:chat', 'predictions:view'],
+        subscription: {
+          id: 'sub_1',
+          plan: 'premium',
+          status: 'active',
+          startDate: new Date(),
+          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 días
+          autoRenew: true,
+        },
       };
+
+      // Guardar en localStorage
+      localStorage.setItem('anbel_user', JSON.stringify(user));
+      localStorage.setItem('anbel_token', 'mock_jwt_token');
+
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+
+      return { success: true, user };
     } catch (error) {
-      console.error('Error activating code:', error);
-      return { success: false, message: 'Error al activar el código' };
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage,
+      }));
+      return { success: false, error: errorMessage };
     }
-  };
+  }, []);
 
-  // Cerrar sesión
-  const logout = () => {
-    clearUser();
-    setUser(null);
-    setIsAuthenticated(false);
-    setIsAdmin(false);
-  };
+  // Función de registro
+  const register = useCallback(async (data: RegisterData) => {
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
-  // Verificar si el usuario está autenticado
-  const checkAuth = () => {
-    const authStatus = isUserAuthenticated();
-    const adminStatus = isUserAdmin();
-    setIsAuthenticated(authStatus);
-    setIsAdmin(adminStatus);
-    return authStatus;
-  };
+    try {
+      // Simulación de API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-  // Obtener información del usuario
-  const getUserInfo = () => {
-    return user;
-  };
+      // Validación básica
+      if (!data.email || !data.password || !data.name) {
+        throw new Error('All fields are required');
+      }
 
-  // Verificar si el usuario tiene un plan específico
-  const hasPlan = (plan: 'basic' | 'premium' | 'vip') => {
-    return user?.plan === plan;
-  };
+      if (data.password !== data.confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
 
-  // Verificar si el usuario está activo
-  const isActive = () => {
-    return user?.status === 'active' && user?.isActivated;
-  };
+      if (data.password.length < 6) {
+        throw new Error('Password must be at least 6 characters');
+      }
+
+      // Simulación de usuario registrado
+      const user: User = {
+        id: '1',
+        email: data.email,
+        name: data.name,
+        plan: 'basic',
+        isActive: true,
+        isAdmin: false,
+        isPremium: false,
+        isVip: false,
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        permissions: ['dashboard:view', 'anbel:chat'],
+      };
+
+      // Guardar en localStorage
+      localStorage.setItem('anbel_user', JSON.stringify(user));
+      localStorage.setItem('anbel_token', 'mock_jwt_token');
+
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+
+      return { success: true, user };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage,
+      }));
+      return { success: false, error: errorMessage };
+    }
+  }, []);
+
+  // Función de activación
+  const activate = useCallback(async (data: ActivationData) => {
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      // Simulación de API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Validación básica
+      if (!data.email || !data.code) {
+        throw new Error('Email and activation code are required');
+      }
+
+      // Códigos válidos
+      const validCodes = ['GANAFACIL2024', 'PREMIUM123', 'VIP456', 'BASIC789', 'DEMO2024', 'TEST123'];
+      
+      if (!validCodes.includes(data.code.toUpperCase())) {
+        throw new Error('Invalid activation code');
+      }
+
+      // Determinar plan basado en código
+      let plan: 'basic' | 'premium' | 'vip' | 'admin' = 'basic';
+      let isPremium = false;
+      let isVip = false;
+      let permissions: string[] = ['dashboard:view', 'anbel:chat'];
+
+      switch (data.code.toUpperCase()) {
+        case 'GANAFACIL2024':
+        case 'PREMIUM123':
+          plan = 'premium';
+          isPremium = true;
+          permissions = ['dashboard:view', 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create'];
+          break;
+        case 'VIP456':
+          plan = 'vip';
+          isVip = true;
+          isPremium = true;
+          permissions = ['dashboard:view', 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create', 'predictions:edit'];
+          break;
+        case 'BASIC789':
+        case 'DEMO2024':
+        case 'TEST123':
+          plan = 'basic';
+          break;
+      }
+
+      // Simulación de usuario activado
+      const user: User = {
+        id: '1',
+        email: data.email,
+        name: data.email.split('@')[0],
+        plan,
+        isActive: true,
+        isAdmin: false,
+        isPremium,
+        isVip,
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        permissions,
+        subscription: plan !== 'basic' ? {
+          id: `sub_${Date.now()}`,
+          plan,
+          status: 'active',
+          startDate: new Date(),
+          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 días
+          autoRenew: true,
+        } : undefined,
+      };
+
+      // Guardar en localStorage
+      localStorage.setItem('anbel_user', JSON.stringify(user));
+      localStorage.setItem('anbel_token', 'mock_jwt_token');
+
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+
+      return { success: true, user };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Activation failed';
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage,
+      }));
+      return { success: false, error: errorMessage };
+    }
+  }, []);
+
+  // Función de logout
+  const logout = useCallback(() => {
+    localStorage.removeItem('anbel_user');
+    localStorage.removeItem('anbel_token');
+    setAuthState({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+      error: null,
+    });
+    router.push('/');
+  }, [router]);
+
+  // Función para actualizar usuario
+  const updateUser = useCallback((updates: Partial<User>) => {
+    if (authState.user) {
+      const updatedUser = { ...authState.user, ...updates };
+      localStorage.setItem('anbel_user', JSON.stringify(updatedUser));
+      setAuthState(prev => ({
+        ...prev,
+        user: updatedUser,
+      }));
+    }
+  }, [authState.user]);
+
+  // Función para verificar permisos
+  const hasPermission = useCallback((permission: string) => {
+    if (!authState.user) return false;
+    return authState.user.permissions.includes(permission);
+  }, [authState.user]);
+
+  // Función para verificar rol
+  const hasRole = useCallback((role: string) => {
+    if (!authState.user) return false;
+    return authState.user.plan === role;
+  }, [authState.user]);
+
+  // Función para verificar si es admin
+  const isAdmin = useCallback(() => {
+    return authState.user?.isAdmin || false;
+  }, [authState.user]);
+
+  // Función para verificar si es premium
+  const isPremium = useCallback(() => {
+    return authState.user?.isPremium || false;
+  }, [authState.user]);
+
+  // Función para verificar si es VIP
+  const isVip = useCallback(() => {
+    return authState.user?.isVip || false;
+  }, [authState.user]);
+
+  // Función para limpiar errores
+  const clearError = useCallback(() => {
+    setAuthState(prev => ({ ...prev, error: null }));
+  }, []);
 
   return {
-    user,
-    isAuthenticated,
-    isLoading,
-    isAdmin,
-    activateCode,
+    ...authState,
+    login,
+    register,
+    activate,
     logout,
-    checkAuth,
-    getUserInfo,
-    hasPlan,
-    isActive
+    updateUser,
+    hasPermission,
+    hasRole,
+    isAdmin,
+    isPremium,
+    isVip,
+    clearError,
   };
 };

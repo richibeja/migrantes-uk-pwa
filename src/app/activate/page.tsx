@@ -87,11 +87,12 @@ export default function ActivatePage() {
 
   // Códigos de prueba disponibles
   const codigosPrueba = [
-    { code: 'GANAFACIL', plan: 'Premium', desc: 'Código principal' },
+    { code: 'GANAFACIL2024', plan: 'Premium', desc: 'Código principal' },
     { code: 'PREMIUM123', plan: 'Premium', desc: 'Código premium' },
     { code: 'VIP456', plan: 'VIP', desc: 'Código VIP' },
     { code: 'BASIC789', plan: 'Básico', desc: 'Código básico' },
-    { code: 'DEMO2024', plan: 'Básico', desc: 'Código demo' }
+    { code: 'DEMO2024', plan: 'Básico', desc: 'Código demo' },
+    { code: 'TEST123', plan: 'Básico', desc: 'Código de prueba' }
   ];
 
   if (isActivated) {

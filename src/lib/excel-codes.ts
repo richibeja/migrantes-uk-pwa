@@ -1,191 +1,174 @@
-// 📊 SISTEMA SIMPLE PARA EXCEL - SIN BASE DE DATOS
-// Este sistema funciona completamente en memoria y permite exportar a Excel
+// Sistema de códigos Excel para GANAFACIL ANBEL IA
 
 export interface ExcelCode {
+  id: string;
   code: string;
-  type: 'premium' | 'vip' | 'basic';
-  used: boolean;
+  plan: 'basic' | 'premium' | 'vip';
+  isUsed: boolean;
   usedBy?: string;
-  usedAt?: string;
-  expiration: string;
-  description?: string;
+  usedAt?: Date;
+  createdAt: Date;
+  expiresAt?: Date;
 }
 
-// CÓDIGOS PREDEFINIDOS (ESTOS SE ACTUALIZAN MANUALMENTE EN EXCEL)
-export let EXCEL_CODES: ExcelCode[] = [
+// Almacenamiento en memoria (en producción sería una base de datos)
+let excelCodes: ExcelCode[] = [
   {
+    id: '1',
     code: 'GANAFACIL2024',
-    type: 'premium',
-    used: false,
-    expiration: '2025-12-31',
-    description: 'Código principal de prueba'
+    plan: 'premium',
+    isUsed: false,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 año
   },
   {
+    id: '2',
     code: 'PREMIUM123',
-    type: 'premium', 
-    used: false,
-    expiration: '2025-12-31',
-    description: 'Código premium de prueba'
+    plan: 'premium',
+    isUsed: false,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
   },
   {
+    id: '3',
     code: 'VIP456',
-    type: 'vip',
-    used: false,
-    expiration: '2025-12-31',
-    description: 'Código VIP de prueba'
+    plan: 'vip',
+    isUsed: false,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
   },
   {
+    id: '4',
     code: 'BASIC789',
-    type: 'basic',
-    used: false,
-    expiration: '2025-12-31',
-    description: 'Código básico de prueba'
-  },
-  {
-    code: 'EXCEL001',
-    type: 'premium',
-    used: false,
-    expiration: '2025-12-31',
-    description: 'Código generado para Excel'
-  },
-  {
-    code: 'EXCEL002',
-    type: 'vip',
-    used: false,
-    expiration: '2025-12-31',
-    description: 'Código VIP para Excel'
+    plan: 'basic',
+    isUsed: false,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
   }
 ];
 
-// Validar código
-export const validateExcelCode = (code: string): { valid: boolean; codeData?: ExcelCode; message?: string } => {
-  const cleanCode = code.toUpperCase().trim();
-  const codeData = EXCEL_CODES.find(c => c.code === cleanCode);
-  
-  if (!codeData) {
-    return { valid: false, message: 'Código no encontrado' };
-  }
-  
-  if (codeData.used) {
-    return { valid: false, message: 'Código ya utilizado' };
-  }
-  
-  // Verificar expiración
-  if (new Date() > new Date(codeData.expiration)) {
-    return { valid: false, message: 'Código expirado' };
-  }
-  
-  return { valid: true, codeData, message: 'Código válido' };
-};
+// Función para obtener todos los códigos
+export function getAllExcelCodes(): ExcelCode[] {
+  return excelCodes;
+}
 
-// Marcar código como usado (solo en memoria)
-export const markExcelCodeAsUsed = (code: string, email: string): boolean => {
-  const cleanCode = code.toUpperCase().trim();
-  const codeIndex = EXCEL_CODES.findIndex(c => c.code === cleanCode);
-  
-  if (codeIndex === -1 || EXCEL_CODES[codeIndex].used) {
-    return false;
-  }
-  
-  EXCEL_CODES[codeIndex].used = true;
-  EXCEL_CODES[codeIndex].usedBy = email;
-  EXCEL_CODES[codeIndex].usedAt = new Date().toLocaleDateString();
-  
-  return true;
-};
-
-// Obtener estadísticas
-export const getExcelStats = () => {
-  const total = EXCEL_CODES.length;
-  const used = EXCEL_CODES.filter(c => c.used).length;
+// Función para obtener estadísticas de códigos
+export function getExcelStats() {
+  const total = excelCodes.length;
+  const used = excelCodes.filter(code => code.isUsed).length;
   const available = total - used;
   
-  return { total, used, available };
-};
+  const byPlan = excelCodes.reduce((acc, code) => {
+    acc[code.plan] = (acc[code.plan] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
-// Obtener todos los códigos
-export const getAllExcelCodes = (): ExcelCode[] => {
-  return [...EXCEL_CODES];
-};
+  return {
+    total,
+    used,
+    available,
+    byPlan
+  };
+}
 
-// Obtener códigos disponibles
-export const getAvailableExcelCodes = (): ExcelCode[] => {
-  return EXCEL_CODES.filter(c => !c.used);
-};
-
-// Obtener códigos usados
-export const getUsedExcelCodes = (): ExcelCode[] => {
-  return EXCEL_CODES.filter(c => c.used);
-};
-
-// Agregar nuevo código
-export const addExcelCode = (code: string, type: 'premium' | 'vip' | 'basic', expiration: string = '2024-12-31'): boolean => {
-  const cleanCode = code.toUpperCase().trim();
+// Función para agregar un nuevo código
+export function addExcelCode(code: string, plan: 'basic' | 'premium' | 'vip'): ExcelCode {
+  const newCode: ExcelCode = {
+    id: Date.now().toString(),
+    code: code.toUpperCase(),
+    plan,
+    isUsed: false,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+  };
   
-  // Verificar que no exista
-  if (EXCEL_CODES.find(c => c.code === cleanCode)) {
-    return false;
-  }
+  excelCodes.push(newCode);
+  return newCode;
+}
+
+// Función para generar un código aleatorio
+export function generateRandomExcelCode(plan: 'basic' | 'premium' | 'vip'): string {
+  const prefix = plan.toUpperCase();
+  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+  return `${prefix}${random}`;
+}
+
+// Función para resetear un código
+export function resetExcelCode(codeId: string): boolean {
+  const codeIndex = excelCodes.findIndex(code => code.id === codeId);
+  if (codeIndex === -1) return false;
   
-  EXCEL_CODES.push({
-    code: cleanCode,
-    type,
-    used: false,
-    expiration,
-    description: `Código ${type} generado`
-  });
+  excelCodes[codeIndex].isUsed = false;
+  excelCodes[codeIndex].usedBy = undefined;
+  excelCodes[codeIndex].usedAt = undefined;
   
   return true;
-};
+}
 
-// Exportar datos para Excel
-export const exportToExcel = (): string => {
-  let csv = 'Código,Tipo,Estado,Email Usuario,Fecha Activación,Expiración,Descripción\n';
+// Función para exportar códigos a Excel
+export function exportToExcel(): string {
+  const headers = ['ID', 'Código', 'Plan', 'Usado', 'Usuario', 'Fecha de Uso', 'Creado', 'Expira'];
+  const rows = excelCodes.map(code => [
+    code.id,
+    code.code,
+    code.plan,
+    code.isUsed ? 'Sí' : 'No',
+    code.usedBy || '',
+    code.usedAt?.toLocaleDateString() || '',
+    code.createdAt.toLocaleDateString(),
+    code.expiresAt?.toLocaleDateString() || ''
+  ]);
   
-  EXCEL_CODES.forEach(code => {
-    csv += `${code.code},${code.type},${code.used ? 'USADO' : 'DISPONIBLE'},${code.usedBy || ''},${code.usedAt || ''},${code.expiration},${code.description || ''}\n`;
-  });
+  const csvContent = [headers, ...rows]
+    .map(row => row.map(cell => `"${cell}"`).join(','))
+    .join('\n');
   
-  return csv;
-};
+  return csvContent;
+}
 
-// Exportar solo códigos usados
-export const exportUsedCodesToExcel = (): string => {
-  let csv = 'Código,Tipo,Email Usuario,Fecha Activación,Expiración,Descripción\n';
+// Función para exportar códigos usados a Excel
+export function exportUsedCodesToExcel(): string {
+  const usedCodes = excelCodes.filter(code => code.isUsed);
+  const headers = ['ID', 'Código', 'Plan', 'Usuario', 'Fecha de Uso'];
+  const rows = usedCodes.map(code => [
+    code.id,
+    code.code,
+    code.plan,
+    code.usedBy || '',
+    code.usedAt?.toLocaleDateString() || ''
+  ]);
   
-  EXCEL_CODES
-    .filter(code => code.used)
-    .forEach(code => {
-      csv += `${code.code},${code.type},${code.usedBy || ''},${code.usedAt || ''},${code.expiration},${code.description || ''}\n`;
-    });
+  const csvContent = [headers, ...rows]
+    .map(row => row.map(cell => `"${cell}"`).join(','))
+    .join('\n');
   
-  return csv;
-};
+  return csvContent;
+}
 
-// Resetear código (para testing)
-export const resetExcelCode = (code: string): boolean => {
-  const cleanCode = code.toUpperCase().trim();
-  const codeIndex = EXCEL_CODES.findIndex(c => c.code === cleanCode);
+// Función para validar y usar un código
+export function validateAndUseCode(code: string, userId: string): { success: boolean; plan?: string; message: string } {
+  const excelCode = excelCodes.find(c => c.code === code.toUpperCase());
   
-  if (codeIndex === -1) {
-    return false;
+  if (!excelCode) {
+    return { success: false, message: 'Código no encontrado' };
   }
   
-  EXCEL_CODES[codeIndex].used = false;
-  EXCEL_CODES[codeIndex].usedBy = undefined;
-  EXCEL_CODES[codeIndex].usedAt = undefined;
-  
-  return true;
-};
-
-// Generar código aleatorio
-export const generateRandomExcelCode = (type: 'premium' | 'vip' | 'basic' = 'premium'): string => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let code = '';
-  
-  for (let i = 0; i < 8; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  if (excelCode.isUsed) {
+    return { success: false, message: 'Código ya utilizado' };
   }
   
-  return code;
-};
+  if (excelCode.expiresAt && excelCode.expiresAt < new Date()) {
+    return { success: false, message: 'Código expirado' };
+  }
+  
+  // Marcar como usado
+  excelCode.isUsed = true;
+  excelCode.usedBy = userId;
+  excelCode.usedAt = new Date();
+  
+  return { 
+    success: true, 
+    plan: excelCode.plan, 
+    message: `Código válido. Plan ${excelCode.plan} activado.` 
+  };
+}

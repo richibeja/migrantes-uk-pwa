@@ -1,4 +1,3 @@
-# Este es un archivo de icono PNG que debe ser creado manualmente
-# El icono debe ser de 512x512 píxeles con un diseño relacionado con lotería
-# Puedes usar herramientas como Figma, Canva o Photoshop para crearlo
-# O descargar un icono de lotería desde sitios como Flaticon, Icons8, etc.
+# PNG Icon 512x512
+# Este es un placeholder. En producción, usar una librería como sharp para generar PNGs reales.
+# Comando sugerido: npx sharp-cli -i icon-512x512.svg -o icon-512x512.png

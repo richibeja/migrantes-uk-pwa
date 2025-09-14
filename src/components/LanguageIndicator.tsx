@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function LanguageIndicator() {
-) => {
   const [currentLanguage, setCurrentLanguage] = useState('es');
-  return (
 
   useEffect(() => {
     // Función para detectar el idioma actual
@@ -29,6 +27,7 @@ export default function LanguageIndicator() {
     // Verificar cambios cada 2 segundos (por si acaso)
     const interval = setInterval(detectLanguage, 2000);
 
+    return () => {
       observer.disconnect();
       clearInterval(interval);
     };

@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function PrizeTracker() {
-) => observer.disconnect();
-    return () => observer.disconnect();
   const [totalPrizes, setTotalPrizes] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -25,6 +23,9 @@ export default function PrizeTracker() {
       observer.observe(element);
     }
 
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const animatePrizes = () => {

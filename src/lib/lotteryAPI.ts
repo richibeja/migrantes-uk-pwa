@@ -66,16 +66,7 @@ export class LotteryAPI {
         return cached;
       }
 
-      // En desarrollo, usar directamente datos simulados para evitar CORS
-      if (process.env.NODE_ENV === 'development') {
-        const result = await this.getSimulatedResults(lotteryId);
-        if (result) {
-          this.setCache(lotteryId, result);
-          return result;
-        }
-      }
-
-      // Intentar obtener de la API oficial solo en producción
+      // Intentar APIs reales primero, incluso en desarrollo
       let result = await this.fetchFromOfficialAPI(lotteryId);
       
       // Si falla, usar API alternativa

@@ -200,22 +200,6 @@ export default function SalesPage() {
                 </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/anbel-ai"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-8 py-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
-                >
-                  <Bot className="w-6 h-6" />
-                  <span>PROBAR AGENTE ANBEL IA</span>
-                </a>
-                <a
-                  href="/predictions"
-                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
-                >
-                  <Target className="w-6 h-6" />
-                  <span>VER PREDICCIONES</span>
-                </a>
-              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">

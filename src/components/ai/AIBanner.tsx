@@ -81,14 +81,14 @@ export default function AIBanner({ onOpenAI, isVisible = true, onClose }: AIBann
 
             {/* Right side - CTA Button */}
             <div className="flex items-center space-x-3">
-              <button
-                onClick={onOpenAI}
+              <a
+                href="/activate-simple"
                 className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-2 rounded-full font-bold text-sm hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>HABLAR CON IA</span>
+                <span>ACTIVAR CÓDIGO</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </a>
               
               {onClose && (
                 <button

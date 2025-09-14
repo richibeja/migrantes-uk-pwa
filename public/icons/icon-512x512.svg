@@ -1,60 +1,8 @@
+
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Fondo circular dorado con gradiente -->
-  <defs>
-    <radialGradient id="goldGradient" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#FFD700"/>
-      <stop offset="100%" stop-color="#FFA500"/>
-    </radialGradient>
-    <radialGradient id="blackGradient" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#1F2937"/>
-      <stop offset="100%" stop-color="#000000"/>
-    </radialGradient>
-  </defs>
-  
-  <!-- Fondo circular dorado -->
-  <circle cx="256" cy="256" r="256" fill="url(#goldGradient)"/>
-  
-  <!-- Bola de lotería principal -->
-  <circle cx="256" cy="256" r="160" fill="url(#blackGradient)"/>
-  <circle cx="256" cy="256" r="150" fill="#1F2937"/>
-  
-  <!-- Números de lotería principales -->
-  <text x="256" y="230" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="64" font-weight="bold">GANA</text>
-  <text x="256" y="280" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="42" font-weight="bold">FACIL</text>
-  
-  <!-- Bola de lotería pequeña superior izquierda -->
-  <circle cx="120" cy="120" r="40" fill="url(#goldGradient)"/>
-  <circle cx="120" cy="120" r="32" fill="url(#blackGradient)"/>
-  <text x="120" y="130" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="32" font-weight="bold">25</text>
-  
-  <!-- Bola de lotería pequeña superior derecha -->
-  <circle cx="392" cy="120" r="40" fill="url(#goldGradient)"/>
-  <circle cx="392" cy="120" r="32" fill="url(#blackGradient)"/>
-  <text x="392" y="130" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="32" font-weight="bold">07</text>
-  
-  <!-- Bola de lotería pequeña inferior izquierda -->
-  <circle cx="120" cy="392" r="40" fill="url(#goldGradient)"/>
-  <circle cx="120" cy="392" r="32" fill="url(#blackGradient)"/>
-  <text x="120" y="402" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="32" font-weight="bold">13</text>
-  
-  <!-- Bola de lotería pequeña inferior derecha -->
-  <circle cx="392" cy="392" r="40" fill="url(#goldGradient)"/>
-  <circle cx="392" cy="392" r="32" fill="url(#blackGradient)"/>
-  <text x="392" y="402" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="32" font-weight="bold">42</text>
-  
-  <!-- Estrellas de confianza más grandes -->
-  <path d="M256 60 L265 85 L292 88 L275 105 L280 132 L256 120 L232 132 L237 105 L220 88 L247 85 Z" fill="#FFD700"/>
-  <path d="M256 452 L265 477 L292 480 L275 497 L280 524 L256 512 L232 524 L237 497 L220 480 L247 477 Z" fill="#FFD700"/>
-  <path d="M60 256 L85 265 L88 292 L105 275 L132 280 L120 256 L132 232 L105 237 L88 220 L85 247 Z" fill="#FFD700"/>
-  <path d="M452 256 L477 265 L480 292 L497 275 L524 280 L512 256 L524 232 L497 237 L480 220 L477 247 Z" fill="#FFD700"/>
-  
-  <!-- Estrellas adicionales -->
-  <path d="M180 180 L185 195 L200 197 L187 210 L190 225 L180 220 L170 225 L173 210 L160 197 L175 195 Z" fill="#FFD700"/>
-  <path d="M332 180 L337 195 L352 197 L339 210 L342 225 L332 220 L322 225 L325 210 L312 197 L327 195 Z" fill="#FFD700"/>
-  <path d="M180 332 L185 347 L200 349 L187 362 L190 377 L180 372 L170 377 L173 362 L160 349 L175 347 Z" fill="#FFD700"/>
-  <path d="M332 332 L337 347 L352 349 L339 362 L342 377 L332 372 L322 377 L325 362 L312 349 L327 347 Z" fill="#FFD700"/>
-  
-  <!-- Brillo adicional -->
-  <circle cx="256" cy="256" r="80" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.3"/>
-  <circle cx="256" cy="256" r="120" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.2"/>
+  <rect width="512" height="512" rx="102.4" fill="#2c3e50"/>
+  <rect x="51.2" y="51.2" width="409.6" height="409.6" rx="76.8" fill="#3498db"/>
+  <circle cx="153.6" cy="153.6" r="40.96" fill="#2ecc71"/>
+  <path d="M102.4 256 L204.8 358.4 L409.6 153.6" stroke="#ffffff" stroke-width="15.36" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="256" y="435.2" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="61.44" font-weight="bold">GF</text>
 </svg>

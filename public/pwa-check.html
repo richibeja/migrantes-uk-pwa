@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Diagnostic - GanaFácil</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .check-item.success {
+            border-left-color: #2ecc71;
+        }
+        .check-item.error {
+            border-left-color: #e74c3c;
+        }
+        .check-item.warning {
+            border-left-color: #f39c12;
+        }
+        .icon {
+            font-size: 24px;
+            min-width: 30px;
+        }
+        .status {
+            font-weight: bold;
+            margin-left: auto;
+        }
+        .details {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #3498db;
+        }
+        .summary {
+            background: rgba(52, 152, 219, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 10px 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 PWA Diagnostic Tool</h1>
+        <div id="checks"></div>
+        <div class="summary">
+            <h2>PWA Score</h2>
+            <div class="score" id="score">0/100</div>
+            <p id="score-text">Running diagnostics...</p>
+            <button onclick="runDiagnostics()">🔄 Run Again</button>
+            <button onclick="testInstall()">📱 Test Install</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let totalChecks = 0;
+
+        function addCheck(name, status, details = '') {
+            totalChecks++;
+            const checksDiv = document.getElementById('checks');
+            const checkDiv = document.createElement('div');
+            checkDiv.className = `check-item ${status}`;
+            
+            let icon, statusText;
+            switch(status) {
+                case 'success':
+                    icon = '✅';
+                    statusText = 'PASS';
+                    score += 10;
+                    break;
+                case 'warning':
+                    icon = '⚠️';
+                    statusText = 'WARN';
+                    score += 5;
+                    break;
+                case 'error':
+                    icon = '❌';
+                    statusText = 'FAIL';
+                    break;
+            }
+            
+            checkDiv.innerHTML = `
+                <div class="icon">${icon}</div>
+                <div>
+                    <div><strong>${name}</strong> <span class="status">${statusText}</span></div>
+                    <div class="details">${details}</div>
+                </div>
+            `;
+            
+            checksDiv.appendChild(checkDiv);
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `${score}/${totalChecks * 10}`;
+            const percentage = Math.round((score / (totalChecks * 10)) * 100);
+            document.getElementById('score-text').textContent = `PWA Score: ${percentage}%`;
+        }
+
+        async function runDiagnostics() {
+            document.getElementById('checks').innerHTML = '';
+            score = 0;
+            totalChecks = 0;
+
+            // 1. Check HTTPS
+            if (location.protocol === 'https:' || location.hostname === 'localhost') {
+                addCheck('HTTPS/SSL', 'success', 'Secure connection detected');
+            } else {
+                addCheck('HTTPS/SSL', 'error', 'PWA requires HTTPS in production');
+            }
+
+            // 2. Check Manifest
+            try {
+                const manifestResponse = await fetch('/manifest.json');
+                if (manifestResponse.ok) {
+                    const manifest = await manifestResponse.json();
+                    if (manifest.name && manifest.short_name && manifest.start_url) {
+                        addCheck('Manifest.json', 'success', `App: ${manifest.name}`);
+                    } else {
+                        addCheck('Manifest.json', 'warning', 'Manifest exists but missing required fields');
+                    }
+                } else {
+                    addCheck('Manifest.json', 'error', 'Manifest not found or not accessible');
+                }
+            } catch (error) {
+                addCheck('Manifest.json', 'error', 'Error loading manifest: ' + error.message);
+            }
+
+            // 3. Check Service Worker
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        addCheck('Service Worker', 'success', 'Service Worker is registered and active');
+                    } else {
+                        addCheck('Service Worker', 'error', 'Service Worker not registered');
+                    }
+                } catch (error) {
+                    addCheck('Service Worker', 'error', 'Error checking Service Worker: ' + error.message);
+                }
+            } else {
+                addCheck('Service Worker', 'error', 'Service Worker not supported in this browser');
+            }
+
+            // 4. Check Icons
+            const iconSizes = [72, 96, 128, 144, 152, 192, 384, 512];
+            let iconsFound = 0;
+            for (const size of iconSizes) {
+                try {
+                    const iconResponse = await fetch(`/icons/icon-${size}x${size}.png`);
+                    if (iconResponse.ok) iconsFound++;
+                } catch (error) {
+                    // Icon not found
+                }
+            }
+            
+            if (iconsFound === iconSizes.length) {
+                addCheck('PWA Icons', 'success', `All ${iconSizes.length} icon sizes available`);
+            } else if (iconsFound > 0) {
+                addCheck('PWA Icons', 'warning', `${iconsFound}/${iconSizes.length} icon sizes available`);
+            } else {
+                addCheck('PWA Icons', 'error', 'No PWA icons found');
+            }
+
+            // 5. Check Display Mode
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                addCheck('Display Mode', 'success', 'App is running in standalone mode');
+            } else {
+                addCheck('Display Mode', 'warning', 'App not in standalone mode (normal browser)');
+            }
+
+            // 6. Check Installability
+            if (window.matchMedia('(display-mode: standalone)').matches || 
+                (window.navigator as any).standalone === true) {
+                addCheck('Installation', 'success', 'App appears to be installed');
+            } else {
+                addCheck('Installation', 'warning', 'App not installed (can be installed)');
+            }
+
+            // 7. Check Responsive Design
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                addCheck('Responsive Design', 'success', 'Viewport meta tag present');
+            } else {
+                addCheck('Responsive Design', 'error', 'Viewport meta tag missing');
+            }
+
+            // 8. Check Offline Capability
+            if ('caches' in window) {
+                addCheck('Offline Support', 'success', 'Cache API available');
+            } else {
+                addCheck('Offline Support', 'error', 'Cache API not supported');
+            }
+
+            // 9. Check Network Status
+            if (navigator.onLine) {
+                addCheck('Network Status', 'success', 'Online');
+            } else {
+                addCheck('Network Status', 'warning', 'Offline');
+            }
+
+            // 10. Check PWA Criteria
+            const hasManifest = document.querySelector('link[rel="manifest"]');
+            const hasServiceWorker = 'serviceWorker' in navigator;
+            const hasIcons = iconsFound > 0;
+            const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
+            
+            if (hasManifest && hasServiceWorker && hasIcons && isSecure) {
+                addCheck('PWA Criteria', 'success', 'All PWA criteria met');
+            } else {
+                addCheck('PWA Criteria', 'warning', 'Some PWA criteria not met');
+            }
+
+            updateScore();
+        }
+
+        function testInstall() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        alert('Service Worker registered successfully!');
+                    })
+                    .catch(error => {
+                        alert('Service Worker registration failed: ' + error.message);
+                    });
+            } else {
+                alert('Service Worker not supported in this browser');
+            }
+        }
+
+        // Run diagnostics on page load
+        window.addEventListener('load', runDiagnostics);
+    </script>
+</body>
+</html>

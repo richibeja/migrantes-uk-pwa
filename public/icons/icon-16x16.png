@@ -1,0 +1,3 @@
+# PNG Icon 16x16
+# Este es un placeholder. En producción, usar una librería como sharp para generar PNGs reales.
+# Comando sugerido: npx sharp-cli -i icon-16x16.svg -o icon-16x16.png

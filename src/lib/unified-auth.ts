@@ -14,30 +14,22 @@ export interface User {
 
 // CÓDIGOS VÁLIDOS UNIFICADOS
 export const VALID_CODES = {
-  // Códigos de prueba
-  'DEMO2024': { plan: 'basic', isAdmin: false },
-  'PRUEBA123': { plan: 'basic', isAdmin: false },
-  'TEST456': { plan: 'basic', isAdmin: false },
-  
-  // Códigos principales
-  'GANAFACIL': { plan: 'premium', isAdmin: false },
+  // Códigos Premium
+  'GANAFACIL2024': { plan: 'premium', isAdmin: false },
   'PREMIUM123': { plan: 'premium', isAdmin: false },
   'VIP456': { plan: 'vip', isAdmin: false },
+  
+  // Códigos Básicos
   'BASIC789': { plan: 'basic', isAdmin: false },
+  'DEMO2024': { plan: 'basic', isAdmin: false },
+  'TEST123': { plan: 'basic', isAdmin: false },
   
   // Códigos de admin
   'ADMIN123': { plan: 'premium', isAdmin: true },
   'ADMIN456': { plan: 'premium', isAdmin: true },
   'ADMIN789': { plan: 'premium', isAdmin: true },
   'GANA7878': { plan: 'premium', isAdmin: true },
-  'FACIL0707': { plan: 'premium', isAdmin: true },
-  
-  // Códigos especiales
-  'LOTERIA': { plan: 'basic', isAdmin: false },
-  'SUERTE': { plan: 'basic', isAdmin: false },
-  'FORTUNA': { plan: 'basic', isAdmin: false },
-  'PZMEUE': { plan: 'premium', isAdmin: false },
-  '6C9USH': { plan: 'basic', isAdmin: false }
+  'FACIL0707': { plan: 'premium', isAdmin: true }
 };
 
 export const validateCode = (code: string): { valid: boolean; data?: typeof VALID_CODES[keyof typeof VALID_CODES] } => {

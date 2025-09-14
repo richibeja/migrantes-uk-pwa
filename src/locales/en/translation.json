@@ -1,0 +1,17 @@
+{
+  "dashboard": {
+    "title": "GanaFácil - Intelligent Lottery Predictions",
+    "overview": "Overview",
+    "predictions": "Predictions",
+    "analysis": "Analysis",
+    "settings": "Settings",
+    "welcome": "Welcome to the most advanced lottery prediction system"
+  },
+  "anbel": {
+    "title": "ANBEL IA - The World's Most Advanced Agent",
+    "greeting": "Hello! I'm Anbel, your intelligent lottery assistant. How can I help you today?",
+    "ask_prediction": "Which lottery would you like me to predict?",
+    "analyzing": "Analyzing historical data and patterns...",
+    "prediction_ready": "Prediction ready with {{accuracy}}% accuracy"
+  }
+}
