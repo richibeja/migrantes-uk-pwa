@@ -4,7 +4,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
   sw: 'sw.js',
-  buildExcludes: [/middleware-manifest\.json$/],
+  buildExcludes: [/middleware-manifest\.json$/, /dynamic-css-manifest\.json$/],
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
