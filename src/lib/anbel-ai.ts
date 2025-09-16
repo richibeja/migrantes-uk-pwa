@@ -2521,12 +2521,14 @@ class AnbelAI {
   }
 
   /**
-   * 📱 GENERAR TEXTO PARA COMPARTIR
+   * 📱 GENERAR TEXTO PARA COMPARTIR CON ENLACES
    */
   generateShareText(prediction: any, lottery: string, language: 'es' | 'en' = 'es'): string {
     const numbers = prediction.numbers.join(', ');
     const confidence = Math.round(prediction.confidence * 100);
     const rarity = this.getPredictionRarity(prediction.confidence);
+    const appUrl = 'https://gana-facil.vercel.app';
+    const dashboardUrl = `${appUrl}/dashboard`;
     
     if (language === 'es') {
       return `🔥 ¡PREDICCIÓN ${rarity} DE ANBEL IA! 🔥\n\n` +
@@ -2534,6 +2536,8 @@ class AnbelAI {
              `🧠 Confianza: ${confidence}%\n` +
              `🎲 Lotería: ${lottery}\n\n` +
              `💡 ¡Descarga Anbel IA y gana tú también!\n` +
+             `🔗 ${appUrl}\n` +
+             `📱 Dashboard: ${dashboardUrl}\n\n` +
              `#AnbelIA #Ganar #Predicciones #${lottery} #${rarity}`;
     } else {
       return `🔥 ${rarity} PREDICTION FROM ANBEL AI! 🔥\n\n` +
@@ -2541,6 +2545,8 @@ class AnbelAI {
              `🧠 Confidence: ${confidence}%\n` +
              `🎲 Lottery: ${lottery}\n\n` +
              `💡 Download Anbel AI and win too!\n` +
+             `🔗 ${appUrl}\n` +
+             `📱 Dashboard: ${dashboardUrl}\n\n` +
              `#AnbelIA #Win #Predictions #${lottery} #${rarity}`;
     }
   }
@@ -2570,6 +2576,35 @@ class AnbelAI {
   generateReferralCode(userId: string): string {
     const randomCode = Math.random().toString(36).substr(2, 4).toUpperCase();
     return `ANBEL${randomCode}`;
+  }
+
+  /**
+   * 🔗 GENERAR ENLACES ESPECÍFICOS POR RED SOCIAL
+   */
+  generateSocialLinks(prediction: any, lottery: string, language: 'es' | 'en' = 'es'): {
+    twitter: string;
+    whatsapp: string;
+    facebook: string;
+    telegram: string;
+    email: string;
+  } {
+    const numbers = prediction.numbers.join(', ');
+    const confidence = Math.round(prediction.confidence * 100);
+    const rarity = this.getPredictionRarity(prediction.confidence);
+    const appUrl = 'https://gana-facil.vercel.app';
+    const dashboardUrl = `${appUrl}/dashboard`;
+    
+    const baseText = language === 'es' 
+      ? `🔥 ¡PREDICCIÓN ${rarity} DE ANBEL IA! 🔥\n\n🎯 Números: ${numbers}\n🧠 Confianza: ${confidence}%\n🎲 Lotería: ${lottery}\n\n💡 ¡Descarga Anbel IA y gana tú también!\n🔗 ${appUrl}\n📱 Dashboard: ${dashboardUrl}\n\n#AnbelIA #Ganar #Predicciones #${lottery} #${rarity}`
+      : `🔥 ${rarity} PREDICTION FROM ANBEL AI! 🔥\n\n🎯 Numbers: ${numbers}\n🧠 Confidence: ${confidence}%\n🎲 Lottery: ${lottery}\n\n💡 Download Anbel AI and win too!\n🔗 ${appUrl}\n📱 Dashboard: ${dashboardUrl}\n\n#AnbelIA #Win #Predictions #${lottery} #${rarity}`;
+
+    return {
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(baseText)}&url=${encodeURIComponent(appUrl)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(baseText)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(appUrl)}&quote=${encodeURIComponent(baseText)}`,
+      telegram: `https://t.me/share/url?url=${encodeURIComponent(appUrl)}&text=${encodeURIComponent(baseText)}`,
+      email: `mailto:?subject=${encodeURIComponent(language === 'es' ? 'Predicción Ganadora de Anbel IA' : 'Winning Prediction from Anbel AI')}&body=${encodeURIComponent(baseText)}`
+    };
   }
 
   /**

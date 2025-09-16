@@ -95,11 +95,10 @@ export const AnbelChat: React.FC = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // 📱 FUNCIONES DE COMPARTIR SOCIAL
+  // 📱 FUNCIONES DE COMPARTIR SOCIAL CON ENLACES MEJORADOS
   const shareToTwitter = (prediction: any, lottery: string) => {
-    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-    window.open(url, '_blank');
+    const socialLinks = anbelAI.generateSocialLinks(prediction, lottery, currentLanguage);
+    window.open(socialLinks.twitter, '_blank');
     
     // Actualizar puntos sociales
     if (userProfile) {
@@ -109,9 +108,8 @@ export const AnbelChat: React.FC = () => {
   };
 
   const shareToWhatsApp = (prediction: any, lottery: string) => {
-    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
-    const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-    window.open(url, '_blank');
+    const socialLinks = anbelAI.generateSocialLinks(prediction, lottery, currentLanguage);
+    window.open(socialLinks.whatsapp, '_blank');
     
     // Actualizar puntos sociales
     if (userProfile) {
@@ -121,9 +119,30 @@ export const AnbelChat: React.FC = () => {
   };
 
   const shareToFacebook = (prediction: any, lottery: string) => {
-    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
-    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(shareText)}`;
-    window.open(url, '_blank');
+    const socialLinks = anbelAI.generateSocialLinks(prediction, lottery, currentLanguage);
+    window.open(socialLinks.facebook, '_blank');
+    
+    // Actualizar puntos sociales
+    if (userProfile) {
+      anbelAI.updateSocialPoints(userProfile, 'share');
+      setUserProfile({...userProfile});
+    }
+  };
+
+  const shareToTelegram = (prediction: any, lottery: string) => {
+    const socialLinks = anbelAI.generateSocialLinks(prediction, lottery, currentLanguage);
+    window.open(socialLinks.telegram, '_blank');
+    
+    // Actualizar puntos sociales
+    if (userProfile) {
+      anbelAI.updateSocialPoints(userProfile, 'share');
+      setUserProfile({...userProfile});
+    }
+  };
+
+  const shareToEmail = (prediction: any, lottery: string) => {
+    const socialLinks = anbelAI.generateSocialLinks(prediction, lottery, currentLanguage);
+    window.open(socialLinks.email, '_blank');
     
     // Actualizar puntos sociales
     if (userProfile) {
@@ -145,7 +164,7 @@ export const AnbelChat: React.FC = () => {
     }
   };
 
-  // 🎯 COMPONENTE DE BOTONES DE COMPARTIR
+  // 🎯 COMPONENTE DE BOTONES DE COMPARTIR CON ENLACES MEJORADOS
   const ShareButtons = ({ prediction, lottery }: { prediction: any; lottery: string }) => (
     <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700">
       <div className="flex items-center justify-between mb-3">
@@ -155,6 +174,27 @@ export const AnbelChat: React.FC = () => {
         <div className="text-yellow-400 text-xs">
           +5 {currentLanguage === 'es' ? 'puntos' : 'points'}
         </div>
+      </div>
+      
+      <div className="mb-3 p-2 bg-blue-900/30 rounded border border-blue-500/30">
+        <p className="text-blue-300 text-xs text-center">
+          {currentLanguage === 'es' 
+            ? '🔗 Incluye enlace directo a la app para que otros puedan descargar Anbel IA'
+            : '🔗 Includes direct link to the app so others can download Anbel AI'
+          }
+        </p>
+      </div>
+      
+      {/* Botón de enlace directo a la app */}
+      <div className="mb-3">
+        <button
+          onClick={() => window.open('https://gana-facil.vercel.app', '_blank')}
+          className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-black px-4 py-3 rounded-lg font-bold transition-all transform hover:scale-105"
+        >
+          <span>🚀</span>
+          <span>{currentLanguage === 'es' ? 'IR A ANBEL IA' : 'GO TO ANBEL AI'}</span>
+          <span>🔗</span>
+        </button>
       </div>
       
       <div className="grid grid-cols-2 gap-2">
@@ -180,6 +220,22 @@ export const AnbelChat: React.FC = () => {
         >
           <span>📘</span>
           <span>Facebook</span>
+        </button>
+        
+        <button
+          onClick={() => shareToTelegram(prediction, lottery)}
+          className="flex items-center justify-center space-x-2 bg-blue-400 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm transition-colors"
+        >
+          <span>✈️</span>
+          <span>Telegram</span>
+        </button>
+        
+        <button
+          onClick={() => shareToEmail(prediction, lottery)}
+          className="flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm transition-colors"
+        >
+          <span>📧</span>
+          <span>Email</span>
         </button>
         
         <button
