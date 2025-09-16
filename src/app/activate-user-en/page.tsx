@@ -29,23 +29,46 @@ export default function ActivateUserPageEn() {
     // Simulate activation
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    // Validate code against pending user
-    const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
-    const isValidCode = pendingUser.activationCode === activationCode;
+    // Validate code against predefined codes
+    const { validateSimpleCode } = await import('@/lib/simple-codes');
+    const codeValidation = validateSimpleCode(activationCode);
     
-    if (isValidCode && pendingUser.email) {
-      // Mark as activated
+    if (codeValidation.valid) {
+      // Valid code - create activated user
       const activatedUser = {
-        ...pendingUser,
+        username: `user_${Date.now()}`,
+        email: userData?.email || 'user@ganafacil.com',
+        phone: userData?.phone || '',
         isActivated: true,
-        activatedAt: new Date().toISOString()
+        plan: codeValidation.plan || 'premium',
+        activatedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days
+        activationCode: activationCode
       };
+      
       localStorage.setItem('user', JSON.stringify(activatedUser));
       localStorage.removeItem('pendingUser');
       
       setActivationStatus('success');
     } else {
-      setActivationStatus('error');
+      // Validate code against localStorage as fallback
+      const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
+      const isValidCode = pendingUser.activationCode === activationCode;
+      
+      if (isValidCode && pendingUser.email) {
+        // Mark as activated
+        const activatedUser = {
+          ...pendingUser,
+          isActivated: true,
+          activatedAt: new Date().toISOString()
+        };
+        localStorage.setItem('user', JSON.stringify(activatedUser));
+        localStorage.removeItem('pendingUser');
+        
+        setActivationStatus('success');
+      } else {
+        setActivationStatus('error');
+      }
     }
     
     setIsActivating(false);

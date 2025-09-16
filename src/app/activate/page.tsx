@@ -29,23 +29,46 @@ export default function ActivatePage() {
     // Simular activación
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    // Validar código contra el localStorage
-    const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
-    const isValidCode = pendingUser.activationCode === activationCode;
+    // Validar código contra códigos predefinidos
+    const { validateSimpleCode } = await import('@/lib/simple-codes');
+    const codeValidation = validateSimpleCode(activationCode);
     
-    if (isValidCode && pendingUser.email) {
-      // Marcar como activado
+    if (codeValidation.valid) {
+      // Código válido - crear usuario activado
       const activatedUser = {
-        ...pendingUser,
+        username: `user_${Date.now()}`,
+        email: userData?.email || 'usuario@ganafacil.com',
+        phone: userData?.phone || '',
         isActivated: true,
-        activatedAt: new Date().toISOString()
+        plan: codeValidation.plan || 'premium',
+        activatedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 días
+        activationCode: activationCode
       };
+      
       localStorage.setItem('user', JSON.stringify(activatedUser));
       localStorage.removeItem('pendingUser');
       
       setActivationStatus('success');
     } else {
-      setActivationStatus('error');
+      // Validar código contra el localStorage como fallback
+      const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
+      const isValidCode = pendingUser.activationCode === activationCode;
+      
+      if (isValidCode && pendingUser.email) {
+        // Marcar como activado
+        const activatedUser = {
+          ...pendingUser,
+          isActivated: true,
+          activatedAt: new Date().toISOString()
+        };
+        localStorage.setItem('user', JSON.stringify(activatedUser));
+        localStorage.removeItem('pendingUser');
+        
+        setActivationStatus('success');
+      } else {
+        setActivationStatus('error');
+      }
     }
     
     setIsActivating(false);
