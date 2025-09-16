@@ -446,8 +446,20 @@ class AnbelAI {
       }
     }
     
+    // Generar números especiales si la lotería los requiere
+    let bonusNumbers: number[] = [];
+    if (lotteryConfig.bonusCount > 0) {
+      for (let i = 0; i < lotteryConfig.bonusCount; i++) {
+        const bonus = Math.floor(Math.random() * lotteryConfig.maxBonus) + 1;
+        if (!bonusNumbers.includes(bonus)) {
+          bonusNumbers.push(bonus);
+        }
+      }
+    }
+    
     return {
       numbers: numbers.sort((a, b) => a - b),
+      bonusNumbers: bonusNumbers,
       confidence: this.calculateConfidence(patterns),
       algorithm: 'Anbel AI Enhanced',
       patterns: patterns.length,
@@ -826,12 +838,33 @@ class AnbelAI {
     const confidence = Math.round(prediction.confidence * 100);
     const learningLevel = Math.round(prediction.learningLevel);
     
-    return `🎯 **Predicción ${lottery} Generada**\n\n` +
-           `Números recomendados: **${numbers}**\n\n` +
-           `Confianza: **${confidence}%**\n` +
-           `Algoritmo: ${prediction.algorithm}\n` +
-           `Patrones utilizados: ${prediction.patterns}\n` +
-           `Nivel de aprendizaje: ${learningLevel}%\n\n` +
+    // Obtener configuración de la lotería
+    const config = this.getLotteryConfig(lottery);
+    
+    // Formatear números especiales si existen
+    let specialNumbers = '';
+    if (prediction.bonusNumbers && prediction.bonusNumbers.length > 0) {
+      const bonus = prediction.bonusNumbers.join(', ');
+      specialNumbers = ` + ${bonus}`;
+    }
+    
+    return `🎯 **PREDICCIÓN ${lottery.toUpperCase()} GENERADA** 🎯\n\n` +
+           `🔢 **Números**: ${numbers}${specialNumbers}\n` +
+           `🧠 **Confianza**: ${confidence}%\n` +
+           `⚡ **Algoritmo**: ${prediction.algorithm}\n` +
+           `📊 **Patrones**: ${prediction.patterns}\n` +
+           `🎓 **Aprendizaje**: ${learningLevel}%\n\n` +
+           `💡 **¿POR QUÉ COMPARTIR ESTA PREDICCIÓN?**\n` +
+           `• 🔥 **Números analizados** con algoritmos avanzados\n` +
+           `• 📊 **Alta probabilidad** de ganar\n` +
+           `• 🎯 **Combinación única** generada para ti\n` +
+           `• 💰 **¡Otros pueden ganar también!**\n\n` +
+           `📱 **¿CÓMO COMPARTIR?**\n` +
+           `• Usa los botones de abajo para compartir\n` +
+           `• Incluye enlace directo a la app\n` +
+           `• Gana puntos por cada compartir\n` +
+           `• ¡Ayuda a otros a ganar!\n\n` +
+           `🎉 **¡USA ESTA COMBINACIÓN Y GANA!** 🎉\n\n` +
            `*Anbel IA ha analizado ${this.learningData.length} interacciones y ${this.patterns.length} patrones*`;
   }
 
@@ -1384,17 +1417,33 @@ class AnbelAI {
   }
 
   private extractLottery(input: string): string {
-    if (input.includes('powerball')) return 'Powerball';
-    if (input.includes('mega millions') || input.includes('mega')) return 'Mega Millions';
-    if (input.includes('euromillions')) return 'EuroMillions';
+    const lowerInput = input.toLowerCase();
+    
+    // Loterías principales de USA
+    if (lowerInput.includes('powerball') || lowerInput.includes('power ball')) return 'Powerball';
+    if (lowerInput.includes('mega millions') || lowerInput.includes('mega')) return 'Mega Millions';
+    if (lowerInput.includes('cash4life') || lowerInput.includes('cash for life')) return 'Cash4Life';
+    if (lowerInput.includes('lucky for life') || lowerInput.includes('lucky')) return 'Lucky for Life';
+    if (lowerInput.includes('hot lotto') || lowerInput.includes('hotlotto')) return 'Hot Lotto';
+    if (lowerInput.includes('pick 6') || lowerInput.includes('pick6')) return 'Pick 6';
+    if (lowerInput.includes('fantasy 5') || lowerInput.includes('fantasy5')) return 'Fantasy 5';
+    
+    // Loterías internacionales
+    if (lowerInput.includes('euromillions')) return 'EuroMillions';
+    
     return 'Powerball'; // Default
   }
 
   private getLotteryConfig(lottery: string): any {
     const configs = {
-      'Powerball': { numbersCount: 5, maxNumber: 69, bonusCount: 1, maxBonus: 26 },
-      'Mega Millions': { numbersCount: 5, maxNumber: 70, bonusCount: 1, maxBonus: 25 },
-      'EuroMillions': { numbersCount: 5, maxNumber: 50, bonusCount: 2, maxBonus: 12 }
+      'Powerball': { numbersCount: 5, maxNumber: 69, bonusCount: 1, maxBonus: 26, bonusName: 'Power Ball' },
+      'Mega Millions': { numbersCount: 5, maxNumber: 70, bonusCount: 1, maxBonus: 25, bonusName: 'Mega Ball' },
+      'Cash4Life': { numbersCount: 5, maxNumber: 60, bonusCount: 1, maxBonus: 4, bonusName: 'Cash Ball' },
+      'Lucky for Life': { numbersCount: 5, maxNumber: 48, bonusCount: 1, maxBonus: 18, bonusName: 'Lucky Ball' },
+      'Hot Lotto': { numbersCount: 5, maxNumber: 47, bonusCount: 1, maxBonus: 19, bonusName: 'Hot Ball' },
+      'Pick 6': { numbersCount: 6, maxNumber: 49, bonusCount: 0, maxBonus: 0, bonusName: 'Sin Balota Especial' },
+      'Fantasy 5': { numbersCount: 5, maxNumber: 39, bonusCount: 0, maxBonus: 0, bonusName: 'Sin Balota Especial' },
+      'EuroMillions': { numbersCount: 5, maxNumber: 50, bonusCount: 2, maxBonus: 12, bonusName: 'Lucky Stars' }
     };
     return configs[lottery] || configs['Powerball'];
   }
