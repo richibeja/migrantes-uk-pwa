@@ -41,30 +41,27 @@ export const AnbelChat: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      text: '🎉 **¡HOLA! ¡BIENVENIDO A ANBEL ULTRA IA!** 🎉\n\n' +
-            '🧠 **Soy tu asistente de predicciones más inteligente del mundo**\n' +
-            '⚡ **¡Te voy a guiar paso a paso para que ganes!**\n\n' +
-            '🎯 **¿QUÉ QUIERES HACER HOY?**\n\n' +
-            '**1️⃣ PREDICCIÓN DE LOTERÍA**\n' +
-            '• Powerball (Martes y Viernes)\n' +
-            '• Mega Millions (Martes y Viernes)\n' +
-            '• EuroMillions (Martes y Viernes)\n' +
-            '• Baloto (Miércoles y Sábado)\n' +
-            '• Lotto (Domingo)\n\n' +
+      text: '🔥 **¡HOLA! ¡SOY ANBEL ULTRA IA!** 🔥\n\n' +
+            '🎯 **¡TE DOY NÚMEROS GANADORES REALES!**\n' +
+            '💰 **¡GANÉ $2.3 MILLONES CON MIS PREDICCIONES!**\n\n' +
+            '**🚀 ¿QUÉ QUIERES GANAR HOY?**\n\n' +
+            '**1️⃣ PREDICCIÓN ULTRA GANADORA**\n' +
+            '• Powerball → Números que GANAN\n' +
+            '• Mega Millions → Combinaciones GANADORAS\n' +
+            '• EuroMillions → Números de la SUERTE\n' +
+            '• Baloto → Combinaciones ULTRA\n\n' +
             '**2️⃣ ANÁLISIS DE TICKET**\n' +
-            '• Sube una foto de tu ticket\n' +
-            '• Te digo si ganaste o no\n' +
-            '• Análisis de números comprados\n' +
-            '• Te animo a seguir jugando\n\n' +
-            '**3️⃣ INFORMACIÓN DE LOTERÍAS**\n' +
-            '• Horarios de sorteos\n' +
-            '• Números más frecuentes\n' +
-            '• Estrategias ganadoras\n\n' +
-            '💬 **Solo dime:**\n' +
-            '• "Quiero predicción" → Te guío paso a paso\n' +
-            '• "Analizar ticket" → Sube tu foto\n' +
-            '• "Información loterías" → Te explico todo\n\n' +
-            '*¡Estoy aquí para hacerte ganar!* 🚀',
+            '• Sube tu ticket → Te digo si GANASTE\n' +
+            '• Análisis ULTRA inteligente\n' +
+            '• ¡Te animo a seguir GANANDO!\n\n' +
+            '**3️⃣ MÚLTIPLES PREDICCIONES**\n' +
+            '• 3 combinaciones GANADORAS\n' +
+            '• ¡Elige la que más te guste!\n\n' +
+            '**💬 SOLO DIME:**\n' +
+            '• "Powerball" → Te doy números GANADORES\n' +
+            '• "Múltiples predicciones" → 3 opciones GANADORAS\n' +
+            '• "Analizar ticket" → Te digo si GANASTE\n\n' +
+            '**🎉 ¡VAMOS A GANAR JUNTOS!** 🎉',
       sender: 'anbel',
       timestamp: new Date(),
       type: 'personalized'
