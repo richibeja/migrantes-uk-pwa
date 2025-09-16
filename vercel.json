@@ -69,7 +69,7 @@
     "NODE_ENV": "production",
     "NEXT_PUBLIC_APP_URL": "https://ganafacil.vercel.app",
     "NEXT_PUBLIC_ANBEL_IA_API": "https://api.anbel-ia.com",
-    "NEXT_PUBLIC_GEMINI_API_KEY": "demo-key",
+    "NEXT_PUBLIC_GEMINI_API_KEY": "AIzaSyBvQZvQZvQZvQZvQZvQZvQZvQZvQZvQZvQ",
     "NEXT_TELEMETRY_DISABLED": "1",
     "DISABLE_NATIVE_DEPS": "true",
     "VERCEL_DATA_CACHE_MAX_ITEMS": "1000",

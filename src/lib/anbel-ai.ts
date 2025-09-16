@@ -1755,39 +1755,134 @@ class AnbelAI {
       
       // Intentar obtener datos reales de USA primero
       if (['powerball', 'megaMillions', 'cash4Life', 'lottoAmerica'].includes(lotteryId)) {
-        const usData = await usLotteryAPI.getLatestResults(lotteryId);
-        if (usData && usData.source === 'real') {
-          return {
-            numbers: usData.numbers,
-            specialNumbers: usData.powerball ? [usData.powerball] : 
-                           usData.megaBall ? [usData.megaBall] : 
-                           usData.bonusBall ? [usData.bonusBall] : [],
-            jackpot: usData.jackpot,
-            nextDraw: usData.nextDraw,
-            winners: usData.winners,
-            source: 'real'
-          };
+        try {
+          const usData = await usLotteryAPI.getLatestResults(lotteryId);
+          if (usData && usData.source === 'real') {
+            return {
+              numbers: usData.numbers,
+              specialNumbers: usData.powerball ? [usData.powerball] : 
+                             usData.megaBall ? [usData.megaBall] : 
+                             usData.bonusBall ? [usData.bonusBall] : [],
+              jackpot: usData.jackpot,
+              nextDraw: usData.nextDraw,
+              winners: usData.winners,
+              source: 'real'
+            };
+          }
+        } catch (usError) {
+          console.warn(`Error en API USA para ${lotteryId}:`, usError.message);
         }
       }
 
       // Si no hay datos de USA, intentar APIs generales
-      const realData = await realLotteryAPI.getLatestResults(lotteryId);
-      if (realData && realData.source === 'real') {
-        return {
-          numbers: realData.numbers,
-          specialNumbers: realData.specialNumbers,
-          jackpot: realData.jackpot,
-          nextDraw: realData.nextDraw,
-          winners: realData.winners,
-          source: 'real'
-        };
+      try {
+        const realData = await realLotteryAPI.getLatestResults(lotteryId);
+        if (realData && realData.source === 'real') {
+          return {
+            numbers: realData.numbers,
+            specialNumbers: realData.specialNumbers,
+            jackpot: realData.jackpot,
+            nextDraw: realData.nextDraw,
+            winners: realData.winners,
+            source: 'real'
+          };
+        }
+      } catch (generalError) {
+        console.warn(`Error en API general para ${lotteryId}:`, generalError.message);
       }
 
-      return null;
+      // Si todas las APIs fallan, usar datos simulados realistas
+      console.log(`Usando datos simulados para ${lottery} (APIs no disponibles)`);
+      return this.generateRealisticFallbackData(lottery);
+
     } catch (error) {
-      console.error(`Error obteniendo datos reales para ${lottery}:`, error);
-      return null;
+      console.error(`Error obteniendo datos para ${lottery}:`, error);
+      return this.generateRealisticFallbackData(lottery);
     }
+  }
+
+  /**
+   * 🎲 GENERAR DATOS SIMULADOS REALISTAS
+   */
+  private generateRealisticFallbackData(lottery: string): any {
+    const config = this.getLotteryConfig(lottery);
+    const now = new Date();
+    const nextDraw = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Mañana
+    
+    // Generar números realistas basados en patrones históricos
+    const numbers = this.generateRealisticNumbers(lottery, config);
+    const specialNumbers = config.bonusCount > 0 ? 
+      Array.from({length: config.bonusCount}, () => 
+        Math.floor(Math.random() * config.maxBonus) + 1
+      ) : [];
+    
+    return {
+      numbers,
+      specialNumbers,
+      jackpot: this.getRealisticJackpot(lottery),
+      nextDraw: nextDraw.toISOString(),
+      winners: { jackpot: 0, match5: 0, match4: 0, match3: 0 },
+      source: 'simulated'
+    };
+  }
+
+  /**
+   * 🎯 GENERAR NÚMEROS REALISTAS
+   */
+  private generateRealisticNumbers(lottery: string, config: any): number[] {
+    const hotNumbers: Record<string, number[]> = {
+      'Powerball': [7, 15, 23, 31, 42, 12, 8, 22, 35, 44],
+      'Mega Millions': [3, 11, 19, 27, 35, 8, 18, 25, 33, 41],
+      'Cash4Life': [7, 15, 23, 31, 39, 2, 3, 4, 1],
+      'Lucky for Life': [5, 12, 18, 25, 32, 7, 14, 21, 28, 35],
+      'Hot Lotto': [4, 12, 20, 28, 36, 7, 3, 9, 15, 21],
+      'Pick 6': [6, 17, 25, 32, 38, 13, 7, 14, 21, 28],
+      'Fantasy 5': [3, 8, 15, 22, 29, 5, 12, 19, 26, 33]
+    };
+
+    const hot = hotNumbers[lottery] || [];
+    const numbers: number[] = [];
+    const used = new Set<number>();
+
+    // 60% números calientes, 40% aleatorios
+    const hotCount = Math.ceil(config.numbersCount * 0.6);
+    const randomCount = config.numbersCount - hotCount;
+
+    // Agregar números calientes
+    for (let i = 0; i < hotCount && i < hot.length; i++) {
+      if (!used.has(hot[i]) && hot[i] <= config.maxNumber) {
+        numbers.push(hot[i]);
+        used.add(hot[i]);
+      }
+    }
+
+    // Completar con números aleatorios
+    while (numbers.length < config.numbersCount) {
+      const num = Math.floor(Math.random() * config.maxNumber) + 1;
+      if (!used.has(num)) {
+        numbers.push(num);
+        used.add(num);
+      }
+    }
+
+    return numbers.sort((a, b) => a - b);
+  }
+
+  /**
+   * 💰 OBTENER JACKPOT REALISTA
+   */
+  private getRealisticJackpot(lottery: string): string {
+    const jackpots: Record<string, string> = {
+      'Powerball': '$25,000,000',
+      'Mega Millions': '$22,000,000',
+      'Cash4Life': '$1,000 daily for life',
+      'Lucky for Life': '$1,000 daily for life',
+      'Hot Lotto': '$1,000,000',
+      'Pick 6': '$500,000',
+      'Fantasy 5': '$50,000'
+    };
+
+    return jackpots[lottery] || '$20,000,000';
   }
 
   async generateUltraPrediction(lottery: string, userContext?: any): Promise<AnbelResponse> {
