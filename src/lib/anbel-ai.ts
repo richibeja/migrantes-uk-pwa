@@ -512,10 +512,117 @@ class AnbelAI {
   }
 
   /**
+   * 🧠 DETECCIÓN INTELIGENTE POR SIMILITUD
+   * Entiende lo que la gente quiere decir, incluso con errores
+   */
+  private detectIntentBySimilarity(input: string): string | null {
+    // Patrones de predicciones con variaciones comunes
+    const predictionPatterns = [
+      'prediccion', 'prediccionpawer', 'prediccionpower', 'prediccionpawerball', 'prediccionpowerball',
+      'prediccion mega', 'prediccionmega', 'prediccionmillions', 'prediccionmega millions',
+      'prediccion euro', 'prediccioneuromillions', 'prediccion baloto', 'prediccionbaloto',
+      'prediccion lotto', 'prediccionlotto', 'prediccion lottery', 'prediccionlottery',
+      'prediccion numeros', 'prediccionnumeros', 'prediccion numbers', 'prediccionnumbers',
+      'prediccion sorteos', 'prediccion sorteos', 'prediccion draws', 'predicciondraws',
+      'quiero prediccion', 'quieroprediccion', 'want prediccion', 'wantprediccion',
+      'dame numeros', 'damenumeros', 'give me numbers', 'givemenumbers',
+      'numeros ganadores', 'numerosganadores', 'winning numbers', 'winningnumbers'
+    ];
+    
+    // Patrones de loterías con variaciones
+    const lotteryPatterns = [
+      'powerball', 'pawerball', 'power', 'pawer', 'power ball', 'powerball',
+      'mega millions', 'megamillions', 'mega', 'millions', 'mega million',
+      'euromillions', 'euro', 'euro millions', 'euromillion',
+      'baloto', 'balot', 'balotto', 'balotoo',
+      'lotto', 'lottery', 'lotteria', 'lotteri'
+    ];
+    
+    // Patrones de respuestas afirmativas
+    const affirmativePatterns = [
+      'si', 'sí', 'yes', 'ok', 'okay', 'vale', 'perfecto', 'perfect',
+      'genial', 'great', 'excelente', 'excellent', 'claro', 'sure',
+      'por supuesto', 'of course', 'dale', 'vamos', 'let\'s go', 'go',
+      'start', 'empezar', 'begin', 'comenzar', 'iniciar'
+    ];
+    
+    // Verificar similitud con patrones de predicción
+    for (const pattern of predictionPatterns) {
+      if (this.calculateSimilarity(input, pattern) > 0.6) {
+        return 'prediction';
+      }
+    }
+    
+    // Verificar similitud con patrones de lotería
+    for (const pattern of lotteryPatterns) {
+      if (this.calculateSimilarity(input, pattern) > 0.6) {
+        return 'prediction';
+      }
+    }
+    
+    // Verificar similitud con respuestas afirmativas
+    for (const pattern of affirmativePatterns) {
+      if (this.calculateSimilarity(input, pattern) > 0.7) {
+        return 'prediction';
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * 📊 Calcular similitud entre dos strings
+   */
+  private calculateSimilarity(str1: string, str2: string): number {
+    const longer = str1.length > str2.length ? str1 : str2;
+    const shorter = str1.length > str2.length ? str2 : str1;
+    
+    if (longer.length === 0) return 1.0;
+    
+    const distance = this.levenshteinDistance(longer, shorter);
+    return (longer.length - distance) / longer.length;
+  }
+
+  /**
+   * 🔢 Distancia de Levenshtein para similitud
+   */
+  private levenshteinDistance(str1: string, str2: string): number {
+    const matrix = [];
+    
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i];
+    }
+    
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j;
+    }
+    
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    
+    return matrix[str2.length][str1.length];
+  }
+
+  /**
    * 🎯 Detectar intención del usuario
    */
   private detectIntent(input: string): string {
     const lowerInput = input.toLowerCase();
+    
+    // 🧠 DETECCIÓN INTELIGENTE POR SIMILITUD
+    const intent = this.detectIntentBySimilarity(lowerInput);
+    if (intent) return intent;
     
     // Preguntas específicas sobre horarios
     if (lowerInput.includes('cuándo') || lowerInput.includes('when') ||
@@ -594,20 +701,28 @@ class AnbelAI {
       return 'greeting';
     }
     
-    // Predicciones específicas
+    // Predicciones específicas - DETECCIÓN MEJORADA
     if (lowerInput.includes('predicción') || lowerInput.includes('prediction') || 
+        lowerInput.includes('prediccion') || lowerInput.includes('predic') ||
         lowerInput.includes('quiero predicción') || lowerInput.includes('want prediction') ||
         lowerInput.includes('dame números') || lowerInput.includes('give me numbers') ||
-        lowerInput.includes('números ganadores') || lowerInput.includes('winning numbers')) {
+        lowerInput.includes('números ganadores') || lowerInput.includes('winning numbers') ||
+        lowerInput.includes('prediccionpawer') || lowerInput.includes('prediccionpower') ||
+        lowerInput.includes('prediccionpawerball') || lowerInput.includes('prediccionpowerball')) {
       return 'prediction';
     }
     
-    // Loterías específicas para predicción
-    if (lowerInput.includes('powerball') || lowerInput.includes('mega millions') ||
-        lowerInput.includes('euromillions') || lowerInput.includes('baloto') ||
-        lowerInput.includes('lotto') || lowerInput.includes('números') ||
-        lowerInput.includes('numbers') || lowerInput.includes('sorteo') ||
-        lowerInput.includes('draw')) {
+    // Loterías específicas para predicción - DETECCIÓN MEJORADA
+    if (lowerInput.includes('powerball') || lowerInput.includes('pawerball') || 
+        lowerInput.includes('power') || lowerInput.includes('pawer') ||
+        lowerInput.includes('mega millions') || lowerInput.includes('megamillions') ||
+        lowerInput.includes('mega') || lowerInput.includes('millions') ||
+        lowerInput.includes('euromillions') || lowerInput.includes('euro') ||
+        lowerInput.includes('baloto') || lowerInput.includes('balot') ||
+        lowerInput.includes('lotto') || lowerInput.includes('lottery') ||
+        lowerInput.includes('números') || lowerInput.includes('numbers') ||
+        lowerInput.includes('sorteo') || lowerInput.includes('draw') ||
+        lowerInput.includes('prediccionpawer') || lowerInput.includes('prediccionpower')) {
       return 'prediction';
     }
     
