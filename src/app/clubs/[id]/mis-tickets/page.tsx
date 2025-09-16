@@ -13,6 +13,7 @@ export async function generateStaticParams() {
 
 import MisTicketsClient from './MisTicketsClient';
 
-export default function MisTicketsPage({ params }: { params: { id: string } }) {
-  return <MisTicketsClient clubId={params.id} />;
+export default async function MisTicketsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <MisTicketsClient clubId={id} />;
 }

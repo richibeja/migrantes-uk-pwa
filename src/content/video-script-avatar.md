@@ -1,3 +1,5 @@
+
+IN NO SIRVIO LOS EN LACESRIOP
 # GUION DE VIDEO PARA AVATAR - GANA FÁCIL
 ## Tu Guión Original + Funcionalidades Reales de la App
 

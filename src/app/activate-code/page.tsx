@@ -60,6 +60,14 @@ export default function ActivateCodePage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Códigos de activación válidos
+  const VALID_CODES = [
+    'GANAFACIL', 'LOTERIA', 'SUERTE', 'FORTUNA',
+    'GANA2025POWER001', 'GANA2025MEGA002', 'GANA2025EURO003',
+    'GANA2025UK004', 'GANA2025SPAIN005', 'DEMO2025TEST001',
+    'FREE2025TRIAL001', 'VIP2025ACCESS001'
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -70,11 +78,55 @@ export default function ActivateCodePage() {
     setIsLoading(true);
 
     try {
+      // Verificar código válido
+      const codeToCheck = formData.code.trim().toUpperCase();
+      if (!VALID_CODES.includes(codeToCheck)) {
+        setErrors({ general: 'Código de activación no válido. Verifica el código e intenta de nuevo.' });
+        setIsLoading(false);
+        return;
+      }
+
       // Simular verificación del código
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Aquí iría la lógica real de verificación del código
-      console.log('Código de activación:', formData);
+      // Generar credenciales de usuario
+      const username = formData.email.split('@')[0]; // Usar parte del email como username
+      const password = `GF${formData.code.slice(-4)}${Math.floor(Math.random() * 100)}`; // Contraseña basada en código
+      
+      // Crear cuenta de usuario
+      const newAccount = {
+        username: username,
+        password: password,
+        email: formData.email,
+        phone: formData.phone,
+        isActivated: true,
+        status: 'active',
+        plan: 'premium', // Plan por defecto
+        expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 días
+        activatedWith: 'whatsapp',
+        activationCode: formData.code,
+        createdAt: new Date().toISOString()
+      };
+
+      // Guardar en localStorage
+      const existingAccounts = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
+      existingAccounts.push(newAccount);
+      localStorage.setItem('ganaFacilAccounts', JSON.stringify(existingAccounts));
+
+      // También guardar usuario actual
+      localStorage.setItem('ganaFacilUser', JSON.stringify({
+        id: `user_${Date.now()}`,
+        username: username,
+        isAdmin: false,
+        isActivated: true,
+        status: 'active',
+        plan: 'premium',
+        expiresAt: newAccount.expiresAt,
+        activatedWith: 'whatsapp',
+        createdAt: new Date()
+      }));
+
+      console.log('✅ Cuenta creada exitosamente:', { username, password });
       
       setIsSuccess(true);
     } catch (error) {
@@ -86,6 +138,11 @@ export default function ActivateCodePage() {
   };
 
   if (isSuccess) {
+    // Obtener las credenciales creadas
+    const userData = JSON.parse(localStorage.getItem('ganaFacilUser') || '{}');
+    const accounts = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
+    const userAccount = accounts.find((acc: any) => acc.username === userData.username);
+    
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-600 via-blue-600 to-purple-600 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
@@ -94,14 +151,45 @@ export default function ActivateCodePage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-4">¡Cuenta Activada!</h1>
           <p className="text-gray-600 mb-6">
-            Tu cuenta ha sido activada exitosamente. Ahora tienes acceso completo a todas las funcionalidades de GanaFácil.
+            Tu cuenta ha sido activada exitosamente. Guarda estas credenciales para futuros accesos.
           </p>
+          
+          {/* Credenciales del usuario */}
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6 text-left">
+            <h3 className="font-semibold text-gray-900 mb-3 text-center">Tus Credenciales de Acceso</h3>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Usuario:</span>
+                <span className="font-mono text-blue-600">{userAccount?.username || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Contraseña:</span>
+                <span className="font-mono text-green-600">{userAccount?.password || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Plan:</span>
+                <span className="text-purple-600 font-semibold">Premium (90 días)</span>
+              </div>
+            </div>
+            <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-xs text-yellow-800 text-center">
+                ⚠️ Guarda estas credenciales en un lugar seguro
+              </p>
+            </div>
+          </div>
+          
           <div className="space-y-3">
             <Link 
               href="/dashboard" 
               className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-all block text-center"
             >
               Ir al Dashboard
+            </Link>
+            <Link 
+              href="/login" 
+              className="w-full bg-green-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-700 transition-all block text-center"
+            >
+              Probar Login
             </Link>
             <Link 
               href="/" 
@@ -249,20 +337,48 @@ export default function ActivateCodePage() {
           </form>
 
           {/* Información adicional */}
-          <div className="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
-            <div className="flex items-start gap-3">
-              <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
-              <div>
-                <h4 className="font-semibold text-blue-800 mb-1">¿No recibiste tu código?</h4>
-                <p className="text-blue-700 text-sm mb-3">
-                  Si no recibiste el código por WhatsApp, puedes solicitarlo nuevamente.
-                </p>
-                <Link 
-                  href="/activate-whatsapp" 
-                  className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
-                >
-                  Solicitar nuevo código →
-                </Link>
+          <div className="mt-6 space-y-4">
+            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div>
+                  <h4 className="font-semibold text-blue-800 mb-1">¿No recibiste tu código?</h4>
+                  <p className="text-blue-700 text-sm mb-3">
+                    Si no recibiste el código por WhatsApp, puedes solicitarlo nuevamente.
+                  </p>
+                  <Link 
+                    href="/activate-whatsapp" 
+                    className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                  >
+                    Solicitar nuevo código →
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Códigos válidos */}
+            <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Key className="h-5 w-5 text-green-600 mt-0.5" />
+                <div>
+                  <h4 className="font-semibold text-green-800 mb-2">Códigos de Activación Válidos:</h4>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="space-y-1">
+                      <div className="font-mono text-green-700">GANAFACIL</div>
+                      <div className="font-mono text-green-700">LOTERIA</div>
+                      <div className="font-mono text-green-700">SUERTE</div>
+                      <div className="font-mono text-green-700">FORTUNA</div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="font-mono text-green-700">DEMO2025TEST001</div>
+                      <div className="font-mono text-green-700">FREE2025TRIAL001</div>
+                      <div className="font-mono text-green-700">VIP2025ACCESS001</div>
+                    </div>
+                  </div>
+                  <p className="text-green-700 text-xs mt-2">
+                    * Los códigos son sensibles a mayúsculas y minúsculas
+                  </p>
+                </div>
               </div>
             </div>
           </div>

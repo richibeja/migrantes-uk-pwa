@@ -53,6 +53,7 @@ interface Jugada {
   rechazos: number;
 }
 
-export default function ClubDashboard({ params }: { params: { id: string } }) {
-  return <ClubDashboardClient clubId={params.id} />;
+export default async function ClubDashboard({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <ClubDashboardClient clubId={id} />;
 }

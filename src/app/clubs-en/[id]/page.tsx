@@ -13,6 +13,7 @@ export async function generateStaticParams() {
 
 import ClubDashboardClient from './ClubDashboardClient';
 
-export default function ClubEnPage({ params }: { params: { id: string } }) {
-  return <ClubDashboardClient clubId={params.id} />;
+export default async function ClubEnPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <ClubDashboardClient clubId={id} />;
 }

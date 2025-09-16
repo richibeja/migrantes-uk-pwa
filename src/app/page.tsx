@@ -115,8 +115,8 @@ export default function Home() {
               <a href="/auth/login" className="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all">
                 Iniciar Sesión
               </a>
-              <a href="/auth/register" className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all">
-                Registrarse
+              <a href="/activate-whatsapp" className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all">
+                Activar por WhatsApp
               </a>
               <a href="/page-en" className="px-4 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm">
                 🇺🇸 EN
@@ -137,8 +137,8 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-            <a href="/auth/register-us-es" className="px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105">
-              Prueba Gratuita (US)
+            <a href="/activate-whatsapp" className="px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105">
+              Activar por WhatsApp
             </a>
             <a href="/demo-ia" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all">
               Demo Interactiva
@@ -234,8 +234,8 @@ export default function Home() {
               <a href="/demo-ia" className="inline-block px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all text-center">
                 Probar Demo Gratis
               </a>
-              <a href="/pricing-us-es" className="inline-block px-8 py-4 bg-purple-500 text-white rounded-full text-lg font-semibold hover:bg-purple-600 transition-all text-center">
-                Ver Precios US
+              <a href="#pricing" className="inline-block px-8 py-4 bg-purple-500 text-white rounded-full text-lg font-semibold hover:bg-purple-600 transition-all text-center">
+                Ver Precios
               </a>
               <a href="/activate-whatsapp" className="inline-block px-8 py-4 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 transition-all text-center">
                 Activar por WhatsApp
@@ -352,7 +352,7 @@ export default function Home() {
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Prueba Gratis</h3>
                 <div className="text-4xl font-bold text-green-600 mb-2">GRATIS</div>
-                <div className="text-sm text-gray-500 line-through">$4.99</div>
+                <div className="text-sm text-gray-500 line-through">$39</div>
                 <p className="text-gray-600 mt-2">3 días</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
@@ -385,18 +385,18 @@ export default function Home() {
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan Básico</h3>
-                <div className="text-4xl font-bold text-blue-600 mb-2">$3.99</div>
-                <div className="text-sm text-gray-500 line-through">$4.99</div>
-                <p className="text-gray-600 mt-2">1 semana</p>
+                <div className="text-4xl font-bold text-blue-600 mb-2">$39</div>
+                <div className="text-sm text-gray-500 line-through">$59</div>
+                <p className="text-gray-600 mt-2">3 meses</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Predicciones para 5 sorteos</span>
+                  <span className="text-gray-700">Predicciones para 5 sorteos diarios</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Estadísticas detalladas</span>
+                  <span className="text-gray-700">Estadísticas detalladas con IA</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
@@ -404,7 +404,15 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Notificaciones básicas</span>
+                  <span className="text-gray-700">Notificaciones push</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Acceso a app móvil</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Historial de 90 días</span>
                 </li>
               </ul>
               <a 
@@ -424,30 +432,38 @@ export default function Home() {
               </div>
               <div className="mb-6">
                 <h3 className="text-2xl font-bold mb-2">Plan Premium</h3>
-                <div className="text-4xl font-bold mb-2">$11.99</div>
-                <div className="text-sm text-yellow-200 line-through">$14.99</div>
-                <p className="text-purple-100 mt-2">1 mes</p>
+                <div className="text-4xl font-bold mb-2">$79</div>
+                <div className="text-sm text-yellow-200 line-through">$119</div>
+                <p className="text-purple-100 mt-2">3 meses</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Predicciones para todos los sorteos</span>
+                  <span>Predicciones para 10+ sorteos diarios</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Análisis avanzados con IA</span>
+                  <span>Análisis avanzado con Anbel IA</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Soporte prioritario</span>
+                  <span>Soporte prioritario por WhatsApp</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Notificaciones push</span>
+                  <span>Notificaciones en tiempo real</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Historial de predicciones</span>
+                  <span>Historial completo ilimitado</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Estrategias exclusivas</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-300" />
+                  <span>Análisis de tendencias</span>
                 </li>
               </ul>
               <a 
@@ -458,38 +474,42 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Plan VIP */}
+            {/* Plan Pro */}
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan VIP</h3>
-                <div className="text-4xl font-bold text-yellow-600 mb-2">$28.99</div>
-                <div className="text-sm text-gray-500 line-through">$39.99</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan Pro</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">$149</div>
+                <div className="text-sm text-gray-500 line-through">$199</div>
                 <p className="text-gray-600 mt-2">3 meses</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Acceso completo a todas las funciones</span>
+                  <span className="text-gray-700">Predicciones ilimitadas</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Predicciones exclusivas VIP</span>
+                  <span className="text-gray-700">IA avanzada con machine learning</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Soporte VIP 24/7</span>
+                  <span className="text-gray-700">Soporte VIP personalizado</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Consultoría personalizada</span>
+                  <span className="text-gray-700">Notificaciones ultra-rápidas</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Análisis de tendencias</span>
+                  <span className="text-gray-700">Análisis de tendencias en tiempo real</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Alertas premium</span>
+                  <span className="text-gray-700">Estrategias personalizadas</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span className="text-gray-700">Acceso a funciones beta</span>
                 </li>
               </ul>
               <a 
@@ -528,8 +548,8 @@ export default function Home() {
             {/* Pricing Highlight */}
             <div className="bg-white/20 rounded-2xl p-6 mb-8 max-w-2xl mx-auto">
               <div className="text-3xl font-bold mb-2">Prueba GRATIS por 3 días</div>
-              <div className="text-lg text-blue-200 mb-4">Luego solo $11.99/mes</div>
-              <div className="text-sm text-gray-300 line-through">Valor normal: $29.99/mes</div>
+              <div className="text-lg text-blue-200 mb-4">Luego desde $39 por 3 meses</div>
+              <div className="text-sm text-gray-300 line-through">Valor normal: $59 por 3 meses</div>
             </div>
 
             {/* CTA Buttons */}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Firebase</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: rgba(76, 175, 80, 0.3); }
+        .error { background: rgba(244, 67, 54, 0.3); }
+        .info { background: rgba(33, 150, 243, 0.3); }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Verificación de Firebase</h1>
+        
+        <div id="current-domain" class="status info">
+            <strong>Dominio actual:</strong> <span id="domain"></span>
+        </div>
+        
+        <div id="firebase-status" class="status">
+            <strong>Estado de Firebase:</strong> <span id="status">Verificando...</span>
+        </div>
+        
+        <div id="auth-test" class="status">
+            <strong>Prueba de autenticación:</strong> <span id="auth-result">Esperando...</span>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <button onclick="testFirebase()">Probar Firebase</button>
+            <button onclick="clearCache()">Limpiar Caché</button>
+            <button onclick="redirectToFixed()">Ir a Dominio Fijo</button>
+        </div>
+        
+        <div id="logs" style="margin-top: 2rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto;">
+            <strong>Logs:</strong><br>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar dominio actual
+        document.getElementById('domain').textContent = window.location.hostname;
+        
+        function log(message) {
+            const logs = document.getElementById('logs');
+            const time = new Date().toLocaleTimeString();
+            logs.innerHTML += `[${time}] ${message}<br>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+        
+        function testFirebase() {
+            log('Iniciando prueba de Firebase...');
+            
+            // Verificar si Firebase está disponible
+            if (typeof firebase === 'undefined') {
+                log('❌ Firebase no está cargado');
+                document.getElementById('status').textContent = 'Firebase no disponible';
+                document.getElementById('firebase-status').className = 'status error';
+                return;
+            }
+            
+            log('✅ Firebase está cargado');
+            document.getElementById('status').textContent = 'Firebase disponible';
+            document.getElementById('firebase-status').className = 'status success';
+            
+            // Probar autenticación
+            try {
+                const auth = firebase.auth();
+                log('✅ Auth inicializado');
+                
+                // Verificar dominio autorizado
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        log('✅ Usuario autenticado: ' + user.email);
+                        document.getElementById('auth-result').textContent = 'Usuario autenticado';
+                        document.getElementById('auth-test').className = 'status success';
+                    } else {
+                        log('ℹ️ No hay usuario autenticado');
+                        document.getElementById('auth-result').textContent = 'No autenticado';
+                        document.getElementById('auth-test').className = 'status info';
+                    }
+                });
+                
+            } catch (error) {
+                log('❌ Error en Firebase Auth: ' + error.message);
+                document.getElementById('auth-result').textContent = 'Error: ' + error.message;
+                document.getElementById('auth-test').className = 'status error';
+            }
+        }
+        
+        function clearCache() {
+            log('Limpiando caché...');
+            
+            // Limpiar service workers
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(registration => {
+                        registration.unregister();
+                        log('✅ Service Worker eliminado');
+                    });
+                });
+            }
+            
+            // Limpiar caché
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                        log('✅ Caché eliminado: ' + name);
+                    });
+                });
+            }
+            
+            // Recargar página
+            setTimeout(() => {
+                log('🔄 Recargando página...');
+                window.location.reload();
+            }, 1000);
+        }
+        
+        function redirectToFixed() {
+            log('Redirigiendo a ganafacil.vercel.app...');
+            window.location.href = 'https://ganafacil.vercel.app';
+        }
+        
+        // Auto-ejecutar prueba
+        setTimeout(testFirebase, 1000);
+        
+        log('Página de verificación cargada');
+    </script>
+</body>
+</html>

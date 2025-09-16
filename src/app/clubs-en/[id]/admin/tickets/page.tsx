@@ -13,6 +13,7 @@ export async function generateStaticParams() {
 
 import AdminTicketsClient from './AdminTicketsClient';
 
-export default function AdminTicketsEnPage({ params }: { params: { id: string } }) {
-  return <AdminTicketsClient clubId={params.id} />;
+export default async function AdminTicketsEnPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <AdminTicketsClient clubId={id} />;
 }

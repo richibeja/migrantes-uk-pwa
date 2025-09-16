@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forzar Actualización - GanaFácil</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover { background: #1976D2; }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Forzar Actualización - GanaFácil</h1>
+        <p>Este script limpiará el caché y forzará una actualización completa.</p>
+        
+        <div id="status" class="status info">Preparado para actualizar...</div>
+        
+        <button onclick="clearAll()">🧹 Limpiar Todo y Actualizar</button>
+        <button onclick="clearSW()">🔧 Solo Limpiar Service Worker</button>
+        <button onclick="clearCache()">🗂️ Solo Limpiar Caché</button>
+        
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #2196F3; text-decoration: none;">← Volver a la App</a>
+        </div>
+    </div>
+
+    <script>
+        function setStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+
+        async function clearAll() {
+            setStatus('🧹 Limpiando todo...', 'info');
+            
+            try {
+                // Limpiar Service Workers
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                        console.log('Service Worker desregistrado');
+                    }
+                }
+                
+                // Limpiar caché
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    for (const cacheName of cacheNames) {
+                        await caches.delete(cacheName);
+                        console.log('Caché eliminado:', cacheName);
+                    }
+                }
+                
+                // Limpiar localStorage y sessionStorage
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                setStatus('✅ Todo limpiado exitosamente', 'success');
+                
+                // Redirigir después de 2 segundos
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                
+            } catch (error) {
+                setStatus('❌ Error: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        async function clearSW() {
+            setStatus('🔧 Limpiando Service Workers...', 'info');
+            
+            try {
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                        console.log('Service Worker desregistrado');
+                    }
+                    setStatus('✅ Service Workers limpiados', 'success');
+                } else {
+                    setStatus('⚠️ Service Workers no soportados', 'error');
+                }
+            } catch (error) {
+                setStatus('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function clearCache() {
+            setStatus('🗂️ Limpiando caché...', 'info');
+            
+            try {
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    for (const cacheName of cacheNames) {
+                        await caches.delete(cacheName);
+                        console.log('Caché eliminado:', cacheName);
+                    }
+                    setStatus('✅ Caché limpiado', 'success');
+                } else {
+                    setStatus('⚠️ Cache API no soportada', 'error');
+                }
+            } catch (error) {
+                setStatus('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-ejecutar limpieza al cargar
+        window.addEventListener('load', () => {
+            console.log('Página de limpieza cargada');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test - GanaFácil</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2196F3">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #1976D2; }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 PWA Test - GanaFácil</h1>
+    
+    <div class="test-section">
+        <h2>1. Manifest Test</h2>
+        <div id="manifest-status" class="status">Testing...</div>
+        <button onclick="testManifest()">Test Manifest</button>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Service Worker Test</h2>
+        <div id="sw-status" class="status">Testing...</div>
+        <button onclick="testServiceWorker()">Test Service Worker</button>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Cache Test</h2>
+        <div id="cache-status" class="status">Testing...</div>
+        <button onclick="testCache()">Test Cache</button>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Install Test</h2>
+        <div id="install-status" class="status">Testing...</div>
+        <button onclick="testInstall()">Test Install</button>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Logs</h2>
+        <div id="logs" class="log"></div>
+        <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <script>
+        function log(message) {
+            const logs = document.getElementById('logs');
+            logs.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').textContent = '';
+        }
+
+        function setStatus(elementId, status, message) {
+            const element = document.getElementById(elementId);
+            element.className = `status ${status}`;
+            element.textContent = message;
+        }
+
+        async function testManifest() {
+            log('Testing manifest.json...');
+            try {
+                const response = await fetch('/manifest.json');
+                if (response.ok) {
+                    const manifest = await response.json();
+                    setStatus('manifest-status', 'success', '✅ Manifest loaded successfully');
+                    log('Manifest data: ' + JSON.stringify(manifest, null, 2));
+                } else {
+                    setStatus('manifest-status', 'error', `❌ Manifest failed: ${response.status}`);
+                    log('Manifest fetch failed: ' + response.status);
+                }
+            } catch (error) {
+                setStatus('manifest-status', 'error', '❌ Manifest error: ' + error.message);
+                log('Manifest error: ' + error.message);
+            }
+        }
+
+        async function testServiceWorker() {
+            log('Testing service worker...');
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        setStatus('sw-status', 'success', '✅ Service Worker registered');
+                        log('Service Worker active: ' + registration.active?.state);
+                    } else {
+                        setStatus('sw-status', 'warning', '⚠️ No Service Worker found');
+                        log('No service worker registration found');
+                    }
+                } catch (error) {
+                    setStatus('sw-status', 'error', '❌ Service Worker error: ' + error.message);
+                    log('Service Worker error: ' + error.message);
+                }
+            } else {
+                setStatus('sw-status', 'error', '❌ Service Worker not supported');
+                log('Service Worker not supported in this browser');
+            }
+        }
+
+        async function testCache() {
+            log('Testing cache...');
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    log('Available caches: ' + cacheNames.join(', '));
+                    
+                    if (cacheNames.length > 0) {
+                        const cache = await caches.open(cacheNames[0]);
+                        const requests = await cache.keys();
+                        setStatus('cache-status', 'success', `✅ Cache working (${requests.length} items)`);
+                        log('Cache items: ' + requests.length);
+                    } else {
+                        setStatus('cache-status', 'warning', '⚠️ No caches found');
+                    }
+                } catch (error) {
+                    setStatus('cache-status', 'error', '❌ Cache error: ' + error.message);
+                    log('Cache error: ' + error.message);
+                }
+            } else {
+                setStatus('cache-status', 'error', '❌ Cache API not supported');
+                log('Cache API not supported in this browser');
+            }
+        }
+
+        function testInstall() {
+            log('Testing install prompt...');
+            let deferredPrompt;
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                setStatus('install-status', 'success', '✅ Install prompt available');
+                log('Install prompt is available');
+            });
+
+            window.addEventListener('appinstalled', () => {
+                setStatus('install-status', 'success', '✅ App installed successfully');
+                log('App was installed');
+            });
+
+            if (deferredPrompt) {
+                setStatus('install-status', 'success', '✅ Install prompt ready');
+            } else {
+                setStatus('install-status', 'warning', '⚠️ Install prompt not available');
+                log('Install prompt not available (may already be installed)');
+            }
+        }
+
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+            log('PWA Test page loaded');
+            testManifest();
+            testServiceWorker();
+            testCache();
+            testInstall();
+        });
+    </script>
+</body>
+</html>

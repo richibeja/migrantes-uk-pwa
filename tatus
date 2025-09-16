@@ -1,0 +1,19 @@
+[33mcommit 878c0997e4eb3d17f20aa41346526ebf46436026[m
+Author: richibeja <TU_EMAIL@ejemplo.com>
+Date:   Sun Sep 14 07:38:30 2025 -0500
+
+    Fix: Use @tailwindcss/postcss with object syntax for Vercel compatibility
+
+[1mdiff --git a/postcss.config.cjs b/postcss.config.cjs[m
+[1mindex 96bb01e..dc655aa 100644[m
+[1m--- a/postcss.config.cjs[m
+[1m+++ b/postcss.config.cjs[m
+[36m@@ -1,6 +1,6 @@[m
+ module.exports = {[m
+   plugins: {[m
+[31m-    tailwindcss: {},[m
+[32m+[m[32m    '@tailwindcss/postcss': {},[m
+     autoprefixer: {},[m
+   },[m
+ }[m
+\ No newline at end of file[m

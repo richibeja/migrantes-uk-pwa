@@ -13,6 +13,7 @@ export async function generateStaticParams() {
 
 import MyTicketsClient from './MyTicketsClient';
 
-export default function MyTicketsEnPage({ params }: { params: { id: string } }) {
-  return <MyTicketsClient clubId={params.id} />;
+export default async function MyTicketsEnPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <MyTicketsClient clubId={id} />;
 }

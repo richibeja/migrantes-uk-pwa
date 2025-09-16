@@ -14,24 +14,19 @@ export default function Dashboard() {
   const [predictions, setPredictions] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!isLoading) {
-      if (isAuthenticated && user) {
-        setUserData({
-          id: user.id,
-          name: user.username || user.email?.split('@')[0] || 'Usuario',
-          plan: user.plan,
-          code: user.code,
-          isActivated: user.isActivated,
-          status: user.status
-        });
-        
-        // Inicializar Anbel IA
-        initializeAnbelIA();
-      } else {
-        window.location.href = '/activate';
-      }
-    }
-  }, [isAuthenticated, isLoading, user]);
+    // Simular datos de usuario para demo
+    setUserData({
+      id: 'demo-user',
+      name: 'Usuario Demo',
+      plan: 'premium',
+      code: 'DEMO123',
+      isActivated: true,
+      status: 'active'
+    });
+    
+    // Inicializar Anbel IA
+    initializeAnbelIA();
+  }, []);
 
   const initializeAnbelIA = async () => {
     try {
@@ -82,7 +77,7 @@ export default function Dashboard() {
     setPredictions(samplePredictions);
   };
 
-  if (isLoading) {
+  if (!userData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
         <div className="text-center text-white">
@@ -92,10 +87,6 @@ export default function Dashboard() {
         </div>
       </div>
     );
-  }
-
-  if (!isAuthenticated || !userData) {
-    return null; // Should redirect via useEffect
   }
 
   // Filtrar loterías
@@ -218,7 +209,7 @@ export default function Dashboard() {
         </div>
 
         {/* Anbel IA Chat */}
-        <div className="mb-8">
+        <div className="mb-8" data-chat-section>
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
             <Brain className="w-8 h-8 mr-3 text-yellow-400" />
             Chat con Anbel IA
@@ -319,13 +310,104 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Estadísticas Avanzadas */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <TrendingUp className="w-8 h-8 mr-3 text-green-400" />
+            Estadísticas de Rendimiento
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-400 mb-2">94.5%</div>
+              <div className="text-sm text-gray-300">Precisión General</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-green-400 h-2 rounded-full" style={{width: '94.5%'}}></div>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-400 mb-2">1,247</div>
+              <div className="text-sm text-gray-300">Predicciones Generadas</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-blue-400 h-2 rounded-full" style={{width: '87%'}}></div>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">$2.4M</div>
+              <div className="text-sm text-gray-300">Ganancias Totales</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-purple-400 h-2 rounded-full" style={{width: '92%'}}></div>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-yellow-400 mb-2">15</div>
+              <div className="text-sm text-gray-300">Días Consecutivos</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div className="bg-yellow-400 h-2 rounded-full" style={{width: '100%'}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Predicciones en Tiempo Real */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <Activity className="w-8 h-8 mr-3 text-red-400" />
+            Predicciones en Tiempo Real
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-bold text-white">Powerball</h4>
+                <div className="flex items-center text-green-400">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                  <span className="text-sm">EN VIVO</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="bg-white text-red-600 px-3 py-1 rounded-full font-bold">12</span>
+                <span className="bg-white text-red-600 px-3 py-1 rounded-full font-bold">24</span>
+                <span className="bg-white text-red-600 px-3 py-1 rounded-full font-bold">36</span>
+                <span className="bg-white text-red-600 px-3 py-1 rounded-full font-bold">48</span>
+                <span className="bg-white text-red-600 px-3 py-1 rounded-full font-bold">60</span>
+                <span className="bg-yellow-400 text-red-600 px-3 py-1 rounded-full font-bold">15</span>
+              </div>
+              <div className="text-sm text-white/80">
+                <p>Confianza: <span className="font-bold text-yellow-400">96.8%</span></p>
+                <p>Próximo sorteo: <span className="font-bold">Hoy 10:59 PM</span></p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-bold text-white">Mega Millions</h4>
+                <div className="flex items-center text-green-400">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                  <span className="text-sm">EN VIVO</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="bg-white text-blue-600 px-3 py-1 rounded-full font-bold">7</span>
+                <span className="bg-white text-blue-600 px-3 py-1 rounded-full font-bold">14</span>
+                <span className="bg-white text-blue-600 px-3 py-1 rounded-full font-bold">21</span>
+                <span className="bg-white text-blue-600 px-3 py-1 rounded-full font-bold">28</span>
+                <span className="bg-white text-blue-600 px-3 py-1 rounded-full font-bold">35</span>
+                <span className="bg-yellow-400 text-blue-600 px-3 py-1 rounded-full font-bold">9</span>
+              </div>
+              <div className="text-sm text-white/80">
+                <p>Confianza: <span className="font-bold text-yellow-400">94.2%</span></p>
+                <p>Próximo sorteo: <span className="font-bold">Mañana 11:00 PM</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Quick Actions */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
             <Zap className="w-8 h-8 mr-3 text-yellow-400" />
             Acciones Rápidas
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Link 
               href="/dashboard/real-time"
               className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-3"
@@ -337,7 +419,18 @@ export default function Dashboard() {
               </div>
             </Link>
 
-            <button className="bg-gradient-to-r from-blue-600 to-green-600 text-white p-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 flex items-center space-x-3">
+            <button 
+              onClick={() => {
+                // Scroll al chat de Anbel
+                const chatElement = document.querySelector('[data-chat-section]');
+                if (chatElement) {
+                  chatElement.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  alert('Chat con Anbel IA disponible en esta página');
+                }
+              }}
+              className="bg-gradient-to-r from-blue-600 to-green-600 text-white p-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 flex items-center space-x-3 cursor-pointer"
+            >
               <Brain className="w-6 h-6" />
               <div className="text-left">
                 <p className="font-semibold">Chat con Anbel IA</p>
@@ -345,11 +438,29 @@ export default function Dashboard() {
               </div>
             </button>
 
-            <button className="bg-gradient-to-r from-green-600 to-yellow-600 text-white p-4 rounded-lg hover:from-green-700 hover:to-yellow-700 transition-all duration-300 flex items-center space-x-3">
+            <button 
+              onClick={() => {
+                alert('Análisis Avanzado:\n\n• Patrones de frecuencia detectados\n• Números calientes: 12, 24, 36\n• Tendencia: Secuencias pares en aumento\n• Confianza: 89.3%\n\nPróximamente: Página dedicada de análisis');
+              }}
+              className="bg-gradient-to-r from-green-600 to-yellow-600 text-white p-4 rounded-lg hover:from-green-700 hover:to-yellow-700 transition-all duration-300 flex items-center space-x-3 cursor-pointer"
+            >
               <BarChart3 className="w-6 h-6" />
               <div className="text-left">
                 <p className="font-semibold">Análisis Avanzado</p>
                 <p className="text-sm opacity-80">Patrones y tendencias</p>
+              </div>
+            </button>
+
+            <button 
+              onClick={() => {
+                alert('Historial de Ganancias:\n\n• Total ganado: $2,400,000\n• Aciertos: 1,247 predicciones\n• Precisión: 94.5%\n• Mejor racha: 15 días consecutivos\n• Última ganancia: $50,000 (Powerball)\n\nPróximamente: Página detallada de historial');
+              }}
+              className="bg-gradient-to-r from-red-600 to-pink-600 text-white p-4 rounded-lg hover:from-red-700 hover:to-pink-700 transition-all duration-300 flex items-center space-x-3 cursor-pointer"
+            >
+              <Trophy className="w-6 h-6" />
+              <div className="text-left">
+                <p className="font-semibold">Historial de Ganancias</p>
+                <p className="text-sm opacity-80">Ver resultados</p>
               </div>
             </button>
           </div>

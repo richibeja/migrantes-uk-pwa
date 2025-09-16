@@ -69,8 +69,8 @@ export default function AdminClient() {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error' | 'info'>('info');
   const [usernameToActivate, setUsernameToActivate] = useState('');
-  const [plan, setPlan] = useState<'basic'|'premium'|'vip'|'lifetime'>('basic');
-  const [durationDays, setDurationDays] = useState<number>(30);
+  const [plan, setPlan] = useState<'basic'|'premium'|'pro'|'lifetime'>('basic');
+  const [durationDays, setDurationDays] = useState<number>(90);
   const [accounts, setAccounts] = useState<any[]>([]);
   const [showPasswords, setShowPasswords] = useState<boolean>(false);
   const [newUserName, setNewUserName] = useState('');
@@ -139,11 +139,11 @@ export default function AdminClient() {
         showMessage('Usuario ya existe', 'error');
         return;
       }
-      const expiresAt = new Date(Date.now() + 365*24*60*60*1000).toISOString();
-      const entry = { username: newUserName, password: newUserPassword, phone: (newUserPhone||'').trim(), status: 'active', plan: 'vip', expiresAt };
+      const expiresAt = new Date(Date.now() + 90*24*60*60*1000).toISOString();
+      const entry = { username: newUserName, password: newUserPassword, phone: (newUserPhone||'').trim(), status: 'active', plan: 'premium', expiresAt };
       const updated = Array.isArray(list) ? [...list, entry] : [entry];
       localStorage.setItem('ganaFacilAccounts', JSON.stringify(updated));
-      try { createCloudUser({ username: entry.username, password: entry.password, phone: entry.phone, status: 'active', plan: 'vip', expiresAt }); } catch {}
+      try { createCloudUser({ username: entry.username, password: entry.password, phone: entry.phone, status: 'active', plan: 'premium', expiresAt }); } catch {}
       setNewUserName(''); setNewUserPassword(''); setNewUserPhone('');
       loadAccounts();
       showMessage('Usuario agregado', 'success');
@@ -314,10 +314,10 @@ export default function AdminClient() {
             <h3 className="text-xl font-semibold text-white mb-4">🧑‍💼 Activar Usuario</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <input type="text" value={usernameToActivate} onChange={(e) => setUsernameToActivate(e.target.value)} className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white" placeholder="Usuario (exacto)" />
-              <select value={plan} onChange={(e) => { const p = e.target.value as 'basic'|'premium'|'vip'|'lifetime'; setPlan(p); setDurationDays(p === 'basic' ? 30 : p === 'premium' ? 90 : p === 'vip' ? 365 : 0); }} className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white">
-                <option value="basic">Básico (30 días)</option>
-                <option value="premium">Premium (90 días)</option>
-                <option value="vip">VIP (365 días)</option>
+              <select value={plan} onChange={(e) => { const p = e.target.value as 'basic'|'premium'|'pro'|'lifetime'; setPlan(p); setDurationDays(p === 'basic' ? 90 : p === 'premium' ? 90 : p === 'pro' ? 90 : 0); }} className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white">
+                <option value="basic">Básico - $39 (90 días)</option>
+                <option value="premium">Premium - $79 (90 días)</option>
+                <option value="pro">Pro - $149 (90 días)</option>
                 <option value="lifetime">Lifetime</option>
               </select>
               {plan !== 'lifetime' && (<input type="number" min={1} value={durationDays} onChange={(e) => setDurationDays(parseInt(e.target.value || '1'))} className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white" placeholder="Duración (días)" />)}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Códigos - Gana Fácil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #000;
+            color: white;
+        }
+        .test-section {
+            background: #333;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        button {
+            background: #FFD700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #666;
+            background: #222;
+            color: white;
+        }
+        .result {
+            background: #444;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de Sistema de Códigos</h1>
+    
+    <div class="test-section">
+        <h2>1. Generar Usuario de Prueba</h2>
+        <button onclick="generateTestUser()">Generar Usuario de Prueba</button>
+        <div id="userResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Verificar Código</h2>
+        <input type="text" id="testCode" placeholder="Ingresa código de 6 dígitos">
+        <button onclick="testCode()">Probar Código</button>
+        <div id="codeResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Ver Datos en localStorage</h2>
+        <button onclick="showLocalStorage()">Mostrar localStorage</button>
+        <div id="storageResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Limpiar Datos</h2>
+        <button onclick="clearData()">Limpiar Todo</button>
+        <div id="clearResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Enlaces de Prueba</h2>
+        <a href="/activate-user" target="_blank" style="color: #FFD700;">Ir a Página de Activación</a><br>
+        <a href="/dashboard" target="_blank" style="color: #FFD700;">Ir a Dashboard</a>
+    </div>
+
+    <script>
+        function generateTestUser() {
+            const testUser = {
+                name: 'Usuario Test',
+                email: 'test@ganafacil.com',
+                phone: '+1234567890',
+                password: '123456',
+                activationCode: Math.floor(100000 + Math.random() * 900000).toString(),
+                isActivated: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('pendingUser', JSON.stringify(testUser));
+            
+            document.getElementById('userResult').innerHTML = `
+                <strong>Usuario generado:</strong><br>
+                Email: ${testUser.email}<br>
+                Código: <strong style="color: #FFD700;">${testUser.activationCode}</strong><br>
+                Guardado en localStorage como 'pendingUser'
+            `;
+        }
+
+        function testCode() {
+            const inputCode = document.getElementById('testCode').value;
+            const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
+            
+            if (pendingUser.activationCode === inputCode) {
+                document.getElementById('codeResult').innerHTML = `
+                    <strong style="color: green;">✅ Código VÁLIDO</strong><br>
+                    El código ${inputCode} coincide con el usuario ${pendingUser.email}
+                `;
+            } else {
+                document.getElementById('codeResult').innerHTML = `
+                    <strong style="color: red;">❌ Código INVÁLIDO</strong><br>
+                    El código ${inputCode} no coincide con ${pendingUser.activationCode || 'ningún código'}
+                `;
+            }
+        }
+
+        function showLocalStorage() {
+            const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            document.getElementById('storageResult').innerHTML = `
+                <strong>pendingUser:</strong><br>
+                <pre>${JSON.stringify(pendingUser, null, 2)}</pre><br>
+                <strong>user (activado):</strong><br>
+                <pre>${JSON.stringify(user, null, 2)}</pre>
+            `;
+        }
+
+        function clearData() {
+            localStorage.removeItem('pendingUser');
+            localStorage.removeItem('user');
+            document.getElementById('clearResult').innerHTML = '✅ Datos limpiados correctamente';
+        }
+    </script>
+</body>
+</html>

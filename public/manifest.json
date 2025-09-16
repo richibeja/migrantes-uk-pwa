@@ -65,6 +65,32 @@
       ]
     },
     {
+      "name": "Activar Simple",
+      "short_name": "Activar Simple",
+      "description": "Sistema simple de activación",
+      "url": "/activate-simple",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Admin Simple",
+      "short_name": "Admin Simple",
+      "description": "Panel de administración simple",
+      "url": "/admin-simple",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
       "name": "Chat Anbel IA",
       "short_name": "Anbel",
       "description": "Chat con Anbel IA",
@@ -89,7 +115,7 @@
   "handle_links": "preferred",
   "scope_extensions": [
     {
-      "origin": "https://ganafaci-anbel-pwa.vercel.app"
+      "origin": "https://ganafacil.vercel.app"
     }
   ],
   "protocol_handlers": [
