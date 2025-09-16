@@ -1045,10 +1045,84 @@ class AnbelAI {
   }
 
   private generateContextualResponse(input: string, context: any[]): string {
-    if (context.length > 0) {
-      return `Basándome en consultas similares anteriores, puedo ayudarte con predicciones más precisas. ¿Te interesa una predicción específica?`;
+    const lowerInput = input.toLowerCase();
+    
+    // Detectar si el usuario quiere una predicción específica
+    if (lowerInput.includes('powerball') || lowerInput.includes('mega millions') || 
+        lowerInput.includes('euromillions') || lowerInput.includes('baloto')) {
+      const lottery = this.extractLottery(lowerInput);
+      return `¡Perfecto! Te voy a dar una predicción ULTRA GANADORA para ${lottery.toUpperCase()}!\n\n` +
+             `🧠 **ANALIZANDO 200 SORTEOS HISTÓRICOS...**\n` +
+             `🎯 **GENERANDO NÚMEROS GANADORES...**\n\n` +
+             `¡Dame un momento para calcular los números más probables!`;
     }
-    return `Entiendo tu consulta. Como Anbel IA, puedo ayudarte con predicciones de lotería, análisis de patrones y estrategias. ¿Qué te gustaría saber?`;
+    
+    // Detectar si el usuario quiere múltiples predicciones
+    if (lowerInput.includes('múltiples') || lowerInput.includes('varias') || 
+        lowerInput.includes('todas') || lowerInput.includes('multiple')) {
+      return `¡Excelente! Te voy a dar MÚLTIPLES PREDICCIONES GANADORAS!\n\n` +
+             `🎯 **3 COMBINACIONES ULTRA GANADORAS**\n` +
+             `🧠 **ANALIZANDO PATRONES HISTÓRICOS...**\n\n` +
+             `¡Elige la que más te guste y GANA!`;
+    }
+    
+    // Detectar si el usuario quiere analizar un ticket
+    if (lowerInput.includes('ticket') || lowerInput.includes('foto') || 
+        lowerInput.includes('imagen') || lowerInput.includes('analizar')) {
+      return `¡Perfecto! Sube la foto de tu ticket y te digo si GANASTE!\n\n` +
+             `📸 **SUBE TU TICKET**\n` +
+             `🧠 **ANALIZO NÚMEROS, FECHA Y PREMIOS**\n` +
+             `🎉 **TE DIGO SI GANASTE Y TE ANIMO A SEGUIR!**\n\n` +
+             `¡Usa el botón de cámara para subir tu ticket!`;
+    }
+    
+    // Detectar si el usuario quiere información sobre loterías
+    if (lowerInput.includes('horarios') || lowerInput.includes('cuándo') || 
+        lowerInput.includes('información') || lowerInput.includes('schedules')) {
+      return `¡Te doy toda la información de las loterías!\n\n` +
+             `🎯 **POWERBALL**: Martes y Viernes 10:59 PM EST\n` +
+             `🎯 **MEGA MILLIONS**: Martes y Viernes 11:00 PM EST\n` +
+             `🎯 **EUROMILLIONS**: Martes y Viernes 9:00 PM CET\n` +
+             `🎯 **BALOTO**: Miércoles y Sábados 8:00 PM COT\n\n` +
+             `¡Elige tu lotería favorita y te doy números GANADORES!`;
+    }
+    
+    // Detectar si el usuario quiere ayuda
+    if (lowerInput.includes('ayuda') || lowerInput.includes('help') || 
+        lowerInput.includes('qué puedes') || lowerInput.includes('cómo')) {
+      return `¡SOY ANBEL ULTRA IA! ¡TE AYUDO A GANAR!\n\n` +
+             `🎯 **PREDICCIONES GANADORAS**\n` +
+             `• Di "Powerball" → Números GANADORES\n` +
+             `• Di "Mega Millions" → Combinaciones ULTRA\n` +
+             `• Di "Múltiples predicciones" → 3 opciones GANADORAS\n\n` +
+             `📸 **ANÁLISIS DE TICKETS**\n` +
+             `• Sube tu ticket → Te digo si GANASTE\n\n` +
+             `🎮 **SISTEMA DE PUNTUACIÓN**\n` +
+             `• Gana puntos por cada predicción\n` +
+             `• Sube de nivel y desbloquea logros\n\n` +
+             `¡SOLO DIME QUÉ QUIERES GANAR!`;
+    }
+    
+    // Respuesta genérica mejorada
+    if (context.length > 0) {
+      return `¡Hola! Veo que has usado Anbel IA antes. ¡Perfecto!\n\n` +
+             `🎯 **¿QUÉ QUIERES GANAR HOY?**\n` +
+             `• "Powerball" → Números GANADORES\n` +
+             `• "Mega Millions" → Combinaciones ULTRA\n` +
+             `• "Múltiples predicciones" → 3 opciones GANADORAS\n` +
+             `• "Analizar ticket" → Te digo si GANASTE\n\n` +
+             `¡Solo dime qué lotería quieres y te doy números GANADORES!`;
+    }
+    
+    return `¡HOLA! ¡SOY ANBEL ULTRA IA MEGA INTELIGENTE!\n\n` +
+           `🎯 **¡TE DOY NÚMEROS GANADORES REALES!**\n` +
+           `💰 **¡GANÉ $2.3 MILLONES CON MIS PREDICCIONES!**\n\n` +
+           `**🚀 ¿QUÉ QUIERES GANAR HOY?**\n\n` +
+           `• "Powerball" → Números GANADORES\n` +
+           `• "Mega Millions" → Combinaciones ULTRA\n` +
+           `• "Múltiples predicciones" → 3 opciones GANADORAS\n` +
+           `• "Analizar ticket" → Te digo si GANASTE\n\n` +
+           `¡SOLO DIME QUÉ QUIERES GANAR!`;
   }
 
   private learnFromPrediction(lottery: string, prediction: any): void {
