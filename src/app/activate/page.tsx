@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, ArrowLeft, Key, Shield, Clock, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
@@ -8,6 +8,15 @@ export default function ActivatePage() {
   const [activationCode, setActivationCode] = useState('');
   const [isActivating, setIsActivating] = useState(false);
   const [activationStatus, setActivationStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [userData, setUserData] = useState<any>(null);
+
+  useEffect(() => {
+    // Get pending user data
+    const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
+    if (pendingUser.email) {
+      setUserData(pendingUser);
+    }
+  }, []);
 
   const handleActivation = async () => {
     if (!activationCode.trim()) {
@@ -49,6 +58,7 @@ export default function ActivatePage() {
       'Hola, necesito ayuda con mi código de activación.\n\n' +
       '📋 *Información:*\n' +
       '• Código ingresado: ' + activationCode + '\n' +
+      '• Email: ' + (userData?.email || 'No disponible') + '\n' +
       '• Problema: No puedo activar mi cuenta\n\n' +
       'Por favor, envíame un nuevo código o ayúdame a resolver este problema.'
     );
@@ -105,6 +115,14 @@ export default function ActivatePage() {
             Ingresa el código de activación que recibiste por WhatsApp
           </p>
         </div>
+
+        {userData && (
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
+            <h3 className="text-sm font-semibold text-white mb-2">📋 Información de tu cuenta:</h3>
+            <p className="text-xs text-gray-400">Email: {userData.email}</p>
+            <p className="text-xs text-gray-400">Teléfono: {userData.phone}</p>
+          </div>
+        )}
 
         <div className="bg-gray-900 border border-gray-700 rounded-xl p-6">
           <div className="mb-6">
