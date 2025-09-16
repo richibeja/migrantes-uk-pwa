@@ -297,6 +297,75 @@ class AnbelAI {
   private detectIntent(input: string): string {
     const lowerInput = input.toLowerCase();
     
+    // Preguntas específicas sobre horarios
+    if (lowerInput.includes('cuándo') || lowerInput.includes('when') ||
+        lowerInput.includes('horario') || lowerInput.includes('schedule') ||
+        lowerInput.includes('hora') || lowerInput.includes('time') ||
+        lowerInput.includes('día') || lowerInput.includes('day')) {
+      return 'lottery_schedules';
+    }
+    
+    // Preguntas específicas sobre Powerball
+    if (lowerInput.includes('powerball') && (lowerInput.includes('qué') || lowerInput.includes('what') ||
+        lowerInput.includes('cómo') || lowerInput.includes('how') ||
+        lowerInput.includes('cuándo') || lowerInput.includes('when'))) {
+      return 'lottery_info';
+    }
+    
+    // Preguntas específicas sobre Mega Millions
+    if (lowerInput.includes('mega millions') && (lowerInput.includes('qué') || lowerInput.includes('what') ||
+        lowerInput.includes('cómo') || lowerInput.includes('how') ||
+        lowerInput.includes('cuándo') || lowerInput.includes('when'))) {
+      return 'lottery_info';
+    }
+    
+    // Preguntas específicas sobre EuroMillions
+    if (lowerInput.includes('euromillions') && (lowerInput.includes('qué') || lowerInput.includes('what') ||
+        lowerInput.includes('cómo') || lowerInput.includes('how') ||
+        lowerInput.includes('cuándo') || lowerInput.includes('when'))) {
+      return 'lottery_info';
+    }
+    
+    // Preguntas específicas sobre Baloto
+    if (lowerInput.includes('baloto') && (lowerInput.includes('qué') || lowerInput.includes('what') ||
+        lowerInput.includes('cómo') || lowerInput.includes('how') ||
+        lowerInput.includes('cuándo') || lowerInput.includes('when'))) {
+      return 'lottery_info';
+    }
+    
+    // Preguntas sobre qué puede hacer
+    if (lowerInput.includes('qué puedes') || lowerInput.includes('what can you') ||
+        lowerInput.includes('qué haces') || lowerInput.includes('what do you do') ||
+        lowerInput.includes('funciones') || lowerInput.includes('features') ||
+        lowerInput.includes('capacidades') || lowerInput.includes('capabilities')) {
+      return 'capabilities';
+    }
+    
+    // Preguntas sobre cómo funciona
+    if (lowerInput.includes('cómo funciona') || lowerInput.includes('how does') ||
+        lowerInput.includes('cómo trabajas') || lowerInput.includes('how do you work') ||
+        lowerInput.includes('método') || lowerInput.includes('method')) {
+      return 'help';
+    }
+    
+    // Preguntas sobre ayuda
+    if (lowerInput.includes('ayuda') || lowerInput.includes('help') ||
+        lowerInput.includes('necesito ayuda') || lowerInput.includes('i need help')) {
+      return 'help';
+    }
+    
+    // Respuestas afirmativas - generar predicción
+    if (lowerInput.includes('sí') || lowerInput.includes('si') || 
+        lowerInput.includes('yes') || lowerInput.includes('ok') ||
+        lowerInput.includes('okay') || lowerInput.includes('vale') ||
+        lowerInput.includes('perfecto') || lowerInput.includes('perfect') ||
+        lowerInput.includes('genial') || lowerInput.includes('great') ||
+        lowerInput.includes('excelente') || lowerInput.includes('excellent') ||
+        lowerInput.includes('claro') || lowerInput.includes('sure') ||
+        lowerInput.includes('por supuesto') || lowerInput.includes('of course')) {
+      return 'prediction';
+    }
+    
     // Saludos y conversación
     if (lowerInput.includes('hola') || lowerInput.includes('hello') || 
         lowerInput.includes('hi') || lowerInput.includes('buenos') ||
@@ -305,9 +374,16 @@ class AnbelAI {
       return 'greeting';
     }
     
-    // Predicciones
+    // Predicciones específicas
     if (lowerInput.includes('predicción') || lowerInput.includes('prediction') || 
-        lowerInput.includes('powerball') || lowerInput.includes('mega millions') ||
+        lowerInput.includes('quiero predicción') || lowerInput.includes('want prediction') ||
+        lowerInput.includes('dame números') || lowerInput.includes('give me numbers') ||
+        lowerInput.includes('números ganadores') || lowerInput.includes('winning numbers')) {
+      return 'prediction';
+    }
+    
+    // Loterías específicas para predicción
+    if (lowerInput.includes('powerball') || lowerInput.includes('mega millions') ||
         lowerInput.includes('euromillions') || lowerInput.includes('baloto') ||
         lowerInput.includes('lotto') || lowerInput.includes('números') ||
         lowerInput.includes('numbers') || lowerInput.includes('sorteo') ||
@@ -315,53 +391,11 @@ class AnbelAI {
       return 'prediction';
     }
     
-    // Análisis
-    if (lowerInput.includes('análisis') || lowerInput.includes('analysis') || 
-        lowerInput.includes('patrón') || lowerInput.includes('pattern') ||
-        lowerInput.includes('tendencia') || lowerInput.includes('trend') ||
-        lowerInput.includes('estadística') || lowerInput.includes('statistics')) {
-      return 'analysis';
-    }
-    
-    // Aprendizaje
-    if (lowerInput.includes('aprender') || lowerInput.includes('learning') || 
-        lowerInput.includes('mejorar') || lowerInput.includes('improve') ||
-        lowerInput.includes('progreso') || lowerInput.includes('progress')) {
-      return 'learning';
-    }
-    
-    // Ayuda
-    if (lowerInput.includes('ayuda') || lowerInput.includes('help') ||
-        lowerInput.includes('qué puedes') || lowerInput.includes('what can you') ||
-        lowerInput.includes('cómo funciona') || lowerInput.includes('how does')) {
-      return 'help';
-    }
-    
-    // Preguntas sobre capacidades
-    if (lowerInput.includes('qué haces') || lowerInput.includes('what do you do') ||
-        lowerInput.includes('puedes') || lowerInput.includes('can you') ||
-        lowerInput.includes('funciones') || lowerInput.includes('features')) {
-      return 'capabilities';
-    }
-    
-    // Preguntas sobre loterías específicas
-    if (lowerInput.includes('powerball') || lowerInput.includes('mega millions') ||
-        lowerInput.includes('euromillions') || lowerInput.includes('baloto')) {
-      return 'lottery_info';
-    }
-    
-    // Solicitudes de predicción paso a paso
-    if (lowerInput.includes('quiero predicción') || lowerInput.includes('want prediction') ||
-        lowerInput.includes('predicción') || lowerInput.includes('prediction') ||
-        lowerInput.includes('números') || lowerInput.includes('numbers') ||
-        lowerInput.includes('sorteo') || lowerInput.includes('draw')) {
-      return 'prediction_request';
-    }
-    
     // Múltiples predicciones
     if (lowerInput.includes('múltiples') || lowerInput.includes('multiple') ||
         lowerInput.includes('varias') || lowerInput.includes('several') ||
-        lowerInput.includes('todas') || lowerInput.includes('all')) {
+        lowerInput.includes('todas') || lowerInput.includes('all') ||
+        lowerInput.includes('3 predicciones') || lowerInput.includes('3 predictions')) {
       return 'multiple_predictions';
     }
     
@@ -369,15 +403,27 @@ class AnbelAI {
     if (lowerInput.includes('analizar ticket') || lowerInput.includes('analyze ticket') ||
         lowerInput.includes('ticket') || lowerInput.includes('foto') ||
         lowerInput.includes('photo') || lowerInput.includes('imagen') ||
-        lowerInput.includes('image')) {
+        lowerInput.includes('image') || lowerInput.includes('subir') ||
+        lowerInput.includes('upload')) {
       return 'ticket_analysis';
     }
     
-    // Información de loterías
-    if (lowerInput.includes('información loterías') || lowerInput.includes('lottery information') ||
-        lowerInput.includes('horarios') || lowerInput.includes('schedules') ||
-        lowerInput.includes('cuándo') || lowerInput.includes('when')) {
-      return 'lottery_schedules';
+    // Análisis y estadísticas
+    if (lowerInput.includes('análisis') || lowerInput.includes('analysis') || 
+        lowerInput.includes('patrón') || lowerInput.includes('pattern') ||
+        lowerInput.includes('tendencia') || lowerInput.includes('trend') ||
+        lowerInput.includes('estadística') || lowerInput.includes('statistics') ||
+        lowerInput.includes('historial') || lowerInput.includes('history')) {
+      return 'analysis';
+    }
+    
+    // Aprendizaje y progreso
+    if (lowerInput.includes('aprender') || lowerInput.includes('learning') || 
+        lowerInput.includes('mejorar') || lowerInput.includes('improve') ||
+        lowerInput.includes('progreso') || lowerInput.includes('progress') ||
+        lowerInput.includes('nivel') || lowerInput.includes('level') ||
+        lowerInput.includes('puntos') || lowerInput.includes('points')) {
+      return 'learning';
     }
     
     return 'general';
