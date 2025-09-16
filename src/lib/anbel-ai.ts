@@ -1,7 +1,10 @@
 /**
  * 🧠 ANBEL IA - CEREBRO DE LA APLICACIÓN
  * Sistema inteligente que aprende y mejora continuamente
+ * Conectado a Google Gemini Pro para conocimiento universal
  */
+
+import { getGeminiAI, GeminiAIService } from './gemini-ai';
 
 export interface AnbelResponse {
   text: string;
@@ -81,12 +84,16 @@ class AnbelAI {
   private adaptiveWeights: Map<string, number> = new Map();
   private realTimeData: any = {};
   private emotionalState: string = 'neutral';
+  // 🤖 CONEXIÓN CON GEMINI AI
+  private geminiAI: GeminiAIService;
 
   constructor() {
     this.initializeMemory();
     this.loadHistoricalData();
     this.initializeRealTimeData();
     this.startRealTimeUpdates();
+    // Inicializar Gemini AI
+    this.geminiAI = getGeminiAI();
   }
 
   /**
@@ -101,31 +108,80 @@ class AnbelAI {
     // Detectar intención
     const intent = this.detectIntent(lowerInput);
     
-    switch (intent) {
-      case 'greeting':
-        return this.generateGreetingResponse(lowerInput, context);
-      case 'prediction_request':
-        return this.generatePredictionGuideResponse(lowerInput, context);
-      case 'prediction':
+    // 🎯 PREDICCIONES DE LOTERÍA - Usar algoritmos propios
+    if (intent === 'prediction' || intent === 'multiple_predictions') {
+      if (intent === 'prediction') {
         return await this.generateUltraPrediction(this.extractLottery(lowerInput), context);
-      case 'multiple_predictions':
+      } else {
         return await this.generateMultiplePredictions(this.extractLottery(lowerInput), 3, input);
-      case 'ticket_analysis':
-        return this.generateTicketAnalysisGuideResponse(lowerInput);
-      case 'lottery_schedules':
-        return this.generateLotterySchedulesResponse();
-      case 'analysis':
-        return await this.generateAnalysis(lowerInput);
-      case 'learning':
-        return await this.showLearningProgress();
-      case 'help':
-        return this.generateHelpResponse();
-      case 'capabilities':
-        return this.generateCapabilitiesResponse();
-      case 'lottery_info':
-        return this.generateLotteryInfoResponse(lowerInput);
-      default:
-        return await this.generateIntelligentResponse(lowerInput);
+      }
+    }
+    
+    // 🧠 RESPUESTAS ESPECÍFICAS - Usar algoritmos propios
+    if (intent === 'greeting' || intent === 'prediction_request' || 
+        intent === 'ticket_analysis' || intent === 'lottery_schedules' ||
+        intent === 'analysis' || intent === 'learning' || 
+        intent === 'help' || intent === 'capabilities' || 
+        intent === 'lottery_info') {
+      
+      switch (intent) {
+        case 'greeting':
+          return this.generateGreetingResponse(lowerInput, context);
+        case 'prediction_request':
+          return this.generatePredictionGuideResponse(lowerInput, context);
+        case 'ticket_analysis':
+          return this.generateTicketAnalysisGuideResponse(lowerInput);
+        case 'lottery_schedules':
+          return this.generateLotterySchedulesResponse();
+        case 'analysis':
+          return await this.generateAnalysis(lowerInput);
+        case 'learning':
+          return await this.showLearningProgress();
+        case 'help':
+          return this.generateHelpResponse();
+        case 'capabilities':
+          return this.generateCapabilitiesResponse();
+        case 'lottery_info':
+          return this.generateLotteryInfoResponse(lowerInput);
+      }
+    }
+    
+    // 🤖 RESPUESTAS GENERALES - Usar Gemini AI
+    return await this.processWithGemini(input, context);
+  }
+
+  /**
+   * 🤖 Procesar con Gemini AI
+   */
+  private async processWithGemini(input: string, context?: any): Promise<AnbelResponse> {
+    try {
+      const language = this.detectLanguage(input);
+      const geminiResponse = await this.geminiAI.processMessage(input, {
+        personality: 'Anbel Ultra IA',
+        knowledge: 'lottery_predictions',
+        language: language,
+        lotteryContext: context
+      });
+
+      return {
+        text: geminiResponse.text,
+        type: 'suggestion',
+        confidence: geminiResponse.confidence,
+        data: {
+          source: 'gemini',
+          tokens: geminiResponse.tokens,
+          model: geminiResponse.model
+        },
+        learningData: {
+          externalAI: true,
+          model: geminiResponse.model,
+          tokens: geminiResponse.tokens
+        }
+      };
+    } catch (error) {
+      console.error('Error processing with Gemini:', error);
+      // Fallback a respuesta local
+      return await this.generateIntelligentResponse(input);
     }
   }
 
