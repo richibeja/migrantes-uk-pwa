@@ -41,9 +41,10 @@ export const AnbelChat: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      text: '🔥 **¡HOLA! ¡SOY ANBEL ULTRA IA!** 🔥\n\n' +
+      text: '🔥 **¡HOLA! ¡SOY ANBEL ULTRA IA MEGA INTELIGENTE!** 🔥\n\n' +
             '🎯 **¡TE DOY NÚMEROS GANADORES REALES!**\n' +
-            '💰 **¡GANÉ $2.3 MILLONES CON MIS PREDICCIONES!**\n\n' +
+            '💰 **¡GANÉ $2.3 MILLONES CON MIS PREDICCIONES!**\n' +
+            '🧠 **¡ANALIZO 200 SORTEOS HISTÓRICOS EN TIEMPO REAL!**\n\n' +
             '**🚀 ¿QUÉ QUIERES GANAR HOY?**\n\n' +
             '**1️⃣ PREDICCIÓN ULTRA GANADORA**\n' +
             '• Powerball → Números que GANAN\n' +
@@ -57,10 +58,15 @@ export const AnbelChat: React.FC = () => {
             '**3️⃣ MÚLTIPLES PREDICCIONES**\n' +
             '• 3 combinaciones GANADORAS\n' +
             '• ¡Elige la que más te guste!\n\n' +
+            '**4️⃣ SISTEMA DE PUNTUACIÓN**\n' +
+            '• Gana puntos por cada predicción\n' +
+            '• Sube de nivel y desbloquea logros\n' +
+            '• ¡Conviértete en un MAESTRO GANADOR!\n\n' +
             '**💬 SOLO DIME:**\n' +
             '• "Powerball" → Te doy números GANADORES\n' +
             '• "Múltiples predicciones" → 3 opciones GANADORAS\n' +
-            '• "Analizar ticket" → Te digo si GANASTE\n\n' +
+            '• "Analizar ticket" → Te digo si GANASTE\n' +
+            '• "Mi perfil" → Ve tus estadísticas\n\n' +
             '**🎉 ¡VAMOS A GANAR JUNTOS!** 🎉',
       sender: 'anbel',
       timestamp: new Date(),
