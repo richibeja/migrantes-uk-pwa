@@ -136,11 +136,11 @@ export default function Dashboard() {
           <div className="flex items-center justify-center space-x-8 text-lg">
             <div className="flex items-center">
               <Globe className="w-6 h-6 mr-2" />
-              <span>2 Loterías de USA</span>
+              <span>6 Loterías de USA</span>
             </div>
             <div className="flex items-center">
               <Trophy className="w-6 h-6 mr-2" />
-              <span>Powerball & Mega Millions</span>
+              <span>Powerball, Mega Millions & Más</span>
             </div>
             <div className="flex items-center">
               <Brain className="w-6 h-6 mr-2" />
@@ -249,13 +249,13 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* 2 Loterías de USA - Información */}
+        {/* 6 Loterías de USA - Información */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
             <Globe className="w-8 h-8 mr-3 text-blue-400" />
             Información de Loterías USA
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {usaLotteries.map((lottery, index) => (
               <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
                 <div className="flex items-center justify-between mb-3">
