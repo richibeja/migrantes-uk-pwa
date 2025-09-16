@@ -545,13 +545,22 @@ export const AnbelChat: React.FC = () => {
     const bonus = prediction.bonusNumbers ? ` + ${prediction.bonusNumbers.join(', ')}` : '';
     const confidence = Math.round(prediction.confidence * 100);
     
-    return `🚨 **PREDICCIÓN DE EMERGENCIA ULTRA GANADORA** 🚨\n\n` +
-           `🎯 **${lottery.toUpperCase()}**\n` +
+    return `🎯 **PREDICCIÓN ULTRA GANADORA GENERADA** 🎯\n\n` +
+           `🎲 **${lottery.toUpperCase()}**\n` +
            `🔢 **Números**: ${numbers}${bonus}\n` +
            `🧠 **Confianza**: ${confidence}%\n` +
            `⚡ **Algoritmo**: Emergency Local\n\n` +
-           `💡 **¡Estos números tienen alta probabilidad de ganar!**\n` +
-           `🎉 **¡Usa esta combinación y GANA!**`;
+           `💡 **¿POR QUÉ COMPARTIR ESTA PREDICCIÓN?**\n` +
+           `• 🔥 **Números analizados** con algoritmos avanzados\n` +
+           `• 📊 **Alta probabilidad** de ganar\n` +
+           `• 🎯 **Combinación única** generada para ti\n` +
+           `• 💰 **¡Otros pueden ganar también!**\n\n` +
+           `📱 **¿CÓMO COMPARTIR?**\n` +
+           `• Usa los botones de abajo para compartir\n` +
+           `• Incluye enlace directo a la app\n` +
+           `• Gana puntos por cada compartir\n` +
+           `• ¡Ayuda a otros a ganar!\n\n` +
+           `🎉 **¡USA ESTA COMBINACIÓN Y GANA!** 🎉`;
   };
 
   /**
