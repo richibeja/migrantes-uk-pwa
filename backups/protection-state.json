@@ -1,0 +1,128 @@
+{
+  "timestamp": "2025-09-16T22:51:59.467Z",
+  "version": "1.0.0",
+  "status": "PROTECTED",
+  "files": {
+    "src/lib/anbel-ai.ts": {
+      "exists": true,
+      "size": 125690,
+      "modified": "2025-09-16T22:42:11.161Z",
+      "hash": "d5adfda6184559eac957560f8bedc717e8fcc88891bc7d7cba972573dca9af79",
+      "protected": true
+    },
+    "src/components/AnbelChat.tsx": {
+      "exists": true,
+      "size": 51007,
+      "modified": "2025-09-16T22:03:02.181Z",
+      "hash": "cdc9029787d2c403cb604cae8ea1a637b9e4ab78b774b06fc83a201f833f486b",
+      "protected": true
+    },
+    "src/lib/lottery-apis-real.ts": {
+      "exists": true,
+      "size": 15003,
+      "modified": "2025-09-16T15:58:12.587Z",
+      "hash": "965a886dd496997f262f8ca8c514375ee9c25dc2b864588becd5008daf34f35e",
+      "protected": true
+    },
+    "src/lib/us-lottery-apis.ts": {
+      "exists": true,
+      "size": 14513,
+      "modified": "2025-09-10T02:26:39.563Z",
+      "hash": "1c4ecc2feabefaa9e0e946d191f2c1c2f7d44f4611cf78ae87472334a06397d1",
+      "protected": true
+    },
+    "src/lib/gemini-ai.ts": {
+      "exists": true,
+      "size": 6820,
+      "modified": "2025-09-16T21:25:03.916Z",
+      "hash": "d886d6e817051dd19211fd564bd634a922b0794853fe39c3a955b4297c0bd70c",
+      "protected": true
+    },
+    "vercel.json": {
+      "exists": true,
+      "size": 2255,
+      "modified": "2025-09-16T22:44:38.914Z",
+      "hash": "8fe53d4c7f2789f5647a12a239fae747d695a1bbe22f63d29c40720154e95d77",
+      "protected": true
+    },
+    "package.json": {
+      "exists": true,
+      "size": 4998,
+      "modified": "2025-09-15T14:37:03.675Z",
+      "hash": "82ef6e4fae8d9e7396fa5428df3dc3d87d715a8dd8015ac570dc15fb757a848c",
+      "protected": true
+    }
+  },
+  "directories": {
+    "src/lib": {
+      "exists": true,
+      "isDirectory": true,
+      "protected": true
+    },
+    "src/components": {
+      "exists": true,
+      "isDirectory": true,
+      "protected": true
+    },
+    "src/config": {
+      "exists": true,
+      "isDirectory": true,
+      "protected": true
+    }
+  },
+  "patterns": {
+    "generateUltraPrediction": {
+      "found": true,
+      "files": [
+        "src/lib/anbel-ai.ts"
+      ],
+      "protected": true
+    },
+    "processWithGemini": {
+      "found": true,
+      "files": [
+        "src/lib/anbel-ai.ts"
+      ],
+      "protected": true
+    },
+    "getRealLotteryData": {
+      "found": true,
+      "files": [
+        "src/lib/anbel-ai.ts"
+      ],
+      "protected": true
+    },
+    "generateEmergencyPrediction": {
+      "found": true,
+      "files": [
+        "src/lib/anbel-ai.ts",
+        "src/components/AnbelChat.tsx"
+      ],
+      "protected": true
+    },
+    "AnbelChat": {
+      "found": true,
+      "files": [
+        "src/components/AnbelChat.tsx"
+      ],
+      "protected": true
+    },
+    "realLotteryAPI": {
+      "found": true,
+      "files": [
+        "src/lib/anbel-ai.ts",
+        "src/lib/lottery-apis-real.ts"
+      ],
+      "protected": true
+    },
+    "usLotteryAPI": {
+      "found": true,
+      "files": [
+        "src/lib/anbel-ai.ts",
+        "src/lib/us-lottery-apis.ts"
+      ],
+      "protected": true
+    }
+  },
+  "backups": 5
+}
