@@ -86,7 +86,7 @@ class AnbelAI {
       case 'prediction':
         return await this.generateUltraPrediction(this.extractLottery(lowerInput), context);
       case 'multiple_predictions':
-        return await this.generateMultiplePredictions(this.extractLottery(lowerInput), 3);
+        return await this.generateMultiplePredictions(this.extractLottery(lowerInput), 3, input);
       case 'ticket_analysis':
         return this.generateTicketAnalysisGuideResponse(lowerInput);
       case 'lottery_schedules':
@@ -1105,7 +1105,7 @@ class AnbelAI {
   /**
    * 🎯 GENERAR MÚLTIPLES PREDICCIONES ADICTIVAS
    */
-  async generateMultiplePredictions(lottery: string, count: number = 3): Promise<AnbelResponse> {
+  async generateMultiplePredictions(lottery: string, count: number = 3, userInput?: string): Promise<AnbelResponse> {
     const predictions = [];
     const lotteryConfig = this.getLotteryConfig(lottery);
     
@@ -1120,15 +1120,22 @@ class AnbelAI {
       });
     }
 
-    const isSpanish = this.detectLanguage('') === 'es';
+    // Detectar idioma del usuario
+    const isSpanish = this.detectLanguage(userInput || '') === 'es';
     const nextDraw = this.getNextDrawTime(lottery);
     const jackpot = this.getCurrentJackpot(lottery);
+    
+    // Análisis histórico para mostrar en las predicciones
+    const historicalAnalysis = this.analyzeHistoricalResults(lottery);
 
     return {
       text: isSpanish ? 
         `🔥 **¡${count} PREDICCIONES ULTRA GANADORAS ${lottery}!** 🔥\n\n` +
         `💰 **JACKPOT**: **$${jackpot} MILLONES**\n` +
         `⏰ **PRÓXIMO SORTEO**: ${nextDraw}\n\n` +
+        `**📊 ANÁLISIS HISTÓRICO (200 SORTEOS):**\n` +
+        `• Números más frecuentes: ${Object.keys(historicalAnalysis.frequency).slice(0, 5).join(', ')}\n` +
+        `• Confianza histórica: ${Math.round(historicalAnalysis.analysis.confidence * 100)}%\n\n` +
         predictions.map((pred, index) => 
           `**🎯 PREDICCIÓN ${index + 1}:**\n` +
           `• Números: **${pred.numbers.join(', ')}**\n` +
@@ -1141,10 +1148,13 @@ class AnbelAI {
         `• Juega todas las combinaciones\n` +
         `• Compra múltiples tickets\n` +
         `• ¡La suerte está de tu lado!\n\n` +
-        `*Anbel Ultra IA te da ${count} opciones ganadoras*` :
+        `*Anbel Ultra IA te da ${count} opciones ganadoras basadas en ${historicalAnalysis.analysis.totalDraws} sorteos históricos*` :
         `🔥 **${count} ULTRA WINNING PREDICTIONS ${lottery}!** 🔥\n\n` +
         `💰 **JACKPOT**: **$${jackpot} MILLION**\n` +
         `⏰ **NEXT DRAW**: ${nextDraw}\n\n` +
+        `**📊 HISTORICAL ANALYSIS (200 DRAWS):**\n` +
+        `• Most frequent numbers: ${Object.keys(historicalAnalysis.frequency).slice(0, 5).join(', ')}\n` +
+        `• Historical confidence: ${Math.round(historicalAnalysis.analysis.confidence * 100)}%\n\n` +
         predictions.map((pred, index) => 
           `**🎯 PREDICTION ${index + 1}:**\n` +
           `• Numbers: **${pred.numbers.join(', ')}**\n` +
@@ -1157,7 +1167,7 @@ class AnbelAI {
         `• Play all combinations\n` +
         `• Buy multiple tickets\n` +
         `• Luck is on your side!\n\n` +
-        `*Anbel Ultra AI gives you ${count} winning options*`,
+        `*Anbel Ultra AI gives you ${count} winning options based on ${historicalAnalysis.analysis.totalDraws} historical draws*`,
       type: 'prediction',
       data: { predictions, lottery, count },
       confidence: Math.max(...predictions.map(p => p.confidence)),
@@ -1853,46 +1863,129 @@ class AnbelAI {
     const historicalAnalysis = this.analyzeHistoricalResults(lottery);
     const realAnalysis = this.analyzeNumbersReal(prediction.numbers, lottery);
     
-    return `🔥 **¡PREDICCIÓN ULTRA GANADORA ${lottery}!** 🔥\n\n` +
-           `🎯 **NÚMEROS ULTRA INTELIGENTES**: **${numbers}**\n\n` +
-           `💰 **JACKPOT ACTUAL**: **$${jackpot} MILLONES**\n` +
-           `⏰ **PRÓXIMO SORTEO**: ${nextDraw}\n\n` +
-           `🧠 **CONFIANZA ULTRA**: **${confidence}%**\n` +
-           `⚡ **ALGORITMO**: ${prediction.algorithm}\n` +
-           `🔍 **FACTORES ANALIZADOS**: ${factorsCount}\n\n` +
-           `**📊 ANÁLISIS HISTÓRICO REAL (200 SORTEOS):**\n` +
-           `• Números más frecuentes: ${Object.keys(historicalAnalysis.frequency).slice(0, 5).join(', ')}\n` +
-           `• Frecuencia máxima: ${Math.max(...Object.values(historicalAnalysis.frequency))} veces\n` +
-           `• Patrón del día: ${historicalAnalysis.analysis.dayName}\n` +
-           `• Patrón del mes: ${historicalAnalysis.analysis.monthName}\n` +
-           `• Confianza histórica: ${Math.round(historicalAnalysis.analysis.confidence * 100)}%\n\n` +
-           `**🎯 ANÁLISIS DE TUS NÚMEROS:**\n` +
-           `• Números calientes: ${realAnalysis.hotNumbers}\n` +
-           `• Números debidos: ${realAnalysis.dueNumbers}\n` +
-           `• Secuencia Fibonacci: ${realAnalysis.fibonacciNumbers}\n` +
-           `• Números primos: ${realAnalysis.primeNumbers}\n` +
-           `• Patrón astrológico: ${realAnalysis.astrologicalPattern}\n\n` +
-           `**🌙 ANÁLISIS ASTROLÓGICO:**\n` +
-           `• Fase lunar: ${factors.astrological.moonPhase}\n` +
-           `• Alineación planetaria: ${factors.astrological.planetaryAlignment}\n` +
-           `• Día de la semana: ${this.getDayName(new Date().getDay())}\n\n` +
-           `**📈 ANÁLISIS MATEMÁTICO:**\n` +
-           `• Suma de números: ${realAnalysis.sum}\n` +
-           `• Promedio: ${realAnalysis.average}\n` +
-           `• Distribución: ${realAnalysis.distribution}\n` +
-           `• Patrón de paridad: ${realAnalysis.parity}\n\n` +
-           `**🏆 SECUENCIAS GANADORAS HISTÓRICAS:**\n` +
-           historicalAnalysis.winningSequences.map((seq, index) => 
-             `• Secuencia ${index + 1}: ${seq.join(', ')}`
-           ).join('\n') + '\n\n' +
-           `**🎉 ¡ESTOS NÚMEROS TIENEN ALTA PROBABILIDAD DE GANAR!**\n` +
-           `**🚀 ¡COMPRA TU TICKET AHORA Y GANA!**\n\n` +
-           `**💡 CONSEJOS DE ANBEL:**\n` +
-           `• Juega estos números exactos\n` +
-           `• Compra múltiples tickets\n` +
-           `• ¡La suerte está de tu lado!\n\n` +
-           `*Anbel Ultra IA ha analizado ${historicalAnalysis.analysis.totalDraws} sorteos históricos, ` +
-           `${this.learningData.length} interacciones y ${this.patterns.length} patrones para darte la mejor predicción*`;
+    // Detectar idioma del usuario
+    const isSpanish = this.detectLanguage(factors?.input || '') === 'es';
+    
+    if (isSpanish) {
+      return `🔥 **¡PREDICCIÓN ULTRA GANADORA ${lottery}!** 🔥\n\n` +
+             `🎯 **NÚMEROS ULTRA INTELIGENTES**: **${numbers}**\n\n` +
+             `💰 **JACKPOT ACTUAL**: **$${jackpot} MILLONES**\n` +
+             `⏰ **PRÓXIMO SORTEO**: ${nextDraw}\n\n` +
+             `🧠 **CONFIANZA ULTRA**: **${confidence}%**\n` +
+             `⚡ **ALGORITMO**: ${prediction.algorithm}\n` +
+             `🔍 **FACTORES ANALIZADOS**: ${factorsCount}\n\n` +
+             `**📊 ANÁLISIS HISTÓRICO REAL (200 SORTEOS):**\n` +
+             `• Números más frecuentes: ${Object.keys(historicalAnalysis.frequency).slice(0, 5).join(', ')}\n` +
+             `• Frecuencia máxima: ${Math.max(...Object.values(historicalAnalysis.frequency))} veces\n` +
+             `• Patrón del día: ${historicalAnalysis.analysis.dayName}\n` +
+             `• Patrón del mes: ${historicalAnalysis.analysis.monthName}\n` +
+             `• Confianza histórica: ${Math.round(historicalAnalysis.analysis.confidence * 100)}%\n\n` +
+             `**🎯 ANÁLISIS DE TUS NÚMEROS:**\n` +
+             `• Números calientes: ${realAnalysis.hotNumbers}\n` +
+             `• Números debidos: ${realAnalysis.dueNumbers}\n` +
+             `• Secuencia Fibonacci: ${realAnalysis.fibonacciNumbers}\n` +
+             `• Números primos: ${realAnalysis.primeNumbers}\n` +
+             `• Patrón astrológico: ${realAnalysis.astrologicalPattern}\n\n` +
+             `**🌙 ANÁLISIS ASTROLÓGICO:**\n` +
+             `• Fase lunar: ${factors.astrological.moonPhase}\n` +
+             `• Alineación planetaria: ${factors.astrological.planetaryAlignment}\n` +
+             `• Día de la semana: ${this.getDayName(new Date().getDay())}\n\n` +
+             `**📈 ANÁLISIS MATEMÁTICO:**\n` +
+             `• Suma de números: ${realAnalysis.sum}\n` +
+             `• Promedio: ${realAnalysis.average}\n` +
+             `• Distribución: ${realAnalysis.distribution}\n` +
+             `• Patrón de paridad: ${realAnalysis.parity}\n\n` +
+             `**🏆 SECUENCIAS GANADORAS HISTÓRICAS:**\n` +
+             historicalAnalysis.winningSequences.map((seq, index) => 
+               `• Secuencia ${index + 1}: ${seq.join(', ')}`
+             ).join('\n') + '\n\n' +
+             `**🎉 ¡ESTOS NÚMEROS TIENEN ALTA PROBABILIDAD DE GANAR!**\n` +
+             `**🚀 ¡COMPRA TU TICKET AHORA Y GANA!**\n\n` +
+             `**💡 CONSEJOS DE ANBEL:**\n` +
+             `• Juega estos números exactos\n` +
+             `• Compra múltiples tickets\n` +
+             `• ¡La suerte está de tu lado!\n\n` +
+             `*Anbel Ultra IA ha analizado ${historicalAnalysis.analysis.totalDraws} sorteos históricos, ` +
+             `${this.learningData.length} interacciones y ${this.patterns.length} patrones para darte la mejor predicción*`;
+    } else {
+      return `🔥 **ULTRA WINNING PREDICTION ${lottery}!** 🔥\n\n` +
+             `🎯 **ULTRA INTELLIGENT NUMBERS**: **${numbers}**\n\n` +
+             `💰 **CURRENT JACKPOT**: **$${jackpot} MILLION**\n` +
+             `⏰ **NEXT DRAW**: ${nextDraw}\n\n` +
+             `🧠 **ULTRA CONFIDENCE**: **${confidence}%**\n` +
+             `⚡ **ALGORITHM**: ${prediction.algorithm}\n` +
+             `🔍 **FACTORS ANALYZED**: ${factorsCount}\n\n` +
+             `**📊 REAL HISTORICAL ANALYSIS (200 DRAWS):**\n` +
+             `• Most frequent numbers: ${Object.keys(historicalAnalysis.frequency).slice(0, 5).join(', ')}\n` +
+             `• Maximum frequency: ${Math.max(...Object.values(historicalAnalysis.frequency))} times\n` +
+             `• Day pattern: ${this.getDayNameEn(historicalAnalysis.analysis.dayName)}\n` +
+             `• Month pattern: ${this.getMonthNameEn(historicalAnalysis.analysis.monthName)}\n` +
+             `• Historical confidence: ${Math.round(historicalAnalysis.analysis.confidence * 100)}%\n\n` +
+             `**🎯 YOUR NUMBERS ANALYSIS:**\n` +
+             `• Hot numbers: ${realAnalysis.hotNumbers}\n` +
+             `• Due numbers: ${realAnalysis.dueNumbers}\n` +
+             `• Fibonacci sequence: ${realAnalysis.fibonacciNumbers}\n` +
+             `• Prime numbers: ${realAnalysis.primeNumbers}\n` +
+             `• Astrological pattern: ${realAnalysis.astrologicalPattern}\n\n` +
+             `**🌙 ASTROLOGICAL ANALYSIS:**\n` +
+             `• Moon phase: ${factors.astrological.moonPhase}\n` +
+             `• Planetary alignment: ${factors.astrological.planetaryAlignment}\n` +
+             `• Day of week: ${this.getDayNameEn(this.getDayName(new Date().getDay()))}\n\n` +
+             `**📈 MATHEMATICAL ANALYSIS:**\n` +
+             `• Sum of numbers: ${realAnalysis.sum}\n` +
+             `• Average: ${realAnalysis.average}\n` +
+             `• Distribution: ${realAnalysis.distribution}\n` +
+             `• Parity pattern: ${realAnalysis.parity}\n\n` +
+             `**🏆 HISTORICAL WINNING SEQUENCES:**\n` +
+             historicalAnalysis.winningSequences.map((seq, index) => 
+               `• Sequence ${index + 1}: ${seq.join(', ')}`
+             ).join('\n') + '\n\n' +
+             `**🎉 THESE NUMBERS HAVE HIGH WINNING PROBABILITY!**\n` +
+             `**🚀 BUY YOUR TICKET NOW AND WIN!**\n\n` +
+             `**💡 ANBEL'S TIPS:**\n` +
+             `• Play these exact numbers\n` +
+             `• Buy multiple tickets\n` +
+             `• Luck is on your side!\n\n` +
+             `*Anbel Ultra AI has analyzed ${historicalAnalysis.analysis.totalDraws} historical draws, ` +
+             `${this.learningData.length} interactions and ${this.patterns.length} patterns to give you the best prediction*`;
+    }
+  }
+
+  /**
+   * 🔥 OBTENER NOMBRE DEL DÍA EN INGLÉS
+   */
+  private getDayNameEn(dayName: string): string {
+    const dayTranslations = {
+      'Domingo': 'Sunday',
+      'Lunes': 'Monday',
+      'Martes': 'Tuesday',
+      'Miércoles': 'Wednesday',
+      'Jueves': 'Thursday',
+      'Viernes': 'Friday',
+      'Sábado': 'Saturday'
+    };
+    return dayTranslations[dayName as keyof typeof dayTranslations] || dayName;
+  }
+
+  /**
+   * 🔥 OBTENER NOMBRE DEL MES EN INGLÉS
+   */
+  private getMonthNameEn(monthName: string): string {
+    const monthTranslations = {
+      'Enero': 'January',
+      'Febrero': 'February',
+      'Marzo': 'March',
+      'Abril': 'April',
+      'Mayo': 'May',
+      'Junio': 'June',
+      'Julio': 'July',
+      'Agosto': 'August',
+      'Septiembre': 'September',
+      'Octubre': 'October',
+      'Noviembre': 'November',
+      'Diciembre': 'December'
+    };
+    return monthTranslations[monthName as keyof typeof monthTranslations] || monthName;
   }
 
   /**
