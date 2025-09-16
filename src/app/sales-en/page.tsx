@@ -171,20 +171,20 @@ export default function SalesPageEN() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/anbel-ai-en"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-8 py-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
-                >
-                  <Bot className="w-6 h-6" />
-                  <span>TRY ANBEL AI AGENT</span>
-                </a>
-                <a
-                  href="/predictions-en"
-                  className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
-                >
-                  <Target className="w-6 h-6" />
-                  <span>VIEW PREDICTIONS</span>
-                </a>
+              <a
+                href="/dashboard-en"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-8 py-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
+              >
+                <Bot className="w-6 h-6" />
+                <span>TRY ANBEL AI AGENT</span>
+              </a>
+              <a
+                href="/dashboard-en"
+                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
+              >
+                <Target className="w-6 h-6" />
+                <span>VIEW PREDICTIONS</span>
+              </a>
               </div>
             </div>
 
@@ -752,7 +752,7 @@ export default function SalesPageEN() {
                 </li>
               </ul>
               <a
-                href="/activate?plan=gratis"
+                href="/activate-user-en?plan=gratis"
                 className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center block"
               >
                 Start Now
@@ -798,7 +798,7 @@ export default function SalesPageEN() {
                 </li>
               </ul>
               <a
-                href="/activate?plan=premium"
+                href="/activate-user-en?plan=premium"
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center block"
               >
                 Start Now
@@ -839,7 +839,7 @@ export default function SalesPageEN() {
                 </li>
               </ul>
               <a
-                href="/activate?plan=vip"
+                href="/activate-user-en?plan=vip"
                 className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center block"
               >
                 Start Now
@@ -873,7 +873,7 @@ export default function SalesPageEN() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <a
-              href="/activate?plan=premium"
+              href="/activate-user-en?plan=premium"
               className="bg-white text-purple-600 font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-colors"
             >
               🎯 START NOW - $29/month

@@ -51,7 +51,7 @@ export default function LoginPageEn() {
       if (user.email === formData.email && user.isActivated) {
         // Activated user - redirect to dashboard
         await new Promise(resolve => setTimeout(resolve, 1500));
-        window.location.href = '/dashboard';
+        window.location.href = '/dashboard-en';
       } else if (pendingUser.email === formData.email && !pendingUser.isActivated) {
         // Pending activation user
         setErrors({ general: 'Your account is not activated. Check your activation code.' });

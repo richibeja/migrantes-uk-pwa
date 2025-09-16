@@ -84,7 +84,7 @@ export default function ActivateUserPageEn() {
           </div>
 
           <Link
-            href="/dashboard"
+            href="/dashboard-en"
             className="inline-block bg-gold text-black font-semibold py-3 px-6 rounded-lg hover:bg-yellow-400 transition-colors mb-4"
           >
             Go to Dashboard
