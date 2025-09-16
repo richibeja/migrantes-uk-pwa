@@ -393,11 +393,11 @@ export const AnbelChat: React.FC = () => {
       setIsTyping(false);
       
       // 🔒 FALLBACK DE EMERGENCIA - SIEMPRE GENERAR PREDICCIÓN
-      const isPredictionRequest = this.isPredictionRequest(inputText);
+      const isPrediction = isPredictionRequest(inputText);
       
-      if (isPredictionRequest) {
+      if (isPrediction) {
         // Generar predicción de emergencia local
-        const emergencyPrediction = this.generateEmergencyPredictionLocal(inputText);
+        const emergencyPrediction = generateEmergencyPredictionLocal(inputText);
         await processResponseWithVoice(emergencyPrediction);
         
         if (emergencyPrediction.type === 'prediction' && emergencyPrediction.data) {
@@ -422,7 +422,7 @@ export const AnbelChat: React.FC = () => {
   /**
    * 🔍 Verificar si es solicitud de predicción
    */
-  private isPredictionRequest(input: string): boolean {
+  const isPredictionRequest = (input: string): boolean => {
     const lowerInput = input.toLowerCase();
     const predictionKeywords = [
       'powerball', 'mega millions', 'euromillions', 'baloto',
@@ -431,12 +431,12 @@ export const AnbelChat: React.FC = () => {
       'sí', 'si', 'yes', 'ok', 'okay', 'vale'
     ];
     return predictionKeywords.some(keyword => lowerInput.includes(keyword));
-  }
+  };
 
   /**
    * 🚨 Generar predicción de emergencia local
    */
-  private generateEmergencyPredictionLocal(input: string): AnbelResponse {
+  const generateEmergencyPredictionLocal = (input: string): AnbelResponse => {
     const lowerInput = input.toLowerCase();
     let lottery = 'Powerball';
     
@@ -446,8 +446,8 @@ export const AnbelChat: React.FC = () => {
     else if (lowerInput.includes('baloto')) lottery = 'Baloto';
     
     // Generar números de emergencia
-    const numbers = this.generateEmergencyNumbers(lottery);
-    const bonusNumbers = this.generateEmergencyBonus(lottery);
+    const numbers = generateEmergencyNumbers(lottery);
+    const bonusNumbers = generateEmergencyBonus(lottery);
     
     const prediction = {
       numbers: numbers,
@@ -459,7 +459,7 @@ export const AnbelChat: React.FC = () => {
     };
     
     return {
-      text: this.formatEmergencyPredictionText(lottery, prediction),
+      text: formatEmergencyPredictionText(lottery, prediction),
       type: 'prediction',
       data: prediction,
       confidence: 0.85,
@@ -469,12 +469,12 @@ export const AnbelChat: React.FC = () => {
         patterns: 1
       }
     };
-  }
+  };
 
   /**
    * 🔢 Generar números de emergencia
    */
-  private generateEmergencyNumbers(lottery: string): number[] {
+  const generateEmergencyNumbers = (lottery: string): number[] => {
     const configs = {
       'Powerball': { count: 5, max: 69 },
       'Mega Millions': { count: 5, max: 70 },
@@ -510,12 +510,12 @@ export const AnbelChat: React.FC = () => {
     }
     
     return numbers.sort((a, b) => a - b);
-  }
+  };
 
   /**
    * 🎯 Generar números bonus de emergencia
    */
-  private generateEmergencyBonus(lottery: string): number[] {
+  const generateEmergencyBonus = (lottery: string): number[] => {
     const configs = {
       'Powerball': { count: 1, max: 26 },
       'Mega Millions': { count: 1, max: 25 },
@@ -535,12 +535,12 @@ export const AnbelChat: React.FC = () => {
     }
     
     return bonus.sort((a, b) => a - b);
-  }
+  };
 
   /**
    * 📝 Formatear texto de predicción de emergencia
    */
-  private formatEmergencyPredictionText(lottery: string, prediction: any): string {
+  const formatEmergencyPredictionText = (lottery: string, prediction: any): string => {
     const numbers = prediction.numbers.join(', ');
     const bonus = prediction.bonusNumbers ? ` + ${prediction.bonusNumbers.join(', ')}` : '';
     const confidence = Math.round(prediction.confidence * 100);
@@ -552,7 +552,7 @@ export const AnbelChat: React.FC = () => {
            `⚡ **Algoritmo**: Emergency Local\n\n` +
            `💡 **¡Estos números tienen alta probabilidad de ganar!**\n` +
            `🎉 **¡Usa esta combinación y GANA!**`;
-  }
+  };
 
   /**
    * 🎤 INICIALIZAR CAPACIDADES DE VOZ
