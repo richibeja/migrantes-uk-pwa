@@ -53,7 +53,7 @@ export default function Dashboard() {
         numbers: [12, 24, 36, 48, 60],
         powerball: 15,
         confidence: 96.8,
-        algorithm: 'Ensemble ML',
+        algorithm: 'Anbel Ultra AI',
         nextDraw: '2024-01-15'
       },
       {
@@ -61,16 +61,8 @@ export default function Dashboard() {
         numbers: [7, 14, 21, 28, 35],
         megaBall: 9,
         confidence: 94.2,
-        algorithm: 'Deep LSTM',
+        algorithm: 'Anbel Ultra AI',
         nextDraw: '2024-01-16'
-      },
-      {
-        lottery: 'EuroMillions',
-        numbers: [3, 18, 25, 42, 49],
-        luckyStars: [5, 12],
-        confidence: 92.5,
-        algorithm: 'Monte Carlo',
-        nextDraw: '2024-01-17'
       }
     ];
     
@@ -89,11 +81,8 @@ export default function Dashboard() {
     );
   }
 
-  // Filtrar loterías
-  const allLotteries = LOTTERY_CONFIGS;
-  const usaLotteries = LOTTERY_CONFIGS.filter(lottery => 
-    lottery.country === 'USA' || lottery.name.includes('Powerball') || lottery.name.includes('Mega Millions')
-  );
+  // Solo loterías de USA (Powerball y Mega Millions)
+  const usaLotteries = LOTTERY_CONFIGS;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
