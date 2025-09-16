@@ -5,6 +5,8 @@
  */
 
 import { getGeminiAI, GeminiAIService } from './gemini-ai';
+import { realLotteryAPI, getRealLotteryResults } from './lottery-apis-real';
+import { usLotteryAPI, getUSLotteryResults } from './us-lottery-apis';
 
 export interface AnbelResponse {
   text: string;
@@ -1733,7 +1735,65 @@ class AnbelAI {
   /**
    * 🌟 PREDICCIÓN ULTRA INTELIGENTE CON MÚLTIPLES FACTORES
    */
+  /**
+   * 🔗 OBTENER DATOS REALES DE APIS DE LOTERÍAS
+   */
+  private async getRealLotteryData(lottery: string): Promise<any> {
+    try {
+      // Mapear nombres de loterías a IDs de API
+      const lotteryIdMap: Record<string, string> = {
+        'Powerball': 'powerball',
+        'Mega Millions': 'megaMillions',
+        'Cash4Life': 'cash4Life',
+        'Lucky for Life': 'luckyForLife',
+        'Hot Lotto': 'hotLotto',
+        'Pick 6': 'pick6',
+        'Fantasy 5': 'fantasy5'
+      };
+
+      const lotteryId = lotteryIdMap[lottery] || lottery.toLowerCase();
+      
+      // Intentar obtener datos reales de USA primero
+      if (['powerball', 'megaMillions', 'cash4Life', 'lottoAmerica'].includes(lotteryId)) {
+        const usData = await usLotteryAPI.getLatestResults(lotteryId);
+        if (usData && usData.source === 'real') {
+          return {
+            numbers: usData.numbers,
+            specialNumbers: usData.powerball ? [usData.powerball] : 
+                           usData.megaBall ? [usData.megaBall] : 
+                           usData.bonusBall ? [usData.bonusBall] : [],
+            jackpot: usData.jackpot,
+            nextDraw: usData.nextDraw,
+            winners: usData.winners,
+            source: 'real'
+          };
+        }
+      }
+
+      // Si no hay datos de USA, intentar APIs generales
+      const realData = await realLotteryAPI.getLatestResults(lotteryId);
+      if (realData && realData.source === 'real') {
+        return {
+          numbers: realData.numbers,
+          specialNumbers: realData.specialNumbers,
+          jackpot: realData.jackpot,
+          nextDraw: realData.nextDraw,
+          winners: realData.winners,
+          source: 'real'
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error(`Error obteniendo datos reales para ${lottery}:`, error);
+      return null;
+    }
+  }
+
   async generateUltraPrediction(lottery: string, userContext?: any): Promise<AnbelResponse> {
+    // 🔗 OBTENER DATOS REALES DE APIS
+    const realData = await this.getRealLotteryData(lottery);
+    
     const factors = await this.analyzeAllFactors(lottery, userContext);
     const prediction = this.combineAllFactors(factors);
     
@@ -1750,7 +1810,7 @@ class AnbelAI {
     const realTimeAnalysis = this.getRealTimeAnalysis(lottery);
     
     return {
-      text: this.formatUltraPredictionResponse(lottery, prediction, factors, realTimeAnalysis),
+      text: this.formatUltraPredictionResponse(lottery, prediction, factors, realData),
       type: 'prediction',
       data: { ...prediction, realTimeAnalysis, userProfile },
       confidence: prediction.confidence,
@@ -2400,12 +2460,15 @@ class AnbelAI {
   /**
    * 🎯 FORMATEAR RESPUESTA ULTRA PREDICCIÓN
    */
-  private formatUltraPredictionResponse(lottery: string, prediction: any, factors: any): string {
+  private formatUltraPredictionResponse(lottery: string, prediction: any, factors: any, realData?: any): string {
     const numbers = prediction.numbers.join(', ');
     const confidence = Math.round(prediction.confidence * 100);
     const factorsCount = prediction.factors;
-    const nextDraw = this.getNextDrawTime(lottery);
-    const jackpot = this.getCurrentJackpot(lottery);
+    
+    // Usar datos reales de APIs si están disponibles
+    const nextDraw = realData?.nextDraw || this.getNextDrawTime(lottery);
+    const jackpot = realData?.jackpot || this.getCurrentJackpot(lottery);
+    const isRealData = realData?.source === 'real';
     
     // Análisis histórico real
     const historicalAnalysis = this.analyzeHistoricalResults(lottery);
@@ -2415,12 +2478,15 @@ class AnbelAI {
     const isSpanish = this.detectLanguage(factors?.input || '') === 'es';
     
     if (isSpanish) {
+      const dataSource = isRealData ? '🔗 **DATOS REALES DE API**' : '🧠 **ANÁLISIS INTELIGENTE**';
+      
       return `🔥 **¡PREDICCIÓN ULTRA GANADORA ${lottery}!** 🔥\n\n` +
              `🎯 **NÚMEROS ULTRA INTELIGENTES**: **${numbers}**\n\n` +
-             `💰 **JACKPOT ACTUAL**: **$${jackpot} MILLONES**\n` +
+             `💰 **JACKPOT ACTUAL**: **${jackpot}**\n` +
              `⏰ **PRÓXIMO SORTEO**: ${nextDraw}\n\n` +
              `🧠 **CONFIANZA ULTRA**: **${confidence}%**\n` +
              `⚡ **ALGORITMO**: ${prediction.algorithm}\n` +
+             `${dataSource}\n\n` +
              `🔍 **FACTORES ANALIZADOS**: ${factorsCount}\n\n` +
              `**📊 ANÁLISIS HISTÓRICO REAL (200 SORTEOS):**\n` +
              `• Números más frecuentes: ${Object.keys(historicalAnalysis.frequency).slice(0, 5).join(', ')}\n` +
