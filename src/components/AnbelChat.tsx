@@ -82,6 +82,10 @@ export const AnbelChat: React.FC = () => {
   const [speechSupported, setSpeechSupported] = useState(false);
   const [recognitionSupported, setRecognitionSupported] = useState(false);
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
+  // 📱 FUNCIONALIDADES SOCIALES
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const [showShareButtons, setShowShareButtons] = useState(false);
+  const [lastPrediction, setLastPrediction] = useState<any>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const synthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -89,6 +93,179 @@ export const AnbelChat: React.FC = () => {
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // 📱 FUNCIONES DE COMPARTIR SOCIAL
+  const shareToTwitter = (prediction: any, lottery: string) => {
+    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    window.open(url, '_blank');
+    
+    // Actualizar puntos sociales
+    if (userProfile) {
+      anbelAI.updateSocialPoints(userProfile, 'share');
+      setUserProfile({...userProfile});
+    }
+  };
+
+  const shareToWhatsApp = (prediction: any, lottery: string) => {
+    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
+    const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(url, '_blank');
+    
+    // Actualizar puntos sociales
+    if (userProfile) {
+      anbelAI.updateSocialPoints(userProfile, 'share');
+      setUserProfile({...userProfile});
+    }
+  };
+
+  const shareToFacebook = (prediction: any, lottery: string) => {
+    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(shareText)}`;
+    window.open(url, '_blank');
+    
+    // Actualizar puntos sociales
+    if (userProfile) {
+      anbelAI.updateSocialPoints(userProfile, 'share');
+      setUserProfile({...userProfile});
+    }
+  };
+
+  const copyToClipboard = (prediction: any, lottery: string) => {
+    const shareText = anbelAI.generateShareText(prediction, lottery, currentLanguage);
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert(currentLanguage === 'es' ? '¡Texto copiado al portapapeles!' : 'Text copied to clipboard!');
+    });
+    
+    // Actualizar puntos sociales
+    if (userProfile) {
+      anbelAI.updateSocialPoints(userProfile, 'share');
+      setUserProfile({...userProfile});
+    }
+  };
+
+  // 🎯 COMPONENTE DE BOTONES DE COMPARTIR
+  const ShareButtons = ({ prediction, lottery }: { prediction: any; lottery: string }) => (
+    <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-white font-semibold text-sm">
+          {currentLanguage === 'es' ? '📱 Compartir Predicción' : '📱 Share Prediction'}
+        </h4>
+        <div className="text-yellow-400 text-xs">
+          +5 {currentLanguage === 'es' ? 'puntos' : 'points'}
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          onClick={() => shareToTwitter(prediction, lottery)}
+          className="flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm transition-colors"
+        >
+          <span>🐦</span>
+          <span>Twitter</span>
+        </button>
+        
+        <button
+          onClick={() => shareToWhatsApp(prediction, lottery)}
+          className="flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded text-sm transition-colors"
+        >
+          <span>📱</span>
+          <span>WhatsApp</span>
+        </button>
+        
+        <button
+          onClick={() => shareToFacebook(prediction, lottery)}
+          className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm transition-colors"
+        >
+          <span>📘</span>
+          <span>Facebook</span>
+        </button>
+        
+        <button
+          onClick={() => copyToClipboard(prediction, lottery)}
+          className="flex items-center justify-center space-x-2 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm transition-colors"
+        >
+          <span>📋</span>
+          <span>{currentLanguage === 'es' ? 'Copiar' : 'Copy'}</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  // 🏆 COMPONENTE DE PERFIL DE USUARIO
+  const UserProfile = () => {
+    if (!userProfile) return null;
+    
+    return (
+      <div className="mb-4 p-4 bg-gradient-to-r from-purple-800 to-blue-800 rounded-lg border border-purple-600">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-white font-bold text-lg">
+            {currentLanguage === 'es' ? '👤 Tu Perfil' : '👤 Your Profile'}
+          </h3>
+          <div className="text-yellow-400 text-sm font-semibold">
+            Nivel {userProfile.level}
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="text-white">
+            <div className="text-yellow-400 font-semibold">
+              {userProfile.points} {currentLanguage === 'es' ? 'puntos' : 'points'}
+            </div>
+            <div className="text-gray-300">
+              {currentLanguage === 'es' ? 'Puntos totales' : 'Total points'}
+            </div>
+          </div>
+          
+          <div className="text-white">
+            <div className="text-green-400 font-semibold">
+              {userProfile.streak} {currentLanguage === 'es' ? 'días' : 'days'}
+            </div>
+            <div className="text-gray-300">
+              {currentLanguage === 'es' ? 'Racha actual' : 'Current streak'}
+            </div>
+          </div>
+          
+          <div className="text-white">
+            <div className="text-blue-400 font-semibold">
+              {userProfile.totalPredictions}
+            </div>
+            <div className="text-gray-300">
+              {currentLanguage === 'es' ? 'Predicciones' : 'Predictions'}
+            </div>
+          </div>
+          
+          <div className="text-white">
+            <div className="text-pink-400 font-semibold">
+              {userProfile.totalShares}
+            </div>
+            <div className="text-gray-300">
+              {currentLanguage === 'es' ? 'Compartidos' : 'Shared'}
+            </div>
+          </div>
+        </div>
+        
+        {/* Badges */}
+        {userProfile.badges && userProfile.badges.length > 0 && (
+          <div className="mt-3">
+            <div className="text-white text-sm mb-2">
+              {currentLanguage === 'es' ? '🏆 Logros:' : '🏆 Achievements:'}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {userProfile.badges.map((badge: string, index: number) => (
+                <span
+                  key={index}
+                  className="bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-semibold"
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -148,6 +325,12 @@ export const AnbelChat: React.FC = () => {
       
       // Procesar respuesta con voz
       await processResponseWithVoice(response);
+      
+      // Mostrar botones de compartir si es una predicción
+      if (response.type === 'prediction' && response.data) {
+        setLastPrediction(response.data);
+        setShowShareButtons(true);
+      }
       
     } catch (error) {
       setIsTyping(false);
@@ -666,11 +849,23 @@ export const AnbelChat: React.FC = () => {
                  )}
                </div>
              </div>
-
-      {/* ÁREA DE MENSAJES */}
+             
+             {/* PERFIL DE USUARIO */}
+             <UserProfile />
+             
+             {/* ÁREA DE MENSAJES */}
       <div className="flex-1 overflow-y-auto mb-4 p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20">
         {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
+          <div key={message.id}>
+            <MessageBubble message={message} />
+            {/* Mostrar botones de compartir para predicciones */}
+            {message.sender === 'anbel' && message.type === 'prediction' && lastPrediction && (
+              <ShareButtons 
+                prediction={lastPrediction} 
+                lottery={lastPrediction.lottery || 'Powerball'} 
+              />
+            )}
+          </div>
         ))}
         
         {isTyping && (

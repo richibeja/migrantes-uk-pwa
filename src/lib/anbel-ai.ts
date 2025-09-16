@@ -51,6 +51,13 @@ export interface UserProfile {
   favoriteLottery: string;
   totalWinnings: number;
   badges: string[];
+  // 📱 FUNCIONALIDADES SOCIALES
+  referralCode: string;
+  totalShares: number;
+  totalReferrals: number;
+  ranking: number;
+  lastShareDate: Date;
+  socialPoints: number;
 }
 
 export interface MarketTrend {
@@ -2511,6 +2518,124 @@ class AnbelAI {
     if (confidence >= 0.7) return 'RARA';
     if (confidence >= 0.6) return 'COMÚN';
     return 'BÁSICA';
+  }
+
+  /**
+   * 📱 GENERAR TEXTO PARA COMPARTIR
+   */
+  generateShareText(prediction: any, lottery: string, language: 'es' | 'en' = 'es'): string {
+    const numbers = prediction.numbers.join(', ');
+    const confidence = Math.round(prediction.confidence * 100);
+    const rarity = this.getPredictionRarity(prediction.confidence);
+    
+    if (language === 'es') {
+      return `🔥 ¡PREDICCIÓN ${rarity} DE ANBEL IA! 🔥\n\n` +
+             `🎯 Números: ${numbers}\n` +
+             `🧠 Confianza: ${confidence}%\n` +
+             `🎲 Lotería: ${lottery}\n\n` +
+             `💡 ¡Descarga Anbel IA y gana tú también!\n` +
+             `#AnbelIA #Ganar #Predicciones #${lottery} #${rarity}`;
+    } else {
+      return `🔥 ${rarity} PREDICTION FROM ANBEL AI! 🔥\n\n` +
+             `🎯 Numbers: ${numbers}\n` +
+             `🧠 Confidence: ${confidence}%\n` +
+             `🎲 Lottery: ${lottery}\n\n` +
+             `💡 Download Anbel AI and win too!\n` +
+             `#AnbelIA #Win #Predictions #${lottery} #${rarity}`;
+    }
+  }
+
+  /**
+   * 🏆 ACTUALIZAR PUNTOS SOCIALES
+   */
+  updateSocialPoints(userProfile: UserProfile, action: 'share' | 'referral' | 'prediction'): void {
+    const points = {
+      share: 5,
+      referral: 50,
+      prediction: 10
+    };
+    
+    userProfile.socialPoints += points[action];
+    userProfile.points += points[action];
+    
+    if (action === 'share') {
+      userProfile.totalShares++;
+      userProfile.lastShareDate = new Date();
+    }
+  }
+
+  /**
+   * 🎖️ GENERAR CÓDIGO DE REFERIDO
+   */
+  generateReferralCode(userId: string): string {
+    const randomCode = Math.random().toString(36).substr(2, 4).toUpperCase();
+    return `ANBEL${randomCode}`;
+  }
+
+  /**
+   * 📊 OBTENER RANKING DE USUARIOS
+   */
+  getTopUsers(limit: number = 10): UserProfile[] {
+    return Array.from(this.userProfiles.values())
+      .sort((a, b) => b.points - a.points)
+      .slice(0, limit);
+  }
+
+  /**
+   * 🏅 VERIFICAR Y OTORGAR BADGES SOCIALES
+   */
+  checkSocialBadges(userProfile: UserProfile): string[] {
+    const newBadges: string[] = [];
+    
+    // Badge por primera predicción
+    if (userProfile.totalPredictions === 1 && !userProfile.badges.includes('first_prediction')) {
+      newBadges.push('first_prediction');
+    }
+    
+    // Badge por compartir
+    if (userProfile.totalShares >= 5 && !userProfile.badges.includes('sharer')) {
+      newBadges.push('sharer');
+    }
+    
+    // Badge por referidos
+    if (userProfile.totalReferrals >= 3 && !userProfile.badges.includes('recruiter')) {
+      newBadges.push('recruiter');
+    }
+    
+    // Badge por nivel
+    if (userProfile.level >= 5 && !userProfile.badges.includes('expert')) {
+      newBadges.push('expert');
+    }
+    
+    // Badge por racha
+    if (userProfile.streak >= 7 && !userProfile.badges.includes('streak_master')) {
+      newBadges.push('streak_master');
+    }
+    
+    // Agregar nuevos badges
+    newBadges.forEach(badge => {
+      if (!userProfile.badges.includes(badge)) {
+        userProfile.badges.push(badge);
+        userProfile.points += 25; // Bonus por badge
+      }
+    });
+    
+    return newBadges;
+  }
+
+  /**
+   * 🎯 OBTENER BADGES DISPONIBLES
+   */
+  getAvailableBadges(): { id: string; name: string; description: string; icon: string }[] {
+    return [
+      { id: 'first_prediction', name: 'Primera Predicción', description: 'Realizaste tu primera predicción', icon: '🎯' },
+      { id: 'sharer', name: 'Compartidor', description: 'Compartiste 5 predicciones', icon: '📱' },
+      { id: 'recruiter', name: 'Reclutador', description: 'Invitaste 3 amigos', icon: '👥' },
+      { id: 'expert', name: 'Experto', description: 'Alcanzaste nivel 5', icon: '🧠' },
+      { id: 'streak_master', name: 'Maestro de Rachas', description: '7 días consecutivos', icon: '🔥' },
+      { id: 'social_butterfly', name: 'Mariposa Social', description: 'Compartiste 20 veces', icon: '🦋' },
+      { id: 'viral_predictor', name: 'Predictor Viral', description: 'Tu predicción fue compartida 50 veces', icon: '📈' }
+    ];
   }
 }
 
