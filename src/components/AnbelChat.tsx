@@ -477,6 +477,20 @@ export const AnbelChat: React.FC = () => {
   /**
    * 🔊 HABLAR RESPUESTA
    */
+  /**
+   * 🧹 LIMPIAR EMOTICONES PARA VOZ
+   */
+  const cleanTextForSpeech = (text: string): string => {
+    // Remover emoticones y caracteres especiales
+    return text
+      .replace(/[🔥🎯💰🧠🚀🎉🎲💬📱🏆⭐🌟💎🎊🎈🎁🎀🎂🎃🎄🎆🎇🎈🎉🎊🎋🎌🎍🎎🎏🎐🎑🎒🎓🎖🎗🎙🎚🎛🎜🎝🎞🎟🎠🎡🎢🎣🎤🎥🎦🎧🎨🎩🎪🎫🎬🎭🎮🎯🎰🎱🎲🎳🎴🎵🎶🎷🎸🎹🎺🎻🎼🎽🎾🎿🏀🏁🏂🏃🏄🏅🏆🏇🏈🏉🏊🏋🏌🏍🏎🏏🏐🏑🏒🏓🏔🏕🏖🏗🏘🏙🏚🏛🏜🏝🏞🏟🏠🏡🏢🏣🏤🏥🏦🏧🏨🏩🏪🏫🏬🏭🏮🏯🏰🏱🏲🏳🏴🏵🏶🏷🏸🏹🏺🏻🏼🏽🏾🏿]/g, '')
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Remover **bold**
+      .replace(/\*(.*?)\*/g, '$1') // Remover *italic*
+      .replace(/\n+/g, '. ') // Convertir saltos de línea en pausas
+      .replace(/\s+/g, ' ') // Limpiar espacios múltiples
+      .trim();
+  };
+
   const speakText = (text: string, language: 'es' | 'en' = currentLanguage) => {
     if (!speechSupported) {
       console.log('Síntesis de voz no soportada');
@@ -486,7 +500,9 @@ export const AnbelChat: React.FC = () => {
     // Cancelar síntesis anterior
     speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    // Limpiar texto para voz
+    const cleanText = cleanTextForSpeech(text);
+    const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = language === 'es' ? 'es-ES' : 'en-US';
     utterance.rate = 0.9;
     utterance.pitch = 1.0;
