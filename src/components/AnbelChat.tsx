@@ -41,10 +41,33 @@ export const AnbelChat: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      text: '¡Hola! Soy Anbel IA, tu asistente inteligente para predicciones de lotería. ¿En qué puedo ayudarte hoy?',
+      text: '🎉 **¡HOLA! ¡BIENVENIDO A ANBEL ULTRA IA!** 🎉\n\n' +
+            '🧠 **Soy tu asistente de predicciones más inteligente del mundo**\n' +
+            '⚡ **¡Te voy a guiar paso a paso para que ganes!**\n\n' +
+            '🎯 **¿QUÉ QUIERES HACER HOY?**\n\n' +
+            '**1️⃣ PREDICCIÓN DE LOTERÍA**\n' +
+            '• Powerball (Martes y Viernes)\n' +
+            '• Mega Millions (Martes y Viernes)\n' +
+            '• EuroMillions (Martes y Viernes)\n' +
+            '• Baloto (Miércoles y Sábado)\n' +
+            '• Lotto (Domingo)\n\n' +
+            '**2️⃣ ANÁLISIS DE TICKET**\n' +
+            '• Sube una foto de tu ticket\n' +
+            '• Te digo si ganaste o no\n' +
+            '• Análisis de números comprados\n' +
+            '• Te animo a seguir jugando\n\n' +
+            '**3️⃣ INFORMACIÓN DE LOTERÍAS**\n' +
+            '• Horarios de sorteos\n' +
+            '• Números más frecuentes\n' +
+            '• Estrategias ganadoras\n\n' +
+            '💬 **Solo dime:**\n' +
+            '• "Quiero predicción" → Te guío paso a paso\n' +
+            '• "Analizar ticket" → Sube tu foto\n' +
+            '• "Información loterías" → Te explico todo\n\n' +
+            '*¡Estoy aquí para hacerte ganar!* 🚀',
       sender: 'anbel',
       timestamp: new Date(),
-      type: 'text'
+      type: 'personalized'
     }
   ]);
   const [inputText, setInputText] = useState('');
@@ -443,14 +466,20 @@ export const AnbelChat: React.FC = () => {
       if (isWinner) {
         return {
           text: `🎉 **¡FELICIDADES! ¡HAS GANADO!** 🎉\n\n` +
-                `🎫 **Análisis de tu ticket:**\n` +
-                `• Números jugados: ${ticketNumbers.join(', ')}\n` +
+                `🎫 **Análisis Ultra Inteligente de tu Ticket:**\n` +
+                `• Números que compraste: ${ticketNumbers.join(', ')}\n` +
                 `• Números ganadores: ${winningNumbers.join(', ')}\n` +
                 `• Números acertados: **${matchedNumbers}**\n` +
-                `• Premio: **$${prizeAmount.toLocaleString()}**\n\n` +
-                `🏆 **¡Increíble! Tu estrategia funcionó perfectamente.**\n` +
-                `💡 **Consejo de Anbel:** Sigue usando mis predicciones para más ganancias.\n` +
+                `• Premio obtenido: **$${prizeAmount.toLocaleString()}**\n` +
+                `• Fecha del sorteo: ${new Date().toLocaleDateString('es-ES')}\n\n` +
+                `🏆 **¡INCREÍBLE! Tu estrategia funcionó perfectamente.**\n` +
+                `💡 **Consejo de Anbel:** Sigue usando mis predicciones ultra inteligentes para más ganancias.\n` +
+                `🚀 **¡No pares ahora!** Tu próxima victoria está más cerca que nunca.\n` +
                 `🌟 **Confianza del análisis:** 95%\n\n` +
+                `**🎯 PRÓXIMOS PASOS:**\n` +
+                `• Usa mis predicciones para el próximo sorteo\n` +
+                `• Compra más tickets con mis números\n` +
+                `• ¡Sigue ganando con Anbel IA!\n\n` +
                 `*¡Anbel IA está orgulloso de tu victoria!*`,
           type: 'ticket_analysis',
           confidence: 0.95,
@@ -459,14 +488,20 @@ export const AnbelChat: React.FC = () => {
       } else {
         return {
           text: `🌟 **¡EXCELENTE INTENTO!** 🌟\n\n` +
-                `🎫 **Análisis de tu ticket:**\n` +
-                `• Números jugados: ${ticketNumbers.join(', ')}\n` +
+                `🎫 **Análisis Ultra Inteligente de tu Ticket:**\n` +
+                `• Números que compraste: ${ticketNumbers.join(', ')}\n` +
                 `• Números ganadores: ${winningNumbers.join(', ')}\n` +
-                `• Números acertados: **${matchedNumbers}**\n\n` +
-                `💪 **¡No te desanimes!** Cada intento te acerca más al premio.\n` +
+                `• Números acertados: **${matchedNumbers}**\n` +
+                `• Fecha del sorteo: ${new Date().toLocaleDateString('es-ES')}\n\n` +
+                `💪 **¡NO TE DESANIMES!** Cada intento te acerca más al premio.\n` +
                 `🎯 **Consejo de Anbel:** Usa mis predicciones ultra inteligentes para tu próximo ticket.\n` +
                 `📈 **Tu próxima victoria está cerca** - confía en el proceso.\n` +
+                `🚀 **¡SIGUE JUGANDO!** La suerte está de tu lado.\n` +
                 `🌟 **Confianza del análisis:** 95%\n\n` +
+                `**🎯 PRÓXIMOS PASOS:**\n` +
+                `• Pídeme una predicción para el próximo sorteo\n` +
+                `• Usa mis números ultra inteligentes\n` +
+                `• ¡Tu victoria está a la vuelta de la esquina!\n\n` +
                 `*Anbel IA cree en ti y en tu próxima victoria*`,
           type: 'ticket_analysis',
           confidence: 0.95,
@@ -477,14 +512,20 @@ export const AnbelChat: React.FC = () => {
       if (isWinner) {
         return {
           text: `🎉 **CONGRATULATIONS! YOU WON!** 🎉\n\n` +
-                `🎫 **Ticket Analysis:**\n` +
-                `• Your numbers: ${ticketNumbers.join(', ')}\n` +
+                `🎫 **Ultra Intelligent Ticket Analysis:**\n` +
+                `• Numbers you bought: ${ticketNumbers.join(', ')}\n` +
                 `• Winning numbers: ${winningNumbers.join(', ')}\n` +
                 `• Numbers matched: **${matchedNumbers}**\n` +
-                `• Prize: **$${prizeAmount.toLocaleString()}**\n\n` +
-                `🏆 **Amazing! Your strategy worked perfectly.**\n` +
-                `💡 **Anbel's tip:** Keep using my predictions for more wins.\n` +
+                `• Prize obtained: **$${prizeAmount.toLocaleString()}**\n` +
+                `• Draw date: ${new Date().toLocaleDateString('en-US')}\n\n` +
+                `🏆 **AMAZING! Your strategy worked perfectly.**\n` +
+                `💡 **Anbel's tip:** Keep using my ultra-intelligent predictions for more wins.\n` +
+                `🚀 **Don't stop now!** Your next victory is closer than ever.\n` +
                 `🌟 **Analysis confidence:** 95%\n\n` +
+                `**🎯 NEXT STEPS:**\n` +
+                `• Use my predictions for the next draw\n` +
+                `• Buy more tickets with my numbers\n` +
+                `• Keep winning with Anbel AI!\n\n` +
                 `*Anbel AI is proud of your victory!*`,
           type: 'ticket_analysis',
           confidence: 0.95,
@@ -493,14 +534,20 @@ export const AnbelChat: React.FC = () => {
       } else {
         return {
           text: `🌟 **GREAT ATTEMPT!** 🌟\n\n` +
-                `🎫 **Ticket Analysis:**\n` +
-                `• Your numbers: ${ticketNumbers.join(', ')}\n` +
+                `🎫 **Ultra Intelligent Ticket Analysis:**\n` +
+                `• Numbers you bought: ${ticketNumbers.join(', ')}\n` +
                 `• Winning numbers: ${winningNumbers.join(', ')}\n` +
-                `• Numbers matched: **${matchedNumbers}**\n\n` +
-                `💪 **Don't give up!** Every attempt brings you closer to the prize.\n` +
+                `• Numbers matched: **${matchedNumbers}**\n` +
+                `• Draw date: ${new Date().toLocaleDateString('en-US')}\n\n` +
+                `💪 **DON'T GIVE UP!** Every attempt brings you closer to the prize.\n` +
                 `🎯 **Anbel's tip:** Use my ultra-intelligent predictions for your next ticket.\n` +
                 `📈 **Your next victory is near** - trust the process.\n` +
+                `🚀 **KEEP PLAYING!** Luck is on your side.\n` +
                 `🌟 **Analysis confidence:** 95%\n\n` +
+                `**🎯 NEXT STEPS:**\n` +
+                `• Ask me for a prediction for the next draw\n` +
+                `• Use my ultra-intelligent numbers\n` +
+                `• Your victory is just around the corner!\n\n` +
                 `*Anbel AI believes in you and your next victory*`,
           type: 'ticket_analysis',
           confidence: 0.95,
