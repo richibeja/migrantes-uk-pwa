@@ -136,11 +136,11 @@ export default function Dashboard() {
           <div className="flex items-center justify-center space-x-8 text-lg">
             <div className="flex items-center">
               <Globe className="w-6 h-6 mr-2" />
-              <span>9 Loterías Mundiales</span>
+              <span>2 Loterías de USA</span>
             </div>
             <div className="flex items-center">
               <Trophy className="w-6 h-6 mr-2" />
-              <span>6 Loterías de USA</span>
+              <span>Powerball & Mega Millions</span>
             </div>
             <div className="flex items-center">
               <Brain className="w-6 h-6 mr-2" />
@@ -249,55 +249,69 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* 9 Loterías Mundiales */}
+        {/* 2 Loterías de USA - Información */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
             <Globe className="w-8 h-8 mr-3 text-blue-400" />
-            9 Loterías Mundiales
+            Información de Loterías USA
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-            {allLotteries.map((lottery, index) => (
-              <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                <div className="flex items-center justify-between mb-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {usaLotteries.map((lottery, index) => (
+              <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="flex items-center justify-between mb-3">
                   <h4 className="text-lg font-semibold text-white">{lottery.name}</h4>
-                  <span className="text-xs text-gray-400">{lottery.country}</span>
+                  <span className="text-xs text-gray-400 bg-blue-500/20 px-2 py-1 rounded">USA</span>
                 </div>
-                <p className="text-sm text-gray-300 mb-3">{lottery.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-yellow-400 font-bold">${lottery.jackpot}</span>
-                  <button className="bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700 transition-colors">
-                    Predecir
-                  </button>
+                
+                {/* Información del Sorteo */}
+                <div className="mb-3">
+                  <div className="flex items-center mb-2">
+                    <Calendar className="w-4 h-4 text-yellow-400 mr-2" />
+                    <span className="text-sm text-gray-300">Próximo Sorteo:</span>
+                  </div>
+                  <p className="text-yellow-400 font-bold text-sm">{lottery.drawDays}</p>
+                  <p className="text-xs text-gray-400">Horario: {lottery.nextDraw}</p>
                 </div>
+
+                {/* Jackpot Actual */}
+                <div className="mb-3">
+                  <div className="flex items-center mb-1">
+                    <Trophy className="w-4 h-4 text-yellow-400 mr-2" />
+                    <span className="text-sm text-gray-300">Jackpot Actual:</span>
+                  </div>
+                  <p className="text-yellow-400 font-bold text-lg">{lottery.jackpot}</p>
+                </div>
+
+                {/* Estadísticas Básicas */}
+                <div className="mb-4">
+                  <div className="flex items-center mb-1">
+                    <BarChart3 className="w-4 h-4 text-green-400 mr-2" />
+                    <span className="text-sm text-gray-300">Rango de Números:</span>
+                  </div>
+                  <p className="text-green-400 text-sm">1-{lottery.numberRange} + {lottery.specialBallName} (1-{lottery.specialBallRange})</p>
+                </div>
+
+                {/* Botón para Anbel IA */}
+                <button 
+                  onClick={() => {
+                    // Scroll al chat de Anbel
+                    const chatElement = document.querySelector('[data-chat-section]');
+                    if (chatElement) {
+                      chatElement.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      alert('Chat con Anbel IA disponible en esta página');
+                    }
+                  }}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-2"
+                >
+                  <Brain className="w-4 h-4" />
+                  <span>Preguntar a Anbel IA</span>
+                </button>
               </div>
             ))}
           </div>
         </div>
 
-        {/* 6 Loterías de USA */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
-          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-            <Trophy className="w-8 h-8 mr-3 text-red-400" />
-            6 Loterías de USA
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {usaLotteries.map((lottery, index) => (
-              <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-lg font-semibold text-white">{lottery.name}</h4>
-                  <span className="text-xs text-gray-400">USA</span>
-                </div>
-                <p className="text-sm text-gray-300 mb-3">{lottery.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-yellow-400 font-bold">${lottery.jackpot}</span>
-                  <button className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors">
-                    Predecir
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Estadísticas Avanzadas */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
