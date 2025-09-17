@@ -493,32 +493,80 @@ export class PredictionEngine {
 }
 
 /**
- * Método Anbel - Algoritmo matemático avanzado basado en secuencias de Fibonacci
+ * Método Anbel - Algoritmo matemático avanzado optimizado para máximas probabilidades
  */
 export class AnbelMethod {
   static generatePrediction(lottery: Lottery, historicalResults: LotteryResult[]): MethodResult {
     const { numbersCount, maxNumber, bonusNumbers } = lottery;
     
-    // Generar números usando secuencia de Fibonacci
+    // 🧮 ANÁLISIS MATEMÁTICO AVANZADO
     const fibonacci = this.generateFibonacci(maxNumber);
+    const primes = this.generatePrimes(maxNumber);
+    const squares = this.generateSquares(maxNumber);
+    const frequencyAnalysis = this.analyzeHistoricalFrequency(historicalResults, maxNumber);
+    const gapAnalysis = this.analyzeNumberGaps(historicalResults, maxNumber);
+    
     const numbers: number[] = [];
     
-    // Seleccionar números de Fibonacci
-    for (let i = 0; i < Math.min(numbersCount, fibonacci.length); i++) {
-      numbers.push(fibonacci[i]);
-    }
+    // 🎯 ESTRATEGIA OPTIMIZADA DE SELECCIÓN
+    // 30% Números de alta frecuencia histórica
+    const hotNumbers = frequencyAnalysis.hot.slice(0, Math.ceil(numbersCount * 0.3));
+    hotNumbers.forEach(num => {
+      if (numbers.length < numbersCount && !numbers.includes(num)) {
+        numbers.push(num);
+      }
+    });
     
-    // Completar con números aleatorios si es necesario
+    // 25% Números con gaps óptimos (debido para salir)
+    const dueNumbers = gapAnalysis.due.slice(0, Math.ceil(numbersCount * 0.25));
+    dueNumbers.forEach(num => {
+      if (numbers.length < numbersCount && !numbers.includes(num)) {
+        numbers.push(num);
+      }
+    });
+    
+    // 20% Números de Fibonacci (patrones matemáticos)
+    const selectedFib = fibonacci.slice(0, Math.ceil(numbersCount * 0.2));
+    selectedFib.forEach(num => {
+      if (numbers.length < numbersCount && !numbers.includes(num)) {
+        numbers.push(num);
+      }
+    });
+    
+    // 15% Números primos (distribución matemática)
+    const selectedPrimes = primes.slice(0, Math.ceil(numbersCount * 0.15));
+    selectedPrimes.forEach(num => {
+      if (numbers.length < numbersCount && !numbers.includes(num)) {
+        numbers.push(num);
+      }
+    });
+    
+    // 10% Balance de distribución (números faltantes para equilibrio)
     while (numbers.length < numbersCount) {
-      const randomNumber = Math.floor(Math.random() * maxNumber) + 1;
-      if (!numbers.includes(randomNumber)) {
-        numbers.push(randomNumber);
+      const balanceNumber = this.generateBalanceNumber(numbers, maxNumber, frequencyAnalysis);
+      if (!numbers.includes(balanceNumber)) {
+        numbers.push(balanceNumber);
       }
     }
 
-    // Generar números bonus
+    // 🎲 GENERAR NÚMEROS BONUS CON ANÁLISIS
     let bonus: number[] = [];
     if (bonusNumbers && bonusNumbers > 0) {
+      const bonusFrequency = this.analyzeHistoricalFrequency(
+        historicalResults, 
+        lottery.maxBonusNumber || maxNumber,
+        'bonus'
+      );
+      
+      // Preferir números bonus con alta frecuencia
+      const hotBonus = bonusFrequency.hot.slice(0, bonusNumbers);
+      hotBonus.forEach(num => {
+        if (bonus.length < bonusNumbers && !bonus.includes(num) && !numbers.includes(num)) {
+          bonus.push(num);
+        }
+      });
+      
+      // Completar si es necesario
       while (bonus.length < bonusNumbers) {
         const randomBonus = Math.floor(Math.random() * (lottery.maxBonusNumber || maxNumber)) + 1;
         if (!bonus.includes(randomBonus) && !numbers.includes(randomBonus)) {
@@ -527,7 +575,13 @@ export class AnbelMethod {
       }
     }
 
-    const confidence = this.calculateAnbelConfidence(numbers, fibonacci);
+    const confidence = this.calculateOptimizedConfidence(
+      numbers, 
+      fibonacci, 
+      primes, 
+      frequencyAnalysis, 
+      gapAnalysis
+    );
 
     return {
       numbers: numbers.sort((a, b) => a - b),
@@ -545,21 +599,215 @@ export class AnbelMethod {
     return fib.filter(n => n <= max);
   }
 
-  private static calculateAnbelConfidence(numbers: number[], fibonacci: number[]): number {
-    let confidence = 75; // Base confidence
+  private static generatePrimes(max: number): number[] {
+    const primes: number[] = [];
+    const isPrime = (n: number): boolean => {
+      if (n < 2) return false;
+      for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    };
     
-    // Bonus por números de Fibonacci
+    for (let i = 2; i <= max; i++) {
+      if (isPrime(i)) primes.push(i);
+    }
+    return primes;
+  }
+  
+  private static generateSquares(max: number): number[] {
+    const squares: number[] = [];
+    let i = 1;
+    while (i * i <= max) {
+      squares.push(i * i);
+      i++;
+    }
+    return squares;
+  }
+  
+  private static analyzeHistoricalFrequency(
+    historicalResults: LotteryResult[], 
+    maxNumber: number,
+    type: 'main' | 'bonus' = 'main'
+  ): { hot: number[]; cold: number[]; neutral: number[] } {
+    const frequency = new Map<number, number>();
+    
+    // Inicializar contadores
+    for (let i = 1; i <= maxNumber; i++) {
+      frequency.set(i, 0);
+    }
+    
+    // Contar frecuencias
+    historicalResults.forEach(result => {
+      const numbersToAnalyze = type === 'main' ? result.numbers : result.bonusNumbers || [];
+      numbersToAnalyze.forEach(num => {
+        if (num <= maxNumber) {
+          frequency.set(num, (frequency.get(num) || 0) + 1);
+        }
+      });
+    });
+    
+    // Calcular promedio
+    const totalDraws = historicalResults.length;
+    const averageFrequency = totalDraws / maxNumber;
+    
+    const hot: number[] = [];
+    const cold: number[] = [];
+    const neutral: number[] = [];
+    
+    for (let i = 1; i <= maxNumber; i++) {
+      const freq = frequency.get(i) || 0;
+      if (freq > averageFrequency * 1.2) {
+        hot.push(i);
+      } else if (freq < averageFrequency * 0.8) {
+        cold.push(i);
+      } else {
+        neutral.push(i);
+      }
+    }
+    
+    // Ordenar por frecuencia
+    hot.sort((a, b) => (frequency.get(b) || 0) - (frequency.get(a) || 0));
+    cold.sort((a, b) => (frequency.get(a) || 0) - (frequency.get(b) || 0));
+    
+    return { hot, cold, neutral };
+  }
+  
+  private static analyzeNumberGaps(
+    historicalResults: LotteryResult[], 
+    maxNumber: number
+  ): { due: number[]; recent: number[]; average: number[] } {
+    const lastSeen = new Map<number, number>();
+    const gaps = new Map<number, number[]>();
+    
+    // Inicializar
+    for (let i = 1; i <= maxNumber; i++) {
+      lastSeen.set(i, -1);
+      gaps.set(i, []);
+    }
+    
+    // Analizar gaps
+    historicalResults.forEach((result, index) => {
+      result.numbers.forEach(num => {
+        if (num <= maxNumber) {
+          const last = lastSeen.get(num) || -1;
+          if (last >= 0) {
+            gaps.get(num)?.push(index - last);
+          }
+          lastSeen.set(num, index);
+        }
+      });
+    });
+    
+    const due: number[] = [];
+    const recent: number[] = [];
+    const average: number[] = [];
+    
+    const currentDraw = historicalResults.length;
+    
+    for (let i = 1; i <= maxNumber; i++) {
+      const last = lastSeen.get(i) || -1;
+      const gapsSinceLastSeen = last >= 0 ? currentDraw - last : currentDraw;
+      const numberGaps = gaps.get(i) || [];
+      const avgGap = numberGaps.length > 0 ? 
+        numberGaps.reduce((a, b) => a + b, 0) / numberGaps.length : 10;
+      
+      if (gapsSinceLastSeen > avgGap * 1.5) {
+        due.push(i);
+      } else if (gapsSinceLastSeen < avgGap * 0.5) {
+        recent.push(i);
+      } else {
+        average.push(i);
+      }
+    }
+    
+    // Ordenar por gap actual (más debido primero)
+    due.sort((a, b) => {
+      const gapA = currentDraw - (lastSeen.get(a) || -1);
+      const gapB = currentDraw - (lastSeen.get(b) || -1);
+      return gapB - gapA;
+    });
+    
+    return { due, recent, average };
+  }
+  
+  private static generateBalanceNumber(
+    existingNumbers: number[], 
+    maxNumber: number, 
+    frequencyAnalysis: { hot: number[]; cold: number[]; neutral: number[] }
+  ): number {
+    // Verificar distribución actual
+    const lowCount = existingNumbers.filter(n => n <= maxNumber / 2).length;
+    const highCount = existingNumbers.filter(n => n > maxNumber / 2).length;
+    const evenCount = existingNumbers.filter(n => n % 2 === 0).length;
+    const oddCount = existingNumbers.filter(n => n % 2 !== 0).length;
+    
+    // Preferir números que balanceen la distribución
+    let candidates: number[] = [];
+    
+    if (lowCount > highCount) {
+      candidates = frequencyAnalysis.neutral.filter(n => n > maxNumber / 2);
+    } else if (highCount > lowCount) {
+      candidates = frequencyAnalysis.neutral.filter(n => n <= maxNumber / 2);
+    } else {
+      candidates = frequencyAnalysis.neutral;
+    }
+    
+    // Balancear paridad
+    if (evenCount > oddCount) {
+      candidates = candidates.filter(n => n % 2 !== 0);
+    } else if (oddCount > evenCount) {
+      candidates = candidates.filter(n => n % 2 === 0);
+    }
+    
+    // Si no hay candidatos, usar cualquier número disponible
+    if (candidates.length === 0) {
+      candidates = Array.from({length: maxNumber}, (_, i) => i + 1)
+        .filter(n => !existingNumbers.includes(n));
+    }
+    
+    return candidates[Math.floor(Math.random() * candidates.length)] || 
+           Math.floor(Math.random() * maxNumber) + 1;
+  }
+  
+  private static calculateOptimizedConfidence(
+    numbers: number[], 
+    fibonacci: number[], 
+    primes: number[],
+    frequencyAnalysis: { hot: number[]; cold: number[]; neutral: number[] },
+    gapAnalysis: { due: number[]; recent: number[]; average: number[] }
+  ): number {
+    let confidence = 80; // Base confidence mejorada
+    
+    // Bonus por análisis de frecuencia
+    const hotCount = numbers.filter(n => frequencyAnalysis.hot.includes(n)).length;
+    confidence += hotCount * 3; // +3 por cada número caliente
+    
+    // Bonus por números debido para salir
+    const dueCount = numbers.filter(n => gapAnalysis.due.includes(n)).length;
+    confidence += dueCount * 2; // +2 por cada número debido
+    
+    // Bonus por patrones matemáticos
     const fibCount = numbers.filter(n => fibonacci.includes(n)).length;
-    if (fibCount > 0) confidence += 10;
-    if (fibCount > numbers.length * 0.5) confidence += 5;
+    const primeCount = numbers.filter(n => primes.includes(n)).length;
+    confidence += fibCount * 1.5; // +1.5 por Fibonacci
+    confidence += primeCount * 1; // +1 por primo
     
-    // Verificar distribución
-    const lowNumbers = numbers.filter(n => n <= 25).length;
-    const highNumbers = numbers.filter(n => n > 25).length;
+    // Bonus por distribución balanceada
+    const maxNum = Math.max(...numbers);
+    const lowNumbers = numbers.filter(n => n <= maxNum / 2).length;
+    const highNumbers = numbers.filter(n => n > maxNum / 2).length;
+    const evenNumbers = numbers.filter(n => n % 2 === 0).length;
+    const oddNumbers = numbers.filter(n => n % 2 !== 0).length;
     
-    if (Math.abs(lowNumbers - highNumbers) <= 1) confidence += 5;
+    if (Math.abs(lowNumbers - highNumbers) <= 1) confidence += 3;
+    if (Math.abs(evenNumbers - oddNumbers) <= 1) confidence += 2;
     
-    return Math.min(confidence, 90);
+    // Bonus por evitar números muy recientes
+    const recentCount = numbers.filter(n => gapAnalysis.recent.includes(n)).length;
+    if (recentCount <= 1) confidence += 2;
+    
+    return Math.min(confidence, 95); // Máximo 95% de confianza
   }
 }
 

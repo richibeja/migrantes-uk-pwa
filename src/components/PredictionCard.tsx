@@ -6,6 +6,7 @@ interface Prediction {
   id: string;
   lottery: string;
   numbers: number[];
+  bonusNumbers?: number[];
   confidence: number;
   nextDraw: string;
   createdAt: string;
@@ -54,7 +55,7 @@ export default function PredictionCard({ prediction, index }: PredictionCardProp
           
           <div className="mb-4">
             <p className="text-gray-300 mb-2">Números Recomendados:</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
               {prediction.numbers.map((number, numIndex) => (
                 <span
                   key={numIndex}
@@ -63,6 +64,19 @@ export default function PredictionCard({ prediction, index }: PredictionCardProp
                   {number.toString().padStart(2, '0')}
                 </span>
               ))}
+              {prediction.bonusNumbers && prediction.bonusNumbers.length > 0 && (
+                <>
+                  <span className="text-gray-400 text-xl mx-2">+</span>
+                  {prediction.bonusNumbers.map((bonus, bonusIndex) => (
+                    <span
+                      key={`bonus-${bonusIndex}`}
+                      className="bg-purple-500 text-white px-3 py-2 rounded-lg font-bold text-lg min-w-[3rem] text-center border-2 border-purple-400"
+                    >
+                      {bonus.toString().padStart(2, '0')}
+                    </span>
+                  ))}
+                </>
+              )}
             </div>
           </div>
 

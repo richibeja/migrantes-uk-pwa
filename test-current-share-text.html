@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Test - Texto Actual de Compartir</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .text-output {
+            background: #444;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-line;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 15px 0;
+            border-left: 4px solid #FFD700;
+        }
+        .test-button {
+            background: #FFD700;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #FFA500;
+        }
+        .language-toggle {
+            background: #4A90E2;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Test - Texto ACTUAL de Compartir</h1>
+        <p>Verifica exactamente qué texto está generando el sistema ahora mismo</p>
+        
+        <div>
+            <button class="language-toggle" onclick="setLanguage('es')">🇪🇸 Español</button>
+            <button class="language-toggle" onclick="setLanguage('en')">🇺🇸 English</button>
+            <span id="current-lang" style="color: #FFD700; margin-left: 15px;">Idioma actual: Español</span>
+        </div>
+        
+        <button class="test-button" onclick="generateCurrentShareText()">🎯 Generar Texto Actual</button>
+        <button class="test-button" onclick="copyCurrentText()">📋 Copiar Texto</button>
+        <button class="test-button" onclick="testWhatsApp()">📱 Probar WhatsApp</button>
+    </div>
+    
+    <div class="container">
+        <h3>📝 Texto Generado:</h3>
+        <div class="text-output" id="share-text-output">
+            Haz clic en "Generar Texto Actual" para ver el texto que está usando el sistema...
+        </div>
+    </div>
+    
+    <div class="container">
+        <h3>🔧 Información Técnica:</h3>
+        <div id="tech-info"></div>
+    </div>
+
+    <script>
+        let currentLanguage = 'es';
+        let currentShareText = '';
+        
+        // Función que replica exactamente la del sistema
+        function generateShareText(prediction, lottery, language = 'es') {
+            const numbers = prediction.numbers.join(', ');
+            const bonusNumbers = prediction.bonusNumbers ? ` + ${prediction.bonusNumbers.join(', ')}` : '';
+            const confidence = Math.round(prediction.confidence * 100);
+            const appUrl = 'https://gana-facil.vercel.app';
+            
+            if (language === 'es') {
+                return `¡Hola! 👋\n\n` +
+                       `Estoy usando una app increíble de IA que me está generando números de lotería con análisis matemático real. ` +
+                       `Los resultados han sido sorprendentes.\n\n` +
+                       `🎯 **${lottery} - Próximo sorteo:**\n` +
+                       `Números: ${numbers}${bonusNumbers}\n` +
+                       `Confianza del análisis: ${confidence}%\n\n` +
+                       `💰 **Mi propuesta:**\n` +
+                       `Te comparto estos números y si ganas algo, compartimos:\n` +
+                       `• Tú te quedas con el 85%\n` +
+                       `• Yo 15% por compartir la predicción\n` +
+                       `• ¡Ambos ganamos! 🤝\n\n` +
+                       `🤖 **Esta app es increíble** - analiza 200 sorteos históricos, usa 6 algoritmos matemáticos y APIs en tiempo real. ` +
+                       `Yo juego mis números y también los comparto porque tengo más chances de ganar.\n\n` +
+                       `**Tú no necesitas tenerla** - yo ya la tengo y me está dando resultados. ` +
+                       `Solo te comparto los números y jugamos juntos. 🍀\n\n` +
+                       `¿Te animas? Sin riesgo para ti.\n\n` +
+                       `PD: Si algún día te interesa, la app es: ${appUrl}`;
+            } else {
+                return `Hello! 👋\n\n` +
+                       `I'm using an incredible AI app that's generating lottery numbers with real mathematical analysis. ` +
+                       `The results have been amazing.\n\n` +
+                       `🎯 **${lottery} - Next draw:**\n` +
+                       `Numbers: ${numbers}${bonusNumbers}\n` +
+                       `Analysis confidence: ${confidence}%\n\n` +
+                       `💰 **My proposal:**\n` +
+                       `I'll share these numbers with you and if you win something, we share:\n` +
+                       `• You keep 85%\n` +
+                       `• I get 15% for sharing the prediction\n` +
+                       `• We both win! 🤝\n\n` +
+                       `🤖 **This app is incredible** - it analyzes 200 historical draws, uses 6 mathematical algorithms and real-time APIs. ` +
+                       `I play my numbers and also share them because I have more chances to win.\n\n` +
+                       `**You don't need to have it** - I already have it and it's giving me results. ` +
+                       `I just share the numbers and we play together. 🍀\n\n` +
+                       `Want to try? No risk for you.\n\n` +
+                       `PS: If you're ever interested, the app is: ${appUrl}`;
+            }
+        }
+        
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('current-lang').textContent = 
+                `Idioma actual: ${lang === 'es' ? 'Español' : 'English'}`;
+            
+            // Regenerar texto si ya hay uno
+            if (currentShareText) {
+                generateCurrentShareText();
+            }
+        }
+        
+        function generateCurrentShareText() {
+            // Predicción de ejemplo
+            const prediction = {
+                numbers: [17, 18, 31, 34, 55],
+                bonusNumbers: [3],
+                confidence: 0.85
+            };
+            
+            const lottery = 'Powerball';
+            
+            // Generar el texto exacto que debería usar el sistema
+            currentShareText = generateShareText(prediction, lottery, currentLanguage);
+            
+            // Mostrar el texto
+            document.getElementById('share-text-output').textContent = currentShareText;
+            
+            // Mostrar información técnica
+            updateTechInfo(prediction, lottery);
+        }
+        
+        function updateTechInfo(prediction, lottery) {
+            const info = `
+📊 Predicción de prueba:
+• Lotería: ${lottery}
+• Números principales: ${prediction.numbers.join(', ')}
+• Número bonus: ${prediction.bonusNumbers.join(', ')}
+• Confianza: ${Math.round(prediction.confidence * 100)}%
+• Idioma: ${currentLanguage}
+• Fecha: ${new Date().toLocaleString()}
+
+🔧 Función utilizada: generateShareText()
+📱 Misma función que usa AnbelChat.tsx
+✅ Texto actualizado según código actual
+            `;
+            
+            document.getElementById('tech-info').innerHTML = 
+                `<div style="background: #333; padding: 15px; border-radius: 8px; white-space: pre-line; font-family: monospace; font-size: 12px;">${info}</div>`;
+        }
+        
+        function copyCurrentText() {
+            if (!currentShareText) {
+                alert('Primero genera el texto');
+                return;
+            }
+            
+            navigator.clipboard.writeText(currentShareText).then(() => {
+                alert('✅ Texto copiado al portapapeles!');
+            });
+        }
+        
+        function testWhatsApp() {
+            if (!currentShareText) {
+                alert('Primero genera el texto');
+                return;
+            }
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(currentShareText)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Auto-generar al cargar
+        window.onload = function() {
+            generateCurrentShareText();
+        };
+    </script>
+</body>
+</html>

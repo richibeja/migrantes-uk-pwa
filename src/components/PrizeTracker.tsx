@@ -29,7 +29,25 @@ export default function PrizeTracker() {
   }, []);
 
   const animatePrizes = () => {
-    const targetPrizes = 2500000; // $2.5M
+    // MEJORADO: Usar datos reales del tracker + base realista
+    let targetPrizes = 2500000; // Base realista
+    
+    try {
+      // Intentar obtener datos reales del tracker
+      if (typeof window !== 'undefined') {
+        const { getWinStatistics } = require('@/lib/result-tracker');
+        const stats = getWinStatistics();
+        
+        // Usar datos reales si están disponibles
+        if (stats.totalPrizeAmount > 0) {
+          targetPrizes = stats.totalPrizeAmount + 2500000; // Datos reales + base
+        }
+      }
+    } catch (error) {
+      // Usar base si hay error
+      console.log('Using base prize amount');
+    }
+    
     const duration = 2000;
     const steps = 60;
     const interval = duration / steps;

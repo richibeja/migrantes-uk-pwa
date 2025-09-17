@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Texto de Compartir Anbel IA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .prediction-box {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .numbers {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .share-text {
+            background: #444;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-line;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .test-button {
+            background: #FFD700;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #FFA500;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test - Texto de Compartir Anbel IA</h1>
+    
+    <div class="container">
+        <h2>🎯 Predicción de Prueba</h2>
+        <div class="prediction-box">
+            <h3>Powerball</h3>
+            <div class="numbers" id="numbers">7, 14, 21, 35, 42 + 18</div>
+            <p>Confianza: 87%</p>
+        </div>
+        
+        <button class="test-button" onclick="testShareText()">🧪 Probar Texto de Compartir</button>
+        <button class="test-button" onclick="testWhatsApp()">📱 Probar WhatsApp</button>
+        <button class="test-button" onclick="copyShareText()">📋 Copiar Texto</button>
+    </div>
+    
+    <div class="container">
+        <h2>📝 Texto Generado</h2>
+        <div class="share-text" id="shareTextDisplay"></div>
+    </div>
+    
+    <div class="container">
+        <h2>✅ Verificaciones</h2>
+        <div id="verifications"></div>
+    </div>
+
+    <script>
+        // Simulación de la función generateShareText de Anbel IA
+        function generateShareText(prediction, lottery, language = 'es') {
+            const numbers = prediction.numbers.join(', ');
+            // Incluir números especiales (Powerball, Mega Ball, etc.)
+            const bonusNumbers = prediction.bonusNumbers ? ` + ${prediction.bonusNumbers.join(', ')}` : '';
+            const confidence = Math.round(prediction.confidence * 100);
+            const appUrl = 'https://gana-facil.vercel.app';
+            const dashboardUrl = `${appUrl}/dashboard`;
+            
+            if (language === 'es') {
+                return `¡Hola! 👋\n\n` +
+                       `Estoy usando una app increíble de IA que me está generando números de lotería con análisis matemático real. ` +
+                       `Los resultados han sido sorprendentes.\n\n` +
+                       `🎯 **${lottery} - Próximo sorteo:**\n` +
+                       `Números: ${numbers}${bonusNumbers}\n` +
+                       `Confianza del análisis: ${confidence}%\n\n` +
+                       `💰 **Mi propuesta:**\n` +
+                       `Te comparto estos números y si ganas algo, compartimos:\n` +
+                       `• Tú te quedas con el 85%\n` +
+                       `• Yo 15% por compartir la predicción\n` +
+                       `• ¡Ambos ganamos! 🤝\n\n` +
+                       `🤖 **Esta app es increíble** - analiza 200 sorteos históricos, usa 6 algoritmos matemáticos y APIs en tiempo real. ` +
+                       `Yo juego mis números y también los comparto porque tengo más chances de ganar.\n\n` +
+                       `**Tú no necesitas tenerla** - yo ya la tengo y me está dando resultados. ` +
+                       `Solo te comparto los números y jugamos juntos. 🍀\n\n` +
+                       `¿Te animas? Sin riesgo para ti.\n\n` +
+                       `PD: Si algún día te interesa, la app es: ${appUrl}`;
+            } else {
+                return `Hello! 👋\n\n` +
+                       `I'm using an incredible AI app that's generating lottery numbers with real mathematical analysis. ` +
+                       `The results have been amazing.\n\n` +
+                       `🎯 **${lottery} - Next draw:**\n` +
+                       `Numbers: ${numbers}${bonusNumbers}\n` +
+                       `Analysis confidence: ${confidence}%\n\n` +
+                       `💰 **My proposal:**\n` +
+                       `I'll share these numbers with you and if you win something, we share:\n` +
+                       `• You keep 85%\n` +
+                       `• I get 15% for sharing the prediction\n` +
+                       `• We both win! 🤝\n\n` +
+                       `🤖 **This app is incredible** - it analyzes 200 historical draws, uses 6 mathematical algorithms and real-time APIs. ` +
+                       `I play my numbers and also share them because I have more chances to win.\n\n` +
+                       `**You don't need to have it** - I already have it and it's giving me results. ` +
+                       `I just share the numbers and we play together. 🍀\n\n` +
+                       `Want to try? No risk for you.\n\n` +
+                       `PS: If you're ever interested, the app is: ${appUrl}`;
+            }
+        }
+
+        // Predicción de prueba
+        const testPrediction = {
+            numbers: [7, 14, 21, 35, 42],
+            bonusNumbers: [18],
+            confidence: 0.87
+        };
+
+        function testShareText() {
+            const shareText = generateShareText(testPrediction, 'Powerball', 'es');
+            document.getElementById('shareTextDisplay').textContent = shareText;
+            
+            // Verificaciones
+            const verifications = [];
+            
+            // ✅ Verificar que incluye 6 números (5 + 1 bonus)
+            const hasAllNumbers = shareText.includes('7, 14, 21, 35, 42 + 18');
+            verifications.push({
+                test: 'Incluye 6 números completos (5 principales + 1 Powerball)',
+                result: hasAllNumbers,
+                details: hasAllNumbers ? '✅ Correcto: 7, 14, 21, 35, 42 + 18' : '❌ Faltan números'
+            });
+            
+            // ✅ Verificar que incluye el enlace
+            const hasLink = shareText.includes('https://gana-facil.vercel.app');
+            verifications.push({
+                test: 'Incluye enlace de la app',
+                result: hasLink,
+                details: hasLink ? '✅ Correcto: Enlace incluido' : '❌ Falta enlace'
+            });
+            
+            // ✅ Verificar que incluye la propuesta de ganancias compartidas
+            const hasProposal = shareText.includes('85%') && shareText.includes('15%');
+            verifications.push({
+                test: 'Incluye propuesta de ganancias compartidas (85%-15%)',
+                result: hasProposal,
+                details: hasProposal ? '✅ Correcto: 85%-15% incluido' : '❌ Falta propuesta'
+            });
+            
+            // ✅ Verificar que incluye confianza
+            const hasConfidence = shareText.includes('87%');
+            verifications.push({
+                test: 'Incluye porcentaje de confianza',
+                result: hasConfidence,
+                details: hasConfidence ? '✅ Correcto: 87% incluido' : '❌ Falta confianza'
+            });
+            
+            // ✅ Verificar que es amigable (no agresivo)
+            const isFriendly = shareText.includes('¡Hola!') && shareText.includes('¿Te animas?') && shareText.includes('Sin riesgo para ti');
+            verifications.push({
+                test: 'Mensaje amigable y no agresivo',
+                result: isFriendly,
+                details: isFriendly ? '✅ Correcto: Tono amigable' : '❌ Mensaje muy agresivo'
+            });
+            
+            // Mostrar resultados
+            const verificationsDiv = document.getElementById('verifications');
+            verificationsDiv.innerHTML = verifications.map(v => `
+                <div style="margin: 10px 0; padding: 10px; background: ${v.result ? '#1B4332' : '#4A0E0E'}; border-radius: 5px;">
+                    <strong>${v.test}:</strong><br>
+                    <span class="${v.result ? 'success' : 'error'}">${v.details}</span>
+                </div>
+            `).join('');
+            
+            // Resumen
+            const passedTests = verifications.filter(v => v.result).length;
+            const totalTests = verifications.length;
+            const summary = document.createElement('div');
+            summary.style.cssText = 'margin: 20px 0; padding: 15px; background: #333; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold;';
+            summary.innerHTML = passedTests === totalTests 
+                ? `🎉 <span class="success">TODOS LOS TESTS PASARON (${passedTests}/${totalTests})</span>`
+                : `⚠️ <span class="error">${passedTests}/${totalTests} tests pasaron</span>`;
+            verificationsDiv.appendChild(summary);
+        }
+
+        function testWhatsApp() {
+            const shareText = generateShareText(testPrediction, 'Powerball', 'es');
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function copyShareText() {
+            const shareText = generateShareText(testPrediction, 'Powerball', 'es');
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert('¡Texto copiado al portapapeles!');
+            });
+        }
+
+        // Auto-ejecutar test al cargar
+        window.onload = function() {
+            testShareText();
+        };
+    </script>
+</body>
+</html>

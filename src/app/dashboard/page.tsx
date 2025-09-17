@@ -51,7 +51,8 @@ export default function Dashboard() {
       {
         lottery: 'Powerball',
         numbers: [12, 24, 36, 48, 60],
-        powerball: 15,
+        bonusNumbers: [15],
+        powerball: 15, // Mantener para compatibilidad
         confidence: 96.8,
         algorithm: 'Anbel Ultra AI',
         nextDraw: '2024-01-15'
@@ -59,7 +60,8 @@ export default function Dashboard() {
       {
         lottery: 'Mega Millions',
         numbers: [7, 14, 21, 28, 35],
-        megaBall: 9,
+        bonusNumbers: [9],
+        megaBall: 9, // Mantener para compatibilidad
         confidence: 94.2,
         algorithm: 'Anbel Ultra AI',
         nextDraw: '2024-01-16'
@@ -226,12 +228,22 @@ export default function Dashboard() {
                         {num}
                       </span>
                     ))}
-                    {prediction.powerball && (
+                    {/* Mostrar números bonus de forma estandarizada */}
+                    {prediction.bonusNumbers && prediction.bonusNumbers.map((bonus: number, i: number) => (
+                      <span key={`bonus-${i}`} className={`text-white px-2 py-1 rounded text-sm font-bold ${
+                        prediction.lottery === 'Powerball' ? 'bg-red-500' : 
+                        prediction.lottery === 'Mega Millions' ? 'bg-blue-500' : 'bg-purple-500'
+                      }`}>
+                        {bonus}
+                      </span>
+                    ))}
+                    {/* Compatibilidad con formato antiguo */}
+                    {!prediction.bonusNumbers && prediction.powerball && (
                       <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
                         {prediction.powerball}
                       </span>
                     )}
-                    {prediction.megaBall && (
+                    {!prediction.bonusNumbers && prediction.megaBall && (
                       <span className="bg-blue-500 text-white px-2 py-1 rounded text-sm font-bold">
                         {prediction.megaBall}
                       </span>

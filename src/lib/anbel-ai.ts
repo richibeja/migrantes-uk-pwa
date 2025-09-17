@@ -3298,38 +3298,40 @@ class AnbelAI {
     
     if (language === 'es') {
       return `¡Hola! 👋\n\n` +
-             `Tengo una herramienta de IA que me está ayudando mucho con predicciones de lotería. ` +
-             `Me gustaría compartir contigo estos números que acabo de generar.\n\n` +
+             `Estoy usando una app increíble de IA que me está generando números de lotería con análisis matemático real. ` +
+             `Los resultados han sido sorprendentes.\n\n` +
              `🎯 **${lottery} - Próximo sorteo:**\n` +
              `Números: ${numbers}${bonusNumbers}\n` +
              `Confianza del análisis: ${confidence}%\n\n` +
              `💰 **Mi propuesta:**\n` +
-             `Si juegas estos números y ganas algo, compartimos:\n` +
+             `Te comparto estos números y si ganas algo, compartimos:\n` +
              `• Tú te quedas con el 85%\n` +
              `• Yo 15% por compartir la predicción\n` +
              `• ¡Ambos ganamos! 🤝\n\n` +
-             `🤖 La IA analiza patrones históricos y matemáticas reales. ` +
-             `Me ha funcionado bien hasta ahora.\n\n` +
-             `¿Te animas a intentarlo juntos? Sin riesgo para ti. ` +
-             `Si no pasa nada, no perdemos nada. 🍀\n\n` +
-             `¿Qué opinas?`;
+             `🤖 **Esta app es increíble** - analiza 200 sorteos históricos, usa 6 algoritmos matemáticos y APIs en tiempo real. ` +
+             `Yo juego mis números y también los comparto porque tengo más chances de ganar.\n\n` +
+             `**Tú no necesitas tenerla** - yo ya la tengo y me está dando resultados. ` +
+             `Solo te comparto los números y jugamos juntos. 🍀\n\n` +
+             `¿Te animas? Sin riesgo para ti.\n\n` +
+             `PD: Si algún día te interesa, la app es: ${appUrl}`;
     } else {
       return `Hello! 👋\n\n` +
-             `I have an AI tool that's been helping me a lot with lottery predictions. ` +
-             `I'd like to share these numbers I just generated with you.\n\n` +
+             `I'm using an incredible AI app that's generating lottery numbers with real mathematical analysis. ` +
+             `The results have been amazing.\n\n` +
              `🎯 **${lottery} - Next draw:**\n` +
              `Numbers: ${numbers}${bonusNumbers}\n` +
              `Analysis confidence: ${confidence}%\n\n` +
              `💰 **My proposal:**\n` +
-             `If you play these numbers and win something, we share:\n` +
+             `I'll share these numbers with you and if you win something, we share:\n` +
              `• You keep 85%\n` +
              `• I get 15% for sharing the prediction\n` +
              `• We both win! 🤝\n\n` +
-             `🤖 The AI analyzes historical patterns and real mathematics. ` +
-             `It's been working well for me so far.\n\n` +
-             `Want to try it together? No risk for you. ` +
-             `If nothing happens, we lose nothing. 🍀\n\n` +
-             `What do you think?`;
+             `🤖 **This app is incredible** - it analyzes 200 historical draws, uses 6 mathematical algorithms and real-time APIs. ` +
+             `I play my numbers and also share them because I have more chances to win.\n\n` +
+             `**You don't need to have it** - I already have it and it's giving me results. ` +
+             `I just share the numbers and we play together. 🍀\n\n` +
+             `Want to try? No risk for you.\n\n` +
+             `PS: If you're ever interested, the app is: ${appUrl}`;
     }
   }
 
