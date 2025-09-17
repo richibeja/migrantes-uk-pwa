@@ -714,7 +714,7 @@ export const AnbelChat: React.FC = () => {
       .replace(/Números:\s*([0-9, +]+)/g, (match, numbers) => {
         // Convertir números a palabras para evitar deletreo
         const processedNumbers = numbers
-          .replace(/\b(\d+)\b/g, (num) => {
+          .replace(/\b(\d+)\b/g, (num: string) => {
             const n = parseInt(num);
             if (n < 10) return `número ${n}`;
             if (n < 100) return `${n}`;
@@ -1755,55 +1755,122 @@ export const AnbelChat: React.FC = () => {
                  </div>
                </div>
                
-               {/* Input y botones */}
-               <div className="flex items-center">
-                 <input
-                   type="text"
-                   placeholder={currentLanguage === 'es' ? 'Pregunta a Anbel IA...' : 'Ask Anbel AI...'}
-                   value={inputText}
-                   onChange={(e) => setInputText(e.target.value)}
-                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                   disabled={isProcessing || isListening}
-                   className="flex-1 bg-transparent text-white placeholder-white/70 border border-white/30 rounded-lg px-3 py-2 mr-2 focus:outline-none focus:border-white/50"
-                 />
-                 
-                 {/* Botón de micrófono en el input */}
-                 {recognitionSupported && (
+               {/* Input y botones - Mobile Optimized */}
+               <div className="space-y-3">
+                 {/* Fila 1: Input principal */}
+                 <div className="flex items-center">
+                   <input
+                     type="text"
+                     placeholder={currentLanguage === 'es' ? 'Pregunta a Anbel IA...' : 'Ask Anbel AI...'}
+                     value={inputText}
+                     onChange={(e) => setInputText(e.target.value)}
+                     onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                     disabled={isProcessing || isListening}
+                     className="flex-1 bg-transparent text-white placeholder-white/70 border border-white/30 rounded-lg px-3 py-2 focus:outline-none focus:border-white/50"
+                   />
+                   
+                   {/* Botón de enviar - siempre visible */}
                    <button
-                     onClick={toggleListening}
-                     disabled={isProcessing}
-                     className={`p-2 rounded-lg mr-2 transition-colors ${
-                       isListening 
-                         ? 'bg-red-500 hover:bg-red-600 text-white' 
-                         : 'bg-white/20 hover:bg-white/30 text-white'
-                     } disabled:opacity-50`}
-                     title={isListening ? 'Detener escucha' : 'Hablar'}
+                     onClick={handleSendMessage}
+                     disabled={isProcessing || !inputText.trim() || isListening}
+                     className="bg-gradient-to-r from-pink-500 to-orange-500 text-white p-2 rounded-lg hover:from-orange-500 hover:to-pink-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed ml-2"
                    >
-                     {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                     <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                    </button>
-                 )}
+                 </div>
                  
-                 {/* Botón de cámara para analizar tickets */}
-                 <button
-                   onClick={openImageSelector}
-                   disabled={isProcessing || isAnalyzingImage}
-                   className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg mr-2 transition-colors disabled:opacity-50"
-                   title={currentLanguage === 'es' ? 'Analizar ticket de lotería' : 'Analyze lottery ticket'}
-                 >
-                   {isAnalyzingImage ? (
-                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                   ) : (
-                     <Camera className="w-4 h-4" />
+                 {/* Fila 2: Botones de herramientas - Mobile Optimized */}
+                 <div className="flex items-center justify-center gap-2 flex-wrap">
+                   {/* Botón de micrófono */}
+                   {recognitionSupported && (
+                     <button
+                       onClick={toggleListening}
+                       disabled={isProcessing}
+                       className={`p-2 rounded-lg transition-colors flex items-center gap-1 text-xs ${
+                         isListening 
+                           ? 'bg-red-500 hover:bg-red-600 text-white' 
+                           : 'bg-white/20 hover:bg-white/30 text-white'
+                       } disabled:opacity-50`}
+                       title={isListening ? 'Detener escucha' : 'Hablar'}
+                     >
+                       {isListening ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
+                       <span className="hidden sm:inline">{isListening ? 'Stop' : 'Mic'}</span>
+                     </button>
                    )}
-                 </button>
-                 
-                 <button
-                   onClick={handleSendMessage}
-                   disabled={isProcessing || !inputText.trim() || isListening}
-                   className="bg-gradient-to-r from-pink-500 to-orange-500 text-white p-2 rounded-lg hover:from-orange-500 hover:to-pink-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                 >
-                   <Send className="w-5 h-5" />
-                 </button>
+                   
+                   {/* Botón de cámara */}
+                   <button
+                     onClick={openImageSelector}
+                     disabled={isProcessing || isAnalyzingImage}
+                     className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-1 text-xs"
+                     title={currentLanguage === 'es' ? 'Analizar ticket' : 'Analyze ticket'}
+                   >
+                     {isAnalyzingImage ? (
+                       <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                     ) : (
+                       <Camera className="w-3 h-3" />
+                     )}
+                     <span className="hidden sm:inline">Ticket</span>
+                   </button>
+                   
+                   {/* Botón de idioma */}
+                   <button
+                     onClick={toggleLanguage}
+                     className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg transition-colors flex items-center gap-1 text-xs"
+                     title={`Cambiar a ${currentLanguage === 'es' ? 'English' : 'Español'}`}
+                   >
+                     <Languages className="w-3 h-3" />
+                     <span className="font-bold">
+                       {currentLanguage === 'es' ? 'EN' : 'ES'}
+                     </span>
+                   </button>
+                   
+                   {/* Botón de detener habla */}
+                   {isSpeaking && (
+                     <button
+                       onClick={stopSpeaking}
+                       className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors flex items-center gap-1 text-xs"
+                       title="Detener habla"
+                     >
+                       <VolumeX className="w-3 h-3" />
+                       <span className="hidden sm:inline">Stop</span>
+                     </button>
+                   )}
+                   
+                   {/* Botón de pausar conversación */}
+                   <button
+                     onClick={toggleConversation}
+                     className={`p-2 rounded-lg transition-colors flex items-center gap-1 text-xs ${
+                       conversationPaused 
+                         ? 'bg-green-500 hover:bg-green-600 text-white' 
+                         : 'bg-yellow-500 hover:bg-yellow-600 text-white'
+                     }`}
+                     title={conversationPaused ? 'Reanudar' : 'Pausar'}
+                   >
+                     {conversationPaused ? (
+                       <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                       </svg>
+                     ) : (
+                       <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                       </svg>
+                     )}
+                     <span className="hidden sm:inline">{conversationPaused ? 'Play' : 'Pause'}</span>
+                   </button>
+                   
+                   {/* Botón de reiniciar */}
+                   <button
+                     onClick={resetConversation}
+                     className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded-lg transition-colors flex items-center gap-1 text-xs"
+                     title="Reiniciar"
+                   >
+                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                       <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+                     </svg>
+                     <span className="hidden sm:inline">Reset</span>
+                   </button>
+                 </div>
                </div>
                
                {/* Instrucciones */}
