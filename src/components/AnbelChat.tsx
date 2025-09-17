@@ -698,11 +698,20 @@ export const AnbelChat: React.FC = () => {
       .replace(/\bUS\b/g, 'Estados Unidos')
       .replace(/\bVIP\b/g, 'vip')
       .replace(/\bAPI\b/g, 'api')
+      // Reemplazar palabras que se deletrean mal
+      .replace(/\bPowerball\b/g, 'Power ball')
+      .replace(/\bMega Millions\b/g, 'Mega Millones')
+      .replace(/\bCash4Life\b/g, 'Cash for Life')
+      .replace(/\bAnbel\b/g, 'Anbel')
+      // Evitar que lea porcentajes como letras
+      .replace(/(\d+)%/g, '$1 por ciento')
       // Evitar que lea números como letras individuales
       .replace(/\b([0-9]+)\b/g, (match) => {
         const num = parseInt(match);
-        if (num < 100) return match; // Números pequeños se leen bien
-        return match.split('').join(' '); // Separar dígitos grandes
+        if (num < 10) return match; // Números de 1 dígito se leen bien
+        if (num < 100) return match; // Números de 2 dígitos se leen bien
+        // Para números grandes, agregar pausas
+        return match.replace(/(\d)(?=\d)/g, '$1 ');
       });
     
     return cleanText;
