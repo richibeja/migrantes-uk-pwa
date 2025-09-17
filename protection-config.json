@@ -1,0 +1,40 @@
+{
+  "project": "GanaFácil - Anbel IA",
+  "version": "1.0.0",
+  "protection": {
+    "enabled": true,
+    "autoBackup": true,
+    "integrityCheck": true,
+    "restoreOnError": true
+  },
+  "files": {
+    "critical": [
+      "src/components/AnbelChat.tsx",
+      "src/lib/anbel-ai.ts",
+      "src/lib/gemini-ai.ts",
+      "src/config/gemini.ts",
+      "src/lib/lotteryConfig.ts",
+      "src/lib/us-lottery-apis.ts",
+      "src/lib/lottery-apis-real.ts",
+      "src/app/dashboard/page.tsx",
+      "src/app/page.tsx",
+      "vercel.json",
+      "package.json",
+      "next.config.js"
+    ],
+    "backupDir": "backups",
+    "protectionFile": "backups/protection-data.json"
+  },
+  "commands": {
+    "verify": "node scripts/verify-integrity.js",
+    "restore": "node scripts/restore-project.js",
+    "lock": "node scripts/lock-project.js",
+    "quickCheck": "node scripts/quick-check.js"
+  },
+  "status": {
+    "locked": true,
+    "lastBackup": "2025-09-17T02:07:09.010Z",
+    "filesProtected": 12,
+    "integrityVerified": true
+  }
+}
