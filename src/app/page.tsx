@@ -199,140 +199,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Interactive Demo Section */}
+      {/* Call to Action Simple */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Experimenta Anbel IA Ahora</h2>
-          <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed">
-            Prueba nuestras capacidades de predicción sin registrarte. Genera predicciones de demostración y descubre el poder de la inteligencia artificial.
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">¿Listo para empezar?</h2>
+          <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 leading-relaxed">
+            Activa tu cuenta y comienza a usar Anbel IA para generar tus predicciones de lotería.
           </p>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6">
-              <Zap className="h-8 w-8 sm:h-12 sm:w-12 text-yellow-400 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Predicciones Instantáneas</h3>
-              <p className="text-sm sm:text-base text-gray-300">Genera predicciones en tiempo real con nuestros algoritmos avanzados</p>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6">
-              <BarChart3 className="h-8 w-8 sm:h-12 sm:w-12 text-green-400 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Análisis Detallado</h3>
-              <p className="text-sm sm:text-base text-gray-300">Obtén explicaciones detalladas del razonamiento de cada predicción</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
-              <Brain className="h-8 w-8 sm:h-12 sm:w-12 text-blue-400 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Múltiples Algoritmos</h3>
-              <p className="text-sm sm:text-base text-gray-300">Prueba diferentes algoritmos: Anbel, Probabilístico e Histórico</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <a href="/demo-ia" className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-purple-600 rounded-full text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-              <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Probar Demo Interactiva</span>
-              <span className="sm:hidden">Demo Interactiva</span>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center max-w-lg mx-auto">
+            <a href="/activate" className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-purple-600 rounded-full text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+              <Crown className="h-4 w-4 sm:h-5 sm:w-5" />
+              Activar Cuenta
             </a>
             <a href="/activate-whatsapp" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all active:scale-95 flex items-center justify-center gap-2">
               <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Activar con WhatsApp</span>
-              <span className="sm:hidden">Activar WhatsApp</span>
+              WhatsApp
             </a>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Simplificado */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-800 via-blue-800 to-indigo-900" id="features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-white">Potenciado por Anbel IA</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-white">¿Qué hace GanaFácil?</h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 border-2 border-blue-300">
-              <ChartLine className="h-12 w-12 sm:h-16 sm:w-16 text-blue-600 mx-auto mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🧠 El Poder de Anbel IA</h3>
-              <div className="space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
-                <p className="font-semibold text-blue-800">✨ Lo que encontrarás en Anbel:</p>
-                <ul className="text-left space-y-2">
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">Análisis de 200+ sorteos históricos</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">6 algoritmos matemáticos avanzados</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">Predicciones con explicación detallada</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">Análisis de tickets con IA</span>
-                  </li>
-                </ul>
-                <p className="text-blue-600 font-semibold mt-3">
-                  🎯 ¡Descubre el poder real de la IA!
-                </p>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <Brain className="h-12 w-12 sm:h-16 sm:w-16 text-blue-600 mx-auto mb-4 sm:mb-6" />
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🤖 Anbel IA</h3>
+              <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                Tu asistente inteligente que genera predicciones para loterías de USA como Powerball y Mega Millions. 
+                <strong className="text-blue-600"> Habla contigo en español e inglés</strong> y te ayuda con todo lo que necesites.
+              </p>
             </div>
             
-            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 border-2 border-purple-300">
-              <Bot className="h-12 w-12 sm:h-16 sm:w-16 text-purple-600 mx-auto mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🤖 Chat Inteligente</h3>
-              <div className="space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
-                <p className="font-semibold text-purple-800">💬 Anbel te ayuda en todo:</p>
-                <ul className="text-left space-y-2">
-                  <li className="flex items-start">
-                    <span className="text-purple-500 mr-2">•</span>
-                    <span className="text-gray-700">Responde en español e inglés</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-purple-500 mr-2">•</span>
-                    <span className="text-gray-700">Explica cada predicción paso a paso</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-purple-500 mr-2">•</span>
-                    <span className="text-gray-700">Analiza tus tickets subidos</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-purple-500 mr-2">•</span>
-                    <span className="text-gray-700">Te guía en el uso de la app</span>
-                  </li>
-                </ul>
-                <p className="text-purple-600 font-semibold mt-3">
-                  🗣️ ¡Habla con la IA más avanzada!
-                </p>
-              </div>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <Target className="h-12 w-12 sm:h-16 sm:w-16 text-green-600 mx-auto mb-4 sm:mb-6" />
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🎯 Fácil de Usar</h3>
+              <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                Solo tienes que pedirle a Anbel IA los números que necesites. 
+                <strong className="text-green-600"> También puede analizar tus tickets</strong> para ver si ganaste.
+              </p>
             </div>
-            
-            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 sm:col-span-2 lg:col-span-1 border-2 border-green-300">
-              <Bolt className="h-12 w-12 sm:h-16 sm:w-16 text-green-600 mx-auto mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">⚡ Datos en Vivo</h3>
-              <div className="space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
-                <p className="font-semibold text-green-800">🔄 Información actualizada:</p>
-                <ul className="text-left space-y-2">
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">APIs de loterías en tiempo real</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">Análisis de jackpots actuales</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">Horarios de sorteos precisos</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700">Predicciones con datos frescos</span>
-                  </li>
-                </ul>
-                <p className="text-green-600 font-semibold mt-3">
-                  📊 ¡Datos reales, no simulados!
-                </p>
-              </div>
+          </div>
+          
+          <div className="text-center mt-8 sm:mt-12">
+            <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl sm:rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto">
+              <h4 className="text-lg sm:text-xl font-bold text-white mb-3">✨ ¡Es así de simple!</h4>
+              <p className="text-white/90 text-sm sm:text-base">
+                1. Activa tu cuenta → 2. Habla con Anbel IA → 3. Recibe tus predicciones → 4. ¡Juega y gana!
+              </p>
             </div>
           </div>
         </div>
@@ -473,87 +391,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white stats" id="stats">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12">Resultados Comprobados</h2>
+      {/* Simple Info Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white" id="info">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12">¿Por qué elegir GanaFácil?</h2>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16">
-            <div className="p-4 sm:p-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">94.5%</div>
-              <div className="text-sm sm:text-base lg:text-lg opacity-90">Precisión del algoritmo Anbel</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+              <h3 className="text-xl font-bold mb-4 text-yellow-400">🤖 Anbel IA</h3>
+              <p className="text-blue-100">
+                Tu asistente personal que habla contigo en español e inglés. 
+                Te ayuda con predicciones, análisis de tickets y responde todas tus preguntas.
+              </p>
             </div>
             
-            <div className="p-4 sm:p-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">1,240+</div>
-              <div className="text-sm sm:text-base lg:text-lg opacity-90">Predicciones exitosas</div>
-            </div>
-            
-            <div className="p-4 sm:p-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">4</div>
-              <div className="text-sm sm:text-base lg:text-lg opacity-90">Algoritmos integrados</div>
-            </div>
-            
-            <div className="p-4 sm:p-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">98%</div>
-              <div className="text-sm sm:text-base lg:text-lg opacity-90">Satisfacción de usuarios</div>
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+              <h3 className="text-xl font-bold mb-4 text-green-400">🎯 Loterías USA</h3>
+              <p className="text-blue-100">
+                Especializado en las principales loterías de Estados Unidos: 
+                Powerball, Mega Millions, Cash4Life y más.
+              </p>
             </div>
           </div>
-
-          {/* Testimonials */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/20">
-              <div className="flex items-center mb-3 sm:mb-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold text-lg sm:text-xl">
-                  M
-                </div>
-                <div className="ml-3 sm:ml-4">
-                  <h4 className="font-bold text-base sm:text-lg">María González</h4>
-                  <div className="flex text-yellow-400 text-sm sm:text-base">
-                    ⭐⭐⭐⭐⭐
-                  </div>
-                </div>
-              </div>
-              <p className="text-blue-100 italic text-sm sm:text-base leading-relaxed">
-                "¡Increíble! GanaFácil me ayudó a ganar $2,500 en Powerball. 
-                Sus predicciones son muy precisas y fáciles de entender."
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center text-black font-bold text-xl">
-                  J
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-lg">Juan Pérez</h4>
-                  <div className="flex text-yellow-400">
-                    ⭐⭐⭐⭐⭐
-                  </div>
-                </div>
-              </div>
-              <p className="text-blue-100 italic">
-                "La IA de Anbel es impresionante. He estado usando la app 
-                por 3 meses y ya recuperé mi inversión 10 veces."
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center text-black font-bold text-xl">
-                  A
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-lg">Ana Rodríguez</h4>
-                  <div className="flex text-yellow-400">
-                    ⭐⭐⭐⭐⭐
-                  </div>
-                </div>
-              </div>
-              <p className="text-blue-100 italic">
-                "Me encanta la interfaz y lo fácil que es usar. 
-                Las notificaciones me mantienen al día con los mejores números."
-              </p>
+          
+          <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl p-6 sm:p-8 border border-white/20">
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">✨ ¡Comienza ahora!</h3>
+            <p className="text-blue-100 mb-6">
+              Activa tu cuenta y empieza a usar Anbel IA para generar tus predicciones. 
+              Es fácil, rápido y funciona en cualquier dispositivo.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+              <a href="/activate" className="px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-gray-100 transition-all">
+                Activar Cuenta
+              </a>
+              <a href="/activate-whatsapp" className="px-6 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all">
+                WhatsApp
+              </a>
             </div>
           </div>
         </div>

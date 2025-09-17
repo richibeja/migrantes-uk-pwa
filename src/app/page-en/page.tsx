@@ -49,47 +49,56 @@ export default function PageEn() {
         </div>
       </header>
 
-      {/* Features Section */}
+      {/* Features Section - Simplified */}
       <section className="py-20 bg-white/5 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Revolutionary Features
+              What does GanaFácil do?
             </h2>
             <p className="text-xl text-blue-100">
-              Powered by the most advanced AI technology
+              Simple and powerful lottery predictions with AI
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6">
                 <Brain className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Mega Intelligence</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">🤖 Anbel AI</h3>
               <p className="text-blue-100">
-                6 advanced ML algorithms working together to provide the most accurate predictions
+                Your intelligent assistant that generates predictions for US lotteries like Powerball and Mega Millions. 
+                <strong className="text-blue-300"> Speaks with you in Spanish and English</strong> and helps you with everything you need.
               </p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <MessageCircle className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Smart Chat</h3>
-              <p className="text-blue-100">
-                Conversational AI that understands and responds in multiple languages
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6">
                 <Target className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Real-time Predictions</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">🎯 Easy to Use</h3>
               <p className="text-blue-100">
-                Get instant predictions with 96.8% accuracy for 15+ lotteries worldwide
+                Just ask Anbel AI for the numbers you need. 
+                <strong className="text-green-300"> It can also analyze your tickets</strong> to see if you won.
               </p>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl p-8 border border-white/20">
+              <h4 className="text-2xl font-bold text-white mb-4">✨ It's that simple!</h4>
+              <p className="text-blue-100 mb-6">
+                1. Activate your account → 2. Talk to Anbel AI → 3. Get your predictions → 4. Play and win!
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <a href="/activate-user-en" className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all">
+                  Activate Account
+                </a>
+                <a href="/activate-whatsapp-en" className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all">
+                  WhatsApp
+                </a>
+              </div>
             </div>
           </div>
         </div>
