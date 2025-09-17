@@ -638,16 +638,38 @@ export const AnbelChat: React.FC = () => {
    * 🔊 HABLAR RESPUESTA
    */
   /**
-   * 🧹 LIMPIAR EMOTICONES PARA VOZ
+   * 🧹 LIMPIAR EMOTICONES PARA VOZ - VERSIÓN MEJORADA
    */
   const cleanTextForSpeech = (text: string): string => {
-    // Remover emoticones y caracteres especiales
+    // Función más robusta para remover emojis
     return text
+      // Remover emojis usando regex más amplio
+      .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
+      .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Misc Symbols and Pictographs
+      .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport and Map
+      .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '') // Regional indicator symbols
+      .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Miscellaneous symbols
+      .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Dingbats
+      .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols and Pictographs
+      .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
+      .replace(/[\u{1F018}-\u{1F0FF}]/gu, '') // Playing Cards
+      .replace(/[\u{1F200}-\u{1F2FF}]/gu, '') // Enclosed Ideographic Supplement
+      // Remover emojis específicos que podrían estar causando problemas
       .replace(/[🔥🎯💰🧠🚀🎉🎲💬📱🏆⭐🌟💎🎊🎈🎁🎀🎂🎃🎄🎆🎇🎈🎉🎊🎋🎌🎍🎎🎏🎐🎑🎒🎓🎖🎗🎙🎚🎛🎜🎝🎞🎟🎠🎡🎢🎣🎤🎥🎦🎧🎨🎩🎪🎫🎬🎭🎮🎯🎰🎱🎲🎳🎴🎵🎶🎷🎸🎹🎺🎻🎼🎽🎾🎿🏀🏁🏂🏃🏄🏅🏆🏇🏈🏉🏊🏋🏌🏍🏎🏏🏐🏑🏒🏓🏔🏕🏖🏗🏘🏙🏚🏛🏜🏝🏞🏟🏠🏡🏢🏣🏤🏥🏦🏧🏨🏩🏪🏫🏬🏭🏮🏯🏰🏱🏲🏳🏴🏵🏶🏷🏸🏹🏺🏻🏼🏽🏾🏿]/g, '')
-      .replace(/\*\*(.*?)\*\*/g, '$1') // Remover **bold**
-      .replace(/\*(.*?)\*/g, '$1') // Remover *italic*
-      .replace(/\n+/g, '. ') // Convertir saltos de línea en pausas
-      .replace(/\s+/g, ' ') // Limpiar espacios múltiples
+      .replace(/[🎫🔍📋💡🎯❌✅⚠️🔢📅💰🏆🌟💪🚀📈🎉🎲🎰🎱🎳🎴🎵🎶🎷🎸🎹🎺🎻🎼🎽🎾🎿🏀🏁🏂🏃🏄🏅🏆🏇🏈🏉🏊🏋🏌🏍🏎🏏🏐🏑🏒🏓🏔🏕🏖🏗🏘🏙🏚🏛🏜🏝🏞🏟🏠🏡🏢🏣🏤🏥🏦🏧🏨🏩🏪🏫🏬🏭🏮🏯🏰🏱🏲🏳🏴🏵🏶🏷🏸🏹🏺🏻🏼🏽🏾🏿]/g, '')
+      // Remover números con círculos (1️⃣, 2️⃣, etc.)
+      .replace(/[1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣0️⃣]/g, '')
+      // Remover **bold** y *italic*
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      // Convertir saltos de línea en pausas
+      .replace(/\n+/g, '. ')
+      // Limpiar espacios múltiples
+      .replace(/\s+/g, ' ')
+      // Remover caracteres especiales adicionales
+      .replace(/[•·▪▫‣⁃⁌⁍⁎⁏⁐⁑⁒⁓⁔⁕⁖⁗⁘⁙⁚⁛⁜⁝⁞]/g, '')
+      // Remover cualquier carácter que no sea letra, número, espacio o puntuación básica
+      .replace(/[^\w\s.,!?;:()-]/g, '')
       .trim();
   };
 
@@ -662,6 +684,11 @@ export const AnbelChat: React.FC = () => {
 
     // Limpiar texto para voz
     const cleanText = cleanTextForSpeech(text);
+    
+    // Debug: mostrar texto original y limpio
+    console.log('🔊 Texto original:', text.substring(0, 100) + '...');
+    console.log('🧹 Texto limpio:', cleanText.substring(0, 100) + '...');
+    
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = language === 'es' ? 'es-ES' : 'en-US';
     utterance.rate = 0.9;
