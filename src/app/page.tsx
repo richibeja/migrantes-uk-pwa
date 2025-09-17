@@ -243,12 +243,12 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" id="features">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-800 via-blue-800 to-indigo-900" id="features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-white">Potenciado por Anbel IA</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 border-2 border-blue-200">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 border-2 border-blue-300">
               <ChartLine className="h-12 w-12 sm:h-16 sm:w-16 text-blue-600 mx-auto mb-4 sm:mb-6" />
               <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🧠 El Poder de Anbel IA</h3>
               <div className="space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -277,7 +277,7 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-purple-50 to-pink-100 rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 border-2 border-purple-200">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 border-2 border-purple-300">
               <Bot className="h-12 w-12 sm:h-16 sm:w-16 text-purple-600 mx-auto mb-4 sm:mb-6" />
               <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🤖 Chat Inteligente</h3>
               <div className="space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -306,7 +306,7 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 sm:col-span-2 lg:col-span-1 border-2 border-green-200">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 sm:col-span-2 lg:col-span-1 border-2 border-green-300">
               <Bolt className="h-12 w-12 sm:h-16 sm:w-16 text-green-600 mx-auto mb-4 sm:mb-6" />
               <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">⚡ Datos en Vivo</h3>
               <div className="space-y-3 text-sm sm:text-base text-gray-700 leading-relaxed">
