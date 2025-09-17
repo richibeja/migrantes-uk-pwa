@@ -3298,44 +3298,38 @@ class AnbelAI {
     
     if (language === 'es') {
       return `¡Hola! 👋\n\n` +
-             `Tengo una grandiosa herramienta de IA que predice números de lotería con análisis matemático real. ` +
-             `Me gustaría que trabajáramos juntos en esto.\n\n` +
-             `🎯 **Mi predicción para ${lottery}:**\n` +
+             `Tengo una herramienta de IA que me está ayudando mucho con predicciones de lotería. ` +
+             `Me gustaría compartir contigo estos números que acabo de generar.\n\n` +
+             `🎯 **${lottery} - Próximo sorteo:**\n` +
              `Números: ${numbers}${bonusNumbers}\n` +
-             `Confianza: ${confidence}%\n\n` +
+             `Confianza del análisis: ${confidence}%\n\n` +
              `💰 **Mi propuesta:**\n` +
-             `Te envío estos números y si ganas, compartimos las ganancias:\n` +
+             `Si juegas estos números y ganas algo, compartimos:\n` +
              `• Tú te quedas con el 85%\n` +
-             `• Yo recibo el 15% por la predicción\n` +
+             `• Yo 15% por compartir la predicción\n` +
              `• ¡Ambos ganamos! 🤝\n\n` +
-             `🤖 **¿Qué es esto?**\n` +
-             `Es una IA llamada Anbel que analiza 200 sorteos históricos, ` +
-             `usa algoritmos matemáticos y APIs en tiempo real para generar predicciones.\n\n` +
-             `🎁 **Si te interesa tener tu propia IA:**\n` +
-             `Puedes descargar la app aquí: ${appUrl}\n` +
-             `Código de activación: GANAFACIL\n\n` +
-             `¿Qué dices? ¿Jugamos juntos? 🍀\n\n` +
-             `#Lotería #${lottery} #InteligenciaArtificial #Ganar`;
+             `🤖 La IA analiza patrones históricos y matemáticas reales. ` +
+             `Me ha funcionado bien hasta ahora.\n\n` +
+             `¿Te animas a intentarlo juntos? Sin riesgo para ti. ` +
+             `Si no pasa nada, no perdemos nada. 🍀\n\n` +
+             `¿Qué opinas?`;
     } else {
       return `Hello! 👋\n\n` +
-             `I have an amazing AI tool that predicts lottery numbers with real mathematical analysis. ` +
-             `I'd love for us to work together on this.\n\n` +
-             `🎯 **My prediction for ${lottery}:**\n` +
+             `I have an AI tool that's been helping me a lot with lottery predictions. ` +
+             `I'd like to share these numbers I just generated with you.\n\n` +
+             `🎯 **${lottery} - Next draw:**\n` +
              `Numbers: ${numbers}${bonusNumbers}\n` +
-             `Confidence: ${confidence}%\n\n` +
+             `Analysis confidence: ${confidence}%\n\n` +
              `💰 **My proposal:**\n` +
-             `I'll send you these numbers and if you win, we share the winnings:\n` +
+             `If you play these numbers and win something, we share:\n` +
              `• You keep 85%\n` +
-             `• I get 15% for the prediction\n` +
+             `• I get 15% for sharing the prediction\n` +
              `• We both win! 🤝\n\n` +
-             `🤖 **What is this?**\n` +
-             `It's an AI called Anbel that analyzes 200 historical draws, ` +
-             `uses mathematical algorithms and real-time APIs to generate predictions.\n\n` +
-             `🎁 **If you want your own AI:**\n` +
-             `You can download the app here: ${appUrl}\n` +
-             `Activation code: GANAFACIL\n\n` +
-             `What do you say? Shall we play together? 🍀\n\n` +
-             `#Lottery #${lottery} #ArtificialIntelligence #Win`;
+             `🤖 The AI analyzes historical patterns and real mathematics. ` +
+             `It's been working well for me so far.\n\n` +
+             `Want to try it together? No risk for you. ` +
+             `If nothing happens, we lose nothing. 🍀\n\n` +
+             `What do you think?`;
     }
   }
 
