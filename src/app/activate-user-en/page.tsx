@@ -50,6 +50,11 @@ export default function ActivateUserPageEn() {
       localStorage.removeItem('pendingUser');
       
       setActivationStatus('success');
+      
+      // Redirección automática después de 3 segundos como fallback
+      setTimeout(() => {
+        window.location.href = '/dashboard-en';
+      }, 3000);
     } else {
       // Validate code against localStorage as fallback
       const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
@@ -66,6 +71,11 @@ export default function ActivateUserPageEn() {
         localStorage.removeItem('pendingUser');
         
         setActivationStatus('success');
+        
+        // Redirección automática después de 3 segundos como fallback
+        setTimeout(() => {
+          window.location.href = '/dashboard-en';
+        }, 3000);
       } else {
         setActivationStatus('error');
       }
@@ -106,12 +116,15 @@ export default function ActivateUserPageEn() {
             </p>
           </div>
 
-          <Link
-            href="/dashboard-en"
+          <button
+            onClick={() => {
+              // Redirigir al dashboard en inglés
+              window.location.href = '/dashboard-en';
+            }}
             className="inline-block bg-gold text-black font-semibold py-3 px-6 rounded-lg hover:bg-yellow-400 transition-colors mb-4"
           >
             Go to Dashboard
-          </Link>
+          </button>
           
           <p className="text-xs text-gray-500">
             Your subscription is active and ready to use

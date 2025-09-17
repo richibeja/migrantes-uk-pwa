@@ -56,8 +56,11 @@ export default function LoginPageEs() {
         // Usuario pendiente de activación
         setErrors({ general: 'Tu cuenta no está activada. Revisa tu código de activación.' });
       } else {
-        // Usuario no encontrado
-        setErrors({ general: 'Email o contraseña incorrectos.' });
+        // Usuario no encontrado - ofrecer activación
+        setErrors({ 
+          general: 'Usuario no encontrado. ¿Quieres activar tu cuenta?',
+          showActivation: true 
+        });
       }
     } catch (error) {
       console.error('Error de login:', error);
@@ -92,8 +95,24 @@ export default function LoginPageEs() {
           </div>
 
           {errors.general && (
-            <div className="bg-red-900/20 border border-red-500 rounded-lg p-3">
-              <p className="text-red-400 text-sm">{errors.general}</p>
+            <div className={`rounded-lg p-3 ${
+              errors.showActivation 
+                ? 'bg-blue-900/20 border border-blue-500' 
+                : 'bg-red-900/20 border border-red-500'
+            }`}>
+              <p className={`text-sm ${
+                errors.showActivation ? 'text-blue-400' : 'text-red-400'
+              }`}>{errors.general}</p>
+              {errors.showActivation && (
+                <div className="mt-3">
+                  <a 
+                    href="/activate" 
+                    className="inline-block bg-gold text-black font-semibold py-2 px-4 rounded text-sm hover:bg-yellow-400 transition-colors"
+                  >
+                    🔑 Activar Cuenta
+                  </a>
+                </div>
+              )}
             </div>
           )}
 
