@@ -86,6 +86,8 @@ export const AnbelChat: React.FC = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [showShareButtons, setShowShareButtons] = useState(false);
   const [lastPrediction, setLastPrediction] = useState<any>(null);
+  // 🛑 CONTROL DE CONVERSACIÓN
+  const [conversationPaused, setConversationPaused] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const synthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -354,10 +356,25 @@ export const AnbelChat: React.FC = () => {
 
   const handleSendMessage = async () => {
     if (!inputText.trim() || isProcessing) return;
+    
+    // Verificar si la conversación está pausada
+    if (conversationPaused) {
+      const pauseMessage: ChatMessage = {
+        id: Date.now().toString(),
+        text: currentLanguage === 'es' 
+          ? '⏸️ Conversación pausada. Haz clic en "▶️ Reanudar" para continuar.'
+          : '⏸️ Conversation paused. Click "▶️ Resume" to continue.',
+        sender: 'anbel',
+        timestamp: new Date(),
+        type: 'alert'
+      };
+      setMessages(prev => [...prev, pauseMessage]);
+      return;
+    }
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
-      text: inputText,
+      text: inputText.trim(),
       sender: 'user',
       timestamp: new Date(),
       type: 'text'
@@ -638,11 +655,11 @@ export const AnbelChat: React.FC = () => {
    * 🔊 HABLAR RESPUESTA
    */
   /**
-   * 🧹 LIMPIAR EMOTICONES PARA VOZ - VERSIÓN MEJORADA
+   * 🧹 LIMPIAR TEXTO PARA VOZ - ANTI-DELETREO
    */
   const cleanTextForSpeech = (text: string): string => {
-    // Función más robusta para remover emojis
-    return text
+    // Función mejorada para evitar deletreo
+    let cleanText = text
       // Remover emojis usando regex más amplio
       .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
       .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Misc Symbols and Pictographs
@@ -654,53 +671,79 @@ export const AnbelChat: React.FC = () => {
       .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
       .replace(/[\u{1F018}-\u{1F0FF}]/gu, '') // Playing Cards
       .replace(/[\u{1F200}-\u{1F2FF}]/gu, '') // Enclosed Ideographic Supplement
-      // Remover emojis específicos que podrían estar causando problemas
+      // Remover emojis específicos
       .replace(/[🔥🎯💰🧠🚀🎉🎲💬📱🏆⭐🌟💎🎊🎈🎁🎀🎂🎃🎄🎆🎇🎈🎉🎊🎋🎌🎍🎎🎏🎐🎑🎒🎓🎖🎗🎙🎚🎛🎜🎝🎞🎟🎠🎡🎢🎣🎤🎥🎦🎧🎨🎩🎪🎫🎬🎭🎮🎯🎰🎱🎲🎳🎴🎵🎶🎷🎸🎹🎺🎻🎼🎽🎾🎿🏀🏁🏂🏃🏄🏅🏆🏇🏈🏉🏊🏋🏌🏍🏎🏏🏐🏑🏒🏓🏔🏕🏖🏗🏘🏙🏚🏛🏜🏝🏞🏟🏠🏡🏢🏣🏤🏥🏦🏧🏨🏩🏪🏫🏬🏭🏮🏯🏰🏱🏲🏳🏴🏵🏶🏷🏸🏹🏺🏻🏼🏽🏾🏿]/g, '')
       .replace(/[🎫🔍📋💡🎯❌✅⚠️🔢📅💰🏆🌟💪🚀📈🎉🎲🎰🎱🎳🎴🎵🎶🎷🎸🎹🎺🎻🎼🎽🎾🎿🏀🏁🏂🏃🏄🏅🏆🏇🏈🏉🏊🏋🏌🏍🏎🏏🏐🏑🏒🏓🏔🏕🏖🏗🏘🏙🏚🏛🏜🏝🏞🏟🏠🏡🏢🏣🏤🏥🏦🏧🏨🏩🏪🏫🏬🏭🏮🏯🏰🏱🏲🏳🏴🏵🏶🏷🏸🏹🏺🏻🏼🏽🏾🏿]/g, '')
       // Remover números con círculos (1️⃣, 2️⃣, etc.)
       .replace(/[1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣0️⃣]/g, '')
-      // Remover **bold** y *italic*
+      // Remover **bold** y *italic* pero mantener el texto
       .replace(/\*\*(.*?)\*\*/g, '$1')
       .replace(/\*(.*?)\*/g, '$1')
-      // Convertir saltos de línea en pausas
+      // Convertir saltos de línea en pausas naturales
       .replace(/\n+/g, '. ')
       // Limpiar espacios múltiples
       .replace(/\s+/g, ' ')
-      // Remover caracteres especiales adicionales
+      // Remover caracteres especiales que causan deletreo
       .replace(/[•·▪▫‣⁃⁌⁍⁎⁏⁐⁑⁒⁓⁔⁕⁖⁗⁘⁙⁚⁛⁜⁝⁞]/g, '')
-      // Remover cualquier carácter que no sea letra, número, espacio o puntuación básica
-      .replace(/[^\w\s.,!?;:()-]/g, '')
+      // Remover símbolos que se leen como caracteres individuales
+      .replace(/[^\w\s.,!?;:()"-]/g, '')
       .trim();
+    
+    // Reemplazos específicos para evitar deletreo
+    cleanText = cleanText
+      // Reemplazar abreviaciones comunes
+      .replace(/\bIA\b/g, 'inteligencia artificial')
+      .replace(/\bAI\b/g, 'artificial intelligence')
+      .replace(/\bUSA\b/g, 'Estados Unidos')
+      .replace(/\bUS\b/g, 'Estados Unidos')
+      .replace(/\bVIP\b/g, 'vip')
+      .replace(/\bAPI\b/g, 'api')
+      // Evitar que lea números como letras individuales
+      .replace(/\b([0-9]+)\b/g, (match) => {
+        const num = parseInt(match);
+        if (num < 100) return match; // Números pequeños se leen bien
+        return match.split('').join(' '); // Separar dígitos grandes
+      });
+    
+    return cleanText;
   };
 
   const speakText = (text: string, language: 'es' | 'en' = currentLanguage) => {
-    if (!speechSupported) {
-      console.log('Síntesis de voz no soportada');
+    if (!speechSupported || conversationPaused) {
+      console.log('Síntesis de voz no soportada o conversación pausada');
       return;
     }
 
     // Cancelar síntesis anterior
     speechSynthesis.cancel();
 
-    // Limpiar texto para voz
+    // Limpiar texto para voz - ANTI-DELETREO
     const cleanText = cleanTextForSpeech(text);
     
-    // Debug: mostrar texto original y limpio
-    console.log('🔊 Texto original:', text.substring(0, 100) + '...');
-    console.log('🧹 Texto limpio:', cleanText.substring(0, 100) + '...');
+    // Solo mostrar debug en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔊 Texto original:', text.substring(0, 100) + '...');
+      console.log('🧹 Texto limpio:', cleanText.substring(0, 100) + '...');
+    }
     
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = language === 'es' ? 'es-ES' : 'en-US';
-    utterance.rate = 0.9;
+    utterance.rate = 0.85; // Velocidad más lenta para evitar deletreo
     utterance.pitch = 1.0;
     utterance.volume = 0.8;
 
-    // Seleccionar voz apropiada
+    // Seleccionar voz apropiada - priorizar voces naturales
     const voices = speechSynthesis.getVoices();
-    const targetVoice = voices.find(voice => 
-      voice.lang.startsWith(language) && 
-      (voice.name.includes('Google') || voice.name.includes('Microsoft'))
-    );
+    const targetVoice = voices.find(voice => {
+      const voiceLang = voice.lang.toLowerCase();
+      const targetLang = language === 'es' ? 'es' : 'en';
+      
+      return voiceLang.startsWith(targetLang) && 
+             (voice.name.includes('Google') || 
+              voice.name.includes('Microsoft') || 
+              voice.name.includes('Natural') ||
+              voice.name.includes('Neural'));
+    }) || voices.find(voice => voice.lang.toLowerCase().startsWith(language === 'es' ? 'es' : 'en'));
     
     if (targetVoice) {
       utterance.voice = targetVoice;
@@ -729,6 +772,47 @@ export const AnbelChat: React.FC = () => {
   const stopSpeaking = () => {
     speechSynthesis.cancel();
     setIsSpeaking(false);
+  };
+
+  /**
+   * 🛑 PAUSAR/REANUDAR CONVERSACIÓN
+   */
+  const toggleConversation = () => {
+    setConversationPaused(!conversationPaused);
+    if (!conversationPaused) {
+      // Si se pausa, detener cualquier síntesis en curso
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+      // También detener reconocimiento de voz
+      if (recognitionRef.current && isListening) {
+        recognitionRef.current.stop();
+        setIsListening(false);
+      }
+    }
+  };
+
+  /**
+   * 🔄 REINICIAR CONVERSACIÓN
+   */
+  const resetConversation = () => {
+    setMessages([
+      {
+        id: '1',
+        text: currentLanguage === 'es' 
+          ? '🎯 ¡Hola! Soy Anbel IA. ¿En qué puedo ayudarte hoy? Puedo hacer predicciones de loterías, analizar tickets y mucho más.'
+          : '🎯 Hello! I\'m Anbel AI. How can I help you today? I can make lottery predictions, analyze tickets and much more.',
+        sender: 'anbel',
+        timestamp: new Date(),
+        type: 'text'
+      }
+    ]);
+    setConversationPaused(false);
+    speechSynthesis.cancel();
+    setIsSpeaking(false);
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
   };
 
   /**
@@ -1526,16 +1610,48 @@ export const AnbelChat: React.FC = () => {
                    </button>
                  )}
                  
-                 {/* Botón de detener habla */}
-                 {isSpeaking && (
-                   <button
-                     onClick={stopSpeaking}
-                     className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors"
-                     title="Detener habla"
-                   >
-                     <VolumeX className="w-4 h-4" />
-                   </button>
-                 )}
+                {/* Botón de detener habla */}
+                {isSpeaking && (
+                  <button
+                    onClick={stopSpeaking}
+                    className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors"
+                    title="Detener habla"
+                  >
+                    <VolumeX className="w-4 h-4" />
+                  </button>
+                )}
+                
+                {/* Botón de pausar/reanudar conversación */}
+                <button
+                  onClick={toggleConversation}
+                  className={`p-2 rounded-lg transition-colors ${
+                    conversationPaused 
+                      ? 'bg-green-500 hover:bg-green-600 text-white' 
+                      : 'bg-yellow-500 hover:bg-yellow-600 text-white'
+                  }`}
+                  title={conversationPaused ? 'Reanudar conversación' : 'Pausar conversación'}
+                >
+                  {conversationPaused ? (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </button>
+                
+                {/* Botón de reiniciar conversación */}
+                <button
+                  onClick={resetConversation}
+                  className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded-lg transition-colors"
+                  title="Reiniciar conversación"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+                  </svg>
+                </button>
                </div>
              </div>
              
