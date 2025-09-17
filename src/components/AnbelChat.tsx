@@ -694,8 +694,6 @@ export const AnbelChat: React.FC = () => {
       // Reemplazar abreviaciones comunes
       .replace(/\bIA\b/g, 'inteligencia artificial')
       .replace(/\bAI\b/g, 'artificial intelligence')
-      .replace(/\bUSA\b/g, 'Estados Unidos')
-      .replace(/\bUS\b/g, 'Estados Unidos')
       .replace(/\bVIP\b/g, 'vip')
       .replace(/\bAPI\b/g, 'api')
       // Reemplazar palabras que se deletrean mal
@@ -703,19 +701,38 @@ export const AnbelChat: React.FC = () => {
       .replace(/\bMega Millions\b/g, 'Mega Millones')
       .replace(/\bCash4Life\b/g, 'Cash for Life')
       .replace(/\bAnbel\b/g, 'Anbel')
+      // Arreglar palabras específicas que se leen mal
+      .replace(/\bautomáticamente\b/g, 'de forma automática')
+      .replace(/\bautomatically\b/g, 'automatically')
+      // NO cambiar USA cuando es verbo usar
+      .replace(/\bUS\b/g, 'us')
+      .replace(/\bcombinación\b/g, 'combi nación')
+      .replace(/\bcombination\b/g, 'combi nation')
       // Evitar que lea porcentajes como letras
       .replace(/(\d+)%/g, '$1 por ciento')
-      // Mejorar lectura de números de lotería
-      .replace(/Números:\s*([0-9, ]+)/g, (match, numbers) => {
-        // Para listas de números de lotería, leer cada uno claramente
-        const numberList = numbers.split(',').map(n => n.trim()).join(', ');
-        return `Números: ${numberList}`;
+      // Mejorar lectura de números de lotería - ANTI-DELETREO
+      .replace(/Números:\s*([0-9, +]+)/g, (match, numbers) => {
+        // Convertir números a palabras para evitar deletreo
+        const processedNumbers = numbers
+          .replace(/\b(\d+)\b/g, (num) => {
+            const n = parseInt(num);
+            if (n < 10) return `número ${n}`;
+            if (n < 100) return `${n}`;
+            return `${n}`;
+          })
+          .replace(/,/g, ', ')
+          .replace(/\+/g, ' más ');
+        return `Números: ${processedNumbers}`;
       })
-      // Mejorar lectura de números individuales
-      .replace(/\b([0-9]+)\b/g, (match) => {
+      // Evitar deletreo en números individuales
+      .replace(/\b([0-9]{1,2})\b/g, (match) => {
         const num = parseInt(match);
-        if (num < 100) return match; // Números menores a 100 se leen bien
-        return match; // Mantener números grandes como están
+        // Números del 1-99 se leen bien como están
+        return match;
+      })
+      // Para números de 3+ dígitos, agregar espacios
+      .replace(/\b([0-9]{3,})\b/g, (match) => {
+        return match.split('').join(' ');
       });
     
     return cleanText;
