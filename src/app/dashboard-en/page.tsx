@@ -185,6 +185,83 @@ export default function DashboardEn() {
           />
         </div>
 
+        {/* Shared Earnings System */}
+        <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 backdrop-blur-sm rounded-lg p-6 border border-green-400/30 mb-8">
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <Trophy className="w-8 h-8 mr-3 text-yellow-400" />
+            💰 Shared Earnings
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <div className="text-3xl font-bold text-green-400 mb-2">$0.00</div>
+              <div className="text-sm text-gray-300">Pending Earnings</div>
+              <div className="text-xs text-gray-400 mt-1">From shared predictions</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <div className="text-3xl font-bold text-blue-400 mb-2">0</div>
+              <div className="text-sm text-gray-300">Shared Predictions</div>
+              <div className="text-xs text-gray-400 mt-1">With active commitment</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">15%</div>
+              <div className="text-sm text-gray-300">Your Commission</div>
+              <div className="text-xs text-gray-400 mt-1">Per each win</div>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-yellow-500/20 rounded-lg border border-yellow-400/30">
+            <p className="text-yellow-200 text-sm">
+              💡 <strong>How it works:</strong> When Anbel AI gives you predictions, you can share them with earning commitment. 
+              If someone wins with your shared numbers, you get 15%! Both earn real money.
+            </p>
+          </div>
+        </div>
+
+        {/* US Lotteries Description */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <Globe className="w-8 h-8 mr-3 text-blue-400" />
+            United States Lotteries
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Powerball</h4>
+              <p className="text-sm text-gray-300 mb-2">USA's most famous lottery</p>
+              <p className="text-xs text-gray-400">Draws: Mon, Wed, Sat</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Mega Millions</h4>
+              <p className="text-sm text-gray-300 mb-2">Millionaire jackpots</p>
+              <p className="text-xs text-gray-400">Draws: Tue, Fri</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Cash4Life</h4>
+              <p className="text-sm text-gray-300 mb-2">$1,000 per day for life</p>
+              <p className="text-xs text-gray-400">Draws: Daily</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Lucky for Life</h4>
+              <p className="text-sm text-gray-300 mb-2">Lifetime prizes</p>
+              <p className="text-xs text-gray-400">Draws: Mon, Thu</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Hot Lotto</h4>
+              <p className="text-sm text-gray-300 mb-2">Hot numbers</p>
+              <p className="text-xs text-gray-400">Draws: Wed, Sat</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Fantasy 5</h4>
+              <p className="text-sm text-gray-300 mb-2">5 winning numbers</p>
+              <p className="text-xs text-gray-400">Draws: Daily</p>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-blue-500/20 rounded-lg border border-blue-400/30">
+            <p className="text-blue-200 text-sm text-center">
+              🤖 <strong>Anbel AI</strong> generates predictions for these 6 US lotteries. 
+              Just ask: "Powerball", "Mega Millions", etc. and get numbers with complete analysis.
+            </p>
+          </div>
+        </div>
+
         {/* Quick Actions */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">

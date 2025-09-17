@@ -249,160 +249,84 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* 6 Loterías de USA - Información - Mobile Optimized */}
+        {/* Sistema de Ganancias Compartidas */}
+        <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-green-400/30 mb-8">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
+            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-yellow-400" />
+            💰 Ganancias Compartidas
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <div className="text-2xl sm:text-3xl font-bold text-green-400 mb-2">$0.00</div>
+              <div className="text-xs sm:text-sm text-gray-300">Ganancias Pendientes</div>
+              <div className="text-xs text-gray-400 mt-1">De predicciones compartidas</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-2">0</div>
+              <div className="text-xs sm:text-sm text-gray-300">Predicciones Compartidas</div>
+              <div className="text-xs text-gray-400 mt-1">Con compromiso activo</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <div className="text-2xl sm:text-3xl font-bold text-purple-400 mb-2">15%</div>
+              <div className="text-xs sm:text-sm text-gray-300">Tu Comisión</div>
+              <div className="text-xs text-gray-400 mt-1">Por cada ganancia</div>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-yellow-500/20 rounded-lg border border-yellow-400/30">
+            <p className="text-yellow-200 text-xs sm:text-sm">
+              💡 <strong>¿Cómo funciona?</strong> Cuando Anbel IA te da predicciones, puedes compartirlas con compromiso de ganancia. 
+              Si alguien gana con tus números compartidos, ¡te toca el 15%! Ambos ganan dinero real.
+            </p>
+          </div>
+        </div>
+
+
+        {/* Loterías que maneja Anbel IA - Descripción Simple */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20 mb-8">
           <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
             <Globe className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-blue-400" />
-            Información de Loterías USA
+            Loterías de Estados Unidos
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {usaLotteries.map((lottery, index) => (
-              <div key={index} className="bg-white/5 rounded-lg p-3 sm:p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-base sm:text-lg font-semibold text-white">{lottery.name}</h4>
-                  <span className="text-xs text-gray-400 bg-blue-500/20 px-2 py-1 rounded">USA</span>
-                </div>
-                
-                {/* Información del Sorteo */}
-                <div className="mb-3">
-                  <div className="flex items-center mb-2">
-                    <Calendar className="w-4 h-4 text-yellow-400 mr-2" />
-                    <span className="text-xs sm:text-sm text-gray-300">Próximo Sorteo:</span>
-                  </div>
-                  <p className="text-yellow-400 font-bold text-xs sm:text-sm">{lottery.drawDays}</p>
-                  <p className="text-xs text-gray-400">Horario: {lottery.nextDraw}</p>
-                </div>
-
-                {/* Jackpot Actual */}
-                <div className="mb-3">
-                  <div className="flex items-center mb-1">
-                    <Trophy className="w-4 h-4 text-yellow-400 mr-2" />
-                    <span className="text-xs sm:text-sm text-gray-300">Jackpot Actual:</span>
-                  </div>
-                  <p className="text-yellow-400 font-bold text-sm sm:text-lg">{lottery.jackpot}</p>
-                </div>
-
-                {/* Estadísticas Básicas */}
-                <div className="mb-4">
-                  <div className="flex items-center mb-1">
-                    <BarChart3 className="w-4 h-4 text-green-400 mr-2" />
-                    <span className="text-xs sm:text-sm text-gray-300">Rango de Números:</span>
-                  </div>
-                  <p className="text-green-400 text-xs sm:text-sm">1-{lottery.numberRange} + {lottery.specialBallName} (1-{lottery.specialBallRange})</p>
-                </div>
-
-                {/* Botón para Anbel IA */}
-                <button 
-                  onClick={() => {
-                    // Scroll al chat de Anbel
-                    const chatElement = document.querySelector('[data-chat-section]');
-                    if (chatElement) {
-                      chatElement.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                      alert('Chat con Anbel IA disponible en esta página');
-                    }
-                  }}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
-                >
-                  <Brain className="w-4 h-4" />
-                  <span>Preguntar a Anbel IA</span>
-                </button>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Powerball</h4>
+              <p className="text-sm text-gray-300 mb-2">La lotería más famosa de USA</p>
+              <p className="text-xs text-gray-400">Sorteos: Lun, Mié, Sáb</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Mega Millions</h4>
+              <p className="text-sm text-gray-300 mb-2">Jackpots millonarios</p>
+              <p className="text-xs text-gray-400">Sorteos: Mar, Vie</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Cash4Life</h4>
+              <p className="text-sm text-gray-300 mb-2">$1,000 por día de por vida</p>
+              <p className="text-xs text-gray-400">Sorteos: Diarios</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Lucky for Life</h4>
+              <p className="text-sm text-gray-300 mb-2">Premios de por vida</p>
+              <p className="text-xs text-gray-400">Sorteos: Lun, Jue</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Hot Lotto</h4>
+              <p className="text-sm text-gray-300 mb-2">Números calientes</p>
+              <p className="text-xs text-gray-400">Sorteos: Mié, Sáb</p>
+            </div>
+            <div className="bg-white/5 rounded-lg p-4 text-center">
+              <h4 className="text-lg font-bold text-yellow-400 mb-2">Fantasy 5</h4>
+              <p className="text-sm text-gray-300 mb-2">5 números ganadores</p>
+              <p className="text-xs text-gray-400">Sorteos: Diarios</p>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-blue-500/20 rounded-lg border border-blue-400/30">
+            <p className="text-blue-200 text-xs sm:text-sm text-center">
+              🤖 <strong>Anbel IA</strong> genera predicciones para estas 6 loterías de Estados Unidos. 
+              Solo pregúntale: "Powerball", "Mega Millions", etc. y te dará números con análisis completo.
+            </p>
           </div>
         </div>
 
-
-        {/* Estadísticas Avanzadas - Mobile Optimized */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20 mb-8">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
-            <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-green-400" />
-            Estadísticas de Rendimiento
-          </h3>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-green-400 mb-2">94.5%</div>
-              <div className="text-xs sm:text-sm text-gray-300">Precisión General</div>
-              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                <div className="bg-green-400 h-2 rounded-full" style={{width: '94.5%'}}></div>
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-2">1,247</div>
-              <div className="text-xs sm:text-sm text-gray-300">Predicciones Generadas</div>
-              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                <div className="bg-blue-400 h-2 rounded-full" style={{width: '87%'}}></div>
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-purple-400 mb-2">$2.4M</div>
-              <div className="text-xs sm:text-sm text-gray-300">Ganancias Totales</div>
-              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                <div className="bg-purple-400 h-2 rounded-full" style={{width: '92%'}}></div>
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-2">15</div>
-              <div className="text-xs sm:text-sm text-gray-300">Días Consecutivos</div>
-              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                <div className="bg-yellow-400 h-2 rounded-full" style={{width: '100%'}}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Predicciones en Tiempo Real - Mobile Optimized */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20 mb-8">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
-            <Activity className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-red-400" />
-            Predicciones en Tiempo Real
-          </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-lg p-3 sm:p-4">
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <h4 className="text-base sm:text-lg font-bold text-white">Powerball</h4>
-                <div className="flex items-center text-green-400">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                  <span className="text-xs sm:text-sm">EN VIVO</span>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
-                <span className="bg-white text-red-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">12</span>
-                <span className="bg-white text-red-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">24</span>
-                <span className="bg-white text-red-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">36</span>
-                <span className="bg-white text-red-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">48</span>
-                <span className="bg-white text-red-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">60</span>
-                <span className="bg-yellow-400 text-red-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">15</span>
-              </div>
-              <div className="text-xs sm:text-sm text-white/80">
-                <p>Confianza: <span className="font-bold text-yellow-400">96.8%</span></p>
-                <p>Próximo sorteo: <span className="font-bold">Hoy 10:59 PM</span></p>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg p-3 sm:p-4">
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <h4 className="text-base sm:text-lg font-bold text-white">Mega Millions</h4>
-                <div className="flex items-center text-green-400">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                  <span className="text-xs sm:text-sm">EN VIVO</span>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
-                <span className="bg-white text-blue-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">7</span>
-                <span className="bg-white text-blue-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">14</span>
-                <span className="bg-white text-blue-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">21</span>
-                <span className="bg-white text-blue-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">28</span>
-                <span className="bg-white text-blue-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">35</span>
-                <span className="bg-yellow-400 text-blue-600 px-2 sm:px-3 py-1 rounded-full font-bold text-sm">9</span>
-              </div>
-              <div className="text-xs sm:text-sm text-white/80">
-                <p>Confianza: <span className="font-bold text-yellow-400">94.2%</span></p>
-                <p>Próximo sorteo: <span className="font-bold">Mañana 11:00 PM</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Quick Actions - Mobile Optimized */}
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
