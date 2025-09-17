@@ -705,13 +705,17 @@ export const AnbelChat: React.FC = () => {
       .replace(/\bAnbel\b/g, 'Anbel')
       // Evitar que lea porcentajes como letras
       .replace(/(\d+)%/g, '$1 por ciento')
-      // Evitar que lea números como letras individuales
+      // Mejorar lectura de números de lotería
+      .replace(/Números:\s*([0-9, ]+)/g, (match, numbers) => {
+        // Para listas de números de lotería, leer cada uno claramente
+        const numberList = numbers.split(',').map(n => n.trim()).join(', ');
+        return `Números: ${numberList}`;
+      })
+      // Mejorar lectura de números individuales
       .replace(/\b([0-9]+)\b/g, (match) => {
         const num = parseInt(match);
-        if (num < 10) return match; // Números de 1 dígito se leen bien
-        if (num < 100) return match; // Números de 2 dígitos se leen bien
-        // Para números grandes, agregar pausas
-        return match.replace(/(\d)(?=\d)/g, '$1 ');
+        if (num < 100) return match; // Números menores a 100 se leen bien
+        return match; // Mantener números grandes como están
       });
     
     return cleanText;
