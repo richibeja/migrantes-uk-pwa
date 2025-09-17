@@ -18,6 +18,7 @@ export default function Home() {
   const [isAIBannerVisible, setIsAIBannerVisible] = useState(true);
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
   const [isPWAInstallVisible, setIsPWAInstallVisible] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Counter animation for statistics
   useEffect(() => {
@@ -96,149 +97,195 @@ export default function Home() {
       />
 
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-4 sticky top-0 z-50 shadow-lg">
+      <header className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-3 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <Brain className="h-8 w-8 text-green-400" />
-              <span className="text-2xl font-bold">GanaFácil</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-green-400" />
+              <span className="text-lg sm:text-2xl font-bold">GanaFácil</span>
             </div>
             
-            <nav className="hidden md:flex gap-6">
-              <a href="#features" className="hover:text-yellow-400 transition-colors">Características</a>
-              <a href="#demo" className="hover:text-yellow-400 transition-colors">Cómo Funciona</a>
-              <a href="#stats" className="hover:text-yellow-400 transition-colors">Resultados</a>
-              <a href="#pricing" className="hover:text-yellow-400 transition-colors">Precios</a>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex gap-6">
+              <a href="#features" className="hover:text-yellow-400 transition-colors text-sm">Características</a>
+              <a href="#demo" className="hover:text-yellow-400 transition-colors text-sm">Cómo Funciona</a>
+              <a href="#stats" className="hover:text-yellow-400 transition-colors text-sm">Resultados</a>
+              <a href="#pricing" className="hover:text-yellow-400 transition-colors text-sm">Precios</a>
             </nav>
             
-            <div className="flex gap-3">
-              <a href="/auth/login" className="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all">
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex gap-2 lg:gap-3">
+              <a href="/auth/login" className="px-3 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm">
                 Iniciar Sesión
               </a>
-              <a href="/activate-whatsapp" className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all">
-                Activar por WhatsApp
+              <a href="/activate-whatsapp" className="px-3 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all text-sm">
+                Activar WhatsApp
               </a>
-              <a href="/page-en" className="px-4 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm">
+              <a href="/page-en" className="px-3 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-xs">
                 🇺🇸 EN
               </a>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-white hover:text-yellow-400 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/10 py-4 mt-3">
+              <nav className="flex flex-col space-y-4">
+                <a href="#features" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                  Características
+                </a>
+                <a href="#demo" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                  Cómo Funciona
+                </a>
+                <a href="#stats" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                  Resultados
+                </a>
+                <a href="#pricing" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                  Precios
+                </a>
+                <div className="border-t border-white/20 pt-4 mt-4">
+                  <a href="/auth/login" className="block px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm text-center mb-2">
+                    Iniciar Sesión
+                  </a>
+                  <a href="/activate-whatsapp" className="block px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all text-sm text-center mb-2">
+                    Activar WhatsApp
+                  </a>
+                  <a href="/page-en" className="block px-4 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm text-center">
+                    🇺🇸 English
+                  </a>
+                </div>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
             Predicciones de Lotería con Inteligencia Artificial
           </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 opacity-90 max-w-4xl mx-auto leading-relaxed">
             Descubre el poder de Anbel IA, nuestro sistema avanzado que analiza patrones y probabilidades para ayudarte a tomar decisiones más inteligentes.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-            <a href="/activate-whatsapp" className="px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8">
+            <a href="/activate-whatsapp" className="px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105 active:scale-95">
               Activar por WhatsApp
             </a>
-            <a href="/demo-ia" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all">
+            <a href="/demo-ia" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all active:scale-95">
               Demo Interactiva
             </a>
             <button 
               onClick={() => setIsChatbotVisible(true)}
-              className="px-8 py-4 bg-purple-500 text-white rounded-full text-lg font-semibold hover:bg-purple-600 transition-all transform hover:scale-105 flex items-center gap-2"
+              className="px-6 py-3 sm:px-8 sm:py-4 bg-purple-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-purple-600 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
             >
-              <MessageCircle className="h-5 w-5" />
-              Chat con IA
+              <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Chat con IA</span>
+              <span className="sm:hidden">Chat IA</span>
             </button>
           </div>
-          </div>
+        </div>
       </section>
 
       {/* Interactive Demo Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Experimenta Anbel IA Ahora</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Experimenta Anbel IA Ahora</h2>
+          <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed">
             Prueba nuestras capacidades de predicción sin registrarte. Genera predicciones de demostración y descubre el poder de la inteligencia artificial.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <Zap className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Predicciones Instantáneas</h3>
-              <p className="text-gray-300">Genera predicciones en tiempo real con nuestros algoritmos avanzados</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6">
+              <Zap className="h-8 w-8 sm:h-12 sm:w-12 text-yellow-400 mx-auto mb-3 sm:mb-4" />
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Predicciones Instantáneas</h3>
+              <p className="text-sm sm:text-base text-gray-300">Genera predicciones en tiempo real con nuestros algoritmos avanzados</p>
             </div>
             
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <BarChart3 className="h-12 w-12 text-green-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Análisis Detallado</h3>
-              <p className="text-gray-300">Obtén explicaciones detalladas del razonamiento de cada predicción</p>
-      </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6">
+              <BarChart3 className="h-8 w-8 sm:h-12 sm:w-12 text-green-400 mx-auto mb-3 sm:mb-4" />
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Análisis Detallado</h3>
+              <p className="text-sm sm:text-base text-gray-300">Obtén explicaciones detalladas del razonamiento de cada predicción</p>
+            </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <Brain className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Múltiples Algoritmos</h3>
-              <p className="text-gray-300">Prueba diferentes algoritmos: Anbel, Probabilístico e Histórico</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
+              <Brain className="h-8 w-8 sm:h-12 sm:w-12 text-blue-400 mx-auto mb-3 sm:mb-4" />
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Múltiples Algoritmos</h3>
+              <p className="text-sm sm:text-base text-gray-300">Prueba diferentes algoritmos: Anbel, Probabilístico e Histórico</p>
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/demo-ia" className="px-8 py-4 bg-white text-purple-600 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center gap-2">
-              <Zap className="h-5 w-5" />
-              Probar Demo Interactiva
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <a href="/demo-ia" className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-purple-600 rounded-full text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+              <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Probar Demo Interactiva</span>
+              <span className="sm:hidden">Demo Interactiva</span>
             </a>
-            <a href="/activate-whatsapp" className="px-8 py-4 border-2 border-white text-white rounded-full text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all flex items-center gap-2">
-              <MessageCircle className="h-5 w-5" />
-              Activar con WhatsApp
+            <a href="/activate-whatsapp" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+              <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Activar con WhatsApp</span>
+              <span className="sm:hidden">Activar WhatsApp</span>
             </a>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" id="features">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" id="features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-white">Potenciado por Anbel IA</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-white">Potenciado por Anbel IA</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
-              <ChartLine className="h-16 w-16 text-blue-500 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Análisis Predictivo</h3>
-              <p className="text-gray-600">Nuestros algoritmos analizan miles de sorteos históricos para identificar patrones y tendencias.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <ChartLine className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mx-auto mb-4 sm:mb-6" />
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">Análisis Predictivo</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">Nuestros algoritmos analizan miles de sorteos históricos para identificar patrones y tendencias.</p>
             </div>
             
-            <div className="bg-white rounded-2xl p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
-              <Bot className="h-16 w-16 text-blue-500 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Asistente Inteligente</h3>
-              <p className="text-gray-600">Conversa con nuestro asistente IA que te guiará y responderá tus preguntas sobre predicciones.</p>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
+              <Bot className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mx-auto mb-4 sm:mb-6" />
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">Asistente Inteligente</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">Conversa con nuestro asistente IA que te guiará y responderá tus preguntas sobre predicciones.</p>
             </div>
             
-            <div className="bg-white rounded-2xl p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
-              <Bolt className="h-16 w-16 text-blue-500 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Resultados en Tiempo Real</h3>
-              <p className="text-gray-600">Obtén predicciones actualizadas al instante con los últimos datos de sorteos.</p>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300 sm:col-span-2 lg:col-span-1">
+              <Bolt className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mx-auto mb-4 sm:mb-6" />
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">Resultados en Tiempo Real</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">Obtén predicciones actualizadas al instante con los últimos datos de sorteos.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Demo Section with Functional Tabs */}
-      <section className="py-20 bg-gray-100" id="demo">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-100" id="demo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-6 text-gray-800">Experimenta el poder de la predicción inteligente</h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-gray-800">Experimenta el poder de la predicción inteligente</h2>
+            <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed">
               Nuestra tecnología analiza múltiples factores simultáneamente para generar predicciones con alto porcentaje de precisión.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/demo-ia" className="inline-block px-8 py-4 bg-green-500 text-white rounded-full text-lg font-semibold hover:bg-green-600 transition-all text-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <a href="/demo-ia" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all text-center active:scale-95">
                 Probar Demo Gratis
               </a>
-              <a href="#pricing" className="inline-block px-8 py-4 bg-purple-500 text-white rounded-full text-lg font-semibold hover:bg-purple-600 transition-all text-center">
+              <a href="#pricing" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-purple-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-purple-600 transition-all text-center active:scale-95">
                 Ver Precios
               </a>
-              <a href="/activate-whatsapp" className="inline-block px-8 py-4 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 transition-all text-center">
-                Activar por WhatsApp
+              <a href="/activate-whatsapp" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-blue-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-blue-600 transition-all text-center active:scale-95">
+                Activar WhatsApp
               </a>
             </div>
           </div>
@@ -251,47 +298,47 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white stats" id="stats">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white stats" id="stats">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-12">Resultados Comprobados</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12">Resultados Comprobados</h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-            <div className="p-6">
-              <div className="text-5xl font-bold mb-3 stat-number">94.5%</div>
-              <div className="text-lg opacity-90">Precisión del algoritmo Anbel</div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16">
+            <div className="p-4 sm:p-6">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">94.5%</div>
+              <div className="text-sm sm:text-base lg:text-lg opacity-90">Precisión del algoritmo Anbel</div>
             </div>
             
-            <div className="p-6">
-              <div className="text-5xl font-bold mb-3 stat-number">1,240+</div>
-              <div className="text-lg opacity-90">Predicciones exitosas</div>
+            <div className="p-4 sm:p-6">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">1,240+</div>
+              <div className="text-sm sm:text-base lg:text-lg opacity-90">Predicciones exitosas</div>
             </div>
             
-            <div className="p-6">
-              <div className="text-5xl font-bold mb-3 stat-number">4</div>
-              <div className="text-lg opacity-90">Algoritmos integrados</div>
+            <div className="p-4 sm:p-6">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">4</div>
+              <div className="text-sm sm:text-base lg:text-lg opacity-90">Algoritmos integrados</div>
             </div>
             
-            <div className="p-6">
-              <div className="text-5xl font-bold mb-3 stat-number">98%</div>
-              <div className="text-lg opacity-90">Satisfacción de usuarios</div>
+            <div className="p-4 sm:p-6">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 stat-number">98%</div>
+              <div className="text-sm sm:text-base lg:text-lg opacity-90">Satisfacción de usuarios</div>
             </div>
           </div>
 
           {/* Testimonials */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold text-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/20">
+              <div className="flex items-center mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold text-lg sm:text-xl">
                   M
                 </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-lg">María González</h4>
-                  <div className="flex text-yellow-400">
+                <div className="ml-3 sm:ml-4">
+                  <h4 className="font-bold text-base sm:text-lg">María González</h4>
+                  <div className="flex text-yellow-400 text-sm sm:text-base">
                     ⭐⭐⭐⭐⭐
                   </div>
                 </div>
               </div>
-              <p className="text-blue-100 italic">
+              <p className="text-blue-100 italic text-sm sm:text-base leading-relaxed">
                 "¡Increíble! GanaFácil me ayudó a ganar $2,500 en Powerball. 
                 Sus predicciones son muy precisas y fáciles de entender."
               </p>
