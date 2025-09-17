@@ -175,6 +175,11 @@ class AnbelAI {
       }
     }
     
+    // 🤖 PREGUNTAS GENERALES - Usar Gemini AI directamente
+    if (intent === 'general_question') {
+      return await this.processWithGemini(input, context);
+    }
+    
     // 🤖 RESPUESTAS GENERALES - Usar Gemini AI (SOLO SI NO ES PREDICCIÓN)
     return await this.processWithGemini(input, context);
   }
@@ -406,6 +411,54 @@ class AnbelAI {
    * 🧠 Generar respuesta inteligente general
    */
   private async generateIntelligentResponse(input: string): Promise<AnbelResponse> {
+    const lowerInput = input.toLowerCase();
+    
+    // Preguntas específicas sobre fecha y hora
+    if (lowerInput.includes('qué día es') || lowerInput.includes('what day is')) {
+      const today = new Date();
+      const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+      const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
+                     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      
+      const dayName = days[today.getDay()];
+      const monthName = months[today.getMonth()];
+      const date = today.getDate();
+      const year = today.getFullYear();
+      
+      return {
+        text: `🗓️ **Hoy es ${dayName}, ${date} de ${monthName} de ${year}**\n\n` +
+              `¡Perfecto! Es un gran día para hacer predicciones de lotería. ¿Te gustaría que genere números ganadores para Powerball o Mega Millions? 🎯`,
+        type: 'suggestion',
+        confidence: 1.0,
+        data: {
+          date: today.toISOString(),
+          dayName,
+          monthName,
+          date,
+          year
+        }
+      };
+    }
+    
+    // Preguntas sobre hora
+    if (lowerInput.includes('qué hora es') || lowerInput.includes('what time is')) {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      
+      return {
+        text: `⏰ **Son las ${hours}:${minutes}**\n\n` +
+              `¡Excelente momento para hacer predicciones! ¿Quieres que genere números de la suerte para alguna lotería específica? 🍀`,
+        type: 'suggestion',
+        confidence: 1.0,
+        data: {
+          time: now.toISOString(),
+          hours,
+          minutes
+        }
+      };
+    }
+    
     // Usar memoria para respuestas más inteligentes
     const similarQueries = this.findSimilarQueries(input);
     const context = this.buildContext(input, similarQueries);
@@ -638,6 +691,20 @@ class AnbelAI {
   }
 
   /**
+   * 🔍 Verificar si contiene palabras clave de loterías
+   */
+  private containsLotteryKeywords(input: string): boolean {
+    const lotteryKeywords = [
+      'powerball', 'pawerball', 'mega millions', 'euromillions', 'baloto',
+      'lotería', 'lottery', 'sorteo', 'draw', 'números', 'numbers',
+      'predicción', 'prediction', 'jackpot', 'premio', 'prize',
+      'cash4life', 'lucky for life', 'hot lotto', 'pick 6', 'fantasy 5'
+    ];
+    
+    return lotteryKeywords.some(keyword => input.includes(keyword));
+  }
+
+  /**
    * 🎯 Detectar intención del usuario
    */
   private detectIntent(input: string): string {
@@ -647,11 +714,23 @@ class AnbelAI {
     const intent = this.detectIntentBySimilarity(lowerInput);
     if (intent) return intent;
     
-    // Preguntas específicas sobre horarios
-    if (lowerInput.includes('cuándo') || lowerInput.includes('when') ||
+    // Preguntas generales que NO son sobre loterías - usar Gemini
+    if ((lowerInput.includes('qué día es') || lowerInput.includes('what day is') ||
+         lowerInput.includes('qué hora es') || lowerInput.includes('what time is') ||
+         lowerInput.includes('qué fecha es') || lowerInput.includes('what date is') ||
+         lowerInput.includes('cómo está el clima') || lowerInput.includes('how is the weather') ||
+         lowerInput.includes('noticias') || lowerInput.includes('news') ||
+         lowerInput.includes('información') || lowerInput.includes('information')) &&
+        !this.containsLotteryKeywords(lowerInput)) {
+      return 'general_question';
+    }
+    
+    // Preguntas específicas sobre horarios de LOTERÍAS
+    if ((lowerInput.includes('cuándo') || lowerInput.includes('when') ||
         lowerInput.includes('horario') || lowerInput.includes('schedule') ||
         lowerInput.includes('hora') || lowerInput.includes('time') ||
-        lowerInput.includes('día') || lowerInput.includes('day')) {
+        lowerInput.includes('día') || lowerInput.includes('day')) &&
+        this.containsLotteryKeywords(lowerInput)) {
       return 'lottery_schedules';
     }
     
