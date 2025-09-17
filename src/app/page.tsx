@@ -256,19 +256,19 @@ export default function Home() {
                 <ul className="text-left space-y-2">
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>Análisis de 200+ sorteos históricos</span>
+                    <span className="text-gray-700">Análisis de 200+ sorteos históricos</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>6 algoritmos matemáticos avanzados</span>
+                    <span className="text-gray-700">6 algoritmos matemáticos avanzados</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>Predicciones con explicación detallada</span>
+                    <span className="text-gray-700">Predicciones con explicación detallada</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>Análisis de tickets con IA</span>
+                    <span className="text-gray-700">Análisis de tickets con IA</span>
                   </li>
                 </ul>
                 <p className="text-blue-600 font-semibold mt-3">
@@ -285,19 +285,19 @@ export default function Home() {
                 <ul className="text-left space-y-2">
                   <li className="flex items-start">
                     <span className="text-purple-500 mr-2">•</span>
-                    <span>Responde en español e inglés</span>
+                    <span className="text-gray-700">Responde en español e inglés</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-purple-500 mr-2">•</span>
-                    <span>Explica cada predicción paso a paso</span>
+                    <span className="text-gray-700">Explica cada predicción paso a paso</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-purple-500 mr-2">•</span>
-                    <span>Analiza tus tickets subidos</span>
+                    <span className="text-gray-700">Analiza tus tickets subidos</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-purple-500 mr-2">•</span>
-                    <span>Te guía en el uso de la app</span>
+                    <span className="text-gray-700">Te guía en el uso de la app</span>
                   </li>
                 </ul>
                 <p className="text-purple-600 font-semibold mt-3">
@@ -314,19 +314,19 @@ export default function Home() {
                 <ul className="text-left space-y-2">
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>APIs de loterías en tiempo real</span>
+                    <span className="text-gray-700">APIs de loterías en tiempo real</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>Análisis de jackpots actuales</span>
+                    <span className="text-gray-700">Análisis de jackpots actuales</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>Horarios de sorteos precisos</span>
+                    <span className="text-gray-700">Horarios de sorteos precisos</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-green-500 mr-2">•</span>
-                    <span>Predicciones con datos frescos</span>
+                    <span className="text-gray-700">Predicciones con datos frescos</span>
                   </li>
                 </ul>
                 <p className="text-green-600 font-semibold mt-3">
