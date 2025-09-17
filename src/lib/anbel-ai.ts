@@ -317,16 +317,16 @@ class AnbelAI {
            `🔢 **Números**: ${numbers}${bonus}\n` +
            `🧠 **Confianza**: ${confidence}%\n` +
            `⚡ **Algoritmo**: Emergency Ultra\n\n` +
-           `💡 **¿POR QUÉ COMPARTIR ESTA PREDICCIÓN?**\n` +
-           `• 🔥 **Números analizados** con algoritmos avanzados\n` +
-           `• 📊 **Alta probabilidad** de ganar\n` +
-           `• 🎯 **Combinación única** generada para ti\n` +
-           `• 💰 **¡Otros pueden ganar también!**\n\n` +
-           `📱 **¿CÓMO COMPARTIR?**\n` +
-           `• Usa los botones de abajo para compartir\n` +
-           `• Incluye enlace directo a la app\n` +
-           `• Gana puntos por cada compartir\n` +
-           `• ¡Ayuda a otros a ganar!\n\n` +
+           `💰 **¡COMPARTE Y GANA DINERO REAL!**\n` +
+           `• 🎯 **Si alguien gana con estos números → TÚ GANAS 15%**\n` +
+           `• 🔥 **Más compartes = Más oportunidades de ganar**\n` +
+           `• 💪 **Tus números tienen ${confidence}% de confianza**\n` +
+           `• 🌟 **¡Ayuda a otros y gana dinero juntos!**\n\n` +
+           `📱 **COMPARTE AHORA CON 1 CLIC:**\n` +
+           `• Botones de abajo → Comparte automáticamente\n` +
+           `• Incluye tu compromiso de ganancia\n` +
+           `• Enlace directo para nuevos usuarios\n` +
+           `• ¡Sin escribir nada, todo automático!\n\n` +
            `🎉 **¡USA ESTA COMBINACIÓN Y GANA!** 🎉`;
   }
 
@@ -935,16 +935,16 @@ class AnbelAI {
            `⚡ **Algoritmo**: ${prediction.algorithm}\n` +
            `📊 **Patrones**: ${prediction.patterns}\n` +
            `🎓 **Aprendizaje**: ${learningLevel}%\n\n` +
-           `💡 **¿POR QUÉ COMPARTIR ESTA PREDICCIÓN?**\n` +
-           `• 🔥 **Números analizados** con algoritmos avanzados\n` +
-           `• 📊 **Alta probabilidad** de ganar\n` +
-           `• 🎯 **Combinación única** generada para ti\n` +
-           `• 💰 **¡Otros pueden ganar también!**\n\n` +
-           `📱 **¿CÓMO COMPARTIR?**\n` +
-           `• Usa los botones de abajo para compartir\n` +
-           `• Incluye enlace directo a la app\n` +
-           `• Gana puntos por cada compartir\n` +
-           `• ¡Ayuda a otros a ganar!\n\n` +
+           `💰 **¡COMPARTE Y GANA DINERO REAL!**\n` +
+           `• 🎯 **Si alguien gana con estos números → TÚ GANAS 15%**\n` +
+           `• 🔥 **Más compartes = Más oportunidades de ganar**\n` +
+           `• 💪 **Tus números tienen ${confidence}% de confianza**\n` +
+           `• 🌟 **¡Ayuda a otros y gana dinero juntos!**\n\n` +
+           `📱 **COMPARTE AHORA CON 1 CLIC:**\n` +
+           `• Botones de abajo → Comparte automáticamente\n` +
+           `• Incluye tu compromiso de ganancia\n` +
+           `• Enlace directo para nuevos usuarios\n` +
+           `• ¡Sin escribir nada, todo automático!\n\n` +
            `🎉 **¡USA ESTA COMBINACIÓN Y GANA!** 🎉\n\n` +
            `*Anbel IA ha analizado ${this.learningData.length} interacciones y ${this.patterns.length} patrones*`;
   }
@@ -2689,10 +2689,16 @@ class AnbelAI {
              ).join('\n') + '\n\n' +
              `**🎉 ¡ESTOS NÚMEROS TIENEN ALTA PROBABILIDAD DE GANAR!**\n` +
              `**🚀 ¡COMPRA TU TICKET AHORA Y GANA!**\n\n` +
-             `**💡 CONSEJOS DE ANBEL:**\n` +
-             `• Juega estos números exactos\n` +
-             `• Compra múltiples tickets\n` +
-             `• ¡La suerte está de tu lado!\n\n` +
+             `💰 **¡COMPARTE Y GANA DINERO REAL!**\n` +
+             `• 🎯 **Si alguien gana con estos números → TÚ GANAS 15%**\n` +
+             `• 🔥 **Más compartes = Más oportunidades de ganar**\n` +
+             `• 💪 **Tus números tienen ${confidence}% de confianza**\n` +
+             `• 🌟 **¡Ayuda a otros y gana dinero juntos!**\n\n` +
+             `📱 **COMPARTE AHORA CON 1 CLIC:**\n` +
+             `• Botones de abajo → Comparte automáticamente\n` +
+             `• Incluye tu compromiso de ganancia\n` +
+             `• Enlace directo para nuevos usuarios\n` +
+             `• ¡Sin escribir nada, todo automático!\n\n` +
              `*Anbel Ultra IA ha analizado ${historicalAnalysis.analysis.totalDraws} sorteos históricos, ` +
              `${this.learningData.length} interacciones y ${this.patterns.length} patrones para darte la mejor predicción*`;
     } else {
@@ -2730,10 +2736,16 @@ class AnbelAI {
              ).join('\n') + '\n\n' +
              `**🎉 THESE NUMBERS HAVE HIGH WINNING PROBABILITY!**\n` +
              `**🚀 BUY YOUR TICKET NOW AND WIN!**\n\n` +
-             `**💡 ANBEL'S TIPS:**\n` +
-             `• Play these exact numbers\n` +
-             `• Buy multiple tickets\n` +
-             `• Luck is on your side!\n\n` +
+             `💰 **SHARE AND EARN REAL MONEY!**\n` +
+             `• 🎯 **If someone wins with these numbers → YOU GET 15%**\n` +
+             `• 🔥 **More shares = More opportunities to earn**\n` +
+             `• 💪 **Your numbers have ${confidence}% confidence**\n` +
+             `• 🌟 **Help others and earn money together!**\n\n` +
+             `📱 **SHARE NOW WITH 1 CLICK:**\n` +
+             `• Buttons below → Share automatically\n` +
+             `• Includes your earning commitment\n` +
+             `• Direct link for new users\n` +
+             `• No writing needed, all automatic!\n\n` +
              `*Anbel Ultra AI has analyzed ${historicalAnalysis.analysis.totalDraws} historical draws, ` +
              `${this.learningData.length} interactions and ${this.patterns.length} patterns to give you the best prediction*`;
     }
