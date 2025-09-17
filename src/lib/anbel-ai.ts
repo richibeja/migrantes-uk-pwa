@@ -3370,15 +3370,10 @@ class AnbelAI {
     telegram: string;
     email: string;
   } {
-    const numbers = prediction.numbers.join(', ');
-    const confidence = Math.round(prediction.confidence * 100);
-    const rarity = this.getPredictionRarity(prediction.confidence);
     const appUrl = 'https://gana-facil.vercel.app';
-    const dashboardUrl = `${appUrl}/dashboard`;
     
-    const baseText = language === 'es' 
-      ? `🔥 ¡PREDICCIÓN ${rarity} DE ANBEL IA! 🔥\n\n🎯 Números: ${numbers}\n🧠 Confianza: ${confidence}%\n🎲 Lotería: ${lottery}\n\n💡 ¡Descarga Anbel IA y gana tú también!\n🔗 ${appUrl}\n📱 Dashboard: ${dashboardUrl}\n\n#AnbelIA #Ganar #Predicciones #${lottery} #${rarity}`
-      : `🔥 ${rarity} PREDICTION FROM ANBEL AI! 🔥\n\n🎯 Numbers: ${numbers}\n🧠 Confidence: ${confidence}%\n🎲 Lottery: ${lottery}\n\n💡 Download Anbel AI and win too!\n🔗 ${appUrl}\n📱 Dashboard: ${dashboardUrl}\n\n#AnbelIA #Win #Predictions #${lottery} #${rarity}`;
+    // Usar el mensaje amable de generateShareText
+    const baseText = this.generateShareText(prediction, lottery, language);
 
     return {
       twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(baseText)}&url=${encodeURIComponent(appUrl)}`,
