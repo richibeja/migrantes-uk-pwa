@@ -166,8 +166,3 @@ export default function VoicePlayer({
     </div>
   );
 }
-no disponible
-﻿
-connect.facebook.net/en_US/fbevents.js:1 
- Failed to load resource: net::ERR_FAILED
-﻿
