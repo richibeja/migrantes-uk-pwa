@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Brain, ChartLine, Bot, ArrowLeft, Zap, Target, BarChart3, TrendingUp, Clock, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { trackEvent } from '@/components/MetaPixel';
 
 const algorithms = {
   anbel: {
@@ -48,14 +49,14 @@ function generateUniqueNumbers(min: number, max: number, count: number): number[
   return Array.from(numbers).sort((a, b) => a - b);
 }
 
-export default function DemoIAPageEn() {
+export default function DemoIAEnPage() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('anbel');
   const [isGenerating, setIsGenerating] = useState(false);
   const [prediction, setPrediction] = useState<number[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [progress, setProgress] = useState(0);
   const [chatMessages, setChatMessages] = useState([
-    { type: 'ai', message: 'Hello, I am Anbel AI. How can I help you with predictions today?' }
+    { type: 'ai', message: 'Hello, I\'m Anbel AI. How can I help you with predictions today?' }
   ]);
   const [userInput, setUserInput] = useState('');
 
@@ -77,7 +78,7 @@ export default function DemoIAPageEn() {
           setIsGenerating(false);
           
           // Add message to chat
-          addChatMessage('ai', `I have generated a prediction using the ${algorithms[selectedAlgorithm as keyof typeof algorithms].name}. The numbers with highest probability are: ${numbers.join(', ')}.`);
+          addChatMessage('ai', `I've generated a prediction using the ${algorithms[selectedAlgorithm as keyof typeof algorithms].name}. The numbers with highest probability are: ${numbers.join(', ')}.`);
           
           return 100;
         }
@@ -111,21 +112,21 @@ export default function DemoIAPageEn() {
     
     if (lowerMsg.includes('prediction') || lowerMsg.includes('numbers')) {
       return "Our algorithm analyzes historical patterns with 94.5% accuracy. Would you like me to generate a prediction for you?";
-    } else if (lowerMsg.includes('how does it work') || lowerMsg.includes('algorithm')) {
-      return "I use 4 integrated algorithms that analyze frequencies, seasonal patterns, probability distributions and correlations between numbers.";
+    } else if (lowerMsg.includes('how it works') || lowerMsg.includes('algorithm')) {
+      return "I use 4 integrated algorithms that analyze frequencies, seasonal patterns, probabilistic distributions and correlations between numbers.";
     } else if (lowerMsg.includes('register') || lowerMsg.includes('account')) {
-      return "You can register on our platform to access personalized predictions and advanced analysis. Do you need help with registration?";
+      return "You can register on our platform to access personalized predictions and advanced analytics. Do you need help with registration?";
     } else if (lowerMsg.includes('price') || lowerMsg.includes('cost')) {
-      return "We have basic, premium and VIP plans with different benefits. Are you interested in learning more about our plans?";
+      return "We have basic, premium and VIP plans with different benefits. Would you like to know more about our plans?";
     } else if (lowerMsg.includes('winner') || lowerMsg.includes('success')) {
       return "Our users have reported over 1,240 successful predictions. The system continuously learns from results to improve accuracy.";
     } else if (lowerMsg.includes('free') || lowerMsg.includes('demo')) {
-      return "This demonstration allows you to experience a limited version of our technology. Registration is free and offers access to more features.";
+      return "This demo allows you to experience a limited version of our technology. Registration is free and offers access to more features.";
     } else {
       const randomResponses = [
         "Interesting question. Would you like to know more about our prediction capabilities?",
         "I'm not sure I understand completely. Could you rephrase? I can help you with information about predictions or the registration process.",
-        "Good question. Our AI specializes in lottery pattern analysis. What type of information are you interested in?",
+        "Good question. Our AI specializes in lottery pattern analysis. What kind of information are you interested in?",
         "Would you like me to generate a prediction to show you how our system works?"
       ];
       return randomResponses[Math.floor(Math.random() * randomResponses.length)];
@@ -141,8 +142,15 @@ export default function DemoIAPageEn() {
 
   // Initialize demo
   useEffect(() => {
+    // Track demo page view
+    trackEvent('ViewContent', {
+      content_name: 'Anbel AI Demo',
+      content_type: 'demo',
+      content_category: 'AI Demo'
+    });
+
     setTimeout(() => {
-      addChatMessage('ai', "Welcome to the Anbel AI demo! I'm here to help you with intelligent predictions. Would you like me to generate an example prediction?");
+      addChatMessage('ai', "Welcome to the Anbel AI demo! I'm here to help you with intelligent predictions. Would you like me to generate a sample prediction?");
     }, 2000);
   }, []);
 
@@ -158,7 +166,7 @@ export default function DemoIAPageEn() {
             </Link>
             <div className="flex items-center justify-center gap-3 mb-3">
               <Brain className="h-12 w-12 text-green-400" />
-              <span className="text-3xl font-bold">GanaFácil</span>
+              <span className="text-3xl font-bold">EasyWin</span>
             </div>
             <h1 className="text-2xl font-bold mb-2">Anbel AI Demo</h1>
             <p className="text-blue-100">Experience the power of intelligent prediction</p>
@@ -222,7 +230,15 @@ export default function DemoIAPageEn() {
             </div>
 
             <button
-              onClick={generatePrediction}
+              onClick={() => {
+                generatePrediction();
+                trackEvent('Lead', {
+                  content_name: 'Demo Prediction Generated',
+                  content_category: 'Demo Interaction',
+                  value: 0,
+                  currency: 'USD'
+                });
+              }}
               disabled={isGenerating}
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
             >
@@ -269,14 +285,14 @@ export default function DemoIAPageEn() {
                   ))}
                 </div>
                 <div className="text-sm text-gray-600">
-                  <p>Hit probability: <strong>{algorithms[selectedAlgorithm as keyof typeof algorithms].accuracy}</strong></p>
+                  <p>Success probability: <strong>{algorithms[selectedAlgorithm as keyof typeof algorithms].accuracy}</strong></p>
                   <p>Algorithm: <strong>{algorithms[selectedAlgorithm as keyof typeof algorithms].name}</strong></p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* AI Chat */}
+          {/* Chat with AI */}
           <div className="bg-white rounded-2xl shadow-xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <Bot className="h-8 w-8 text-green-600" />
@@ -322,28 +338,33 @@ export default function DemoIAPageEn() {
 
         {/* CTA Section */}
         <div className="mt-8 bg-white rounded-2xl shadow-xl p-8 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready for More?</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready for more?</h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
             This is a demonstration with limited capabilities. Register to access personalized predictions, 
-            complete analysis and real-time result tracking.
+            complete analysis and real-time results tracking.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/auth/register-us"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+          <div className="flex flex-col gap-4 justify-center max-w-md mx-auto">
+            <a
+              href="https://pay.hotmart.com/C101975268F?checkoutMode=10"
+              onClick={() => {
+                trackEvent('InitiateCheckout', { 
+                  content_name: 'ANBEL AI Purchase from Demo', 
+                  value: 97, 
+                  currency: 'USD',
+                  content_category: 'AI Software',
+                  content_ids: ['anbel-ai-demo']
+                });
+              }}
+              className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-12 py-5 rounded-xl font-bold text-2xl hover:from-red-400 hover:to-pink-400 transition-all transform hover:scale-105 flex items-center justify-center gap-3 animate-pulse shadow-2xl"
             >
-              <CheckCircle className="h-5 w-5" />
-              Register Free
-            </Link>
-            <Link
-              href="/auth/login-en"
-              className="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-gray-200 transition-all"
-            >
-              Sign In
-            </Link>
+              🚀 BUY ANBEL AI NOW - $97
+            </a>
+            <p className="text-center text-sm text-gray-500">
+              ⚡ Instant access • 💰 30-day money back guarantee • 🔒 Secure payment
+            </p>
           </div>
           <p className="text-sm text-gray-500 mt-4">
-            Get full access to all Anbel AI features
+            Get full access to all Anbel AI functionalities
           </p>
         </div>
 
@@ -354,8 +375,8 @@ export default function DemoIAPageEn() {
             <div>
               <h4 className="font-medium text-yellow-800 mb-1">Important Note</h4>
               <p className="text-yellow-700 text-sm">
-                This is a demonstration with sample data. Real predictions require analysis of updated historical data 
-                and are available only to registered users.
+                This is a demonstration with sample data. Real predictions require updated historical data 
+                analysis and are available only to registered users.
               </p>
             </div>
           </div>

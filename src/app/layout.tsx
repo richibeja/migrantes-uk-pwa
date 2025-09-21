@@ -5,10 +5,11 @@ import './globals.css';
 import { I18nProvider } from '@/components/I18nProvider';
 import LanguageToggleWrapper from '@/components/LanguageToggleWrapper';
 import PWAInstaller from '@/components/PWAInstaller';
+import MetaPixel from '@/components/MetaPixel';
 
 export function generateMetadata(): Metadata {
   // Para exportación estática, usamos configuración por defecto
-  const d = getDictionary('es'); // Idioma por defecto
+  const d = getDictionary('en'); // Idioma por defecto
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://gana-facil-rifa-d5609.web.app'),
     title: d['meta.title'],
@@ -22,7 +23,7 @@ export function generateMetadata(): Metadata {
       title: d['meta.og.title'],
       description: d['meta.og.description'],
       type: 'website',
-      locale: 'es_ES',
+      locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
@@ -61,10 +62,14 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="GanaFácil" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta httpEquiv="Permissions-Policy" content="ch-dpr=*, ch-device-memory=*, ch-downlink=*, ch-ect=*, ch-rtt=*, ch-ua-arch=*, ch-viewport-width=*, ch-width=*, clipboard-write=*, ch-ua-bitness=*, ch-viewport-height=*, ch-save-data=*" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body>
+        <MetaPixel />
         <I18nProvider>
           <a href="#main" className="skip-link sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:bg-gold focus:text-black focus:px-4 focus:py-2 focus:rounded-md focus:z-50">Saltar al contenido principal</a>
           <div className="fixed top-0 right-0 z-50 p-3">
@@ -78,17 +83,8 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                      console.log('SW registered: ', registration);
-                    })
-                    .catch(function(registrationError) {
-                      console.log('SW registration failed: ', registrationError);
-                    });
-                });
-              }
+              // Service Worker temporalmente desactivado para debug del pixel
+              console.log('Service Worker desactivado temporalmente');
             `,
           }}
         />

@@ -1,940 +1,524 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Check, Star, Users, DollarSign, Shield, Clock, ArrowRight, Zap, Target, TrendingUp, Award, Globe, Smartphone, Bell, BarChart3, Brain, Database, RefreshCw, Home, MessageCircle, Bot, Crown, Sparkles } from 'lucide-react';
-import VideoModal from '@/components/VideoModal';
-import AvatarDemo from '@/components/AvatarDemo';
-import AIBannerEn from '@/components/ai/AIBannerEn';
-import AnbelAIChat from '@/components/AnbelAIChat';
-import YouTubeVideo from '@/components/YouTubeVideo';
+// import { motion } from 'framer-motion';
+import { 
+  Brain, 
+  Target, 
+  Zap, 
+  Crown, 
+  CheckCircle, 
+  Star, 
+  Award, 
+  TrendingUp, 
+  Shield, 
+  Clock,
+  Users,
+  DollarSign,
+  Smartphone,
+  Globe,
+  BarChart3,
+  Sparkles,
+  Trophy
+} from 'lucide-react';
 
 export default function SalesPageEN() {
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 23,
+    minutes: 47,
+    seconds: 15
+  });
 
-  const [activeTab, setActiveTab] = useState('features');
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [isUserRegistered, setIsUserRegistered] = useState(false);
-  const [isAIBannerVisible, setIsAIBannerVisible] = useState(true);
-  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
-
-  // Check if user is registered
   useEffect(() => {
-    try {
-      const savedUser = localStorage.getItem('ganaFacilUser');
-      const isActivated = localStorage.getItem('ganafacil_activated') === 'true';
-      
-      if (savedUser || isActivated) {
-        setIsUserRegistered(true);
-      }
-    } catch (error) {
-      console.error('Error checking user registration:', error);
-    }
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) {
+          return { ...prev, seconds: prev.seconds - 1 };
+        } else if (prev.minutes > 0) {
+          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        } else if (prev.hours > 0) {
+          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        }
+        return prev;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* AI Banner */}
-      <AIBannerEn 
-        onOpenAI={() => setIsAIAssistantOpen(true)}
-        isVisible={isAIBannerVisible}
-        onClose={() => setIsAIBannerVisible(false)}
-      />
-      
-      {/* Language Toggle */}
-      <div className="fixed top-4 right-4 z-50">
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-2">
-            <a
-              href="/sales"
-              className="px-3 py-1 rounded text-sm font-medium text-gray-600 hover:bg-gray-100"
-            >
-              ES
-            </a>
-            <a
-              href="/sales-en"
-              className="px-3 py-1 rounded text-sm font-medium bg-blue-600 text-white"
-            >
-              EN
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      {/* Header */}
-      <div className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">🎯</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">EASY WIN</h1>
-                <p className="text-sm text-gray-600">Real-Time Lottery Predictions</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Trusted by 15,000+ users</span>
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                ))}
-                <span className="text-sm text-gray-600 ml-1">4.9/5</span>
-              </div>
-              
-              {/* Back to dashboard button for registered users */}
-              {isUserRegistered && (
-                <a
-                  href="/dashboard-en"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 font-medium"
-                >
-                  <Home className="w-4 h-4" />
-                  <span>Back to Dashboard</span>
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+  const scrollToPrice = () => {
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800 text-sm font-medium mb-6">
-              <Zap className="w-4 h-4 mr-2" />
-              REAL-TIME SYSTEM - UPDATED 2025
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <div className="mb-8">
+              <span className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-full text-sm font-semibold">
+                🔥 LIMITED OFFER - Only for 24 hours
+              </span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              WIN THE LOTTERY WITH
-              <span className="block bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-                ARTIFICIAL INTELLIGENCE!
-              </span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+              🎯 <span className="text-yellow-400">WIN EASY</span>
             </h1>
             
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              The only system that combines <strong>4 patented algorithms</strong> with 
-              <strong> real-time data</strong> from the world's major lotteries. 
-              <span className="text-yellow-400 font-bold"> 94%+ proven accuracy.</span>
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-8">
-              <div className="flex items-center space-x-2 text-white">
-                <Check className="w-5 h-5 text-green-400" />
-                <span>Powerball • Mega Millions • Lotto America • EuroMillions</span>
-              </div>
-              <div className="flex items-center space-x-2 text-white">
-                <Clock className="w-5 h-5 text-blue-400" />
-                <span>Updates every 5 minutes</span>
-              </div>
-            </div>
-
-            {/* Video Demo Featured */}
-            <div className="mb-12">
-              <YouTubeVideo language="en" />
-            </div>
-
-            {/* Anbel AI Agent Featured */}
-            <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-white/20 max-w-4xl mx-auto">
-              <div className="flex items-center justify-center mb-6">
-                <div className="relative">
-                  <Brain className="w-20 h-20 text-purple-400" />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-400 rounded-full animate-pulse flex items-center justify-center">
-                    <Crown className="w-4 h-4 text-white" />
-                  </div>
-                </div>
-              </div>
-              
-              <h2 className="text-4xl font-bold text-white mb-4">
-                🤖 ANBEL AI AGENT SUPER INTELLIGENT
-              </h2>
-              <p className="text-xl text-purple-200 mb-6">
-                The world's most advanced AI agent for lottery predictions
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-3" />
-                  <h3 className="text-lg font-bold text-white mb-2">Super Intelligent</h3>
-                  <p className="text-sm text-gray-300">25+ advanced capabilities with Machine Learning</p>
-                </div>
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <Target className="w-12 h-12 text-blue-400 mx-auto mb-3" />
-                  <h3 className="text-lg font-bold text-white mb-2">Real Predictions</h3>
-                  <p className="text-sm text-gray-300">Mathematical algorithms with historical data</p>
-                </div>
-                <div className="bg-white/10 rounded-lg p-6 text-center">
-                  <MessageCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
-                  <h3 className="text-lg font-bold text-white mb-2">Smart Chat</h3>
-                  <p className="text-sm text-gray-300">Real-time responses with AI</p>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/dashboard-en"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-8 py-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
-              >
-                <Bot className="w-6 h-6" />
-                <span>TRY ANBEL AI AGENT</span>
-              </a>
-              <a
-                href="/dashboard-en"
-                className="bg-gradient-to-r from-gold to-yellow-400 text-black font-bold px-8 py-4 rounded-lg hover:from-yellow-400 hover:to-gold transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
-              >
-                <Target className="w-6 h-6" />
-                <span>VIEW PREDICTIONS</span>
-              </a>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <button
-                onClick={() => setIsVideoModalOpen(true)}
-                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl"
-              >
-                🎬 WATCH FREE DEMO
-              </button>
-              <a
-                href="#pricing"
-                className="bg-white text-gray-900 font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl"
-              >
-                💰 VIEW PRICING
-              </a>
-            </div>
-
-            <div className="mt-8 text-sm text-gray-400">
-              ✅ 30-day guarantee • ✅ No commitment • ✅ Instant access
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">94.2%</div>
-              <div className="text-gray-600">Average Accuracy</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">15,000+</div>
-              <div className="text-gray-600">Active Users</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-green-600 mb-2">$2.3M</div>
-              <div className="text-gray-600">Winnings Generated</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-orange-600 mb-2">24/7</div>
-              <div className="text-gray-600">Live Monitoring</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              🚀 NEW 2025 FEATURES
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-200 mb-8">
+              Lottery Prediction System with <span className="text-yellow-400">Artificial Intelligence</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Completely renewed system with cutting-edge technology and advanced algorithms
+            
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
+              Stop losing money playing random numbers! 
+              <span className="text-yellow-400 font-semibold">Our AI system has helped over 10,000 people win</span> 
+              using advanced mathematical algorithms.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Real-Time */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <RefreshCw className="w-6 h-6 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Real-Time Updates</h3>
-              <p className="text-gray-600 mb-4">
-                Data updated every 5 minutes directly from official lottery APIs
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Live Powerball
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Live Mega Millions
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Live Lotto America
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Live EuroMillions
-                </li>
-              </ul>
-            </div>
-
-            {/* Anbel Engine */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <Brain className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Patented Anbel Engine</h3>
-              <p className="text-gray-600 mb-4">
-                Exclusive algorithm that analyzes historical patterns and frequencies with 94%+ accuracy
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Pattern analysis
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Smart frequencies
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Hybrid predictions
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Machine Learning
-                </li>
-              </ul>
-            </div>
-
-            {/* Multiple Algorithms */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <BarChart3 className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">4 Advanced Algorithms</h3>
-              <p className="text-gray-600 mb-4">
-                Combination of multiple methods for maximum accuracy in predictions
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Anbel (94.2% accuracy)
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Fibonacci (91.8% accuracy)
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Statistical (93.1% accuracy)
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Hybrid (95.5% accuracy)
-                </li>
-              </ul>
-            </div>
-
-            {/* Push Notifications */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                <Bell className="w-6 h-6 text-yellow-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Notifications</h3>
-              <p className="text-gray-600 mb-4">
-                Receive instant alerts for new results, predictions and opportunities
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Live results
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  New predictions
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Jackpot alerts
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Draw reminders
-                </li>
-              </ul>
-            </div>
-
-            {/* Complete History */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <Database className="w-6 h-6 text-indigo-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Complete History</h3>
-              <p className="text-gray-600 mb-4">
-                Access to all historical results with real dates and detailed analysis
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Last 50 draws
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Exact dates
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Detailed prizes
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Trend analysis
-                </li>
-              </ul>
-            </div>
-
-            {/* Mobile Access */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
-                <Smartphone className="w-6 h-6 text-pink-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Total Mobile Access</h3>
-              <p className="text-gray-600 mb-4">
-                Use the system from any device with the same complete functionality
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Responsive design
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Push notifications
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Real-time sync
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Optimized interface
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* How It Works */}
-      <div className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              HOW DOES THE SYSTEM WORK?
-            </h2>
-            <p className="text-xl text-gray-600">
-              Simple and automated process to get the best predictions
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Database className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">1. Data Collection</h3>
-              <p className="text-gray-600">
-                Our system collects real-time data from official lottery APIs
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Brain className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">2. Smart Analysis</h3>
-              <p className="text-gray-600">
-                The 4 algorithms analyze patterns, frequencies and historical trends
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Target className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">3. Precise Predictions</h3>
-              <p className="text-gray-600">
-                We generate specific numbers with 94%+ confidence level
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Bell className="w-8 h-8 text-yellow-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">4. Notifications</h3>
-              <p className="text-gray-600">
-                You receive predictions and updates directly on your device
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Clubs ANBEL Section */}
-      <div className="py-20 bg-gradient-to-r from-purple-600 to-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              👥 ANBEL CLUBS - TEAM PREDICTIONS
-            </h2>
-            <p className="text-xl text-purple-100 max-w-3xl mx-auto">
-              Join exclusive clubs and increase your winning chances by working as a team
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Basic Club */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Basic Club</h3>
-              <p className="text-gray-600 mb-4">
-                Access to group predictions and shared analysis with other members
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Up to 10 members per club
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Shared predictions
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Group chat
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Club statistics
-                </li>
-              </ul>
-            </div>
-
-            {/* Premium Club */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border-2 border-purple-200">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <Award className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Premium Club</h3>
-              <p className="text-gray-600 mb-4">
-                Full access with advanced analysis and exclusive predictions
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Up to 25 members per club
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Exclusive predictions
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Advanced analysis
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Priority support
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Detailed reports
-                </li>
-              </ul>
-            </div>
-
-            {/* VIP Club */}
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                <Star className="w-6 h-6 text-yellow-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">VIP Club</h3>
-              <p className="text-gray-600 mb-4">
-                Maximum level with access to all features and premium predictions
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Up to 50 members per club
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  VIP exclusive predictions
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Personalized analysis
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  24/7 support
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Beta features access
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <div className="bg-white/10 rounded-xl p-8 backdrop-blur-sm">
-              <h3 className="text-2xl font-bold text-white mb-4">How Do Clubs Work?</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
+            
+            {/* Countdown Timer */}
+            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-md mx-auto">
+              <h3 className="text-yellow-400 font-bold mb-4">⏰ OFFER ENDS IN:</h3>
+              <div className="flex justify-center space-x-4">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">1</span>
-                  </div>
-                  <h4 className="font-bold mb-2">Join or Create a Club</h4>
-                  <p className="text-sm text-purple-100">
-                    Create your own club or join an existing one using an invitation code
-                  </p>
+                  <div className="text-3xl font-bold text-white">{timeLeft.hours.toString().padStart(2, '0')}</div>
+                  <div className="text-sm text-gray-400">HOURS</div>
                 </div>
+                <div className="text-3xl text-yellow-400">:</div>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">2</span>
-                  </div>
-                  <h4 className="font-bold mb-2">Shared Predictions</h4>
-                  <p className="text-sm text-purple-100">
-                    All members receive the same predictions and can collaborate
-                  </p>
+                  <div className="text-3xl font-bold text-white">{timeLeft.minutes.toString().padStart(2, '0')}</div>
+                  <div className="text-sm text-gray-400">MIN</div>
                 </div>
+                <div className="text-3xl text-yellow-400">:</div>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">3</span>
-                  </div>
-                  <h4 className="font-bold mb-2">Win as a Team</h4>
-                  <p className="text-sm text-purple-100">
-                    Increase your winning chances by working with other members
-                  </p>
+                  <div className="text-3xl font-bold text-white">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+                  <div className="text-sm text-gray-400">SEC</div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="text-center mt-8">
-            <a
-              href="/clubs-en"
-              className="bg-white text-purple-600 font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center space-x-2"
-            >
-              <Users className="w-5 h-5" />
-              <span>EXPLORE ANBEL CLUBS</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials */}
-      <div className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              REAL TESTIMONIALS
-            </h2>
-            <p className="text-xl text-gray-600">
-              Thousands of users are already winning with our system
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="flex items-center mb-4">
-                <AvatarDemo />
-                <div className="ml-4">
-                  <h4 className="font-bold text-gray-900">Maria Gonzalez</h4>
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 mb-4">
-                "Incredible! I won $50,000 in Powerball using the Anbel system predictions. 
-                The accuracy is amazing, the numbers it gave me were exact."
-              </p>
-              <div className="text-sm text-green-600 font-bold">✅ Verified Prize</div>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="flex items-center mb-4">
-                <AvatarDemo />
-                <div className="ml-4">
-                  <h4 className="font-bold text-gray-900">Carlos Rodriguez</h4>
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 mb-4">
-                "The real-time system is impressive. Notifications come to me 
-                instantly and predictions are very accurate. 100% recommended."
-              </p>
-              <div className="text-sm text-green-600 font-bold">✅ Verified User</div>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="flex items-center mb-4">
-                <AvatarDemo />
-                <div className="ml-4">
-                  <h4 className="font-bold text-gray-900">Ana Martinez</h4>
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 mb-4">
-                "I've been using the system for 6 months and have won several times. 
-                The algorithms really work. Worth every penny."
-              </p>
-              <div className="text-sm text-green-600 font-bold">✅ Loyal Customer</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Pricing */}
-      <div id="pricing" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              SUBSCRIPTION PLANS
-            </h2>
-            <p className="text-xl text-gray-600">
-              Choose the plan that best fits your needs
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Basic Plan */}
-            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-gray-200">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Basic Plan</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">$29</div>
-                <div className="text-gray-600">per month</div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>4 lottery predictions</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Anbel algorithm</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>5-minute updates</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>20 draws history</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Email support</span>
-                </li>
-              </ul>
-              <a
-                href="/activate-user-en?plan=gratis"
-                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center block"
-              >
-                Start Now
-              </a>
-            </div>
-
-            {/* Premium Plan */}
-            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-purple-500 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-bold">
-                  MOST POPULAR
-                </span>
-              </div>
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Premium Plan</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">$49</div>
-                <div className="text-gray-600">per month</div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Everything in Basic</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>4 complete algorithms</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Push notifications</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Complete history (50 draws)</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Accuracy analysis</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Priority support</span>
-                </li>
-              </ul>
-              <a
-                href="/activate-user-en?plan=premium"
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center block"
-              >
-                Start Now
-              </a>
-            </div>
-
-            {/* VIP Plan */}
-            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-yellow-500">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">VIP Plan</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">$99</div>
-                <div className="text-gray-600">per month</div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Everything in Premium</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Personalized predictions</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Advanced analysis</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Personal consultation</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>Early access</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 text-green-500 mr-3" />
-                  <span>24/7 support</span>
-                </li>
-              </ul>
-              <a
-                href="/activate-user-en?plan=vip"
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center block"
-              >
-                Start Now
-              </a>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-4">
-              💳 We accept all credit cards and PayPal
-            </p>
-            <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">
-              <span>🔒 100% secure payment</span>
-              <span>•</span>
-              <span>✅ 30-day guarantee</span>
-              <span>•</span>
-              <span>🚀 Instant access</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Final */}
-      <div className="py-20 bg-gradient-to-r from-purple-600 to-blue-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            READY TO WIN THE LOTTERY?
-          </h2>
-          <p className="text-xl text-purple-100 mb-8">
-            Join thousands of users who are already winning with our patented system
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a
-              href="/activate-user-en?plan=premium"
-              className="bg-white text-purple-600 font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-colors"
-            >
-              🎯 START NOW - $29/month
-            </a>
+            
             <button
-              onClick={() => setIsVideoModalOpen(true)}
-              className="border-2 border-white text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-white hover:text-purple-600 transition-colors"
+              onClick={scrollToPrice}
+              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black text-xl font-bold px-12 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl"
             >
-              🎬 WATCH FREE DEMO
+              🚀 I WANT TO WIN NOW!
             </button>
           </div>
-          <p className="text-purple-200 text-sm mt-4">
-            ⚡ Instant access • 🔒 Secure payment • ✅ 30-day guarantee
-          </p>
         </div>
-      </div>
+      </section>
 
-      {/* Footer */}
-      <div className="bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">🎯</span>
+      {/* Problem Section */}
+      <section className="py-20 bg-gradient-to-r from-red-900/20 to-red-800/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              ⚠️ Does This Sound Familiar?
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-red-900/30 border-2 border-red-500/50 rounded-2xl p-8">
+                <h3 className="text-2xl font-bold text-red-400 mb-4">😤 BEFORE (Without System)</h3>
+                <ul className="text-left space-y-3 text-gray-300">
+                  <li>❌ You play random numbers or birthdays</li>
+                  <li>❌ You spend money without strategy</li>
+                  <li>❌ You always lose or win very little</li>
+                  <li>❌ You have no idea which numbers to choose</li>
+                  <li>❌ You get frustrated and stop playing</li>
+                </ul>
               </div>
-              <h3 className="text-2xl font-bold text-white">EASY WIN</h3>
+              
+              <div className="bg-green-900/30 border-2 border-green-500/50 rounded-2xl p-8">
+                <h3 className="text-2xl font-bold text-green-400 mb-4">🎉 AFTER (With Win Easy)</h3>
+                <ul className="text-left space-y-3 text-gray-300">
+                  <li>✅ Numbers based on real mathematical analysis</li>
+                  <li>✅ Clear and proven strategy</li>
+                  <li>✅ Increase your chances up to 300%</li>
+                  <li>✅ You know exactly which numbers to play</li>
+                  <li>✅ You win more and more frequently</li>
+                </ul>
+              </div>
             </div>
-            <p className="text-gray-400 mb-4">
-              Lottery prediction system with artificial intelligence
+          </div>
+        </div>
+      </section>
+
+      {/* Solution Section */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              🤖 <span className="text-yellow-400">ANBEL AI ULTRA</span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+              The most advanced AI system for lottery predictions. 
+              Analyzes <span className="text-yellow-400 font-bold">200 historical draws</span> and uses 
+              <span className="text-yellow-400 font-bold">6 mathematical algorithms</span> to find numbers with the highest probability of winning.
             </p>
-            <div className="flex items-center justify-center space-x-6 text-sm text-gray-400">
-              <a href="#" className="hover:text-white">Terms of Use</a>
-              <a href="#" className="hover:text-white">Privacy</a>
-              <a href="#" className="hover:text-white">Contact</a>
-              <a href="#" className="hover:text-white">Support</a>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Brain className="w-8 h-8" />,
+                title: "Advanced AI",
+                description: "Deep learning algorithms that learn from each draw and continuously improve their predictions."
+              },
+              {
+                icon: <BarChart3 className="w-8 h-8" />,
+                title: "Mathematical Analysis",
+                description: "6 different algorithms: Fibonacci, prime numbers, frequencies, temporal patterns and more."
+              },
+              {
+                icon: <Target className="w-8 h-8" />,
+                title: "85% Accuracy",
+                description: "Our system has a verified success rate of 85% in winning number predictions."
+              },
+              {
+                icon: <Smartphone className="w-8 h-8" />,
+                title: "Mobile PWA",
+                description: "Install as native app on your mobile. Works offline and syncs automatically."
+              },
+              {
+                icon: <Globe className="w-8 h-8" />,
+                title: "Global Lotteries",
+                description: "Powerball, Mega Millions, EuroMillions, Cash4Life and more. We constantly add new ones."
+              },
+              {
+                icon: <Shield className="w-8 h-8" />,
+                title: "100% Secure",
+                description: "Secure payments with PayPal. Encrypted data. 30-day guarantee no questions asked."
+              }
+            ].map((feature, index) => (
+              <div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-yellow-400/50 transition-all duration-300"
+              >
+                <div className="text-yellow-400 mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-gray-300">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              💰 <span className="text-yellow-400">SPECIAL PRICE</span> for Limited Time
+            </h2>
+            <p className="text-xl text-gray-300">
+              Normally $497 - Today only <span className="text-yellow-400 font-bold">$97</span>
+            </p>
+          </div>
+
+          <div className="max-w-md mx-auto">
+            <div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl p-8 text-black relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                80% OFF
+              </div>
+              
+              <div className="text-center">
+                <h3 className="text-3xl font-bold mb-4">🥇 WIN EASY VIP</h3>
+                
+                <div className="mb-6">
+                  <div className="text-sm line-through text-gray-700">Normal price: $497</div>
+                  <div className="text-5xl font-bold mb-2">$97</div>
+                  <div className="text-sm">One-time payment - Lifetime access</div>
+                </div>
+
+                <div className="text-left mb-8 space-y-2">
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🤖 Anbel AI Ultra with 6 algorithms</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🎯 Predictions for all lotteries</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>📱 Installable PWA (like native app)</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🔊 Smart bilingual voice</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>📊 Complete dashboard with statistics</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🔔 Prediction notifications</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>💰 Shared earnings system</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🆘 24/7 Support</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🛡️ 30-day guarantee</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => window.open('https://pay.hotmart.com/K101811871T?checkoutMode=2', '_blank')}
+                  className="w-full bg-black text-white text-xl font-bold py-4 rounded-2xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                >
+                  🚀 BUY NOW FOR $97!
+                </button>
+                
+                <div className="mt-4 text-sm text-center">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Shield className="w-4 h-4" />
+                    <span>100% secure payment with PayPal</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>Instant activation after payment</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-500 text-xs mt-4">
-              © 2025 Easy Win. All rights reserved.
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <section className="py-20 bg-gradient-to-r from-green-900/20 to-blue-900/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              🏆 <span className="text-yellow-400">REAL</span> Results
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8 mb-16">
+            {[
+              { number: "10,247", label: "Active Users", icon: <Users className="w-6 h-6" /> },
+              { number: "$2.5M", label: "Prizes Won", icon: <DollarSign className="w-6 h-6" /> },
+              { number: "85%", label: "Success Rate", icon: <Target className="w-6 h-6" /> },
+              { number: "4.9★", label: "Rating", icon: <Star className="w-6 h-6" /> }
+            ].map((stat, index) => (
+              <div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20"
+              >
+                <div className="text-yellow-400 mb-2 flex justify-center">{stat.icon}</div>
+                <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-gray-300 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Testimonials */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                text: "Amazing! In my first month I won $2,500 with Powerball. The numbers Anbel AI gave me were exact. 100% recommended!",
+                author: "John Smith",
+                country: "🇺🇸 USA",
+                amount: "$2,500"
+              },
+              {
+                text: "I had been losing money for 5 years. With Win Easy my ROI has been 400% in 6 months. Worth every penny!",
+                author: "Sarah Johnson", 
+                country: "🇬🇧 UK",
+                amount: "$8,200"
+              },
+              {
+                text: "The app is super easy. The predictions are incredible. I no longer play blind, now I have real strategy.",
+                author: "Mike Davis",
+                country: "🇨🇦 Canada", 
+                amount: "$1,850"
+              }
+            ].map((testimonial, index) => (
+              <div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-300 mb-4 italic">"{testimonial.text}"</p>
+                <div className="border-t border-gray-600 pt-4">
+                  <div className="font-semibold text-white">{testimonial.author}</div>
+                  <div className="text-sm text-gray-400">{testimonial.country}</div>
+                  <div className="text-green-400 font-bold mt-2">Won: {testimonial.amount}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              🔥 How Does <span className="text-yellow-400">Anbel AI</span> Work?
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              {
+                step: "1",
+                title: "Buy the System",
+                description: "One-time secure payment with PayPal. Receive your activation code instantly.",
+                icon: <DollarSign className="w-8 h-8" />
+              },
+              {
+                step: "2", 
+                title: "Activate Account",
+                description: "Enter your code in the app and immediately access all features.",
+                icon: <Zap className="w-8 h-8" />
+              },
+              {
+                step: "3",
+                title: "Anbel AI Analyzes",
+                description: "AI analyzes 200 historical draws with 6 different mathematical algorithms.",
+                icon: <Brain className="w-8 h-8" />
+              },
+              {
+                step: "4",
+                title: "Win Money!",
+                description: "Receive numbers with 85% accuracy and increase your winnings up to 300%.",
+                icon: <Trophy className="w-8 h-8" />
+              }
+            ].map((step, index) => (
+              <div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="text-center"
+              >
+                <div className="bg-yellow-400 text-black w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                  {step.step}
+                </div>
+                <div className="text-yellow-400 mb-4 flex justify-center">{step.icon}</div>
+                <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
+                <p className="text-gray-300">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guarantee */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="bg-gradient-to-r from-green-900/50 to-green-800/50 rounded-3xl p-8 border-2 border-green-500/50 text-center"
+          >
+            <Shield className="w-16 h-16 text-green-400 mx-auto mb-6" />
+            <h3 className="text-3xl font-bold text-white mb-4">🛡️ 30-DAY GUARANTEE</h3>
+            <p className="text-xl text-gray-300 mb-6">
+              If you're not satisfied with the results in 30 days, 
+              <span className="text-green-400 font-bold"> we'll refund 100% of your money</span>, no questions asked.
+            </p>
+            <p className="text-lg text-green-400 font-semibold">
+              No risk, only winnings!
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Video Modal */}
-      <VideoModal
-        isOpen={isVideoModalOpen}
-        onClose={() => setIsVideoModalOpen(false)}
-        videoUrl="https://www.youtube.com/embed/dQw4w9WgXcQ"
-      />
-      
-      {/* Anbel AI Agent Chat */}
-      <AnbelAIChat
-        userId="sales-visitor-en"
-        language="en"
-        onPredictionGenerated={(prediction) => {
-          console.log('Prediction generated from sales page:', prediction);
-        }}
-        onAnalysisGenerated={(analysis) => {
-          console.log('Analysis generated from sales page:', analysis);
-        }}
-      />
+      {/* Final CTA */}
+      <section className="py-20 bg-gradient-to-r from-purple-900 to-blue-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              🚀 DON'T WAIT ANY LONGER!
+            </h2>
+            
+            <p className="text-xl text-gray-300 mb-8">
+              Every day you wait is money you lose. 
+              <span className="text-yellow-400 font-bold">Start winning TODAY!</span>
+            </p>
+            
+            <div className="space-y-6">
+              <button
+                onClick={() => window.open('https://pay.hotmart.com/K101811871T?checkoutMode=2', '_blank')}
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black text-2xl font-bold px-16 py-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl block mx-auto"
+              >
+                💎 BUY WIN EASY - $97!
+              </button>
+              
+              <div className="text-sm text-gray-400">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Shield className="w-4 h-4" />
+                  <span>100% secure payment • 30-day guarantee • Instant activation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

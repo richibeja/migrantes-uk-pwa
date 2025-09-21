@@ -1,225 +1,268 @@
 ﻿'use client';
 
-import { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, ArrowLeft, Key, Shield, Clock, MessageCircle } from 'lucide-react';
+import { useState } from 'react';
+// import { motion } from 'framer-motion';
+import { CheckCircle, XCircle, Loader2, Key, Brain, Zap, Crown } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ActivatePage() {
   const [activationCode, setActivationCode] = useState('');
   const [isActivating, setIsActivating] = useState(false);
   const [activationStatus, setActivationStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [userData, setUserData] = useState<any>(null);
-
-  useEffect(() => {
-    // Get pending user data
-    const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
-    if (pendingUser.email) {
-      setUserData(pendingUser);
-    }
-  }, []);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [userEmail, setUserEmail] = useState('');
 
   const handleActivation = async () => {
     if (!activationCode.trim()) {
-      alert('Por favor ingresa tu código de activación');
+      setErrorMessage('Por favor ingresa tu código de activación');
+      setActivationStatus('error');
       return;
     }
 
     setIsActivating(true);
-    
-    // Simular activación
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Validar código contra códigos predefinidos
-    const { validateSimpleCode } = await import('@/lib/simple-codes');
-    const codeValidation = validateSimpleCode(activationCode);
-    
-    if (codeValidation.valid) {
-      // Código válido - crear usuario activado
-      const activatedUser = {
-        username: `user_${Date.now()}`,
-        email: userData?.email || 'usuario@ganafacil.com',
-        phone: userData?.phone || '',
-        isActivated: true,
-        plan: codeValidation.plan || 'premium',
-        activatedAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 días
-        activationCode: activationCode
-      };
+    setActivationStatus('idle');
+    setErrorMessage('');
+
+    try {
+      // Simular proceso de activación
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      localStorage.setItem('user', JSON.stringify(activatedUser));
-      localStorage.removeItem('pendingUser');
-      
-      setActivationStatus('success');
-      
-      // Redirección automática después de 3 segundos como fallback
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 3000);
-    } else {
-      // Validar código contra el localStorage como fallback
-      const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
-      const isValidCode = pendingUser.activationCode === activationCode;
-      
-      if (isValidCode && pendingUser.email) {
-        // Marcar como activado
-        const activatedUser = {
-          ...pendingUser,
-          isActivated: true,
-          activatedAt: new Date().toISOString()
-        };
-        localStorage.setItem('user', JSON.stringify(activatedUser));
-        localStorage.removeItem('pendingUser');
-        
+      // Verificar código (en producción, verificar contra base de datos)
+      if (activationCode.startsWith('ANBEL') && activationCode.length >= 10) {
+        // Activación exitosa
         setActivationStatus('success');
         
-        // Redirección automática después de 3 segundos como fallback
-        setTimeout(() => {
-          window.location.href = '/dashboard';
-        }, 3000);
+        // Guardar activación en localStorage
+        const activationData = {
+          code: activationCode,
+          email: userEmail,
+          activatedAt: new Date(),
+          status: 'active',
+          plan: 'vip'
+        };
+        
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('anbel_activation', JSON.stringify(activationData));
+        }
+        
       } else {
-        setActivationStatus('error');
+        throw new Error('Código de activación inválido');
       }
+      
+    } catch (error) {
+      setActivationStatus('error');
+      setErrorMessage(error instanceof Error ? error.message : 'Error de activación');
+    } finally {
+      setIsActivating(false);
     }
-    
-    setIsActivating(false);
   };
 
-  const handleWhatsAppSupport = () => {
-    const whatsappNumber = '+19295909116';
-    const whatsappMessage = encodeURIComponent(
-      '🔑 *SOPORTE DE ACTIVACIÓN*\n\n' +
-      'Hola, necesito ayuda con mi código de activación.\n\n' +
-      '📋 *Información:*\n' +
-      '• Código ingresado: ' + activationCode + '\n' +
-      '• Email: ' + (userData?.email || 'No disponible') + '\n' +
-      '• Problema: No puedo activar mi cuenta\n\n' +
-      'Por favor, envíame un nuevo código o ayúdame a resolver este problema.'
-    );
-    
-    window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleActivation();
+    }
   };
-
-  if (activationStatus === 'success') {
-    return (
-      <div className="min-h-screen bg-black text-white p-6 md:p-10 flex items-center justify-center">
-        <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-xl p-8 text-center">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gold mb-4">¡Activación Exitosa!</h1>
-          <p className="text-gray-300 mb-6">
-            Tu cuenta ha sido activada correctamente. Ya puedes acceder a todas las funciones premium.
-          </p>
-          
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
-            <h3 className="text-lg font-semibold text-white mb-2">🎉 ¡Bienvenido a Gana Fácil Premium!</h3>
-            <p className="text-gray-400 text-sm">
-              Ahora tienes acceso a predicciones inteligentes, análisis avanzado y soporte prioritario.
-            </p>
-          </div>
-
-          <button
-            onClick={() => {
-              // Redirigir al dashboard en español
-              window.location.href = '/dashboard';
-            }}
-            className="inline-block bg-gold text-black font-semibold py-3 px-6 rounded-lg hover:bg-yellow-400 transition-colors mb-4"
-          >
-            Ir al Dashboard
-          </button>
-          
-          <p className="text-xs text-gray-500">
-            Tu suscripción está activa y lista para usar
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 md:p-10">
-      <div className="flex items-center gap-3 text-sm mb-6">
-        <Link href="/" className="inline-flex items-center gap-1 text-gold hover:underline">
-          <ArrowLeft className="w-4 h-4" />
-          Volver al Inicio
-        </Link>
-      </div>
-
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <Key className="w-16 h-16 text-gold mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gold mb-2">Activar Cuenta</h1>
-          <p className="text-gray-300">
-            Ingresa el código de activación que recibiste por WhatsApp
-          </p>
-        </div>
-
-        {userData && (
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
-            <h3 className="text-sm font-semibold text-white mb-2">📋 Información de tu cuenta:</h3>
-            <p className="text-xs text-gray-400">Email: {userData.email}</p>
-            <p className="text-xs text-gray-400">Teléfono: {userData.phone}</p>
-          </div>
-        )}
-
-        <div className="bg-gray-900 border border-gray-700 rounded-xl p-6">
-          <div className="mb-6">
-            <label className="block text-sm text-gray-300 mb-2">
-              Código de Activación
-            </label>
-            <input
-              type="text"
-              value={activationCode}
-              onChange={(e) => setActivationCode(e.target.value.toUpperCase())}
-              placeholder="Ej: ABC123"
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-center text-lg font-mono tracking-widest focus:outline-none focus:border-gold"
-              maxLength={10}
-            />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 flex items-center justify-center p-4">
+      <div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="w-full max-w-md"
+      >
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/50 shadow-2xl">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Brain className="w-8 h-8 text-black" />
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">🎯 Activar Anbel IA</h1>
+            <p className="text-gray-300">Ingresa tu código de activación de Hotmart</p>
           </div>
 
-          {activationStatus === 'error' && (
-            <div className="bg-red-900/20 border border-red-500 rounded-lg p-4 mb-4">
-              <div className="flex items-center">
-                <XCircle className="w-5 h-5 text-red-400 mr-2" />
-                <p className="text-red-400 text-sm">
-                  Código inválido. Verifica que sea correcto o solicita uno nuevo.
+          {activationStatus === 'idle' && (
+            <div className="space-y-6">
+              {/* Email Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  📧 Email de compra (opcional)
+                </label>
+                <input
+                  type="email"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                  placeholder="tu@email.com"
+                />
+              </div>
+
+              {/* Activation Code Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  🔑 Código de Activación
+                </label>
+                <input
+                  type="text"
+                  value={activationCode}
+                  onChange={(e) => setActivationCode(e.target.value.toUpperCase())}
+                  onKeyPress={handleKeyPress}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-transparent font-mono text-center tracking-wider"
+                  placeholder="ANBEL123ABC456"
+                  maxLength={20}
+                />
+                <p className="text-xs text-gray-400 mt-2">
+                  El código empieza con "ANBEL" y lo recibiste por email
                 </p>
               </div>
+
+              {/* Error Message */}
+              {errorMessage && (
+                <div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-900/30 border border-red-500/50 rounded-xl p-4 text-center"
+                >
+                  <XCircle className="w-6 h-6 text-red-400 mx-auto mb-2" />
+                  <p className="text-red-400">{errorMessage}</p>
+                </div>
+              )}
+
+              {/* Activate Button */}
+              <button
+                onClick={handleActivation}
+                disabled={isActivating || !activationCode.trim()}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
+                  isActivating || !activationCode.trim()
+                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black transform hover:scale-105 shadow-xl'
+                }`}
+              >
+                {isActivating ? (
+                  <div className="flex items-center justify-center">
+                    <Loader2 className="w-6 h-6 mr-2 animate-spin" />
+                    Activando...
+                  </div>
+                ) : (
+                  '🚀 Activar Mi Cuenta'
+                )}
+              </button>
             </div>
           )}
 
-          <button
-            onClick={handleActivation}
-            disabled={isActivating || !activationCode.trim()}
-            className="w-full bg-gold text-black font-semibold py-3 rounded-lg disabled:opacity-60 hover:bg-yellow-400 transition-colors mb-4"
-          >
-            {isActivating ? 'Activando...' : 'Activar Cuenta'}
-          </button>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-400 mb-4">
-              ¿No recibiste tu código o tienes problemas?
-            </p>
-            
-            <button
-              onClick={handleWhatsAppSupport}
-              className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
+          {/* Success State */}
+          {activationStatus === 'success' && (
+            <div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="text-center space-y-6"
             >
-              <MessageCircle className="w-4 h-4" />
-              Contactar por WhatsApp
-            </button>
-          </div>
-        </div>
+              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle className="w-10 h-10 text-white" />
+              </div>
+              
+              <div>
+                <h2 className="text-2xl font-bold text-green-400 mb-2">
+                  🎉 ¡Activación Exitosa!
+                </h2>
+                <p className="text-gray-300">
+                  Tu cuenta de Anbel IA Ultra ha sido activada correctamente
+                </p>
+              </div>
 
-        <div className="mt-6 bg-gray-900 border border-gray-700 rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
-            <Shield className="w-4 h-4 mr-2 text-gold" />
-            Información Importante
-          </h3>
-          <ul className="text-xs text-gray-400 space-y-1">
-            <li>• El código se envía por WhatsApp después del pago</li>
-            <li>• Verifica tu carpeta de spam si no lo recibes</li>
-            <li>• El código es válido por 24 horas</li>
-            <li>• Contacta soporte si tienes problemas</li>
-          </ul>
+              <div className="bg-green-900/30 border border-green-500/50 rounded-xl p-6">
+                <h3 className="text-lg font-bold text-green-400 mb-4">✅ Ahora tienes acceso a:</h3>
+                <div className="space-y-2 text-left">
+                  <div className="flex items-center text-gray-300">
+                    <Brain className="w-5 h-5 text-yellow-400 mr-2" />
+                    <span>Anbel IA Ultra con 6 algoritmos</span>
+                  </div>
+                  <div className="flex items-center text-gray-300">
+                    <Zap className="w-5 h-5 text-yellow-400 mr-2" />
+                    <span>Predicciones ilimitadas</span>
+                  </div>
+                  <div className="flex items-center text-gray-300">
+                    <Crown className="w-5 h-5 text-yellow-400 mr-2" />
+                    <span>Funciones VIP completas</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/dashboard"
+                className="block w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black text-xl font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl text-center"
+              >
+                🎯 Ir al Dashboard
+              </Link>
+            </div>
+          )}
+
+          {/* Error State */}
+          {activationStatus === 'error' && (
+            <div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="text-center space-y-6"
+            >
+              <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto">
+                <XCircle className="w-10 h-10 text-white" />
+              </div>
+              
+              <div>
+                <h2 className="text-2xl font-bold text-red-400 mb-2">
+                  ❌ Error de Activación
+                </h2>
+                <p className="text-gray-300 mb-4">
+                  {errorMessage}
+                </p>
+              </div>
+
+              <button
+                onClick={() => {
+                  setActivationStatus('idle');
+                  setErrorMessage('');
+                }}
+                className="w-full bg-gray-600 hover:bg-gray-500 text-white py-3 rounded-xl transition-all duration-300"
+              >
+                🔄 Intentar de Nuevo
+              </button>
+            </div>
+          )}
+
+          {/* Help Section */}
+          <div className="mt-8 pt-6 border-t border-gray-600">
+            <div className="text-center">
+              <p className="text-sm text-gray-400 mb-4">¿Necesitas ayuda?</p>
+              <div className="flex justify-center space-x-4">
+                <a
+                  href="https://wa.me/15551234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300"
+                >
+                  📱 WhatsApp
+                </a>
+                <a
+                  href="mailto:soporte@ganafacil.com"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300"
+                >
+                  📧 Email
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Back to Home */}
+          <div className="mt-6 text-center">
+            <Link
+              href="/"
+              className="text-gray-400 hover:text-white text-sm transition-colors"
+            >
+              ← Volver al inicio
+            </Link>
+          </div>
         </div>
       </div>
     </div>

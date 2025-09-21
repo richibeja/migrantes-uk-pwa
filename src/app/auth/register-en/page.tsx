@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Brain, Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { trackEvent } from '@/components/MetaPixel';
 
 export default function RegisterPageEn() {
   const [formData, setFormData] = useState({
@@ -82,6 +83,13 @@ export default function RegisterPageEn() {
       
       // Simulate registration
       await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Track successful registration
+      trackEvent('CompleteRegistration', {
+        content_name: 'Free Account Registration',
+        value: 0,
+        currency: 'USD'
+      });
       
       setIsRegistered(true);
     } catch (error) {

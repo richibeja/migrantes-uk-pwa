@@ -1,0 +1,8 @@
+ANBEL AI WELCOME TUTORIAL - VOICE SCRIPT
+
+Speaker: Anbel
+Tone: Read aloud in a warm, professional and welcoming tone
+
+Script:
+Anbel: Welcome to ANBEL AI, the most advanced educational system for mathematical analysis! I'm Anbel, your personal AI tutor. I'm here to guide you through an incredible learning journey where you'll master statistical analysis, pattern recognition, and artificial intelligence techniques. Our system combines cutting-edge technology with proven educational methods to help you become an expert in numerical analysis. You're about to discover how mathematics and AI work together to solve complex problems. Let's begin this exciting adventure together!
+

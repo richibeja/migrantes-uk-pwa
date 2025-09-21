@@ -62,6 +62,33 @@ function LoginPage() {
         return;
       }
 
+      // 2) Autenticación para clientes de Hotmart (por email)
+      if (username.includes('@') && password === 'hotmart2025') {
+        console.log('✅ CLIENTE HOTMART LOGIN');
+        
+        // Guardar en localStorage
+        localStorage.setItem('ganaFacilUser', JSON.stringify({
+          id: `hotmart_${Date.now()}`,
+          username: username,
+          email: username,
+          isHotmartCustomer: true,
+          isAdmin: false,
+          createdAt: new Date()
+        }));
+        
+        // CRITICAL: Set activation flag for Hotmart customers
+        localStorage.setItem('ganafacil_activated', 'true');
+        
+        showMessage('Welcome to ANBEL AI! Access granted.', "success");
+        
+        setTimeout(() => {
+          // Redirigir al dashboard para clientes
+          const target = redirectParam && redirectParam.startsWith('/') ? redirectParam : '/dashboard';
+          router.push(target);
+        }, 2000);
+        return;
+      }
+
       // 2) Cuentas activadas guardadas desde /activate
       const savedAccounts = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
       if (Array.isArray(savedAccounts)) {

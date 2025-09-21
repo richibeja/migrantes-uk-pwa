@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Pixel Facebook - Directo</title>
+</head>
+<body>
+    <h1>🧪 Test Directo del Pixel de Facebook</h1>
+    <p><strong>Pixel ID:</strong> 633087431240994</p>
+    
+    <div id="status"></div>
+    <br>
+    
+    <button onclick="testPixel()">🚀 PROBAR PIXEL AHORA</button>
+    <button onclick="testImage()">📸 PROBAR IMAGEN PIXEL</button>
+    <button onclick="checkFacebook()">🌐 PROBAR CONECTIVIDAD</button>
+    
+    <div id="log" style="margin-top: 20px; padding: 10px; background: #f0f0f0; font-family: monospace;"></div>
+
+    <script>
+        const PIXEL_ID = '633087431240994';
+        
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}<br>`;
+            console.log(message);
+        }
+        
+        function testPixel() {
+            log('🚀 Iniciando test del pixel JavaScript...');
+            
+            // Cargar script de Facebook
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+            
+            script.onload = function() {
+                log('✅ Script de Facebook cargado');
+                
+                // Inicializar fbq
+                window.fbq = window.fbq || function() {
+                    (window.fbq.q = window.fbq.q || []).push(arguments);
+                };
+                window.fbq.version = '2.0';
+                window.fbq.queue = [];
+                window.fbq.push = window.fbq;
+                window.fbq.loaded = true;
+                
+                // Inicializar pixel
+                try {
+                    window.fbq('init', PIXEL_ID);
+                    window.fbq('track', 'PageView');
+                    log('✅ Pixel inicializado y PageView enviado');
+                    
+                    // Test de evento personalizado
+                    setTimeout(() => {
+                        window.fbq('track', 'Lead', {
+                            content_name: 'Test desde HTML directo',
+                            value: 97,
+                            currency: 'USD'
+                        });
+                        log('✅ Evento Lead enviado');
+                    }, 1000);
+                    
+                } catch (error) {
+                    log('❌ Error inicializando pixel: ' + error.message);
+                }
+            };
+            
+            script.onerror = function() {
+                log('❌ Error cargando script de Facebook');
+                log('🔄 Intentando método alternativo...');
+                testImage();
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        function testImage() {
+            log('📸 Probando pixel por imagen...');
+            
+            // Método 1: PageView
+            const img1 = document.createElement('img');
+            img1.width = 1;
+            img1.height = 1;
+            img1.style.display = 'none';
+            img1.src = `https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`;
+            img1.onload = () => log('✅ PageView por imagen enviado');
+            img1.onerror = () => log('❌ Error enviando PageView por imagen');
+            document.body.appendChild(img1);
+            
+            // Método 2: Lead
+            setTimeout(() => {
+                const img2 = document.createElement('img');
+                img2.width = 1;
+                img2.height = 1;
+                img2.style.display = 'none';
+                img2.src = `https://www.facebook.com/tr?id=${PIXEL_ID}&ev=Lead&cd[content_name]=Test%20Imagen&cd[value]=97&cd[currency]=USD&noscript=1`;
+                img2.onload = () => log('✅ Lead por imagen enviado');
+                img2.onerror = () => log('❌ Error enviando Lead por imagen');
+                document.body.appendChild(img2);
+            }, 1000);
+        }
+        
+        function checkFacebook() {
+            log('🌐 Verificando conectividad con Facebook...');
+            
+            // Test 1: facebook.com
+            fetch('https://www.facebook.com', { mode: 'no-cors' })
+                .then(() => log('✅ Conectividad con facebook.com OK'))
+                .catch(() => log('❌ No se puede conectar con facebook.com'));
+            
+            // Test 2: connect.facebook.net
+            const testScript = document.createElement('script');
+            testScript.src = 'https://connect.facebook.net/en_US/fbevents.js';
+            testScript.onload = () => {
+                log('✅ Conectividad con connect.facebook.net OK');
+                testScript.remove();
+            };
+            testScript.onerror = () => log('❌ No se puede conectar con connect.facebook.net');
+            document.head.appendChild(testScript);
+        }
+        
+        // Auto-start
+        window.onload = function() {
+            log('🚀 Página de test cargada');
+            log('📋 Instrucciones:');
+            log('1. Abre Facebook Events Manager en otra pestaña');
+            log('2. Ve a "Probar eventos" en tiempo real');
+            log('3. Haz clic en los botones de prueba');
+            log('4. Verifica si llegan eventos a Facebook');
+        };
+    </script>
+</body>
+</html>

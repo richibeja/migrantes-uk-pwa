@@ -68,6 +68,10 @@ module.exports = withPWA({
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https: *.facebook.com *.fbcdn.net *.google.com *.google-analytics.com *.googletagmanager.com *.doubleclick.net *.hotmart.com *.buildstaging.com *.ebanx.com *.worldpay.com *.payulatam.com *.paypal.com *.paypalobjects.com *.dlocal.com *.y.uno *.sequrapi.com *.sift.com *.k-analytix.com; img-src 'self' data: https: *; connect-src 'self' https: wss: *; frame-src 'self' https: *; style-src 'self' 'unsafe-inline' https: *; font-src 'self' data: https: *;"
           }
         ]
       },

@@ -3372,7 +3372,7 @@ class AnbelAI {
     telegram: string;
     email: string;
   } {
-    const appUrl = 'https://gana-facil.vercel.app';
+    const appUrl = 'https://pay.hotmart.com/C101975268F?checkoutMode=10';
     
     // Usar el mensaje amable de generateShareText
     const baseText = this.generateShareText(prediction, lottery, language);

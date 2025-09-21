@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Brain, Eye, EyeOff, ArrowLeft, Mail, Lock } from 'lucide-react';
 import Link from 'next/link';
+import { trackEvent } from '@/components/MetaPixel';
 
 export default function LoginPageEn() {
   const [formData, setFormData] = useState({
@@ -43,7 +44,39 @@ export default function LoginPageEn() {
     setIsLoading(true);
     
     try {
-      // Validate against localStorage
+      // 1) Admin credentials
+      if (formData.email === 'admin' && formData.password === 'ganafacil2025') {
+        localStorage.setItem('ganaFacilUser', JSON.stringify({
+          id: 'admin_user',
+          username: formData.email,
+          isAdmin: true,
+          createdAt: new Date()
+        }));
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        window.location.href = '/admin';
+        return;
+      }
+
+      // 2) Hotmart customers authentication
+      if (formData.email.includes('@') && formData.password === 'hotmart2025') {
+        localStorage.setItem('ganaFacilUser', JSON.stringify({
+          id: `hotmart_${Date.now()}`,
+          username: formData.email,
+          email: formData.email,
+          isHotmartCustomer: true,
+          isAdmin: false,
+          createdAt: new Date()
+        }));
+        // CRITICAL: Set activation flag for Hotmart customers
+        localStorage.setItem('ganafacil_activated', 'true');
+        // Track successful Hotmart login
+        trackEvent('Lead', { content_name: 'Hotmart Customer Login', value: 97, currency: 'USD' });
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        window.location.href = '/dashboard-en';
+        return;
+      }
+
+      // 3) Validate against localStorage (existing users)
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
       

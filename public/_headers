@@ -1,10 +1,28 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
 /manifest.json
   Content-Type: application/manifest+json
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600
   Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
 
 /icons/*
   Cache-Control: public, max-age=31536000, immutable
 
 /service-worker.js
   Cache-Control: public, max-age=0, must-revalidate
+
+# Favicon con tipo MIME correcto
+/favicon.ico
+  Content-Type: image/x-icon
+  Cache-Control: public, max-age=86400
+  Access-Control-Allow-Origin: *
+
+# Permitir acceso a archivos HTML estáticos
+*.html
+  Cache-Control: public, max-age=300
+  Access-Control-Allow-Origin: *

@@ -4,18 +4,22 @@ import { useState, useEffect } from 'react';
 import { Brain, ChartLine, Bot, Target, TrendingUp, BarChart3, Calendar, Zap, Crown, Bell, Clock, CheckCircle, DollarSign, Trophy, Star, Activity, Globe, Award, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { LOTTERY_CONFIGS } from '@/lib/lotteryConfig';
+import { LotteryAPI } from '@/lib/lotteryAPI';
 import AnbelAIDashboard from '@/components/AnbelAIDashboard';
-import LotteryPredictionPanel from '@/components/dashboard/LotteryPredictionPanel';
-import JackpotTracker from '@/components/dashboard/JackpotTracker';
-import ResultsTracker from '@/components/dashboard/ResultsTracker';
-import LotteryAnalytics from '@/components/dashboard/LotteryAnalytics';
-import HistoricalAnalysis from '@/components/dashboard/HistoricalAnalysis';
-import PredictionEngine from '@/components/dashboard/PredictionEngine';
-import NextDrawsCountdown from '@/components/dashboard/NextDrawsCountdown';
+import { AnbelChat } from '@/components/AnbelChat';
+import { useAuth } from '@/hooks/useAuth';
+import VoicePlayer from '@/components/VoicePlayer';
 
 export default function DashboardEn() {
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [userData, setUserData] = useState<any>(null);
   const [isActivated, setIsActivated] = useState(false);
+
+  // Lottery configurations (same as Spanish dashboard)
+  const usaLotteries = LOTTERY_CONFIGS;
+  
+  // Initialize Lottery API (same as Spanish dashboard)
+  const lotteryAPI = new LotteryAPI();
 
   // Load user data on component mount
   useEffect(() => {
@@ -37,8 +41,9 @@ export default function DashboardEn() {
     loadUserData();
   }, []);
 
-  // If not activated, show activation message
-  if (!isActivated) {
+  // If not activated, show activation message (except for Hotmart customers)
+  const isHotmartCustomer = userData?.isHotmartCustomer || false;
+  if (!isActivated && !isHotmartCustomer) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
         <div className="text-center text-white max-w-md mx-auto p-8">
@@ -105,6 +110,17 @@ export default function DashboardEn() {
           <p className="text-lg mb-6">
             Plan: <span className="text-yellow-400 font-bold">{userData?.plan?.toUpperCase() || 'PREMIUM'}</span> - Full access to Anbel Club
           </p>
+          
+          {/* Welcome Voice Tutorial */}
+          <div className="mt-6">
+            <VoicePlayer
+              audioId="welcome_tutorial"
+              title="🎵 Welcome Tutorial"
+              description="Listen to Anbel AI's personal welcome message"
+              language="en"
+              autoPlay={false}
+            />
+          </div>
           <div className="flex items-center justify-center space-x-8 text-lg">
             <div className="flex items-center">
               <Globe className="w-6 h-6 mr-2" />
@@ -168,21 +184,58 @@ export default function DashboardEn() {
         </div>
 
         {/* Anbel AI Chat */}
+        {/* Educational Modules with Voice */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <Brain className="w-8 h-8 mr-3 text-yellow-400" />
+            🎓 Educational Modules with AI Voice
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <VoicePlayer
+              audioId="module1_explanation"
+              title="Module 1: Mathematical Fundamentals"
+              description="AI explanation of statistical concepts and data visualization"
+              language="en"
+            />
+            
+            <VoicePlayer
+              audioId="module2_explanation" 
+              title="Module 2: Pattern Recognition"
+              description="Learn advanced pattern recognition with AI guidance"
+              language="en"
+            />
+            
+            <VoicePlayer
+              audioId="module3_explanation"
+              title="Module 3: AI Analysis Tools"
+              description="Master AI-powered analysis tools and techniques"
+              language="en"
+            />
+            
+            <VoicePlayer
+              audioId="completion_congratulations"
+              title="🎉 Completion Celebration"
+              description="Special congratulations message for course completion"
+              language="en"
+            />
+          </div>
+        </div>
+
         <div className="mb-8" data-chat-section>
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
             <Brain className="w-8 h-8 mr-3 text-yellow-400" />
             Chat with Anbel AI
           </h3>
-          <AnbelAIDashboard 
-            userId={userData?.id || 'demo-user'} 
-            language="en"
-            onPredictionGenerated={(prediction) => {
-              console.log('Prediction generated:', prediction);
-            }}
-            onAnalysisGenerated={(analysis) => {
-              console.log('Analysis generated:', analysis);
-            }}
-          />
+          
+          {/* Language tip for English users */}
+          <div className="bg-blue-900/30 border border-blue-400/30 rounded-lg p-3 mb-4">
+            <p className="text-sm text-blue-200">
+              💡 <strong>Tip:</strong> Click the <span className="bg-white/20 px-2 py-1 rounded text-xs font-bold">EN</span> button in the chat to switch to English interface
+            </p>
+          </div>
+          
+          <AnbelChat />
         </div>
 
         {/* Shared Earnings System */}

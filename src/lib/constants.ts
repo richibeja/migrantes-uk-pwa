@@ -370,9 +370,9 @@ export const SECURITY_CONFIG = {
 
 // Configuración de localización
 export const LOCALE_CONFIG = {
-  default: 'es',
-  supported: ['es', 'en'],
-  fallback: 'es',
+  default: 'en',
+  supported: ['en', 'es'],
+  fallback: 'en',
   dateFormat: 'dd/MM/yyyy',
   timeFormat: 'HH:mm',
   currencyFormat: {

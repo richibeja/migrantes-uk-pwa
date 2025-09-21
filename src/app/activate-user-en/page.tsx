@@ -47,6 +47,7 @@ export default function ActivateUserPageEn() {
       };
       
       localStorage.setItem('user', JSON.stringify(activatedUser));
+      localStorage.setItem('ganafacil_activated', 'true'); // CRITICAL: Set activation flag
       localStorage.removeItem('pendingUser');
       
       setActivationStatus('success');
@@ -68,6 +69,7 @@ export default function ActivateUserPageEn() {
           activatedAt: new Date().toISOString()
         };
         localStorage.setItem('user', JSON.stringify(activatedUser));
+        localStorage.setItem('ganafacil_activated', 'true'); // CRITICAL: Set activation flag
         localStorage.removeItem('pendingUser');
         
         setActivationStatus('success');
