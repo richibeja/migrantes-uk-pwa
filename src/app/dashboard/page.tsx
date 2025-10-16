@@ -1,410 +1,261 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Brain, Target, Zap, Crown, CheckCircle, Globe, Trophy, Activity, BarChart3, Calendar, Star, Award, TrendingUp, Users, Bell, Settings, Sparkles } from 'lucide-react';
+import { Brain, TrendingUp, Crown, LogOut, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { AnbelChat } from '@/components/AnbelChat';
-import { LOTTERY_CONFIGS } from '@/lib/lotteryConfig';
-import { useAuth } from '@/hooks/useAuth';
 
-export default function Dashboard() {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  const [userData, setUserData] = useState<any>(null);
-  const [anbelStatus, setAnbelStatus] = useState('initializing');
-  const [predictions, setPredictions] = useState<any[]>([]);
+export default function DashboardPage() {
+  const [user, setUser] = useState<any>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Simular datos de usuario para demo
-    setUserData({
-      id: 'demo-user',
-      name: 'Usuario Demo',
-      plan: 'premium',
-      code: 'DEMO123',
-      isActivated: true,
-      status: 'active'
-    });
+    // Check if user is activated
+    const userData = localStorage.getItem('user');
+    const isActivated = localStorage.getItem('ganafacil_activated');
     
-    // Inicializar Anbel IA
-    initializeAnbelIA();
+    if (!userData || !isActivated) {
+      // Redirect to login if not activated
+      window.location.href = '/auth/login-en';
+      return;
+    }
+
+    setUser(JSON.parse(userData));
   }, []);
 
-  const initializeAnbelIA = async () => {
-    try {
-      setAnbelStatus('initializing');
-      
-      // Simular inicialización de Anbel IA
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setAnbelStatus('ready');
-      
-      // Generar predicciones de ejemplo
-      generateSamplePredictions();
-      
-    } catch (error) {
-      console.error('Error inicializando Anbel IA:', error);
-      setAnbelStatus('error');
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('ganafacil_activated');
+    window.location.href = '/';
   };
 
-  const generateSamplePredictions = () => {
-    const samplePredictions = [
-      {
-        lottery: 'Powerball',
-        numbers: [12, 24, 36, 48, 60],
-        bonusNumbers: [15],
-        powerball: 15, // Mantener para compatibilidad
-        confidence: 96.8,
-        algorithm: 'Anbel Ultra AI',
-        nextDraw: '2024-01-15'
-      },
-      {
-        lottery: 'Mega Millions',
-        numbers: [7, 14, 21, 28, 35],
-        bonusNumbers: [9],
-        megaBall: 9, // Mantener para compatibilidad
-        confidence: 94.2,
-        algorithm: 'Anbel Ultra AI',
-        nextDraw: '2024-01-16'
-      }
-    ];
-    
-    setPredictions(samplePredictions);
-  };
-
-  if (!userData) {
+  if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold mb-2">Cargando Dashboard...</h2>
-          <p className="text-lg opacity-80">Preparando tu experiencia personalizada</p>
+        <div className="text-white text-center">
+          <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p>Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
-  // Solo loterías de USA (Powerball y Mega Millions)
-  const usaLotteries = LOTTERY_CONFIGS;
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* Header - Mobile Optimized */}
-      <div className="bg-black/20 backdrop-blur-sm border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 sm:py-0 sm:h-16 space-y-3 sm:space-y-0">
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              <div className="relative">
-                <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
-                <div className={`absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 rounded-full animate-pulse ${
-                  anbelStatus === 'ready' ? 'bg-green-400' : 
-                  anbelStatus === 'initializing' ? 'bg-yellow-400' : 'bg-red-400'
-                }`}></div>
-              </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold text-white">CLUB ANBEL - GanaFácil</h1>
-                <p className="text-xs sm:text-sm text-yellow-300">
-                  Anbel IA Mega Inteligente - {anbelStatus === 'ready' ? 'Online' : 'Inicializando...'}
-                </p>
-              </div>
+      {/* Header */}
+      <header className="bg-white/10 backdrop-blur-lg border-b border-white/20 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Brain className="h-8 w-8 text-green-400" />
+              <span className="text-2xl font-bold text-white">Gana Fácil</span>
             </div>
-            
-            <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
-              <div className="text-left sm:text-right text-xs sm:text-sm text-gray-300 flex-1">
-                <p className="font-semibold">Usuario: {userData?.name || 'Demo'}</p>
-                <p>Plan: {userData?.plan?.toUpperCase() || 'PREMIUM'}</p>
-                <p className="text-xs text-yellow-400">Código: {userData?.code || 'N/A'}</p>
-              </div>
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-500 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Welcome Section - Mobile Optimized */}
-      <div className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex flex-col sm:flex-row items-center justify-center mb-4 sm:mb-6">
-            <Crown className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-400 mb-2 sm:mb-0 sm:mr-4" />
-            <h1 className="text-2xl sm:text-4xl font-bold">¡Bienvenido {userData?.name || 'Usuario'}!</h1>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6">
+              <Link href="/dashboard" className="text-white hover:text-yellow-400 transition-colors">
+                Dashboard
+              </Link>
+              <Link href="/anbel-ai" className="text-white hover:text-yellow-400 transition-colors">
+                AI Chat
+              </Link>
+              <Link href="/predictions" className="text-white hover:text-yellow-400 transition-colors">
+                Predictions
+              </Link>
+              <Link href="/profile" className="text-white hover:text-yellow-400 transition-colors">
+                Profile
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Log Out
+              </button>
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden text-white"
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
-          <p className="text-base sm:text-xl mb-4 sm:mb-6">
-            Tu cuenta está completamente activada con código: <span className="text-yellow-400 font-bold">{userData?.code || 'N/A'}</span>
-          </p>
-          <p className="text-sm sm:text-lg mb-6">
-            Plan: <span className="text-yellow-400 font-bold">{userData?.plan?.toUpperCase() || 'PREMIUM'}</span> - Acceso completo al Club Anbel
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-sm sm:text-lg">
-            <div className="flex items-center">
-              <Globe className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
-              <span>6 Loterías de USA</span>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 pt-4 border-t border-white/20">
+              <nav className="flex flex-col gap-3">
+                <Link href="/dashboard" className="text-white hover:text-yellow-400 transition-colors py-2">
+                  Dashboard
+                </Link>
+                <Link href="/anbel-ai" className="text-white hover:text-yellow-400 transition-colors py-2">
+                  AI Chat
+                </Link>
+                <Link href="/predictions" className="text-white hover:text-yellow-400 transition-colors py-2">
+                  Predictions
+                </Link>
+                <Link href="/profile" className="text-white hover:text-yellow-400 transition-colors py-2">
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors justify-center"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Log Out
+                </button>
+              </nav>
             </div>
-            <div className="flex items-center">
-              <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
-              <span>Powerball, Mega Millions & Más</span>
-            </div>
-            <div className="flex items-center">
-              <Brain className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
-              <span>Anbel IA 94.5% Precisión</span>
-            </div>
-          </div>
+          )}
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Status Cards - Mobile Optimized */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs sm:text-sm font-medium text-gray-300">Estado</p>
-                <p className="text-lg sm:text-2xl font-bold text-white">Activo</p>
-              </div>
-              <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Welcome Section */}
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-6 mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Welcome back, {user.email?.split('@')[0] || 'User'}! 👋
+          </h1>
+          <p className="text-blue-200">
+            Your {user.plan || 'Premium'} plan is active and ready to use
+          </p>
+        </div>
+
+        {/* Subscription Info */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+            <div className="flex items-center gap-3 mb-2">
+              <Crown className="h-6 w-6 text-yellow-400" />
+              <h3 className="text-lg font-semibold text-white">Your Plan</h3>
             </div>
+            <p className="text-2xl font-bold text-yellow-400 capitalize">{user.plan || 'Premium'}</p>
+            <p className="text-sm text-blue-200 mt-1">Active subscription</p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs sm:text-sm font-medium text-gray-300">Predicciones</p>
-                <p className="text-lg sm:text-2xl font-bold text-white">{predictions.length}</p>
-              </div>
-              <Target className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+            <div className="flex items-center gap-3 mb-2">
+              <TrendingUp className="h-6 w-6 text-green-400" />
+              <h3 className="text-lg font-semibold text-white">Predictions Today</h3>
             </div>
+            <p className="text-2xl font-bold text-green-400">10</p>
+            <p className="text-sm text-blue-200 mt-1">Remaining</p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs sm:text-sm font-medium text-gray-300">Aciertos</p>
-                <p className="text-lg sm:text-2xl font-bold text-white">94.5%</p>
-              </div>
-              <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+            <div className="flex items-center gap-3 mb-2">
+              <Brain className="h-6 w-6 text-purple-400" />
+              <h3 className="text-lg font-semibold text-white">AI Accuracy</h3>
             </div>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs sm:text-sm font-medium text-gray-300">Anbel IA</p>
-                <p className="text-lg sm:text-2xl font-bold text-white">
-                  {anbelStatus === 'ready' ? 'Online' : 'Iniciando...'}
-                </p>
-              </div>
-              <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400" />
-            </div>
+            <p className="text-2xl font-bold text-purple-400">94.5%</p>
+            <p className="text-sm text-blue-200 mt-1">Success rate</p>
           </div>
         </div>
 
-        {/* Anbel IA Chat */}
-        <div className="mb-8" data-chat-section>
-          <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-            <Brain className="w-8 h-8 mr-3 text-yellow-400" />
-            Chat con Anbel IA
-          </h3>
-          <AnbelChat />
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <Link
+            href="/anbel-ai"
+            className="bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl p-6 text-white hover:scale-105 transition-transform"
+          >
+            <Brain className="h-8 w-8 mb-3" />
+            <h3 className="text-lg font-semibold mb-1">AI Chat</h3>
+            <p className="text-sm text-purple-100">Chat with Anbel AI</p>
+          </Link>
+
+          <Link
+            href="/predictions"
+            className="bg-gradient-to-br from-green-500 to-teal-500 rounded-xl p-6 text-white hover:scale-105 transition-transform"
+          >
+            <TrendingUp className="h-8 w-8 mb-3" />
+            <h3 className="text-lg font-semibold mb-1">Predictions</h3>
+            <p className="text-sm text-green-100">Get AI predictions</p>
+          </Link>
+
+          <Link
+            href="/clubs"
+            className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl p-6 text-white hover:scale-105 transition-transform"
+          >
+            <Crown className="h-8 w-8 mb-3" />
+            <h3 className="text-lg font-semibold mb-1">Clubs</h3>
+            <p className="text-sm text-yellow-100">Lottery clubs</p>
+          </Link>
+
+          <Link
+            href="/profile"
+            className="bg-gradient-to-br from-pink-500 to-red-500 rounded-xl p-6 text-white hover:scale-105 transition-transform"
+          >
+            <Crown className="h-8 w-8 mb-3" />
+            <h3 className="text-lg font-semibold mb-1">Profile</h3>
+            <p className="text-sm text-pink-100">Your account</p>
+          </Link>
         </div>
 
-        {/* Predicciones Recientes */}
-        {predictions.length > 0 && (
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 mb-8">
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-              <Sparkles className="w-8 h-8 mr-3 text-purple-400" />
-              Predicciones Recientes
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {predictions.map((prediction, index) => (
-                <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-lg font-semibold text-white">{prediction.lottery}</h4>
-                    <span className="text-xs text-green-400">{prediction.confidence}% confianza</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1 mb-3">
-                    {prediction.numbers.map((num: number, i: number) => (
-                      <span key={i} className="bg-yellow-500 text-black px-2 py-1 rounded text-sm font-bold">
-                        {num}
-                      </span>
-                    ))}
-                    {/* Mostrar números bonus de forma estandarizada */}
-                    {prediction.bonusNumbers && prediction.bonusNumbers.map((bonus: number, i: number) => (
-                      <span key={`bonus-${i}`} className={`text-white px-2 py-1 rounded text-sm font-bold ${
-                        prediction.lottery === 'Powerball' ? 'bg-red-500' : 
-                        prediction.lottery === 'Mega Millions' ? 'bg-blue-500' : 'bg-purple-500'
-                      }`}>
-                        {bonus}
-                      </span>
-                    ))}
-                    {/* Compatibilidad con formato antiguo */}
-                    {!prediction.bonusNumbers && prediction.powerball && (
-                      <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
-                        {prediction.powerball}
-                      </span>
-                    )}
-                    {!prediction.bonusNumbers && prediction.megaBall && (
-                      <span className="bg-blue-500 text-white px-2 py-1 rounded text-sm font-bold">
-                        {prediction.megaBall}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-300 mb-2">
-                    Algoritmo: {prediction.algorithm}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    Próximo sorteo: {prediction.nextDraw}
-                  </p>
-                </div>
-              ))}
+        {/* Lotteries Preview */}
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-6">
+          <h2 className="text-2xl font-bold text-white mb-6">Today's Featured Lotteries</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* UK National Lottery */}
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-2xl">🇬🇧</span>
+                <h3 className="text-lg font-semibold text-white">UK National Lottery</h3>
+              </div>
+              <p className="text-sm text-blue-200 mb-3">Next Draw: Wednesday 20:30 GMT</p>
+              <Link
+                href="/predictions"
+                className="block w-full bg-blue-500 text-white text-center py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Get Prediction
+              </Link>
+            </div>
+
+            {/* Powerball */}
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-2xl">🇺🇸</span>
+                <h3 className="text-lg font-semibold text-white">Powerball</h3>
+              </div>
+              <p className="text-sm text-blue-200 mb-3">Next Draw: Saturday 22:59 ET</p>
+              <Link
+                href="/predictions"
+                className="block w-full bg-blue-500 text-white text-center py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Get Prediction
+              </Link>
+            </div>
+
+            {/* EuroMillions */}
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-2xl">🇪🇺</span>
+                <h3 className="text-lg font-semibold text-white">EuroMillions</h3>
+              </div>
+              <p className="text-sm text-blue-200 mb-3">Next Draw: Friday 20:45 CET</p>
+              <Link
+                href="/predictions"
+                className="block w-full bg-blue-500 text-white text-center py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Get Prediction
+              </Link>
             </div>
           </div>
-        )}
 
-        {/* Sistema de Ganancias Compartidas */}
-        <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-green-400/30 mb-8">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
-            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-yellow-400" />
-            💰 Ganancias Compartidas
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-green-400 mb-2">$0.00</div>
-              <div className="text-xs sm:text-sm text-gray-300">Ganancias Pendientes</div>
-              <div className="text-xs text-gray-400 mt-1">De predicciones compartidas</div>
-            </div>
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-2">0</div>
-              <div className="text-xs sm:text-sm text-gray-300">Predicciones Compartidas</div>
-              <div className="text-xs text-gray-400 mt-1">Con compromiso activo</div>
-            </div>
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-purple-400 mb-2">15%</div>
-              <div className="text-xs sm:text-sm text-gray-300">Tu Comisión</div>
-              <div className="text-xs text-gray-400 mt-1">Por cada ganancia</div>
-            </div>
-          </div>
-          <div className="mt-4 p-3 bg-yellow-500/20 rounded-lg border border-yellow-400/30">
-            <p className="text-yellow-200 text-xs sm:text-sm">
-              💡 <strong>¿Cómo funciona?</strong> Cuando Anbel IA te da predicciones, puedes compartirlas con compromiso de ganancia. 
-              Si alguien gana con tus números compartidos, ¡te toca el 15%! Ambos ganan dinero real.
-            </p>
-          </div>
-        </div>
-
-
-        {/* Loterías que maneja Anbel IA - Descripción Simple */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20 mb-8">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
-            <Globe className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-blue-400" />
-            Loterías de Estados Unidos
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-white/5 rounded-lg p-4 text-center">
-              <h4 className="text-lg font-bold text-yellow-400 mb-2">Powerball</h4>
-              <p className="text-sm text-gray-300 mb-2">La lotería más famosa de USA</p>
-              <p className="text-xs text-gray-400">Sorteos: Lun, Mié, Sáb</p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4 text-center">
-              <h4 className="text-lg font-bold text-yellow-400 mb-2">Mega Millions</h4>
-              <p className="text-sm text-gray-300 mb-2">Jackpots millonarios</p>
-              <p className="text-xs text-gray-400">Sorteos: Mar, Vie</p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4 text-center">
-              <h4 className="text-lg font-bold text-yellow-400 mb-2">Cash4Life</h4>
-              <p className="text-sm text-gray-300 mb-2">$1,000 por día de por vida</p>
-              <p className="text-xs text-gray-400">Sorteos: Diarios</p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4 text-center">
-              <h4 className="text-lg font-bold text-yellow-400 mb-2">Lucky for Life</h4>
-              <p className="text-sm text-gray-300 mb-2">Premios de por vida</p>
-              <p className="text-xs text-gray-400">Sorteos: Lun, Jue</p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4 text-center">
-              <h4 className="text-lg font-bold text-yellow-400 mb-2">Hot Lotto</h4>
-              <p className="text-sm text-gray-300 mb-2">Números calientes</p>
-              <p className="text-xs text-gray-400">Sorteos: Mié, Sáb</p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4 text-center">
-              <h4 className="text-lg font-bold text-yellow-400 mb-2">Fantasy 5</h4>
-              <p className="text-sm text-gray-300 mb-2">5 números ganadores</p>
-              <p className="text-xs text-gray-400">Sorteos: Diarios</p>
-            </div>
-          </div>
-          <div className="mt-4 p-3 bg-blue-500/20 rounded-lg border border-blue-400/30">
-            <p className="text-blue-200 text-xs sm:text-sm text-center">
-              🤖 <strong>Anbel IA</strong> genera predicciones para estas 6 loterías de Estados Unidos. 
-              Solo pregúntale: "Powerball", "Mega Millions", etc. y te dará números con análisis completo.
-            </p>
-          </div>
-        </div>
-
-
-        {/* Quick Actions - Mobile Optimized */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center">
-            <Zap className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-yellow-400" />
-            Acciones Rápidas
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link 
-              href="/dashboard/real-time"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 sm:p-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center space-x-2 sm:space-x-3"
+          <div className="mt-6 text-center">
+            <Link
+              href="/predictions"
+              className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition-all"
             >
-              <Activity className="w-5 h-5 sm:w-6 sm:h-6" />
-              <div className="text-left">
-                <p className="font-semibold text-sm sm:text-base">Tiempo Real USA</p>
-                <p className="text-xs sm:text-sm opacity-80">Resultados en vivo</p>
-              </div>
+              View All 7 Lotteries →
             </Link>
-
-            <button 
-              onClick={() => {
-                // Scroll al chat de Anbel
-                const chatElement = document.querySelector('[data-chat-section]');
-                if (chatElement) {
-                  chatElement.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  alert('Chat con Anbel IA disponible en esta página');
-                }
-              }}
-              className="bg-gradient-to-r from-blue-600 to-green-600 text-white p-3 sm:p-4 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-300 flex items-center space-x-2 sm:space-x-3 cursor-pointer"
-            >
-              <Brain className="w-5 h-5 sm:w-6 sm:h-6" />
-              <div className="text-left">
-                <p className="font-semibold text-sm sm:text-base">Chat con Anbel IA</p>
-                <p className="text-xs sm:text-sm opacity-80">Asistente inteligente</p>
-              </div>
-            </button>
-
-            <button 
-              onClick={() => {
-                alert('Análisis Avanzado:\n\n• Patrones de frecuencia detectados\n• Números calientes: 12, 24, 36\n• Tendencia: Secuencias pares en aumento\n• Confianza: 89.3%\n\nPróximamente: Página dedicada de análisis');
-              }}
-              className="bg-gradient-to-r from-green-600 to-yellow-600 text-white p-3 sm:p-4 rounded-lg hover:from-green-700 hover:to-yellow-700 transition-all duration-300 flex items-center space-x-2 sm:space-x-3 cursor-pointer"
-            >
-              <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6" />
-              <div className="text-left">
-                <p className="font-semibold text-sm sm:text-base">Análisis Avanzado</p>
-                <p className="text-xs sm:text-sm opacity-80">Patrones y tendencias</p>
-              </div>
-            </button>
-
-            <button 
-              onClick={() => {
-                alert('Historial de Ganancias:\n\n• Total ganado: $2,400,000\n• Aciertos: 1,247 predicciones\n• Precisión: 94.5%\n• Mejor racha: 15 días consecutivos\n• Última ganancia: $50,000 (Powerball)\n\nPróximamente: Página detallada de historial');
-              }}
-              className="bg-gradient-to-r from-red-600 to-pink-600 text-white p-3 sm:p-4 rounded-lg hover:from-red-700 hover:to-pink-700 transition-all duration-300 flex items-center space-x-2 sm:space-x-3 cursor-pointer"
-            >
-              <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
-              <div className="text-left">
-                <p className="font-semibold text-sm sm:text-base">Historial de Ganancias</p>
-                <p className="text-xs sm:text-sm opacity-80">Ver resultados</p>
-              </div>
-            </button>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
+
+
+

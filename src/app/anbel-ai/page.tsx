@@ -48,11 +48,11 @@ interface Prediction {
   nextUpdate: string;
 }
 
-export default function AnbelAIPage() {
+export default function AnbelAIPageEn() {
   const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
   const [activeView, setActiveView] = useState<'dashboard' | 'chat'>('dashboard');
-  const [language, setLanguage] = useState<'es' | 'en'>('es');
+  const [language, setLanguage] = useState<'es' | 'en'>('en');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -65,8 +65,8 @@ export default function AnbelAIPage() {
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold mb-2">Inicializando Super Agente...</h2>
-          <p className="text-purple-300">Cargando capacidades avanzadas de IA</p>
+          <h2 className="text-2xl font-bold mb-2">Initializing Super Agent...</h2>
+          <p className="text-purple-300">Loading advanced AI capabilities</p>
         </div>
       </div>
     );
@@ -84,7 +84,7 @@ export default function AnbelAIPage() {
         const welcomeMessage: ChatMessage = {
           id: '1',
           type: 'anbel',
-          content: `¡Hola ${user?.username || user?.email || 'Usuario'}! Soy Anbel, tu Agente de IA Súper Inteligente. Puedo ayudarte con predicciones de lotería, análisis y estrategias. ¿Qué te gustaría saber?`,
+          content: `Hello ${user?.username || user?.email || 'User'}! I'm Anbel, your Super Intelligent AI Agent. I can help you with lottery predictions, analysis, and strategies. What would you like to know?`,
           timestamp: new Date().toISOString(),
           confidence: 100
         };
@@ -123,14 +123,14 @@ export default function AnbelAIPage() {
     // Simulate AI response
     setTimeout(() => {
       const responses = [
-        "Estoy analizando tu solicitud con algoritmos avanzados...",
-        "Basándome en mi análisis de patrones históricos, esto es lo que encontré...",
-        "Déjame procesar estos datos usando mis redes neuronales...",
-        "He identificado algunos patrones interesantes en los datos de lotería...",
-        "Mi motor de predicciones sugiere los siguientes números...",
-        "Estoy cruzando referencias con múltiples fuentes de datos para mayor precisión...",
-        "Basándome en el análisis estadístico, aquí están mis recomendaciones...",
-        "He encontrado algunas tendencias prometedoras en los patrones de lotería..."
+        "I'm analyzing your request with advanced algorithms...",
+        "Based on my analysis of historical patterns, here's what I found...",
+        "Let me process this data using my neural networks...",
+        "I've identified some interesting patterns in the lottery data...",
+        "My prediction engine suggests the following numbers...",
+        "I'm cross-referencing multiple data sources for accuracy...",
+        "Based on statistical analysis, here are my recommendations...",
+        "I've found some promising trends in the lottery patterns..."
       ];
 
       const randomResponse = responses[Math.floor(Math.random() * responses.length)];
@@ -143,16 +143,16 @@ export default function AnbelAIPage() {
         confidence: Math.floor(Math.random() * 30) + 70,
         accuracy: Math.floor(Math.random() * 20) + 80,
         recommendations: [
-          "Considera jugar estos números en el próximo sorteo",
-          "Monitorea de cerca los patrones de frecuencia",
-          "Usa el análisis de números calientes/fríos",
-          "Revisa las predicciones de rango de suma"
+          "Consider playing these numbers in the next draw",
+          "Monitor the frequency patterns closely",
+          "Use the hot/cold number analysis",
+          "Check the sum range predictions"
         ],
         nextActions: [
-          "Generar predicciones específicas",
-          "Analizar datos históricos",
-          "Verificar actualizaciones en tiempo real",
-          "Revisar estrategias ganadoras"
+          "Generate specific predictions",
+          "Analyze historical data",
+          "Check real-time updates",
+          "Review winning strategies"
         ]
       };
 
@@ -172,7 +172,7 @@ export default function AnbelAIPage() {
         specialBall: Math.floor(Math.random() * 26) + 1,
         analysisStatus: 'completed',
         createdAt: new Date().toISOString(),
-        analysisMethods: ['Análisis de Red Neuronal', 'Reconocimiento de Patrones', 'Modelado Estadístico'],
+        analysisMethods: ['Neural Network Analysis', 'Pattern Recognition', 'Statistical Modeling'],
         lastUpdated: new Date().toISOString(),
         nextUpdate: new Date(Date.now() + 5 * 60 * 1000).toISOString()
       };
@@ -194,8 +194,8 @@ export default function AnbelAIPage() {
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">Anbel IA</h1>
-                <p className="text-sm text-purple-300">Agente Súper Inteligente</p>
+                <h1 className="text-xl font-bold text-white">Anbel AI</h1>
+                <p className="text-sm text-purple-300">Super Intelligent Agent</p>
               </div>
             </div>
             
@@ -261,10 +261,10 @@ export default function AnbelAIPage() {
             {/* Welcome Section */}
             <div className="text-center">
               <h1 className="text-4xl font-bold text-white mb-4">
-                🧠 Super Agente Anbel IA
+                🧠 Super Agent Anbel AI
               </h1>
               <p className="text-xl text-purple-200 mb-8">
-                El agente de IA más inteligente del mundo para predicciones de lotería
+                The world's most intelligent AI agent for lottery predictions
               </p>
             </div>
 
@@ -273,42 +273,42 @@ export default function AnbelAIPage() {
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <div className="flex items-center space-x-3 mb-4">
                   <Brain className="w-8 h-8 text-purple-400" />
-                  <h3 className="text-xl font-bold text-white">Súper Inteligencia</h3>
+                  <h3 className="text-xl font-bold text-white">Super Intelligence</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  25+ capacidades avanzadas con Machine Learning y Deep Learning
+                  25+ advanced capabilities with Machine Learning and Deep Learning
                 </p>
                 <div className="flex items-center text-sm text-purple-300">
                   <CheckCircle className="w-4 h-4 mr-2" />
-                  <span>Activo y Aprendiendo</span>
+                  <span>Active & Learning</span>
                 </div>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <div className="flex items-center space-x-3 mb-4">
                   <Target className="w-8 h-8 text-blue-400" />
-                  <h3 className="text-xl font-bold text-white">Predicciones Reales</h3>
+                  <h3 className="text-xl font-bold text-white">Real Predictions</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Algoritmos matemáticos con datos históricos de 100+ sorteos
+                  Mathematical algorithms with historical data from 100+ draws
                 </p>
                 <div className="flex items-center text-sm text-blue-300">
                   <TrendingUp className="w-4 h-4 mr-2" />
-                  <span>95% Precisión</span>
+                  <span>95% Accuracy</span>
                 </div>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <div className="flex items-center space-x-3 mb-4">
                   <MessageCircle className="w-8 h-8 text-green-400" />
-                  <h3 className="text-xl font-bold text-white">Chat Inteligente</h3>
+                  <h3 className="text-xl font-bold text-white">Smart Chat</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Respuestas en tiempo real con análisis predictivo avanzado
+                  Real-time responses with advanced predictive analysis
                 </p>
                 <div className="flex items-center text-sm text-green-300">
                   <Zap className="w-4 h-4 mr-2" />
-                  <span>Disponible 24/7</span>
+                  <span>24/7 Available</span>
                 </div>
               </div>
             </div>
@@ -316,13 +316,13 @@ export default function AnbelAIPage() {
             {/* Predictions Section */}
             {predictions.length > 0 && (
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <h3 className="text-2xl font-bold text-white mb-4">🎯 Predicciones Generadas</h3>
+                <h3 className="text-2xl font-bold text-white mb-4">🎯 Generated Predictions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {predictions.map((prediction) => (
                     <div key={prediction.id} className="bg-gray-800/50 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-400">Predicción #{prediction.id.slice(-4)}</span>
-                        <span className="text-sm text-gold font-bold">{prediction.confidence}% Confianza</span>
+                        <span className="text-sm text-gray-400">Prediction #{prediction.id.slice(-4)}</span>
+                        <span className="text-sm text-gold font-bold">{prediction.confidence}% Confidence</span>
                       </div>
                       <div className="flex space-x-2 mb-2">
                         {prediction.numbers.map((num, index) => (
@@ -337,7 +337,7 @@ export default function AnbelAIPage() {
                         )}
                       </div>
                       <div className="text-xs text-gray-400">
-                        Métodos: {prediction.analysisMethods.join(', ')}
+                        Methods: {prediction.analysisMethods.join(', ')}
                       </div>
                     </div>
                   ))}
@@ -352,7 +352,7 @@ export default function AnbelAIPage() {
                 className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 mr-4"
               >
                 <MessageCircle className="w-6 h-6 inline mr-2" />
-                Iniciar Chat
+                Start Chat
               </button>
               <button
                 onClick={generatePrediction}
@@ -362,12 +362,12 @@ export default function AnbelAIPage() {
                 {isAnalyzing ? (
                   <>
                     <Loader2 className="w-6 h-6 inline mr-2 animate-spin" />
-                    Analizando...
+                    Analyzing...
                   </>
                 ) : (
                   <>
                     <Target className="w-6 h-6 inline mr-2" />
-                    Generar Predicción
+                    Generate Prediction
                   </>
                 )}
               </button>
@@ -384,8 +384,8 @@ export default function AnbelAIPage() {
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                   </div>
                   <div>
-                    <h3 className="font-bold text-white">Anbel IA</h3>
-                    <p className="text-xs text-purple-200">Agente Súper Inteligente</p>
+                    <h3 className="font-bold text-white">Anbel AI</h3>
+                    <p className="text-xs text-purple-200">Super Intelligent Agent</p>
                   </div>
                 </div>
               </div>
@@ -411,13 +411,13 @@ export default function AnbelAIPage() {
                           <Bot className="w-4 h-4" />
                         )}
                         <span className="text-xs opacity-70">
-                          {message.type === 'user' ? 'Tú' : 'Anbel'}
+                          {message.type === 'user' ? 'You' : 'Anbel'}
                         </span>
                       </div>
                       <p className="text-sm">{message.content}</p>
                       {message.confidence && (
                         <div className="mt-2 text-xs opacity-70">
-                          Confianza: {message.confidence}%
+                          Confidence: {message.confidence}%
                         </div>
                       )}
                     </div>
@@ -448,7 +448,7 @@ export default function AnbelAIPage() {
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                    placeholder="Pregúntale a Anbel sobre predicciones de lotería..."
+                    placeholder="Ask Anbel anything about lottery predictions..."
                     className="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                   <button

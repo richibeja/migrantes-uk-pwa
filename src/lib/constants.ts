@@ -1,205 +1,166 @@
-// Configuración de la aplicación
+// Application Configuration
 export const APP_CONFIG = {
   name: 'Gana Fácil',
   version: '1.0.0',
-  description: 'PWA para apoyo a migrantes en Reino Unido',
-  url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-  supportEmail: 'soporte@migrantes-uk.app',
+  description: 'AI-Powered Lottery Predictions for UK, Europe & USA',
+  url: process.env.NEXT_PUBLIC_APP_URL || 'https://ganafacil.app',
+  supportEmail: 'support@ganafacil.app',
   maxPredictionsPerUser: 10,
-  predictionUpdateInterval: 3600000, // 1 hora
-  referralReward: 1000, // Puntos por referido
+  predictionUpdateInterval: 3600000, // 1 hour
+  referralReward: 1000, // Points per referral
   maintenanceMode: false,
+  targetMarket: 'UK', // Primary market: United Kingdom
+  defaultCurrency: 'GBP',
+  defaultLanguage: 'en', // ENGLISH ONLY
+  timezone: 'Europe/London',
+  forceEnglish: true, // Force English for all users
 };
 
-// Lista simplificada de loterías
+// ============================================
+// LOTERÍAS DE PRODUCCIÓN - SOLO REALES
+// Enfocado en Reino Unido, Europa y USA
+// ============================================
 export const lotteries = [
-  // Colombia
-  { id: "baloto", name: "Baloto", country: "CO" },
-
   // Reino Unido
-  { id: "lotto-uk", name: "Lotto UK", country: "UK" },
-  { id: "euromillions-uk", name: "EuroMillions UK", country: "UK" },
+  { id: "uk-lotto", name: "UK National Lottery", country: "UK", region: "UK", enabled: true },
+  { id: "thunderball", name: "Thunderball", country: "UK", region: "UK", enabled: true },
+  { id: "set-for-life", name: "Set For Life", country: "UK", region: "UK", enabled: true },
 
-  // Europa
-  { id: "euromillones", name: "EuroMillions", country: "EU" },
-  { id: "primitiva", name: "La Primitiva", country: "ES" },
-  { id: "bonoloto", name: "Bonoloto", country: "ES" },
+  // Europa (incluye UK)
+  { id: "euromillions", name: "EuroMillions", country: "EU", region: "Europe", enabled: true },
+  { id: "euromillions-hotpicks", name: "EuroMillions HotPicks", country: "UK", region: "Europe", enabled: true },
 
-  // Estados Unidos
-  { id: "powerball", name: "Powerball", country: "US" },
-  { id: "mega-millions", name: "Mega Millions", country: "US" },
-  { id: "florida-lotto", name: "Florida Lotto", country: "US" },
+  // Estados Unidos (disponibles en UK)
+  { id: "powerball", name: "Powerball", country: "US", region: "USA", enabled: true },
+  { id: "mega-millions", name: "Mega Millions", country: "US", region: "USA", enabled: true },
 ];
 
-// Configuración detallada de loterías por país
+// ============================================
+// CONFIGURACIÓN DE LOTERÍAS POR REGIÓN
+// Solo loterías REALES disponibles en Reino Unido
+// ============================================
 export const LOTTERIES_BY_COUNTRY = {
-  CO: {
-    name: 'Colombia',
-    timezone: 'America/Bogota',
-    currency: 'COP',
-    lotteries: [
-      {
-        id: 'baloto',
-        name: 'Baloto',
-        type: 'national',
-        drawDays: ['lunes', 'miércoles', 'viernes', 'sábado'],
-        drawTime: '21:00',
-        numbersCount: 6,
-        maxNumber: 45,
-        bonusNumbers: 1,
-        maxBonusNumber: 16,
-        apiEndpoint: 'https://api.baloto.com',
-      },
-    ],
-  },
   UK: {
-    name: 'Reino Unido',
+    name: 'United Kingdom',
     timezone: 'Europe/London',
     currency: 'GBP',
     lotteries: [
       {
-        id: 'lotto-uk',
-        name: 'Lotto UK',
+        id: 'uk-lotto',
+        name: 'UK National Lottery',
         type: 'national',
-        drawDays: ['miércoles', 'sábado'],
+        drawDays: ['Wednesday', 'Saturday'],
         drawTime: '20:30',
         numbersCount: 6,
         maxNumber: 59,
         bonusNumbers: 1,
         maxBonusNumber: 59,
-        apiEndpoint: 'https://api.national-lottery.co.uk',
+        apiEndpoint: 'https://www.national-lottery.co.uk/results/api',
       },
       {
-        id: 'euromillions-uk',
-        name: 'EuroMillions UK',
+        id: 'thunderball',
+        name: 'Thunderball',
+        type: 'national',
+        drawDays: ['Tuesday', 'Wednesday', 'Friday', 'Saturday'],
+        drawTime: '20:00',
+        numbersCount: 5,
+        maxNumber: 39,
+        bonusNumbers: 1,
+        maxBonusNumber: 14,
+        apiEndpoint: 'https://www.national-lottery.co.uk/results/thunderball/api',
+      },
+      {
+        id: 'set-for-life',
+        name: 'Set For Life',
+        type: 'national',
+        drawDays: ['Monday', 'Thursday'],
+        drawTime: '20:00',
+        numbersCount: 5,
+        maxNumber: 47,
+        bonusNumbers: 1,
+        maxBonusNumber: 10,
+        apiEndpoint: 'https://www.national-lottery.co.uk/results/set-for-life/api',
+      },
+    ],
+  },
+  EU: {
+    name: 'Europe',
+    timezone: 'Europe/Paris',
+    currency: 'EUR', // Se puede convertir a GBP para UK
+    lotteries: [
+      {
+        id: 'euromillions',
+        name: 'EuroMillions',
         type: 'international',
-        drawDays: ['martes', 'viernes'],
+        drawDays: ['Tuesday', 'Friday'],
         drawTime: '20:45',
         numbersCount: 5,
         maxNumber: 50,
         bonusNumbers: 2,
         maxBonusNumber: 12,
-        apiEndpoint: 'https://api.national-lottery.co.uk',
-      },
-    ],
-  },
-  EU: {
-    name: 'Europa',
-    timezone: 'Europe/Paris',
-    currency: 'EUR',
-    lotteries: [
-      {
-        id: 'euromillones',
-        name: 'EuroMillions',
-        type: 'international',
-        drawDays: ['martes', 'viernes'],
-        drawTime: '21:00',
-        numbersCount: 5,
-        maxNumber: 50,
-        bonusNumbers: 2,
-        maxBonusNumber: 12,
-        apiEndpoint: 'https://api.euromillones.com',
-      },
-    ],
-  },
-  ES: {
-    name: 'España',
-    timezone: 'Europe/Madrid',
-    currency: 'EUR',
-    lotteries: [
-      {
-        id: 'primitiva',
-        name: 'La Primitiva',
-        type: 'national',
-        drawDays: ['lunes', 'jueves', 'sábado'],
-        drawTime: '21:30',
-        numbersCount: 6,
-        maxNumber: 49,
-        bonusNumbers: 1,
-        maxBonusNumber: 49,
-        apiEndpoint: 'https://api.primitiva.com',
-      },
-      {
-        id: 'bonoloto',
-        name: 'Bonoloto',
-        type: 'national',
-        drawDays: ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-        drawTime: '21:00',
-        numbersCount: 6,
-        maxNumber: 49,
-        apiEndpoint: 'https://api.bonoloto.com',
+        apiEndpoint: 'https://www.euro-millions.com/api/results',
       },
     ],
   },
   US: {
-    name: 'Estados Unidos',
+    name: 'United States',
     timezone: 'America/New_York',
-    currency: 'USD',
+    currency: 'USD', // Se puede convertir a GBP para UK
     lotteries: [
       {
         id: 'powerball',
         name: 'Powerball',
         type: 'national',
-        drawDays: ['lunes', 'miércoles', 'sábado'],
+        drawDays: ['Monday', 'Wednesday', 'Saturday'],
         drawTime: '22:59',
         numbersCount: 5,
         maxNumber: 69,
         bonusNumbers: 1,
         maxBonusNumber: 26,
-        apiEndpoint: 'https://api.powerball.com',
+        apiEndpoint: 'https://data.ny.gov/resource/5xaw-6ayf.json',
       },
       {
         id: 'mega-millions',
         name: 'Mega Millions',
         type: 'national',
-        drawDays: ['martes', 'viernes'],
+        drawDays: ['Tuesday', 'Friday'],
         drawTime: '23:00',
         numbersCount: 5,
         maxNumber: 70,
         bonusNumbers: 1,
         maxBonusNumber: 25,
-        apiEndpoint: 'https://api.megamillions.com',
-      },
-      {
-        id: 'florida-lotto',
-        name: 'Florida Lotto',
-        type: 'state',
-        drawDays: ['lunes', 'miércoles', 'sábado'],
-        drawTime: '22:59',
-        numbersCount: 6,
-        maxNumber: 53,
-        apiEndpoint: 'https://api.flalottery.com',
+        apiEndpoint: 'https://data.ny.gov/resource/5xaw-6ayf.json',
       },
     ],
   },
 };
 
-// Métodos de predicción
+// Prediction Methods - ENGLISH
 export const PREDICTION_METHODS = [
   {
-    name: 'Método Anbel',
-    description: 'Algoritmo basado en patrones matemáticos y secuencias numéricas',
+    name: 'Anbel Method',
+    description: 'Algorithm based on mathematical patterns and numerical sequences',
     weight: 0.35,
     minConfidence: 75,
     maxConfidence: 95,
   },
   {
-    name: 'Método Probabilístico',
-    description: 'Análisis estadístico de frecuencias y probabilidades',
+    name: 'Probabilistic Method',
+    description: 'Statistical analysis of frequencies and probabilities',
     weight: 0.25,
     minConfidence: 70,
     maxConfidence: 90,
   },
   {
-    name: 'Método Histórico',
-    description: 'Análisis de patrones históricos y tendencias',
+    name: 'Historical Method',
+    description: 'Analysis of historical patterns and trends',
     weight: 0.20,
     minConfidence: 65,
     maxConfidence: 85,
   },
   {
-    name: 'Método Filtrado Cruzado',
-    description: 'Combinación inteligente de múltiples algoritmos',
+    name: 'Cross-Filter Method',
+    description: 'Intelligent combination of multiple algorithms',
     weight: 0.20,
     minConfidence: 80,
     maxConfidence: 98,
@@ -224,34 +185,34 @@ export const ADMIN_CONFIG = {
   lockoutDuration: 900000, // 15 minutos
 };
 
-// Mensajes de la aplicación
+// Application Messages - ENGLISH ONLY
 export const MESSAGES = {
   activation: {
-    success: '¡Código activado exitosamente! Ahora puedes acceder a las predicciones.',
-    invalid: 'Código inválido o ya utilizado. Verifica tu código e intenta nuevamente.',
-    expired: 'El código ha expirado. Solicita uno nuevo al administrador.',
-    error: 'Error al procesar la activación. Intenta nuevamente.',
-    required: 'Por favor ingresa un código de activación',
-    maxAttempts: 'Has excedido el número máximo de intentos. Intenta en 5 minutos.',
+    success: 'Code activated successfully! You can now access predictions.',
+    invalid: 'Invalid or already used code. Please verify and try again.',
+    expired: 'The code has expired. Request a new one from the administrator.',
+    error: 'Error processing activation. Please try again.',
+    required: 'Please enter an activation code',
+    maxAttempts: 'You have exceeded the maximum number of attempts. Try again in 5 minutes.',
   },
   auth: {
-    required: 'Necesitas activar tu código para acceder a esta funcionalidad',
-    expired: 'Tu sesión ha expirado. Por favor activa tu código nuevamente.',
-    adminRequired: 'Acceso restringido. Solo administradores pueden acceder.',
-    invalidCredentials: 'Credenciales incorrectas',
+    required: 'You need to activate your code to access this feature',
+    expired: 'Your session has expired. Please activate your code again.',
+    adminRequired: 'Restricted access. Only administrators can access.',
+    invalidCredentials: 'Invalid credentials',
   },
   predictions: {
-    loading: 'Analizando patrones y generando números ganadores...',
-    noData: 'No hay predicciones disponibles en este momento.',
-    error: 'Error al cargar las predicciones. Intenta nuevamente.',
-    updating: 'Actualizando predicciones...',
-    locked: 'Las predicciones están bloqueadas hasta el próximo sorteo.',
+    loading: 'Analyzing patterns and generating winning numbers...',
+    noData: 'No predictions available at this time.',
+    error: 'Error loading predictions. Please try again.',
+    updating: 'Updating predictions...',
+    locked: 'Predictions are locked until the next draw.',
   },
   admin: {
-    codeGenerated: 'Código de activación generado exitosamente',
-    codeDeleted: 'Código eliminado correctamente',
-    userActivated: 'Usuario activado correctamente',
-    userDeactivated: 'Usuario desactivado correctamente',
+    codeGenerated: 'Activation code generated successfully',
+    codeDeleted: 'Code deleted successfully',
+    userActivated: 'User activated successfully',
+    userDeactivated: 'User deactivated successfully',
   },
 };
 
@@ -368,16 +329,16 @@ export const SECURITY_CONFIG = {
   },
 };
 
-// Configuración de localización
+// Localization Configuration - ENGLISH ONLY
 export const LOCALE_CONFIG = {
   default: 'en',
-  supported: ['en', 'es'],
+  supported: ['en'], // Only English
   fallback: 'en',
   dateFormat: 'dd/MM/yyyy',
   timeFormat: 'HH:mm',
   currencyFormat: {
     style: 'currency',
-    currency: 'USD',
+    currency: 'GBP', // UK market
   },
 };
 
@@ -399,25 +360,25 @@ export const LIMITS = {
   maxConcurrentRequests: 10,
 };
 
-// Códigos de activación válidos para el sistema
-export const VALID_ACTIVATION_CODES = [
-  // Códigos locales visibles en la pantalla de activación
-  'GANAFACIL', 'LOTERIA', 'SUERTE', 'FORTUNA',
-  'GANA2025POWER001',
-  'GANA2025MEGA002',
-  'GANA2025EURO003',
-  'GANA2025UK004',
-  'GANA2025SPAIN005',
-  'DEMO2025TEST001',  // Código de prueba
-  'FREE2025TRIAL001', // Código gratuito
-  'VIP2025ACCESS001'  // Código VIP
-];
+// ============================================
+// CÓDIGOS DE ACTIVACIÓN - PRODUCCIÓN
+// NOTA: En producción, estos se gestionan desde Firebase
+// Estos son solo para desarrollo local
+// ============================================
+export const VALID_ACTIVATION_CODES =
+  process.env.NODE_ENV === 'production'
+    ? [] // En producción se validan contra Firebase
+    : [
+        // Solo para desarrollo local
+        'DEV2025TEST001',
+        'LOCAL2025DEMO001',
+      ];
 
-// Mensajes de activación
+// Activation Messages - ENGLISH
 export const ACTIVATION_MESSAGES = {
-  required: "Por favor, ingresa un código de activación.",
-  invalid: "Código de activación inválido. Por favor, verifica e intenta nuevamente.",
-  success: "¡Código activado exitosamente! Redirigiendo al dashboard...",
-  locked: "Cuenta bloqueada temporalmente por múltiples intentos fallidos.",
-  error: "Error al activar el código. Por favor, intenta nuevamente."
+  required: "Please enter an activation code.",
+  invalid: "Invalid activation code. Please verify and try again.",
+  success: "Code activated successfully! Redirecting to dashboard...",
+  locked: "Account temporarily locked due to multiple failed attempts.",
+  error: "Error activating code. Please try again."
 };

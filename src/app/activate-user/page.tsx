@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CheckCircle, ArrowLeft, Key, Shield, Clock, MessageCircle } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowLeft, Key, Shield, Clock, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ActivateUserPage() {
+export default function ActivateUserPageEn() {
   const [activationCode, setActivationCode] = useState('');
   const [isActivating, setIsActivating] = useState(false);
   const [activationStatus, setActivationStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    // Obtener datos del usuario pendiente
+    // Get pending user data
     const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
     if (pendingUser.email) {
       setUserData(pendingUser);
@@ -20,32 +20,67 @@ export default function ActivateUserPage() {
 
   const handleActivation = async () => {
     if (!activationCode.trim()) {
-      alert('Por favor ingresa tu código de activación');
+      alert('Please enter your activation code');
       return;
     }
 
     setIsActivating(true);
     
-    // Simular activación
+    // Simulate activation
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    // Validar código contra el usuario pendiente
-    const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
-    const isValidCode = pendingUser.activationCode === activationCode;
+    // Validate code against predefined codes
+    const { validateSimpleCode } = await import('@/lib/simple-codes');
+    const codeValidation = validateSimpleCode(activationCode);
     
-    if (isValidCode && pendingUser.email) {
-      // Marcar como activado
+    if (codeValidation.valid) {
+      // Valid code - create activated user
       const activatedUser = {
-        ...pendingUser,
+        username: `user_${Date.now()}`,
+        email: userData?.email || 'user@ganafacil.com',
+        phone: userData?.phone || '',
         isActivated: true,
-        activatedAt: new Date().toISOString()
+        plan: codeValidation.plan || 'premium',
+        activatedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days
+        activationCode: activationCode
       };
+      
       localStorage.setItem('user', JSON.stringify(activatedUser));
+      localStorage.setItem('ganafacil_activated', 'true'); // CRITICAL: Set activation flag
       localStorage.removeItem('pendingUser');
       
       setActivationStatus('success');
+      
+      // Redirección automática después de 3 segundos como fallback
+      setTimeout(() => {
+        window.location.href = '/dashboard-en';
+      }, 3000);
     } else {
-      setActivationStatus('error');
+      // Validate code against localStorage as fallback
+      const pendingUser = JSON.parse(localStorage.getItem('pendingUser') || '{}');
+      const isValidCode = pendingUser.activationCode === activationCode;
+      
+      if (isValidCode && pendingUser.email) {
+        // Mark as activated
+        const activatedUser = {
+          ...pendingUser,
+          isActivated: true,
+          activatedAt: new Date().toISOString()
+        };
+        localStorage.setItem('user', JSON.stringify(activatedUser));
+        localStorage.setItem('ganafacil_activated', 'true'); // CRITICAL: Set activation flag
+        localStorage.removeItem('pendingUser');
+        
+        setActivationStatus('success');
+        
+        // Redirección automática después de 3 segundos como fallback
+        setTimeout(() => {
+          window.location.href = '/dashboard-en';
+        }, 3000);
+      } else {
+        setActivationStatus('error');
+      }
     }
     
     setIsActivating(false);
@@ -54,13 +89,13 @@ export default function ActivateUserPage() {
   const handleWhatsAppSupport = () => {
     const whatsappNumber = '+19295909116';
     const whatsappMessage = encodeURIComponent(
-      '🔑 *SOPORTE DE ACTIVACIÓN*\n\n' +
-      'Hola, necesito ayuda con mi código de activación.\n\n' +
-      '📋 *Información:*\n' +
-      '• Código ingresado: ' + activationCode + '\n' +
-      '• Email: ' + (userData?.email || 'No disponible') + '\n' +
-      '• Problema: No puedo activar mi cuenta\n\n' +
-      'Por favor, envíame un nuevo código o ayúdame a resolver este problema.'
+      '🔑 *ACTIVATION SUPPORT*\n\n' +
+      'Hello, I need help with my activation code.\n\n' +
+      '📋 *Information:*\n' +
+      '• Code entered: ' + activationCode + '\n' +
+      '• Email: ' + (userData?.email || 'Not available') + '\n' +
+      '• Problem: I cannot activate my account\n\n' +
+      'Please send me a new code or help me resolve this issue.'
     );
     
     window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
@@ -71,27 +106,30 @@ export default function ActivateUserPage() {
       <div className="min-h-screen bg-black text-white p-6 md:p-10 flex items-center justify-center">
         <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-xl p-8 text-center">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gold mb-4">¡Activación Exitosa!</h1>
+          <h1 className="text-2xl font-bold text-gold mb-4">Activation Successful!</h1>
           <p className="text-gray-300 mb-6">
-            Tu cuenta ha sido activada correctamente. Ya puedes acceder a todas las funciones premium.
+            Your account has been activated successfully. You can now access all premium features.
           </p>
           
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
-            <h3 className="text-lg font-semibold text-white mb-2">🎉 ¡Bienvenido a Gana Fácil Premium!</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">🎉 Welcome to Gana Fácil Premium!</h3>
             <p className="text-gray-400 text-sm">
-              Ahora tienes acceso a predicciones inteligentes, análisis avanzado y soporte prioritario.
+              You now have access to intelligent predictions, advanced analysis and priority support.
             </p>
           </div>
 
-          <Link
-            href="/dashboard"
+          <button
+            onClick={() => {
+              // Redirigir al dashboard en inglés
+              window.location.href = '/dashboard-en';
+            }}
             className="inline-block bg-gold text-black font-semibold py-3 px-6 rounded-lg hover:bg-yellow-400 transition-colors mb-4"
           >
-            Ir al Dashboard
-          </Link>
+            Go to Dashboard
+          </button>
           
           <p className="text-xs text-gray-500">
-            Tu suscripción está activa y lista para usar
+            Your subscription is active and ready to use
           </p>
         </div>
       </div>
@@ -103,37 +141,37 @@ export default function ActivateUserPage() {
       <div className="flex items-center gap-3 text-sm mb-6">
         <Link href="/" className="inline-flex items-center gap-1 text-gold hover:underline">
           <ArrowLeft className="w-4 h-4" />
-          Volver al Inicio
+          Back to Home
         </Link>
       </div>
 
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
           <Key className="w-16 h-16 text-gold mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gold mb-2">Activar Cuenta</h1>
+          <h1 className="text-3xl font-bold text-gold mb-2">Activate Account</h1>
           <p className="text-gray-300">
-            Ingresa el código de activación que recibiste por WhatsApp
+            Enter the activation code you received via WhatsApp
           </p>
         </div>
 
         {userData && (
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
-            <h3 className="text-sm font-semibold text-white mb-2">📋 Información de tu cuenta:</h3>
+            <h3 className="text-sm font-semibold text-white mb-2">📋 Your account information:</h3>
             <p className="text-xs text-gray-400">Email: {userData.email}</p>
-            <p className="text-xs text-gray-400">Teléfono: {userData.phone}</p>
+            <p className="text-xs text-gray-400">Phone: {userData.phone}</p>
           </div>
         )}
 
         <div className="bg-gray-900 border border-gray-700 rounded-xl p-6">
           <div className="mb-6">
             <label className="block text-sm text-gray-300 mb-2">
-              Código de Activación
+              Activation Code
             </label>
             <input
               type="text"
               value={activationCode}
               onChange={(e) => setActivationCode(e.target.value.toUpperCase())}
-              placeholder="Ej: ABC123"
+              placeholder="Ex: ABC123"
               className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-center text-lg font-mono tracking-widest focus:outline-none focus:border-gold"
               maxLength={10}
             />
@@ -144,7 +182,7 @@ export default function ActivateUserPage() {
               <div className="flex items-center">
                 <XCircle className="w-5 h-5 text-red-400 mr-2" />
                 <p className="text-red-400 text-sm">
-                  Código inválido. Verifica que sea correcto o solicita uno nuevo.
+                  Invalid code. Please verify it's correct or request a new one.
                 </p>
               </div>
             </div>
@@ -155,12 +193,12 @@ export default function ActivateUserPage() {
             disabled={isActivating || !activationCode.trim()}
             className="w-full bg-gold text-black font-semibold py-3 rounded-lg disabled:opacity-60 hover:bg-yellow-400 transition-colors mb-4"
           >
-            {isActivating ? 'Activando...' : 'Activar Cuenta'}
+            {isActivating ? 'Activating...' : 'Activate Account'}
           </button>
 
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-4">
-              ¿No recibiste tu código o tienes problemas?
+              Didn't receive your code or having problems?
             </p>
             
             <button
@@ -168,7 +206,7 @@ export default function ActivateUserPage() {
               className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
             >
               <MessageCircle className="w-4 h-4" />
-              Contactar por WhatsApp
+              Contact via WhatsApp
             </button>
           </div>
         </div>
@@ -176,13 +214,13 @@ export default function ActivateUserPage() {
         <div className="mt-6 bg-gray-900 border border-gray-700 rounded-lg p-4">
           <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
             <Shield className="w-4 h-4 mr-2 text-gold" />
-            Información Importante
+            Important Information
           </h3>
           <ul className="text-xs text-gray-400 space-y-1">
-            <li>• El código se envía por WhatsApp después del pago</li>
-            <li>• Verifica tu carpeta de spam si no lo recibes</li>
-            <li>• El código es válido por 24 horas</li>
-            <li>• Contacta soporte si tienes problemas</li>
+            <li>• The code is sent via WhatsApp after payment</li>
+            <li>• Check your spam folder if you don't receive it</li>
+            <li>• The code is valid for 24 hours</li>
+            <li>• Contact support if you have problems</li>
           </ul>
         </div>
       </div>

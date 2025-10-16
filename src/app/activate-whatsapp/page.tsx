@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { MessageCircle, ArrowLeft, CheckCircle, Clock, Phone, Mail, CreditCard } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ActivateWhatsApp() {
+export default function ActivateWhatsAppEn() {
   const [selectedPlan, setSelectedPlan] = useState('premium');
   const [userData, setUserData] = useState<any>(null);
 
@@ -26,21 +26,21 @@ export default function ActivateWhatsApp() {
   const handleWhatsAppActivation = () => {
     const whatsappNumber = '+19295909116';
     const planPrices = {
-      gratis: 'GRATIS (3 días de prueba)',
-      premium: '$79 (3 meses)',
-      vip: '$149 (3 meses)'
+      gratis: 'FREE (3 days trial)',
+      premium: '$79 (3 months)',
+      vip: '$149 (3 months)'
     };
     
     const whatsappMessage = encodeURIComponent(
-      '🎯 *SOLICITUD DE ACTIVACIÓN - GANA FÁCIL*\n\n' +
-      '¡Hola! Quiero activar mi cuenta con el siguiente plan:\n\n' +
-      '📋 *Detalles del Plan:*\n' +
+      '🎯 *ACTIVATION REQUEST - EASYWIN*\n\n' +
+      'Hello! I want to activate my account with the following plan:\n\n' +
+      '📋 *Plan Details:*\n' +
       '• Plan: ' + selectedPlan.toUpperCase() + '\n' +
-      '• Precio: ' + planPrices[selectedPlan as keyof typeof planPrices] + '\n' +
-      '• Email: ' + (userData?.email || 'No proporcionado') + '\n' +
-      '• Teléfono: ' + (userData?.phone || 'No proporcionado') + '\n\n' +
-      'Por favor, envíame el código de activación y las instrucciones de pago.\n\n' +
-      '¡Gracias!'
+      '• Price: ' + planPrices[selectedPlan as keyof typeof planPrices] + '\n' +
+      '• Email: ' + (userData?.email || 'Not provided') + '\n' +
+      '• Phone: ' + (userData?.phone || 'Not provided') + '\n\n' +
+      'Please send me the activation code and payment instructions.\n\n' +
+      'Thank you!'
     );
     
     window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
@@ -48,47 +48,47 @@ export default function ActivateWhatsApp() {
 
   const plans = {
     gratis: {
-      name: 'Prueba Gratuita',
-      price: 'GRATIS',
+      name: 'Free Trial',
+      price: 'FREE',
       originalPrice: '$39',
-      duration: '3 días',
+      duration: '3 days',
       features: [
-        'Predicciones básicas (3 sorteos)',
-        'Acceso a estadísticas básicas',
-        'Soporte por WhatsApp',
-        'Sin compromiso'
+        'Basic predictions (3 draws)',
+        'Access to basic statistics',
+        'WhatsApp support',
+        'No commitment'
       ],
       color: 'bg-gray-600'
     },
     premium: {
-      name: 'Plan Premium',
+      name: 'Premium Plan',
       price: '$79',
       originalPrice: '$119',
-      duration: '3 meses',
+      duration: '3 months',
       features: [
-        'Predicciones para 10+ sorteos diarios',
-        'Análisis avanzado con Anbel IA',
-        'Soporte prioritario por WhatsApp',
-        'Notificaciones en tiempo real',
-        'Historial completo ilimitado',
-        'Estrategias exclusivas',
-        'Análisis de tendencias'
+        'Predictions for 10+ daily draws',
+        'Advanced analysis with Anbel AI',
+        'Priority WhatsApp support',
+        'Real-time notifications',
+        'Unlimited complete history',
+        'Exclusive strategies',
+        'Trend analysis'
       ],
       color: 'bg-purple-600'
     },
     vip: {
-      name: 'Plan VIP',
+      name: 'VIP Plan',
       price: '$149',
       originalPrice: '$199',
-      duration: '3 meses',
+      duration: '3 months',
       features: [
-        'Predicciones ilimitadas',
-        'IA avanzada con machine learning',
-        'Soporte VIP personalizado',
-        'Notificaciones ultra rápidas',
-        'Análisis de tendencias en tiempo real',
-        'Estrategias personalizadas',
-        'Acceso a funciones beta'
+        'Unlimited predictions',
+        'Advanced AI with machine learning',
+        'VIP personalized support',
+        'Ultra-fast notifications',
+        'Real-time trend analysis',
+        'Personalized strategies',
+        'Beta features access'
       ],
       color: 'bg-yellow-600'
     }
@@ -99,18 +99,18 @@ export default function ActivateWhatsApp() {
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-10">
       <div className="flex items-center gap-3 text-sm mb-6">
-        <Link href="/" className="inline-flex items-center gap-1 text-gold hover:underline">
+        <Link href="/en" className="inline-flex items-center gap-1 text-gold hover:underline">
           <ArrowLeft className="w-4 h-4" />
-          Volver al Inicio
+          Back to Home
         </Link>
       </div>
 
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <MessageCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gold mb-2">Activar por WhatsApp</h1>
+          <h1 className="text-3xl font-bold text-gold mb-2">Activate via WhatsApp</h1>
           <p className="text-gray-300">
-            Elige tu plan y actívate al instante a través de WhatsApp
+            Choose your plan and get activated instantly through WhatsApp
           </p>
         </div>
 
@@ -147,28 +147,28 @@ export default function ActivateWhatsApp() {
 
         {/* Selected Plan Details */}
         <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 mb-8">
-          <h3 className="text-xl font-bold text-white mb-4">Plan Seleccionado: {currentPlan.name}</h3>
+          <h3 className="text-xl font-bold text-white mb-4">Selected Plan: {currentPlan.name}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="text-lg font-semibold text-gold mb-3">Información del Plan</h4>
+              <h4 className="text-lg font-semibold text-gold mb-3">Plan Information</h4>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Precio:</span>
+                  <span className="text-gray-400">Price:</span>
                   <span className="text-white font-semibold">{currentPlan.price}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Duración:</span>
+                  <span className="text-gray-400">Duration:</span>
                   <span className="text-white">{currentPlan.duration}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Precio Original:</span>
+                  <span className="text-gray-400">Original Price:</span>
                   <span className="text-gray-500 line-through">{currentPlan.originalPrice}</span>
                 </div>
               </div>
             </div>
             
             <div>
-              <h4 className="text-lg font-semibold text-gold mb-3">Qué Incluye</h4>
+              <h4 className="text-lg font-semibold text-gold mb-3">What's Included</h4>
               <ul className="space-y-1">
                 {currentPlan.features.slice(0, 4).map((feature, index) => (
                   <li key={index} className="text-sm text-gray-300 flex items-center">
@@ -178,7 +178,7 @@ export default function ActivateWhatsApp() {
                 ))}
                 {currentPlan.features.length > 4 && (
                   <li className="text-sm text-gray-400">
-                    +{currentPlan.features.length - 4} características más
+                    +{currentPlan.features.length - 4} more features
                   </li>
                 )}
               </ul>
@@ -189,7 +189,7 @@ export default function ActivateWhatsApp() {
         {/* User Information */}
         {userData && (
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
-            <h3 className="text-sm font-semibold text-white mb-2">📋 Información de tu cuenta:</h3>
+            <h3 className="text-sm font-semibold text-white mb-2">📋 Your account information:</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-gold" />
@@ -197,7 +197,7 @@ export default function ActivateWhatsApp() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-gold" />
-                <span className="text-xs text-gray-400">Teléfono: {userData.phone}</span>
+                <span className="text-xs text-gray-400">Phone: {userData.phone}</span>
               </div>
             </div>
           </div>
@@ -210,11 +210,11 @@ export default function ActivateWhatsApp() {
             className={`${currentPlan.color} text-white font-bold py-4 px-8 rounded-lg hover:opacity-90 transition-all transform hover:scale-105 flex items-center gap-3 mx-auto`}
           >
             <MessageCircle className="w-6 h-6" />
-            Activar por WhatsApp
+            Activate via WhatsApp
           </button>
           
           <p className="text-sm text-gray-400 mt-4">
-            Serás redirigido a WhatsApp para completar tu activación
+            You will be redirected to WhatsApp to complete your activation
           </p>
         </div>
 
@@ -222,16 +222,16 @@ export default function ActivateWhatsApp() {
         <div className="mt-8 bg-gray-900 border border-gray-700 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
             <Clock className="w-5 h-5 mr-2 text-gold" />
-            Cómo funciona
+            How it works
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center mx-auto mb-3">
                 <span className="text-black font-bold">1</span>
               </div>
-              <h4 className="font-semibold text-white mb-2">Selecciona Plan</h4>
+              <h4 className="font-semibold text-white mb-2">Select Plan</h4>
               <p className="text-sm text-gray-400">
-                Elige el plan que mejor se adapte a tus necesidades
+                Choose the plan that best fits your needs
               </p>
             </div>
             
@@ -239,9 +239,9 @@ export default function ActivateWhatsApp() {
               <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center mx-auto mb-3">
                 <span className="text-black font-bold">2</span>
               </div>
-              <h4 className="font-semibold text-white mb-2">Contacta WhatsApp</h4>
+              <h4 className="font-semibold text-white mb-2">Contact WhatsApp</h4>
               <p className="text-sm text-gray-400">
-                Envía tu solicitud de activación por WhatsApp
+                Send your activation request via WhatsApp
               </p>
             </div>
             
@@ -249,9 +249,9 @@ export default function ActivateWhatsApp() {
               <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center mx-auto mb-3">
                 <span className="text-black font-bold">3</span>
               </div>
-              <h4 className="font-semibold text-white mb-2">Actívate</h4>
+              <h4 className="font-semibold text-white mb-2">Get Activated</h4>
               <p className="text-sm text-gray-400">
-                Recibe tu código de activación y comienza a ganar
+                Receive your activation code and start winning
               </p>
             </div>
           </div>
@@ -261,10 +261,10 @@ export default function ActivateWhatsApp() {
         <div className="mt-6 bg-gray-900 border border-gray-700 rounded-lg p-4">
           <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
             <MessageCircle className="w-4 h-4 mr-2 text-gold" />
-            ¿Necesitas Ayuda?
+            Need Help?
           </h3>
           <p className="text-xs text-gray-400 mb-2">
-            Nuestro equipo de soporte está disponible 24/7 por WhatsApp para ayudarte con tu activación.
+            Our support team is available 24/7 via WhatsApp to help you with your activation.
           </p>
           <p className="text-xs text-gray-400">
             WhatsApp: +1 (929) 590-9116

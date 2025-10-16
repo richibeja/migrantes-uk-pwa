@@ -4,18 +4,18 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Users, Star, Check, ArrowRight, Copy, Share2 } from 'lucide-react';
 
-export default function JoinPage() {
+export default function JoinEnPage() {
   const router = useRouter();
   const [invitationCode, setInvitationCode] = useState('');
   const [isValidating, setIsValidating] = useState(false);
   const [error, setError] = useState('');
 
-  // Enlaces de ejemplo para probar el sistema
+  // Example links to test the system
   const exampleInvitations = [
     {
       id: '1',
-      name: 'Club Ganadores VIP',
-      description: 'Club exclusivo para jugadores experimentados',
+      name: 'VIP Winners Club',
+      description: 'Exclusive club for experienced players',
       members: 12,
       link: '/join?club=1&ref=maria&token=abc123',
       color: 'from-purple-600 to-blue-600'
@@ -23,7 +23,7 @@ export default function JoinPage() {
     {
       id: '2', 
       name: 'Lucky Numbers Team',
-      description: 'Equipo enfocado en análisis estadístico',
+      description: 'Team focused on statistical analysis',
       members: 8,
       link: '/join?club=2&ref=carlos&token=def456',
       color: 'from-green-600 to-teal-600'
@@ -31,7 +31,7 @@ export default function JoinPage() {
     {
       id: '3',
       name: 'Golden Tickets',
-      description: 'Club premium con estrategias avanzadas',
+      description: 'Premium club with advanced strategies',
       members: 15,
       link: '/join?club=3&ref=ana&token=ghi789',
       color: 'from-yellow-600 to-orange-600'
@@ -40,23 +40,23 @@ export default function JoinPage() {
 
   const handleJoinByCode = async () => {
     if (!invitationCode.trim()) {
-      setError('Por favor ingresa un código de invitación');
+      setError('Please enter an invitation code');
       return;
     }
 
     setIsValidating(true);
     setError('');
 
-    // Simular validación
+    // Simulate validation
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Redirigir a la página de unión
+    // Redirect to join page
     router.push(`/join?club=${invitationCode}&ref=demo&token=demo123`);
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(`${window.location.origin}${text}`);
-    // Mostrar notificación de copiado
+    // Show copy notification
   };
 
   return (
@@ -65,34 +65,34 @@ export default function JoinPage() {
       <div className="bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900 py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            🎯 Unirse a un Club ANBEL
+            🎯 Join an ANBEL Club
           </h1>
           <p className="text-xl text-purple-200 mb-8 max-w-3xl mx-auto">
-            Únete a equipos de jugadores expertos y aumenta tus posibilidades de ganar
+            Join teams of expert players and increase your chances of winning
           </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Método 1: Código de Invitación */}
+          {/* Method 1: Invitation Code */}
           <div className="bg-gray-800/90 rounded-xl p-8 mb-8 border border-gray-700">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
               <Users className="w-6 h-6 mr-3 text-blue-400" />
-              Unirse con Código de Invitación
+              Join with Invitation Code
             </h2>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-2">
-                  Código de Invitación
+                  Invitation Code
                 </label>
                 <div className="flex space-x-4">
                   <input
                     type="text"
                     value={invitationCode}
                     onChange={(e) => setInvitationCode(e.target.value)}
-                    placeholder="Ingresa tu código de invitación"
+                    placeholder="Enter your invitation code"
                     className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <button
@@ -103,12 +103,12 @@ export default function JoinPage() {
                     {isValidating ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        <span>Validando...</span>
+                        <span>Validating...</span>
                       </>
                     ) : (
                       <>
                         <ArrowRight className="w-4 h-4" />
-                        <span>Unirse</span>
+                        <span>Join</span>
                       </>
                     )}
                   </button>
@@ -120,15 +120,15 @@ export default function JoinPage() {
             </div>
           </div>
 
-          {/* Método 2: Enlaces de Ejemplo */}
+          {/* Method 2: Example Links */}
           <div className="bg-gray-800/90 rounded-xl p-8 mb-8 border border-gray-700">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
               <Star className="w-6 h-6 mr-3 text-yellow-400" />
-              Clubs Disponibles para Probar
+              Available Clubs to Test
             </h2>
             
             <p className="text-gray-300 mb-6">
-              Haz clic en cualquiera de estos enlaces para probar el sistema de unión a clubs:
+              Click on any of these links to test the club joining system:
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -140,7 +140,7 @@ export default function JoinPage() {
                       <p className="text-gray-400 text-sm mb-3">{club.description}</p>
                       <div className="flex items-center text-sm text-gray-300">
                         <Users className="w-4 h-4 mr-1" />
-                        <span>{club.members} miembros</span>
+                        <span>{club.members} members</span>
                       </div>
                     </div>
                   </div>
@@ -150,12 +150,12 @@ export default function JoinPage() {
                       href={club.link}
                       className={`flex-1 bg-gradient-to-r ${club.color} text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 text-center`}
                     >
-                      Unirse
+                      Join
                     </a>
                     <button
                       onClick={() => copyToClipboard(club.link)}
                       className="px-3 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
-                      title="Copiar enlace"
+                      title="Copy link"
                     >
                       <Copy className="w-4 h-4" />
                     </button>
@@ -165,25 +165,25 @@ export default function JoinPage() {
             </div>
           </div>
 
-          {/* Información Adicional */}
+          {/* Additional Information */}
           <div className="bg-gradient-to-r from-green-900/20 to-blue-900/20 rounded-xl p-8 border border-green-500/20">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center">
               <Check className="w-6 h-6 mr-3 text-green-400" />
-              ¿Cómo Funciona?
+              How Does It Work?
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
               <div>
-                <h4 className="font-semibold text-white mb-2">1. Recibe Invitación</h4>
-                <p className="text-gray-300">Un miembro del club te envía un enlace único por WhatsApp o email</p>
+                <h4 className="font-semibold text-white mb-2">1. Receive Invitation</h4>
+                <p className="text-gray-300">A club member sends you a unique link via WhatsApp or email</p>
               </div>
               <div>
-                <h4 className="font-semibold text-white mb-2">2. Haz Clic en el Enlace</h4>
-                <p className="text-gray-300">El enlace te lleva directamente a la página de unión del club</p>
+                <h4 className="font-semibold text-white mb-2">2. Click the Link</h4>
+                <p className="text-gray-300">The link takes you directly to the club joining page</p>
               </div>
               <div>
-                <h4 className="font-semibold text-white mb-2">3. Únete Instantáneamente</h4>
-                <p className="text-gray-300">Confirma tu unión y accede inmediatamente al dashboard del club</p>
+                <h4 className="font-semibold text-white mb-2">3. Join Instantly</h4>
+                <p className="text-gray-300">Confirm your membership and access the club dashboard immediately</p>
               </div>
             </div>
           </div>

@@ -5,15 +5,16 @@ import { getAuth, type Auth } from "firebase/auth";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
 import { getAnalytics, type Analytics } from "firebase/analytics";
 
-// Firebase configuration from env (Gana Fácil) - CONFIGURACIÓN REAL
+// Firebase configuration from env (Gana Fácil) - PRODUCTION ONLY
+// NO FALLBACK VALUES FOR SECURITY
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyBLl5wAu6mBb92ZOJw29VFW4ZJlkYEt3Bw",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "gana-facil-rifa-d5609.firebaseapp.com",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "gana-facil-rifa-d5609",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "gana-facil-rifa-d5609.firebasestorage.app",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "428843376699",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:428843376699:web:0288ad0567b97b19e8bc1e",
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-405FY60Y6J",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 function isConfigValid(): boolean {

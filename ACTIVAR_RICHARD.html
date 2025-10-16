@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Account - richardbejarano52@gmail.com</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .button:hover {
+            transform: scale(1.05);
+            transition: all 0.3s;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        .code-box {
+            background: #1a1a1a;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔓 Activate Account</h1>
+        
+        <div class="info-box">
+            <h3>📧 Email: richardbejarano52@gmail.com</h3>
+            <p><strong>Plan:</strong> Premium (£79)</p>
+            <p><strong>Valid:</strong> 90 days</p>
+            <p><strong>Status:</strong> Ready to activate</p>
+        </div>
+
+        <h2>✅ Activation Method</h2>
+        <p>Click the button below to activate and go directly to the dashboard:</p>
+
+        <button class="button" onclick="activateAndGo()">
+            🚀 ACTIVATE & GO TO DASHBOARD
+        </button>
+
+        <div class="success" id="successMsg">
+            <h2>✅ Activated!</h2>
+            <p>Redirecting to dashboard...</p>
+        </div>
+
+        <div class="info-box" style="margin-top: 30px;">
+            <h4>⚠️ If button doesn't work:</h4>
+            <p style="font-size: 14px;">Copy this code and paste in browser console (F12):</p>
+            <div class="code-box" id="codeBox">
+localStorage.setItem('user', '{"email":"richardbejarano52@gmail.com","plan":"premium","isActivated":true,"activatedAt":"2025-10-15T19:00:00.000Z","expiresAt":"2026-01-15T19:00:00.000Z","username":"richardbejarano52"}');
+localStorage.setItem('ganafacil_activated', 'true');
+window.location.href = 'https://gana-facil-754fcvtcy-ganafacils-projects.vercel.app/dashboard';
+            </div>
+            <button class="button" style="background: #10b981; margin-top: 10px;" onclick="copyCode()">
+                📋 Copy Code
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function activateAndGo() {
+            // Activate account
+            const userData = {
+                email: "richardbejarano52@gmail.com",
+                plan: "premium",
+                isActivated: true,
+                activatedAt: new Date().toISOString(),
+                expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+                username: "richardbejarano52"
+            };
+
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('ganafacil_activated', 'true');
+
+            // Show success
+            document.getElementById('successMsg').style.display = 'block';
+
+            // Redirect after 1 second
+            setTimeout(() => {
+                window.location.href = 'https://gana-facil-754fcvtcy-ganafacils-projects.vercel.app/dashboard';
+            }, 1000);
+        }
+
+        function copyCode() {
+            const code = document.getElementById('codeBox').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ Code copied! Now:\n1. Go to login page\n2. Press F12\n3. Paste in console\n4. Press Enter');
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+

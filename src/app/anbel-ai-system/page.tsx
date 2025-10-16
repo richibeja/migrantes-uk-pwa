@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { anbelAISystem, ANBEL_ALGORITHMS, type PredictionAnalysis, type ChatContext, type HotColdAnalysis } from '@/lib/anbel-ai-system';
 
-// Usar el tipo del sistema
+// Use the system type
 type PredictionResult = PredictionAnalysis;
 
 interface ChatMessage {
@@ -25,7 +25,7 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-// Usar el tipo del sistema
+// Use the system type
 type HotColdNumber = {
   number: number;
   status: 'hot' | 'cold' | 'recommended' | 'normal';
@@ -72,51 +72,6 @@ interface LanguageConfig {
   };
 }
 
-const SPANISH_CONFIG: LanguageConfig = {
-  title: "Anbel IA - Sistema de Predicción",
-  subtitle: "Algoritmos avanzados de análisis predictivo para loterías",
-  stats: {
-    precision: "Precisión Algoritmo Anbel",
-    algorithms: "Algoritmos Integrados",
-    predictions: "Predicciones exitosas"
-  },
-  sections: {
-    predictiveAnalysis: "Análisis Predictivo",
-    assistant: "Asistente Anbel IA",
-    hotNumbers: "Números Calientes",
-    recommendedNumbers: "Números Recomendados"
-  },
-  controls: {
-    selectAlgorithm: "Seleccionar Algoritmo",
-    startAnalysis: "Iniciar Análisis",
-    analyzing: "Analizando...",
-    chatPlaceholder: "Escribe tu pregunta...",
-    send: "Enviar"
-  },
-  messages: {
-    readyToAnalyze: "Listo para analizar...",
-    collectingData: "Recopilando datos históricos...",
-    analyzingPatterns: "Analizando patrones con",
-    calculatingProbabilities: "Calculando probabilidades...",
-    analysisComplete: "Análisis completado con éxito!",
-    predictionGenerated: "Predicción Generada",
-    basedOnAnalysis: "Basado en análisis de 1,200 sorteos históricos y patrones detectados",
-    probabilityOfSuccess: "Probabilidad de acierto",
-    algorithm: "Algoritmo"
-  },
-  chat: {
-    welcome: "Hola, soy Anbel IA. Estoy aquí para ayudarte con predicciones de lotería usando algoritmos avanzados. ¿En qué puedo ayudarte hoy?",
-    responses: {
-      prediction: "Basándome en el análisis de patrones históricos y el algoritmo Anbel, mis números recomendados para el próximo sorteo son: 15, 23, 34, 41, 52, 67. Estos números tienen una probabilidad de acierto del 87.3% según mi análisis.",
-      probability: "Mi algoritmo principal tiene una precisión del 94.5% en la identificación de patrones ganadores. El algoritmo de filtrado cruzado alcanza hasta el 96.8% de efectividad en sorteos recientes.",
-      hotNumbers: "Los números más calientes en los últimos 30 sorteos son: 7, 15, 23, 34, 41. Estos números han aparecido con mayor frecuencia según el análisis de distribución probabilística.",
-      coldNumbers: "Los números más fríos que no han salido en los últimos 15 sorteos son: 3, 11, 19, 28, 37, 49. Según la ley de probabilidades, estos podrían tener mayor posibilidad de aparecer pronto.",
-      algorithm: "Utilizo 4 algoritmos principales: 1) Anbel (patentado, 94.5% precisión), 2) Probabilístico (91.2%), 3) Histórico (89.7%), y 4) Filtrado Cruzado (96.8%). Analizo más de 1,200 sorteos históricos para identificar patrones complejos.",
-      success: "Mis predicciones han ayudado a 1,240 usuarios a ganar premios significativos. Recuerda que aunque mis algoritmos son avanzados, la lotería siempre implica un elemento de suerte. Juega responsablemente."
-    }
-  }
-};
-
 const ENGLISH_CONFIG: LanguageConfig = {
   title: "Anbel AI - Prediction System",
   subtitle: "Advanced predictive analysis algorithms for lotteries",
@@ -162,8 +117,8 @@ const ENGLISH_CONFIG: LanguageConfig = {
   }
 };
 
-export default function AnbelAISystemPage() {
-  const [currentLanguage, setCurrentLanguage] = useState<'es' | 'en'>('es');
+export default function AnbelAISystemPageEN() {
+  const [currentLanguage, setCurrentLanguage] = useState<'es' | 'en'>('en');
   const [currentAlgorithm, setCurrentAlgorithm] = useState('anbel');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
@@ -187,10 +142,10 @@ export default function AnbelAISystemPage() {
   
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Obtener configuración de idioma actual
-  const config = currentLanguage === 'es' ? SPANISH_CONFIG : ENGLISH_CONFIG;
+  // Get current language configuration
+  const config = ENGLISH_CONFIG;
 
-  // Inicializar mensaje de bienvenida y estado
+  // Initialize welcome message and status
   useEffect(() => {
     setAnalysisStatus(config.messages.readyToAnalyze);
     setChatMessages([{
@@ -199,15 +154,15 @@ export default function AnbelAISystemPage() {
       content: config.chat.welcome,
       timestamp: new Date()
     }]);
-  }, [currentLanguage, config]);
+  }, [config]);
 
-  // Cargar datos del sistema Anbel IA
+  // Load Anbel AI system data
   useEffect(() => {
     const loadSystemData = async () => {
-      // Cargar análisis de números calientes y fríos
+      // Load hot and cold numbers analysis
       const hotColdAnalysis = await anbelAISystem.updateHotColdNumbers();
       
-      // Generar números para visualización
+      // Generate numbers for visualization
       const numbers: HotColdNumber[] = [];
       for (let i = 1; i <= 60; i++) {
         let status: 'hot' | 'cold' | 'recommended' | 'normal' = 'normal';
@@ -230,12 +185,12 @@ export default function AnbelAISystemPage() {
     loadSystemData();
   }, []);
 
-  // Auto-scroll del chat
+  // Auto-scroll chat
   useEffect(() => {
     chatMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatMessages]);
 
-  // Análisis en tiempo real usando el sistema Anbel IA
+  // Real-time analysis using Anbel AI system
   const startAnalysis = async () => {
     setIsAnalyzing(true);
     setAnalysisProgress(0);
@@ -255,42 +210,37 @@ export default function AnbelAISystemPage() {
       await new Promise(resolve => setTimeout(resolve, 1500));
     }
 
-    // Generar predicción usando el sistema real
+    // Generate prediction using real system
     try {
       const prediction = await anbelAISystem.generatePrediction(currentAlgorithm, 60, 6);
       setPredictionResult(prediction);
     } catch (error) {
-      console.error('Error generando predicción:', error);
-      setAnalysisStatus(currentLanguage === 'es' ? 'Error en el análisis. Inténtalo de nuevo.' : 'Analysis error. Please try again.');
+      console.error('Error generating prediction:', error);
+      setAnalysisStatus('Analysis error. Please try again.');
     }
 
     setIsAnalyzing(false);
   };
 
-  // Generar respuesta inteligente usando las configuraciones de idioma
+  // Generate intelligent response using language configurations
   const generateAIResponse = (message: string): string => {
     const lowerMsg = message.toLowerCase();
     
-    if (lowerMsg.includes('predicción') || lowerMsg.includes('prediction') || lowerMsg.includes('números') || lowerMsg.includes('numbers')) {
+    if (lowerMsg.includes('prediction') || lowerMsg.includes('numbers')) {
       return config.chat.responses.prediction;
-    } else if (lowerMsg.includes('probabilidad') || lowerMsg.includes('probability') || lowerMsg.includes('porcentaje') || lowerMsg.includes('percentage')) {
+    } else if (lowerMsg.includes('probability') || lowerMsg.includes('percentage')) {
       return config.chat.responses.probability;
-    } else if (lowerMsg.includes('caliente') || lowerMsg.includes('hot') || lowerMsg.includes('frecuente') || lowerMsg.includes('frequent')) {
+    } else if (lowerMsg.includes('hot') || lowerMsg.includes('frequent')) {
       return config.chat.responses.hotNumbers;
-    } else if (lowerMsg.includes('frío') || lowerMsg.includes('cold') || lowerMsg.includes('atrasado') || lowerMsg.includes('overdue')) {
+    } else if (lowerMsg.includes('cold') || lowerMsg.includes('overdue')) {
       return config.chat.responses.coldNumbers;
-    } else if (lowerMsg.includes('algoritmo') || lowerMsg.includes('algorithm') || lowerMsg.includes('cómo funcionas') || lowerMsg.includes('how do you work')) {
+    } else if (lowerMsg.includes('algorithm') || lowerMsg.includes('how do you work')) {
       return config.chat.responses.algorithm;
-    } else if (lowerMsg.includes('ganador') || lowerMsg.includes('winner') || lowerMsg.includes('premio') || lowerMsg.includes('prize') || lowerMsg.includes('éxito') || lowerMsg.includes('success')) {
+    } else if (lowerMsg.includes('winner') || lowerMsg.includes('prize') || lowerMsg.includes('success')) {
       return config.chat.responses.success;
     } else {
-      // Respuesta por defecto contextual
-      const defaultResponses = currentLanguage === 'es' ? [
-        "He analizado tu consulta con mis algoritmos predictivos. ¿Te gustaría que genere una predicción personalizada para el próximo sorteo?",
-        "Basándome en el análisis de datos históricos, puedo proporcionarte insights valiosos sobre probabilidades y números recomendados. ¿En qué sorteo estás interesado?",
-        "Mi sistema de inteligencia artificial detectó que podrías beneficiarte de un análisis personalizado. ¿Quieres que proceda con una predicción adaptada a tu perfil?",
-        "He procesado tu pregunta con el algoritmo Anbel y he encontrado patrones interesantes. ¿Te interesaría conocer mis predicciones para los próximos sorteos?"
-      ] : [
+      // Default contextual response
+      const defaultResponses = [
         "I've analyzed your query with my predictive algorithms. Would you like me to generate a personalized prediction for the next draw?",
         "Based on historical data analysis, I can provide valuable insights about probabilities and recommended numbers. Which lottery are you interested in?",
         "My AI system detected that you could benefit from a personalized analysis. Would you like me to proceed with a prediction adapted to your profile?",
@@ -301,7 +251,7 @@ export default function AnbelAISystemPage() {
     }
   };
 
-  // Enviar mensaje al chat
+  // Send message to chat
   const sendMessage = () => {
     if (!userInput.trim()) return;
 
@@ -314,7 +264,7 @@ export default function AnbelAISystemPage() {
 
     setChatMessages(prev => [...prev, userMessage]);
     
-    // Actualizar contexto del chat
+    // Update chat context
     setChatContext(prev => ({
       ...prev,
       conversationHistory: [...prev.conversationHistory, userInput],
@@ -323,7 +273,7 @@ export default function AnbelAISystemPage() {
     
     setUserInput('');
 
-    // Generar respuesta del AI
+    // Generate AI response
     setTimeout(() => {
       const aiResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -336,7 +286,7 @@ export default function AnbelAISystemPage() {
     }, 1000);
   };
 
-  // Manejar Enter en el chat
+  // Handle Enter in chat
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -356,22 +306,14 @@ export default function AnbelAISystemPage() {
             </div>
             <div className="flex space-x-2">
               <button
-                onClick={() => setCurrentLanguage('es')}
-                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-colors ${
-                  currentLanguage === 'es' 
-                    ? 'bg-white text-blue-600' 
-                    : 'bg-blue-500 text-white hover:bg-blue-400'
-                }`}
+                onClick={() => window.location.href = '/anbel-ai-system'}
+                className="px-3 py-1 rounded-lg text-sm font-semibold transition-colors bg-blue-500 text-white hover:bg-blue-400"
               >
                 ES
               </button>
               <button
                 onClick={() => setCurrentLanguage('en')}
-                className={`px-3 py-1 rounded-lg text-sm font-semibold transition-colors ${
-                  currentLanguage === 'en' 
-                    ? 'bg-white text-blue-600' 
-                    : 'bg-blue-500 text-white hover:bg-blue-400'
-                }`}
+                className="px-3 py-1 rounded-lg text-sm font-semibold transition-colors bg-white text-blue-600"
               >
                 EN
               </button>
@@ -408,7 +350,7 @@ export default function AnbelAISystemPage() {
 
         {/* Main Dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Análisis Predictivo */}
+          {/* Predictive Analysis */}
           <div className="bg-white rounded-2xl p-6 shadow-lg">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-800">{config.sections.predictiveAnalysis}</h2>
@@ -424,7 +366,7 @@ export default function AnbelAISystemPage() {
               >
                 {Object.entries(ANBEL_ALGORITHMS).map(([key, config]) => (
                   <option key={key} value={key}>
-                    {config.name} ({config.precision}% precisión)
+                    {config.name} ({config.precision}% precision)
                   </option>
                 ))}
               </select>
@@ -498,7 +440,7 @@ export default function AnbelAISystemPage() {
                   }`}
                 >
                   <div className="font-semibold text-sm mb-1">
-                    {message.type === 'user' ? (currentLanguage === 'es' ? 'Tú' : 'You') : 'Anbel IA'}:
+                    {message.type === 'user' ? 'You' : 'Anbel AI'}:
                   </div>
                   <div>{message.content}</div>
                 </div>
@@ -528,17 +470,14 @@ export default function AnbelAISystemPage() {
 
         {/* Hot and Cold Numbers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Números Calientes */}
+          {/* Hot Numbers */}
           <div className="bg-white rounded-2xl p-6 shadow-lg">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-800">{config.sections.hotNumbers}</h2>
               <Flame className="w-8 h-8 text-red-500" />
             </div>
             <p className="text-gray-600 mb-4">
-              {currentLanguage === 'es' 
-                ? 'Números con mayor frecuencia en los últimos 30 sorteos:' 
-                : 'Numbers with highest frequency in the last 30 draws:'
-              }
+              Numbers with highest frequency in the last 30 draws:
             </p>
             
             <div className="grid grid-cols-10 gap-2">
@@ -559,17 +498,14 @@ export default function AnbelAISystemPage() {
             </div>
           </div>
 
-          {/* Números Recomendados */}
+          {/* Recommended Numbers */}
           <div className="bg-white rounded-2xl p-6 shadow-lg">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-800">{config.sections.recommendedNumbers}</h2>
               <Star className="w-8 h-8 text-yellow-500" />
             </div>
             <p className="text-gray-600 mb-4">
-              {currentLanguage === 'es' 
-                ? 'Recomendación basada en análisis de patrones y probabilidades:' 
-                : 'Recommendation based on pattern analysis and probabilities:'
-              }
+              Recommendation based on pattern analysis and probabilities:
             </p>
             
             <div className="grid grid-cols-10 gap-2">
@@ -592,3 +528,4 @@ export default function AnbelAISystemPage() {
     </div>
   );
 }
+

@@ -6,3 +6,4 @@ Tone: Read aloud in a clear, educational and encouraging tone
 Script:
 Anbel: Congratulations on starting Module 1! In this foundational module, you'll learn the fundamentals of mathematical analysis. We'll cover statistical concepts, numerical patterns, basic probability theory, and data visualization techniques. These are the building blocks that will support everything you learn in the advanced modules. Take your time, practice with the interactive exercises, and don't hesitate to ask me questions. Remember, every expert was once a beginner. You're taking the first step toward mastering AI-powered mathematical analysis!
 
+

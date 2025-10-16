@@ -78,7 +78,7 @@ export const AnbelChat: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState<'es' | 'en'>('es');
+  const [currentLanguage, setCurrentLanguage] = useState<'es' | 'en'>('en'); // ENGLISH BY DEFAULT
   const [speechSupported, setSpeechSupported] = useState(false);
   const [recognitionSupported, setRecognitionSupported] = useState(false);
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
@@ -908,13 +908,35 @@ export const AnbelChat: React.FC = () => {
   };
 
   /**
-   * 🎯 PROCESAR RESPUESTA CON VOZ
+   * 🎯 PROCESAR RESPUESTA CON VOZ - SIMPLIFICADO PARA PRONÓSTICOS
    */
   const processResponseWithVoice = async (response: AnbelResponse) => {
-    // Hablar la respuesta
-    speakText(response.text, currentLanguage);
+    // Si es una predicción, solo hablar los números
+    let textToSpeak = response.text;
     
-    // Agregar mensaje al chat
+    if (response.type === 'prediction' && response.data) {
+      // Extraer solo los números del pronóstico
+      const numbers = response.data.numbers || [];
+      const bonusNumbers = response.data.bonusNumbers || [];
+      
+      // Crear texto simple solo con números
+      if (currentLanguage === 'es') {
+        textToSpeak = `Números: ${numbers.join(', ')}`;
+        if (bonusNumbers.length > 0) {
+          textToSpeak += `. Número especial: ${bonusNumbers.join(', ')}`;
+        }
+      } else {
+        textToSpeak = `Numbers: ${numbers.join(', ')}`;
+        if (bonusNumbers.length > 0) {
+          textToSpeak += `. Bonus number: ${bonusNumbers.join(', ')}`;
+        }
+      }
+    }
+    
+    // Hablar la respuesta (simplificada si es predicción)
+    speakText(textToSpeak, currentLanguage);
+    
+    // Agregar mensaje completo al chat (con formato)
     const anbelMessage: ChatMessage = {
       id: (Date.now() + 1).toString(),
       text: response.text,

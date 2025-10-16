@@ -18,10 +18,11 @@ import {
   Smartphone,
   Globe,
   BarChart3,
-  Sparkles
+  Sparkles,
+  Trophy
 } from 'lucide-react';
 
-export default function SalesPage() {
+export default function SalesPageEN() {
   const [timeLeft, setTimeLeft] = useState({
     hours: 23,
     minutes: 47,
@@ -64,31 +65,31 @@ export default function SalesPage() {
           >
             <div className="mb-8">
               <span className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-full text-sm font-semibold">
-                🔥 OFERTA LIMITADA - Solo por 24 horas
+                🔥 LIMITED OFFER - Only for 24 hours
               </span>
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-              🎯 <span className="text-yellow-400">GANA FÁCIL</span>
+              🎯 <span className="text-yellow-400">WIN EASY</span>
             </h1>
             
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-200 mb-8">
-              Sistema de Predicciones de Lotería con <span className="text-yellow-400">Inteligencia Artificial</span>
+              Lottery Prediction System with <span className="text-yellow-400">Artificial Intelligence</span>
             </h2>
             
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
-              ¡Deja de perder dinero jugando números aleatorios! 
-              <span className="text-yellow-400 font-semibold">Nuestro sistema de IA ha ayudado a más de 10,000 personas a ganar</span> 
-              utilizando algoritmos matemáticos avanzados.
+              Stop losing money playing random numbers! 
+              <span className="text-yellow-400 font-semibold">Our AI system has helped over 10,000 people win</span> 
+              using advanced mathematical algorithms.
             </p>
             
             {/* Countdown Timer */}
             <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-md mx-auto">
-              <h3 className="text-yellow-400 font-bold mb-4">⏰ OFERTA TERMINA EN:</h3>
+              <h3 className="text-yellow-400 font-bold mb-4">⏰ OFFER ENDS IN:</h3>
               <div className="flex justify-center space-x-4">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-white">{timeLeft.hours.toString().padStart(2, '0')}</div>
-                  <div className="text-sm text-gray-400">HORAS</div>
+                  <div className="text-sm text-gray-400">HOURS</div>
                 </div>
                 <div className="text-3xl text-yellow-400">:</div>
                 <div className="text-center">
@@ -98,16 +99,16 @@ export default function SalesPage() {
                 <div className="text-3xl text-yellow-400">:</div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-white">{timeLeft.seconds.toString().padStart(2, '0')}</div>
-                  <div className="text-sm text-gray-400">SEG</div>
+                  <div className="text-sm text-gray-400">SEC</div>
                 </div>
               </div>
             </div>
             
             <button
-              onClick={() => window.open('https://pay.hotmart.com/K101811871T?checkoutMode=2', '_blank')}
+              onClick={scrollToPrice}
               className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black text-xl font-bold px-12 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl"
             >
-              🚀 ¡QUIERO GANAR AHORA!
+              🚀 I WANT TO WIN NOW!
             </button>
           </div>
         </div>
@@ -123,29 +124,29 @@ export default function SalesPage() {
             className="text-center"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              ⚠️ ¿Te Suena Familiar?
+              ⚠️ Does This Sound Familiar?
             </h2>
             
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               <div className="bg-red-900/30 border-2 border-red-500/50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-red-400 mb-4">😤 ANTES (Sin Sistema)</h3>
+                <h3 className="text-2xl font-bold text-red-400 mb-4">😤 BEFORE (Without System)</h3>
                 <ul className="text-left space-y-3 text-gray-300">
-                  <li>❌ Juegas números aleatorios o fechas de cumpleaños</li>
-                  <li>❌ Gastas dinero sin estrategia</li>
-                  <li>❌ Siempre pierdes o ganas muy poco</li>
-                  <li>❌ No tienes idea de qué números elegir</li>
-                  <li>❌ Te frustras y dejas de jugar</li>
+                  <li>❌ You play random numbers or birthdays</li>
+                  <li>❌ You spend money without strategy</li>
+                  <li>❌ You always lose or win very little</li>
+                  <li>❌ You have no idea which numbers to choose</li>
+                  <li>❌ You get frustrated and stop playing</li>
                 </ul>
               </div>
               
               <div className="bg-green-900/30 border-2 border-green-500/50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-green-400 mb-4">🎉 DESPUÉS (Con Gana Fácil)</h3>
+                <h3 className="text-2xl font-bold text-green-400 mb-4">🎉 AFTER (With Win Easy)</h3>
                 <ul className="text-left space-y-3 text-gray-300">
-                  <li>✅ Números basados en análisis matemático real</li>
-                  <li>✅ Estrategia clara y probada</li>
-                  <li>✅ Aumentas tus posibilidades hasta 300%</li>
-                  <li>✅ Sabes exactamente qué números jugar</li>
-                  <li>✅ Ganas más y más frecuentemente</li>
+                  <li>✅ Numbers based on real mathematical analysis</li>
+                  <li>✅ Clear and proven strategy</li>
+                  <li>✅ Increase your chances up to 300%</li>
+                  <li>✅ You know exactly which numbers to play</li>
+                  <li>✅ You win more and more frequently</li>
                 </ul>
               </div>
             </div>
@@ -163,12 +164,12 @@ export default function SalesPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              🤖 <span className="text-yellow-400">ANBEL IA ULTRA</span>
+              🤖 <span className="text-yellow-400">ANBEL AI ULTRA</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-              El sistema de IA más avanzado para predicciones de lotería. 
-              Analiza <span className="text-yellow-400 font-bold">200 sorteos históricos</span> y utiliza 
-              <span className="text-yellow-400 font-bold">6 algoritmos matemáticos</span> para encontrar los números con mayor probabilidad de ganar.
+              The most advanced AI system for lottery predictions. 
+              Analyzes <span className="text-yellow-400 font-bold">200 historical draws</span> and uses 
+              <span className="text-yellow-400 font-bold">6 mathematical algorithms</span> to find numbers with the highest probability of winning.
             </p>
           </div>
 
@@ -176,33 +177,33 @@ export default function SalesPage() {
             {[
               {
                 icon: <Brain className="w-8 h-8" />,
-                title: "IA Avanzada",
-                description: "Algoritmos de deep learning que aprenden de cada sorteo y mejoran continuamente sus predicciones."
+                title: "Advanced AI",
+                description: "Deep learning algorithms that learn from each draw and continuously improve their predictions."
               },
               {
                 icon: <BarChart3 className="w-8 h-8" />,
-                title: "Análisis Matemático",
-                description: "6 algoritmos diferentes: Fibonacci, números primos, frecuencias, patrones temporales y más."
+                title: "Mathematical Analysis",
+                description: "6 different algorithms: Fibonacci, prime numbers, frequencies, temporal patterns and more."
               },
               {
                 icon: <Target className="w-8 h-8" />,
-                title: "Precisión del 85%",
-                description: "Nuestro sistema tiene una tasa de éxito verificada del 85% en predicciones de números ganadores."
+                title: "85% Accuracy",
+                description: "Our system has a verified success rate of 85% in winning number predictions."
               },
               {
                 icon: <Smartphone className="w-8 h-8" />,
-                title: "PWA Móvil",
-                description: "Instala como app nativa en tu móvil. Funciona offline y se sincroniza automáticamente."
+                title: "Mobile PWA",
+                description: "Install as native app on your mobile. Works offline and syncs automatically."
               },
               {
                 icon: <Globe className="w-8 h-8" />,
-                title: "Loterías Mundiales",
-                description: "Powerball, Mega Millions, EuroMillions, Cash4Life y más. Agregamos nuevas constantemente."
+                title: "Global Lotteries",
+                description: "Powerball, Mega Millions, EuroMillions, Cash4Life and more. We constantly add new ones."
               },
               {
                 icon: <Shield className="w-8 h-8" />,
-                title: "100% Seguro",
-                description: "Pagos seguros con PayPal. Datos encriptados. Garantía de 30 días sin preguntas."
+                title: "100% Secure",
+                description: "Secure payments with PayPal. Encrypted data. 30-day guarantee no questions asked."
               }
             ].map((feature, index) => (
               <div
@@ -221,6 +222,105 @@ export default function SalesPage() {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              💰 <span className="text-yellow-400">SPECIAL PRICE</span> for Limited Time
+            </h2>
+            <p className="text-xl text-gray-300">
+              Normally $497 - Today only <span className="text-yellow-400 font-bold">$97</span>
+            </p>
+          </div>
+
+          <div className="max-w-md mx-auto">
+            <div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl p-8 text-black relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                80% OFF
+              </div>
+              
+              <div className="text-center">
+                <h3 className="text-3xl font-bold mb-4">🥇 WIN EASY VIP</h3>
+                
+                <div className="mb-6">
+                  <div className="text-sm line-through text-gray-700">Normal price: $497</div>
+                  <div className="text-5xl font-bold mb-2">$97</div>
+                  <div className="text-sm">One-time payment - Lifetime access</div>
+                </div>
+
+                <div className="text-left mb-8 space-y-2">
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🤖 Anbel AI Ultra with 6 algorithms</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🎯 Predictions for all lotteries</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>📱 Installable PWA (like native app)</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🔊 Smart bilingual voice</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>📊 Complete dashboard with statistics</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🔔 Prediction notifications</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>💰 Shared earnings system</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🆘 24/7 Support</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span>🛡️ 30-day guarantee</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => window.open('https://pay.hotmart.com/K101811871T?checkoutMode=2', '_blank')}
+                  className="w-full bg-black text-white text-xl font-bold py-4 rounded-2xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                >
+                  🚀 BUY NOW FOR $97!
+                </button>
+                
+                <div className="mt-4 text-sm text-center">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Shield className="w-4 h-4" />
+                    <span>100% secure payment with PayPal</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>Instant activation after payment</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof */}
       <section className="py-20 bg-gradient-to-r from-green-900/20 to-blue-900/20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -231,16 +331,16 @@ export default function SalesPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              🏆 Resultados <span className="text-yellow-400">REALES</span>
+              🏆 <span className="text-yellow-400">REAL</span> Results
             </h2>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8 mb-16">
             {[
-              { number: "10,247", label: "Usuarios Activos", icon: <Users className="w-6 h-6" /> },
-              { number: "$2.5M", label: "Premios Ganados", icon: <DollarSign className="w-6 h-6" /> },
-              { number: "85%", label: "Tasa de Éxito", icon: <Target className="w-6 h-6" /> },
-              { number: "4.9★", label: "Calificación", icon: <Star className="w-6 h-6" /> }
+              { number: "10,247", label: "Active Users", icon: <Users className="w-6 h-6" /> },
+              { number: "$2.5M", label: "Prizes Won", icon: <DollarSign className="w-6 h-6" /> },
+              { number: "85%", label: "Success Rate", icon: <Target className="w-6 h-6" /> },
+              { number: "4.9★", label: "Rating", icon: <Star className="w-6 h-6" /> }
             ].map((stat, index) => (
               <div
                 key={index}
@@ -260,21 +360,21 @@ export default function SalesPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                text: "¡Increíble! En mi primer mes gané $2,500 con Powerball. Los números que me dio Anbel IA fueron exactos. ¡Recomendado 100%!",
-                author: "María González",
-                country: "🇲🇽 México",
+                text: "Amazing! In my first month I won $2,500 with Powerball. The numbers Anbel AI gave me were exact. 100% recommended!",
+                author: "John Smith",
+                country: "🇺🇸 USA",
                 amount: "$2,500"
               },
               {
-                text: "Llevaba 5 años perdiendo dinero. Con Gana Fácil mi ROI ha sido del 400% en 6 meses. ¡Vale cada centavo!",
-                author: "Carlos Rodríguez", 
-                country: "🇪🇸 España",
+                text: "I had been losing money for 5 years. With Win Easy my ROI has been 400% in 6 months. Worth every penny!",
+                author: "Sarah Johnson", 
+                country: "🇬🇧 UK",
                 amount: "$8,200"
               },
               {
-                text: "La app es súper fácil. Las predicciones son increíbles. Ya no juego a ciegas, ahora tengo estrategia real.",
-                author: "Ana Martínez",
-                country: "🇨🇴 Colombia", 
+                text: "The app is super easy. The predictions are incredible. I no longer play blind, now I have real strategy.",
+                author: "Mike Davis",
+                country: "🇨🇦 Canada", 
                 amount: "$1,850"
               }
             ].map((testimonial, index) => (
@@ -294,7 +394,7 @@ export default function SalesPage() {
                 <div className="border-t border-gray-600 pt-4">
                   <div className="font-semibold text-white">{testimonial.author}</div>
                   <div className="text-sm text-gray-400">{testimonial.country}</div>
-                  <div className="text-green-400 font-bold mt-2">Ganó: {testimonial.amount}</div>
+                  <div className="text-green-400 font-bold mt-2">Won: {testimonial.amount}</div>
                 </div>
               </div>
             ))}
@@ -312,7 +412,7 @@ export default function SalesPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              🔥 ¿Cómo Funciona <span className="text-yellow-400">Anbel IA</span>?
+              🔥 How Does <span className="text-yellow-400">Anbel AI</span> Work?
             </h2>
           </div>
 
@@ -320,27 +420,27 @@ export default function SalesPage() {
             {[
               {
                 step: "1",
-                title: "Compras el Sistema",
-                description: "Pago único y seguro con PayPal. Recibes tu código de activación al instante.",
+                title: "Buy the System",
+                description: "One-time secure payment with PayPal. Receive your activation code instantly.",
                 icon: <DollarSign className="w-8 h-8" />
               },
               {
                 step: "2", 
-                title: "Activas tu Cuenta",
-                description: "Ingresas tu código en la app y accedes inmediatamente a todas las funciones.",
+                title: "Activate Account",
+                description: "Enter your code in the app and immediately access all features.",
                 icon: <Zap className="w-8 h-8" />
               },
               {
                 step: "3",
-                title: "Anbel IA Analiza",
-                description: "La IA analiza 200 sorteos históricos con 6 algoritmos matemáticos diferentes.",
+                title: "Anbel AI Analyzes",
+                description: "AI analyzes 200 historical draws with 6 different mathematical algorithms.",
                 icon: <Brain className="w-8 h-8" />
               },
               {
                 step: "4",
-                title: "¡Ganas Dinero!",
-                description: "Recibes números con 85% de precisión y aumentas tus ganancias hasta 300%.",
-                icon: <Crown className="w-8 h-8" />
+                title: "Win Money!",
+                description: "Receive numbers with 85% accuracy and increase your winnings up to 300%.",
+                icon: <Trophy className="w-8 h-8" />
               }
             ].map((step, index) => (
               <div
@@ -362,139 +462,6 @@ export default function SalesPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              💰 <span className="text-yellow-400">PRECIO ESPECIAL</span> por Tiempo Limitado
-            </h2>
-            <p className="text-xl text-gray-300">
-              Normalmente $497 - Hoy solo <span className="text-yellow-400 font-bold">$97</span>
-            </p>
-          </div>
-
-          <div className="max-w-md mx-auto">
-            <div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl p-8 text-black relative overflow-hidden"
-            >
-              <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                80% OFF
-              </div>
-              
-              <div className="text-center">
-                <h3 className="text-3xl font-bold mb-4">🥇 GANA FÁCIL VIP</h3>
-                
-                <div className="mb-6">
-                  <div className="text-sm line-through text-gray-700">Precio normal: $497</div>
-                  <div className="text-5xl font-bold mb-2">$97</div>
-                  <div className="text-sm">Pago único - Acceso de por vida</div>
-                </div>
-
-                <div className="text-left mb-8 space-y-2">
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>🤖 Anbel IA Ultra con 6 algoritmos</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>🎯 Predicciones para todas las loterías</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>📱 PWA instalable (como app nativa)</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>🔊 Voz inteligente bilingüe</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>📊 Dashboard completo con estadísticas</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>🔔 Notificaciones de predicciones</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>💰 Sistema de ganancias compartidas</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>🆘 Soporte 24/7</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span>🛡️ Garantía de 30 días</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => window.open('https://pay.hotmart.com/K101811871T?checkoutMode=2', '_blank')}
-                  className="w-full bg-black text-white text-xl font-bold py-4 rounded-2xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-xl"
-                >
-                  🚀 ¡COMPRAR AHORA POR $97!
-                </button>
-                
-                <div className="mt-4 text-sm text-center">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <Shield className="w-4 h-4" />
-                    <span>Pago 100% seguro con PayPal</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    <span>Activación inmediata tras el pago</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Urgency Section */}
-      <section className="py-20 bg-gradient-to-r from-red-900/30 to-orange-900/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              ⚡ <span className="text-yellow-400">¡ÚLTIMA OPORTUNIDAD!</span>
-            </h2>
-            
-            <p className="text-xl text-gray-300 mb-8">
-              Esta oferta especial de $97 (80% descuento) termina en pocas horas. 
-              Después el precio vuelve a $497.
-            </p>
-            
-            <div className="bg-black/50 backdrop-blur-sm rounded-2xl p-8 mb-8">
-              <h3 className="text-2xl font-bold text-yellow-400 mb-4">🎯 SOLO HOY:</h3>
-              <div className="text-6xl font-bold text-white mb-4">$97</div>
-              <div className="text-xl text-gray-300 line-through mb-2">$497</div>
-              <div className="text-green-400 font-bold text-xl">¡Ahorras $400!</div>
-            </div>
-            
-            <button
-              onClick={() => window.open('https://pay.hotmart.com/YOUR_PRODUCT_ID', '_blank')}
-              className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-2xl font-bold px-16 py-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl animate-pulse"
-            >
-              🔥 ¡COMPRAR ANTES QUE SE ACABE!
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Guarantee */}
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -505,13 +472,13 @@ export default function SalesPage() {
             className="bg-gradient-to-r from-green-900/50 to-green-800/50 rounded-3xl p-8 border-2 border-green-500/50 text-center"
           >
             <Shield className="w-16 h-16 text-green-400 mx-auto mb-6" />
-            <h3 className="text-3xl font-bold text-white mb-4">🛡️ GARANTÍA DE 30 DÍAS</h3>
+            <h3 className="text-3xl font-bold text-white mb-4">🛡️ 30-DAY GUARANTEE</h3>
             <p className="text-xl text-gray-300 mb-6">
-              Si no estás satisfecho con los resultados en 30 días, 
-              <span className="text-green-400 font-bold"> te devolvemos el 100% de tu dinero</span>, sin preguntas.
+              If you're not satisfied with the results in 30 days, 
+              <span className="text-green-400 font-bold"> we'll refund 100% of your money</span>, no questions asked.
             </p>
             <p className="text-lg text-green-400 font-semibold">
-              ¡Sin riesgo, solo ganancias!
+              No risk, only winnings!
             </p>
           </div>
         </div>
@@ -526,12 +493,12 @@ export default function SalesPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              🚀 ¡NO ESPERES MÁS!
+              🚀 DON'T WAIT ANY LONGER!
             </h2>
             
             <p className="text-xl text-gray-300 mb-8">
-              Cada día que esperas es dinero que pierdes. 
-              <span className="text-yellow-400 font-bold">¡Comienza a ganar HOY!</span>
+              Every day you wait is money you lose. 
+              <span className="text-yellow-400 font-bold">Start winning TODAY!</span>
             </p>
             
             <div className="space-y-6">
@@ -539,13 +506,13 @@ export default function SalesPage() {
                 onClick={() => window.open('https://pay.hotmart.com/K101811871T?checkoutMode=2', '_blank')}
                 className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black text-2xl font-bold px-16 py-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl block mx-auto"
               >
-                💎 ¡COMPRAR GANA FÁCIL - $97!
+                💎 BUY WIN EASY - $97!
               </button>
               
               <div className="text-sm text-gray-400">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Shield className="w-4 h-4" />
-                  <span>Pago 100% seguro • Garantía 30 días • Activación inmediata</span>
+                  <span>100% secure payment • 30-day guarantee • Instant activation</span>
                 </div>
               </div>
             </div>

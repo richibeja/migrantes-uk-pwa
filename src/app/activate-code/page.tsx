@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CheckCircle, ArrowLeft, Shield, AlertTriangle, Key, User, Phone, Mail } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ActivateCodePage() {
+export default function ActivateCodeEnPage() {
   const [formData, setFormData] = useState({
     code: '',
     email: '',
@@ -22,7 +22,7 @@ export default function ActivateCodePage() {
       [name]: value
     }));
     
-    // Limpiar error cuando el usuario empiece a escribir
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -34,39 +34,31 @@ export default function ActivateCodePage() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    // Validar código
+    // Validate code
     if (!formData.code.trim()) {
-      newErrors.code = 'Por favor ingresa tu código de activación';
+      newErrors.code = 'Please enter your activation code';
     } else if (formData.code.trim().length < 4) {
-      newErrors.code = 'El código debe tener al menos 4 caracteres';
+      newErrors.code = 'Code must have at least 4 characters';
     } else if (!/^[A-Za-z0-9]+$/.test(formData.code.trim())) {
-      newErrors.code = 'El código debe contener solo letras y números';
+      newErrors.code = 'Code must contain only letters and numbers';
     }
 
-    // Validar email
+    // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
-      newErrors.email = 'Por favor ingresa tu email';
+      newErrors.email = 'Please enter your email';
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Por favor ingresa un email válido';
+      newErrors.email = 'Please enter a valid email';
     }
 
-    // Validar teléfono
+    // Validate phone
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Por favor ingresa tu número de teléfono';
+      newErrors.phone = 'Please enter your phone number';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  // Códigos de activación válidos
-  const VALID_CODES = [
-    'GANAFACIL', 'LOTERIA', 'SUERTE', 'FORTUNA',
-    'GANA2025POWER001', 'GANA2025MEGA002', 'GANA2025EURO003',
-    'GANA2025UK004', 'GANA2025SPAIN005', 'DEMO2025TEST001',
-    'FREE2025TRIAL001', 'VIP2025ACCESS001'
-  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,124 +70,44 @@ export default function ActivateCodePage() {
     setIsLoading(true);
 
     try {
-      // Verificar código válido
-      const codeToCheck = formData.code.trim().toUpperCase();
-      if (!VALID_CODES.includes(codeToCheck)) {
-        setErrors({ general: 'Código de activación no válido. Verifica el código e intenta de nuevo.' });
-        setIsLoading(false);
-        return;
-      }
-
-      // Simular verificación del código
+      // Simulate code verification
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Generar credenciales de usuario
-      const username = formData.email.split('@')[0]; // Usar parte del email como username
-      const password = `GF${formData.code.slice(-4)}${Math.floor(Math.random() * 100)}`; // Contraseña basada en código
-      
-      // Crear cuenta de usuario
-      const newAccount = {
-        username: username,
-        password: password,
-        email: formData.email,
-        phone: formData.phone,
-        isActivated: true,
-        status: 'active',
-        plan: 'premium', // Plan por defecto
-        expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 días
-        activatedWith: 'whatsapp',
-        activationCode: formData.code,
-        createdAt: new Date().toISOString()
-      };
-
-      // Guardar en localStorage
-      const existingAccounts = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
-      existingAccounts.push(newAccount);
-      localStorage.setItem('ganaFacilAccounts', JSON.stringify(existingAccounts));
-
-      // También guardar usuario actual
-      localStorage.setItem('ganaFacilUser', JSON.stringify({
-        id: `user_${Date.now()}`,
-        username: username,
-        isAdmin: false,
-        isActivated: true,
-        status: 'active',
-        plan: 'premium',
-        expiresAt: newAccount.expiresAt,
-        activatedWith: 'whatsapp',
-        createdAt: new Date()
-      }));
-
-      console.log('✅ Cuenta creada exitosamente:', { username, password });
+      // Here would go the real code verification logic
+      console.log('Activation code:', formData);
       
       setIsSuccess(true);
     } catch (error) {
-      console.error('Error en la activación:', error);
-      setErrors({ general: 'Error al activar la cuenta. Verifica tu código e intenta de nuevo.' });
+      console.error('Activation error:', error);
+      setErrors({ general: 'Error activating account. Please verify your code and try again.' });
     } finally {
       setIsLoading(false);
     }
   };
 
   if (isSuccess) {
-    // Obtener las credenciales creadas
-    const userData = JSON.parse(localStorage.getItem('ganaFacilUser') || '{}');
-    const accounts = JSON.parse(localStorage.getItem('ganaFacilAccounts') || '[]');
-    const userAccount = accounts.find((acc: any) => acc.username === userData.username);
-    
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-600 via-blue-600 to-purple-600 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">¡Cuenta Activada!</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Account Activated!</h1>
           <p className="text-gray-600 mb-6">
-            Tu cuenta ha sido activada exitosamente. Guarda estas credenciales para futuros accesos.
+            Your account has been successfully activated. You now have full access to all GanaFácil features.
           </p>
-          
-          {/* Credenciales del usuario */}
-          <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6 text-left">
-            <h3 className="font-semibold text-gray-900 mb-3 text-center">Tus Credenciales de Acceso</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Usuario:</span>
-                <span className="font-mono text-blue-600">{userAccount?.username || 'N/A'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Contraseña:</span>
-                <span className="font-mono text-green-600">{userAccount?.password || 'N/A'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Plan:</span>
-                <span className="text-purple-600 font-semibold">Premium (90 días)</span>
-              </div>
-            </div>
-            <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-xs text-yellow-800 text-center">
-                ⚠️ Guarda estas credenciales en un lugar seguro
-              </p>
-            </div>
-          </div>
-          
           <div className="space-y-3">
             <Link 
-              href="/dashboard" 
+              href="/dashboard-en" 
               className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-all block text-center"
             >
-              Ir al Dashboard
+              Go to Dashboard
             </Link>
             <Link 
-              href="/login" 
-              className="w-full bg-green-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-700 transition-all block text-center"
-            >
-              Probar Login
-            </Link>
-            <Link 
-              href="/" 
+              href="/page-en" 
               className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-all block text-center"
             >
-              Volver al Inicio
+              Back to Home
             </Link>
           </div>
         </div>
@@ -208,25 +120,25 @@ export default function ActivateCodePage() {
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-center text-white">
-          <Link href="/activate-whatsapp" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-4">
+          <Link href="/activate-whatsapp-en" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-4">
             <ArrowLeft className="h-4 w-4" />
-            Volver a Solicitar Código
+            Back to Request Code
           </Link>
           <div className="flex items-center justify-center gap-3 mb-3">
             <Key className="h-8 w-8 text-green-400" />
             <span className="text-2xl font-bold">GanaFácil</span>
           </div>
-          <h1 className="text-xl font-bold mb-2">Activar Cuenta</h1>
-          <p className="text-blue-100">Ingresa el código que recibiste por WhatsApp</p>
+          <h1 className="text-xl font-bold mb-2">Activate Account</h1>
+          <p className="text-blue-100">Enter the code you received via WhatsApp</p>
         </div>
 
         {/* Form */}
         <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Código de Activación */}
+            {/* Activation Code */}
             <div>
               <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
-                Código de Activación *
+                Activation Code *
               </label>
               <div className="relative">
                 <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -256,7 +168,7 @@ export default function ActivateCodePage() {
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email de la Cuenta *
+                Account Email *
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -271,7 +183,7 @@ export default function ActivateCodePage() {
                       ? 'border-red-500 focus:ring-red-200' 
                       : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
                   }`}
-                  placeholder="tu@email.com"
+                  placeholder="your@email.com"
                 />
               </div>
               {errors.email && (
@@ -282,10 +194,10 @@ export default function ActivateCodePage() {
               )}
             </div>
 
-            {/* Teléfono */}
+            {/* Phone */}
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Teléfono de la Cuenta *
+                Account Phone *
               </label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -300,7 +212,7 @@ export default function ActivateCodePage() {
                       ? 'border-red-500 focus:ring-red-200' 
                       : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
                   }`}
-                  placeholder="+57 321 456 7890"
+                  placeholder="+1 (555) 123-4567"
                 />
               </div>
               {errors.phone && (
@@ -311,7 +223,7 @@ export default function ActivateCodePage() {
               )}
             </div>
 
-            {/* Error general */}
+            {/* General error */}
             {errors.general && (
               <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
                 <AlertTriangle className="h-4 w-4" />
@@ -319,7 +231,7 @@ export default function ActivateCodePage() {
               </div>
             )}
 
-            {/* Botón de envío */}
+            {/* Submit button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -328,57 +240,29 @@ export default function ActivateCodePage() {
               {isLoading ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Activando Cuenta...
+                  Activating Account...
                 </div>
               ) : (
-                'Activar Cuenta'
+                'Activate Account'
               )}
             </button>
           </form>
 
-          {/* Información adicional */}
-          <div className="mt-6 space-y-4">
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
-              <div className="flex items-start gap-3">
-                <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-blue-800 mb-1">¿No recibiste tu código?</h4>
-                  <p className="text-blue-700 text-sm mb-3">
-                    Si no recibiste el código por WhatsApp, puedes solicitarlo nuevamente.
-                  </p>
-                  <Link 
-                    href="/activate-whatsapp" 
-                    className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
-                  >
-                    Solicitar nuevo código →
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Códigos válidos */}
-            <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
-              <div className="flex items-start gap-3">
-                <Key className="h-5 w-5 text-green-600 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-green-800 mb-2">Códigos de Activación Válidos:</h4>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="space-y-1">
-                      <div className="font-mono text-green-700">GANAFACIL</div>
-                      <div className="font-mono text-green-700">LOTERIA</div>
-                      <div className="font-mono text-green-700">SUERTE</div>
-                      <div className="font-mono text-green-700">FORTUNA</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="font-mono text-green-700">DEMO2025TEST001</div>
-                      <div className="font-mono text-green-700">FREE2025TRIAL001</div>
-                      <div className="font-mono text-green-700">VIP2025ACCESS001</div>
-                    </div>
-                  </div>
-                  <p className="text-green-700 text-xs mt-2">
-                    * Los códigos son sensibles a mayúsculas y minúsculas
-                  </p>
-                </div>
+          {/* Additional information */}
+          <div className="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+            <div className="flex items-start gap-3">
+              <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-blue-800 mb-1">Didn't receive your code?</h4>
+                <p className="text-blue-700 text-sm mb-3">
+                  If you didn't receive the code via WhatsApp, you can request it again.
+                </p>
+                <Link 
+                  href="/activate-whatsapp-en" 
+                  className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                >
+                  Request new code →
+                </Link>
               </div>
             </div>
           </div>

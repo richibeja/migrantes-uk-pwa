@@ -6,3 +6,4 @@ Tone: Read aloud in a helpful, professional and reassuring tone
 Script:
 Support: Hello! I'm here to help you with any questions about ANBEL AI. Our technical support team is available 24/7 to ensure you have the best learning experience. Whether you need help with system access, understanding concepts, or technical issues, we're just an email away at support@anbelai.com. Remember, every question is important and helps us improve the system for everyone. Don't hesitate to reach out - we're committed to your success!
 
+

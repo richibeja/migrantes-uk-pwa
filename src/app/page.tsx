@@ -102,27 +102,27 @@ export default function Home() {
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2 sm:gap-3">
               <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-green-400" />
-              <span className="text-lg sm:text-2xl font-bold">GanaFácil</span>
+              <span className="text-lg sm:text-2xl font-bold">Gana Fácil</span>
             </div>
             
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex gap-6">
-              <a href="#features" className="hover:text-yellow-400 transition-colors text-sm">Características</a>
-              <a href="#demo" className="hover:text-yellow-400 transition-colors text-sm">Cómo Funciona</a>
-              <a href="#stats" className="hover:text-yellow-400 transition-colors text-sm">Resultados</a>
-              <a href="#pricing" className="hover:text-yellow-400 transition-colors text-sm">Precios</a>
+              <a href="#features" className="hover:text-yellow-400 transition-colors text-sm">Features</a>
+              <a href="#demo" className="hover:text-yellow-400 transition-colors text-sm">How It Works</a>
+              <a href="#stats" className="hover:text-yellow-400 transition-colors text-sm">Results</a>
+              <a href="#pricing" className="hover:text-yellow-400 transition-colors text-sm">Pricing</a>
             </nav>
             
             {/* Desktop Buttons */}
             <div className="hidden md:flex gap-2 lg:gap-3">
-              <a href="/auth/login" className="px-3 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm">
-                Iniciar Sesión
+              <a href="/auth/login-en" className="px-3 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm">
+                Log In
               </a>
-              <a href="/activate-whatsapp" className="px-3 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all text-sm">
-                Activar WhatsApp
+              <a href="/payment" className="px-3 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all text-sm">
+                Buy Now
               </a>
-              <a href="/page-en" className="px-3 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-xs">
-                🇺🇸 EN
+              <a href="#" className="px-3 py-2 border border-white text-white rounded-full bg-white/10 text-xs">
+                🇬🇧 EN
               </a>
             </div>
 
@@ -142,26 +142,26 @@ export default function Home() {
             <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/10 py-4 mt-3">
               <nav className="flex flex-col space-y-4">
                 <a href="#features" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
-                  Características
+                  Features
                 </a>
                 <a href="#demo" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
-                  Cómo Funciona
+                  How It Works
                 </a>
                 <a href="#stats" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
-                  Resultados
+                  Results
                 </a>
                 <a href="#pricing" className="px-4 py-2 hover:text-yellow-400 transition-colors text-sm" onClick={() => setIsMobileMenuOpen(false)}>
-                  Precios
+                  Pricing
                 </a>
                 <div className="border-t border-white/20 pt-4 mt-4">
-                  <a href="/auth/login" className="block px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm text-center mb-2">
-                    Iniciar Sesión
+                  <a href="/auth/login-en" className="block px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm text-center mb-2">
+                    Log In
                   </a>
-                  <a href="/activate-whatsapp" className="block px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all text-sm text-center mb-2">
-                    Activar WhatsApp
+                  <a href="/payment" className="block px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all text-sm text-center mb-2">
+                    Buy Now
                   </a>
-                  <a href="/page-en" className="block px-4 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-900 transition-all text-sm text-center">
-                    🇺🇸 English
+                  <a href="#" className="block px-4 py-2 border border-white text-white rounded-full bg-white/10 transition-all text-sm text-center">
+                    🇬🇧 English
                   </a>
                 </div>
               </nav>
@@ -174,27 +174,20 @@ export default function Home() {
       <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-            Predicciones de Lotería con Inteligencia Artificial
+            AI-Powered Lottery Predictions
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 opacity-90 max-w-4xl mx-auto leading-relaxed">
-            Descubre el poder de Anbel IA, nuestro sistema avanzado que analiza patrones y probabilidades para ayudarte a tomar decisiones más inteligentes.
+            Discover the power of Anbel AI, our advanced system that analyzes patterns and probabilities to help you make smarter decisions.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8">
-            <a href="/activate-whatsapp" className="px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105 active:scale-95">
-              Activar por WhatsApp
+            <a href="/payment" className="px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+              <Crown className="h-5 w-5" />
+              Get Started Now
             </a>
             <a href="/demo-ia" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all active:scale-95">
-              Demo Interactiva
+              Try Free Demo
             </a>
-            <button 
-              onClick={() => setIsChatbotVisible(true)}
-              className="px-6 py-3 sm:px-8 sm:py-4 bg-purple-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-purple-600 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Chat con IA</span>
-              <span className="sm:hidden">Chat IA</span>
-            </button>
           </div>
         </div>
       </section>
@@ -202,19 +195,19 @@ export default function Home() {
       {/* Call to Action Simple */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">¿Listo para empezar?</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Ready to Get Started?</h2>
           <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 leading-relaxed">
-            Activa tu cuenta y comienza a usar Anbel IA para generar tus predicciones de lotería.
+            Activate your account and start using Anbel AI to generate your lottery predictions.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center max-w-lg mx-auto">
-            <a href="/activate" className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-purple-600 rounded-full text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+            <a href="/payment" className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-purple-600 rounded-full text-base sm:text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
               <Crown className="h-4 w-4 sm:h-5 sm:w-5" />
-              Activar Cuenta
+              Buy Now
             </a>
-            <a href="/activate-whatsapp" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all active:scale-95 flex items-center justify-center gap-2">
-              <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-              WhatsApp
+            <a href="/demo-ia" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all active:scale-95 flex items-center justify-center gap-2">
+              <Bot className="h-4 w-4 sm:h-5 sm:w-5" />
+              Try Demo
             </a>
           </div>
         </div>
@@ -223,33 +216,33 @@ export default function Home() {
       {/* Features Section - Simplificado */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-800 via-blue-800 to-indigo-900" id="features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-white">¿Qué hace GanaFácil?</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-white">What Does Gana Fácil Do?</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
             <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
               <Brain className="h-12 w-12 sm:h-16 sm:w-16 text-blue-600 mx-auto mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🤖 Anbel IA</h3>
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🤖 Anbel AI</h3>
               <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-                Tu asistente inteligente que genera predicciones para loterías de USA como Powerball y Mega Millions. 
-                <strong className="text-blue-600"> Habla contigo en español e inglés</strong> y te ayuda con todo lo que necesites.
+                Your intelligent assistant that generates predictions for UK, European and USA lotteries like Powerball and EuroMillions. 
+                <strong className="text-blue-600"> Speaks with you in English</strong> and helps you with everything you need.
               </p>
             </div>
             
             <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:transform hover:-translate-y-2 transition-all duration-300">
               <Target className="h-12 w-12 sm:h-16 sm:w-16 text-green-600 mx-auto mb-4 sm:mb-6" />
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🎯 Fácil de Usar</h3>
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">🎯 Easy to Use</h3>
               <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-                Solo tienes que pedirle a Anbel IA los números que necesites. 
-                <strong className="text-green-600"> También puede analizar tus tickets</strong> para ver si ganaste.
+                Just ask Anbel AI for the numbers you need. 
+                <strong className="text-green-600"> It can also analyze your tickets</strong> to see if you won.
               </p>
             </div>
           </div>
           
           <div className="text-center mt-8 sm:mt-12">
             <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl sm:rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto">
-              <h4 className="text-lg sm:text-xl font-bold text-white mb-3">✨ ¡Es así de simple!</h4>
+              <h4 className="text-lg sm:text-xl font-bold text-white mb-3">✨ It's that simple!</h4>
               <p className="text-white/90 text-sm sm:text-base">
-                1. Activa tu cuenta → 2. Habla con Anbel IA → 3. Recibe tus predicciones → 4. ¡Juega y gana!
+                1. Activate your account → 2. Chat with Anbel AI → 3. Get your predictions → 4. Play and win!
               </p>
             </div>
           </div>
@@ -261,10 +254,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
-              🎯 ¿Qué hace GanaFácil con Anbel IA?
+              🎯 What Does Gana Fácil Do with Anbel AI?
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-blue-200 max-w-4xl mx-auto leading-relaxed">
-              Descubre el poder real de nuestra aplicación y las loterías que manejamos
+              Discover the real power of our application and the lotteries we support
             </p>
           </div>
 
@@ -273,35 +266,35 @@ export default function Home() {
             <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/20">
               <h3 className="text-xl sm:text-2xl font-bold mb-6 text-yellow-400 flex items-center">
                 <Brain className="h-6 w-6 mr-3" />
-                🧠 Lo que hace Anbel IA
+                🧠 What Anbel AI Does
               </h3>
               <div className="space-y-4 text-sm sm:text-base text-gray-200">
                 <div className="flex items-start">
                   <span className="text-green-400 mr-3 text-lg">🎲</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">Predicciones Inteligentes</p>
-                    <p>Analiza patrones históricos de 200+ sorteos para generar predicciones con explicación detallada</p>
+                    <p className="font-semibold text-white mb-1">Intelligent Predictions</p>
+                    <p>Analyzes historical patterns from 200+ draws to generate predictions with detailed explanations</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-blue-400 mr-3 text-lg">📱</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">Análisis de Tickets</p>
-                    <p>Sube fotos de tus tickets y Anbel te dice si ganaste, cuánto y cómo mejorar</p>
+                    <p className="font-semibold text-white mb-1">Ticket Analysis</p>
+                    <p>Upload photos of your tickets and Anbel tells you if you won, how much, and how to improve</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-purple-400 mr-3 text-lg">💬</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">Chat Inteligente</p>
-                    <p>Conversa con Anbel en español e inglés, te explica todo sobre loterías y predicciones</p>
+                    <p className="font-semibold text-white mb-1">Smart Chat</p>
+                    <p>Chat with Anbel in English, get explanations about lotteries and predictions</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-yellow-400 mr-3 text-lg">🏆</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">Sistema de Puntos</p>
-                    <p>Gana puntos, niveles y logros por usar la app y compartir predicciones</p>
+                    <p className="font-semibold text-white mb-1">Points System</p>
+                    <p>Earn points, levels and achievements for using the app and sharing predictions</p>
                   </div>
                 </div>
               </div>
@@ -311,35 +304,42 @@ export default function Home() {
             <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/20">
               <h3 className="text-xl sm:text-2xl font-bold mb-6 text-green-400 flex items-center">
                 <Globe className="h-6 w-6 mr-3" />
-                🎰 Loterías que Maneja
+                🎰 Lotteries We Support
               </h3>
               <div className="space-y-4 text-sm sm:text-base text-gray-200">
                 <div className="flex items-start">
+                  <span className="text-blue-400 mr-3 text-lg">🇬🇧</span>
+                  <div>
+                    <p className="font-semibold text-white mb-1">3 UK Lotteries</p>
+                    <p>National Lottery, Thunderball, Set For Life</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-yellow-400 mr-3 text-lg">🇪🇺</span>
+                  <div>
+                    <p className="font-semibold text-white mb-1">European Lotteries</p>
+                    <p>EuroMillions, EuroMillions HotPicks</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
                   <span className="text-red-400 mr-3 text-lg">🇺🇸</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">6 Loterías de USA</p>
-                    <p>Powerball, Mega Millions, Cash4Life, Lucky for Life, Hot Lotto, Pick 6, Fantasy 5</p>
+                    <p className="font-semibold text-white mb-1">2 USA Lotteries</p>
+                    <p>Powerball, Mega Millions</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-blue-400 mr-3 text-lg">🌍</span>
+                  <span className="text-green-400 mr-3 text-lg">📊</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">Loterías Internacionales</p>
-                    <p>EuroMillions, Baloto, Primitiva, Bonoloto y más</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <span className="text-yellow-400 mr-3 text-lg">📊</span>
-                  <div>
-                    <p className="font-semibold text-white mb-1">Datos en Tiempo Real</p>
-                    <p>APIs oficiales para jackpots actuales, horarios de sorteos y resultados</p>
+                    <p className="font-semibold text-white mb-1">Real-Time Data</p>
+                    <p>Official APIs for current jackpots, draw schedules and results</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <span className="text-purple-400 mr-3 text-lg">🔮</span>
                   <div>
-                    <p className="font-semibold text-white mb-1">Predicciones Específicas</p>
-                    <p>Anbel conoce las reglas de cada lotería y adapta sus predicciones</p>
+                    <p className="font-semibold text-white mb-1">Specific Predictions</p>
+                    <p>Anbel knows the rules of each lottery and adapts predictions accordingly</p>
                   </div>
                 </div>
               </div>
@@ -349,14 +349,14 @@ export default function Home() {
           {/* Call to Action */}
           <div className="text-center mt-8 sm:mt-12">
             <p className="text-lg sm:text-xl text-yellow-300 mb-6 font-semibold">
-              🚀 ¿Listo para descubrir el poder de Anbel IA?
+              🚀 Ready to discover the power of Anbel AI?
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-              <a href="/activate-whatsapp" className="px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105 active:scale-95">
-                🎯 Activar Ahora
+              <a href="/payment" className="px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all transform hover:scale-105 active:scale-95">
+                🎯 Buy Now
               </a>
               <a href="/demo-ia" className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-white text-white rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all active:scale-95">
-                🧪 Probar Demo
+                🧪 Try Free Demo
               </a>
             </div>
           </div>
@@ -367,19 +367,19 @@ export default function Home() {
       <section className="py-12 sm:py-16 lg:py-20 bg-gray-100" id="demo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-gray-800">Experimenta el poder de la predicción inteligente</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-gray-800">Experience the Power of Smart Predictions</h2>
             <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed">
-              Nuestra tecnología analiza múltiples factores simultáneamente para generar predicciones con alto porcentaje de precisión.
+              Our technology analyzes multiple factors simultaneously to generate predictions with high accuracy rates.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <a href="/demo-ia" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-green-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-green-600 transition-all text-center active:scale-95">
-                Probar Demo Gratis
+                Try Free Demo
               </a>
               <a href="#pricing" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-purple-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-purple-600 transition-all text-center active:scale-95">
-                Ver Precios
+                View Pricing
               </a>
-              <a href="/activate-whatsapp" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-blue-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-blue-600 transition-all text-center active:scale-95">
-                Activar WhatsApp
+              <a href="/payment" className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-blue-500 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-blue-600 transition-all text-center active:scale-95">
+                Buy Now
               </a>
             </div>
           </div>
@@ -394,38 +394,38 @@ export default function Home() {
       {/* Simple Info Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white" id="info">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12">¿Por qué elegir GanaFácil?</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12">Why Choose Gana Fácil?</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12">
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h3 className="text-xl font-bold mb-4 text-yellow-400">🤖 Anbel IA</h3>
+              <h3 className="text-xl font-bold mb-4 text-yellow-400">🤖 Anbel AI</h3>
               <p className="text-blue-100">
-                Tu asistente personal que habla contigo en español e inglés. 
-                Te ayuda con predicciones, análisis de tickets y responde todas tus preguntas.
+                Your personal assistant that speaks with you in English. 
+                Helps you with predictions, ticket analysis and answers all your questions.
               </p>
             </div>
             
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h3 className="text-xl font-bold mb-4 text-green-400">🎯 Loterías USA</h3>
+              <h3 className="text-xl font-bold mb-4 text-green-400">🎯 UK, Europe & USA Lotteries</h3>
               <p className="text-blue-100">
-                Especializado en las principales loterías de Estados Unidos: 
-                Powerball, Mega Millions, Cash4Life y más.
+                Specialized in major lotteries from UK, Europe and USA: 
+                National Lottery, EuroMillions, Powerball, Mega Millions and more.
               </p>
             </div>
           </div>
           
           <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl p-6 sm:p-8 border border-white/20">
-            <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">✨ ¡Comienza ahora!</h3>
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">✨ Start Now!</h3>
             <p className="text-blue-100 mb-6">
-              Activa tu cuenta y empieza a usar Anbel IA para generar tus predicciones. 
-              Es fácil, rápido y funciona en cualquier dispositivo.
+              Activate your account and start using Anbel AI to generate your predictions. 
+              It's easy, fast and works on any device.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <a href="/activate" className="px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-gray-100 transition-all">
-                Activar Cuenta
+              <a href="/payment" className="px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-gray-100 transition-all">
+                Buy Now
               </a>
-              <a href="/activate-whatsapp" className="px-6 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all">
-                WhatsApp
+              <a href="/demo-ia" className="px-6 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all">
+                Try Demo
               </a>
             </div>
           </div>
@@ -436,183 +436,183 @@ export default function Home() {
       <section className="py-20 bg-white" id="pricing">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Planes de Suscripción</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Subscription Plans</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Elige el plan que mejor se adapte a tus necesidades. Todos incluyen acceso completo a Anbel IA.
+              Choose the plan that best fits your needs. All include full access to Anbel AI.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Plan Prueba Gratis */}
+            {/* Free Trial Plan */}
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Prueba Gratis</h3>
-                <div className="text-4xl font-bold text-green-600 mb-2">GRATIS</div>
-                <div className="text-sm text-gray-500 line-through">$39</div>
-                <p className="text-gray-600 mt-2">3 días</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Trial</h3>
+                <div className="text-4xl font-bold text-green-600 mb-2">FREE</div>
+                <div className="text-sm text-gray-500 line-through">£39</div>
+                <p className="text-gray-600 mt-2">3 days</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Predicciones básicas (3 sorteos)</span>
+                  <span className="text-gray-700">Basic predictions (3 draws)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Acceso a estadísticas básicas</span>
+                  <span className="text-gray-700">Access to basic statistics</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Soporte por WhatsApp</span>
+                  <span className="text-gray-700">WhatsApp support</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Sin compromiso</span>
+                  <span className="text-gray-700">No commitment</span>
                 </li>
               </ul>
               <a 
-                href="/activate-whatsapp" 
+                href="/payment" 
                 className="w-full bg-green-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-600 transition-all block text-center"
               >
-                Comenzar Gratis
+                Start Free Trial
               </a>
             </div>
 
-            {/* Plan Básico */}
+            {/* Basic Plan */}
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan Básico</h3>
-                <div className="text-4xl font-bold text-blue-600 mb-2">$39</div>
-                <div className="text-sm text-gray-500 line-through">$59</div>
-                <p className="text-gray-600 mt-2">3 meses</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Basic Plan</h3>
+                <div className="text-4xl font-bold text-blue-600 mb-2">£39</div>
+                <div className="text-sm text-gray-500 line-through">£59</div>
+                <p className="text-gray-600 mt-2">3 months</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Predicciones para 5 sorteos diarios</span>
+                  <span className="text-gray-700">Predictions for 5 daily draws</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Estadísticas detalladas con IA</span>
+                  <span className="text-gray-700">Detailed AI statistics</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Soporte por WhatsApp</span>
+                  <span className="text-gray-700">WhatsApp support</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Notificaciones push</span>
+                  <span className="text-gray-700">Push notifications</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Acceso a app móvil</span>
+                  <span className="text-gray-700">Mobile app access</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Historial de 90 días</span>
+                  <span className="text-gray-700">90-day history</span>
                 </li>
               </ul>
               <a 
-                href="/activate-whatsapp" 
+                href="/payment" 
                 className="w-full bg-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-600 transition-all block text-center"
               >
-                Seleccionar Plan
+                Select Plan
               </a>
             </div>
 
-            {/* Plan Premium - MÁS POPULAR */}
+            {/* Premium Plan - MOST POPULAR */}
             <div className="bg-gradient-to-br from-purple-500 to-blue-600 text-white rounded-2xl p-8 text-center relative transform scale-105 shadow-2xl">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <span className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">
-                  MÁS POPULAR
+                  MOST POPULAR
                 </span>
               </div>
               <div className="mb-6">
-                <h3 className="text-2xl font-bold mb-2">Plan Premium</h3>
-                <div className="text-4xl font-bold mb-2">$79</div>
-                <div className="text-sm text-yellow-200 line-through">$119</div>
-                <p className="text-purple-100 mt-2">3 meses</p>
+                <h3 className="text-2xl font-bold mb-2">Premium Plan</h3>
+                <div className="text-4xl font-bold mb-2">£79</div>
+                <div className="text-sm text-yellow-200 line-through">£119</div>
+                <p className="text-purple-100 mt-2">3 months</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Predicciones para 10+ sorteos diarios</span>
+                  <span>Predictions for 10+ daily draws</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Análisis avanzado con Anbel IA</span>
+                  <span>Advanced analysis with Anbel AI</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Soporte prioritario por WhatsApp</span>
+                  <span>Priority WhatsApp support</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Notificaciones en tiempo real</span>
+                  <span>Real-time notifications</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Historial completo ilimitado</span>
+                  <span>Unlimited complete history</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Estrategias exclusivas</span>
+                  <span>Exclusive strategies</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-300" />
-                  <span>Análisis de tendencias</span>
+                  <span>Trend analysis</span>
                 </li>
               </ul>
               <a 
-                href="/activate-whatsapp" 
+                href="/payment" 
                 className="w-full bg-white text-purple-600 py-3 px-6 rounded-xl font-semibold hover:bg-gray-100 transition-all block text-center"
               >
-                Seleccionar Plan
+                Select Plan
               </a>
             </div>
 
-            {/* Plan Pro */}
+            {/* Pro Plan */}
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center relative">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Plan Pro</h3>
-                <div className="text-4xl font-bold text-yellow-600 mb-2">$149</div>
-                <div className="text-sm text-gray-500 line-through">$199</div>
-                <p className="text-gray-600 mt-2">3 meses</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro Plan</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">£149</div>
+                <div className="text-sm text-gray-500 line-through">£199</div>
+                <p className="text-gray-600 mt-2">3 months</p>
               </div>
               <ul className="space-y-3 mb-8 text-left">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Predicciones ilimitadas</span>
+                  <span className="text-gray-700">Unlimited predictions</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">IA avanzada con machine learning</span>
+                  <span className="text-gray-700">Advanced AI with machine learning</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Soporte VIP personalizado</span>
+                  <span className="text-gray-700">Personalized VIP support</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Notificaciones ultra-rápidas</span>
+                  <span className="text-gray-700">Ultra-fast notifications</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Análisis de tendencias en tiempo real</span>
+                  <span className="text-gray-700">Real-time trend analysis</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Estrategias personalizadas</span>
+                  <span className="text-gray-700">Personalized strategies</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Acceso a funciones beta</span>
+                  <span className="text-gray-700">Access to beta features</span>
                 </li>
               </ul>
               <a 
-                href="/activate-whatsapp" 
+                href="/payment" 
                 className="w-full bg-yellow-500 text-black py-3 px-6 rounded-xl font-semibold hover:bg-yellow-400 transition-all block text-center"
               >
-                Seleccionar Plan
+                Select Plan
               </a>
             </div>
           </div>
@@ -624,28 +624,28 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              ¿Listo para Cambiar tu Vida?
+              Ready to Change Your Life?
             </h2>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Únete a más de 10,000 usuarios que ya están ganando con GanaFácil
+              Join over 10,000 users already winning with Gana Fácil
             </p>
             
             {/* Urgency Elements */}
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
               <div className="flex items-center gap-2 bg-red-500/20 px-4 py-2 rounded-full border border-red-400/30">
                 <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
-                <span className="text-sm font-semibold">Oferta Limitada</span>
+                <span className="text-sm font-semibold">Limited Offer</span>
               </div>
               <div className="flex items-center gap-2 bg-yellow-500/20 px-4 py-2 rounded-full border border-yellow-400/30">
-                <span className="text-sm font-semibold">Solo 24 horas restantes</span>
+                <span className="text-sm font-semibold">Only 24 hours remaining</span>
               </div>
             </div>
 
             {/* Pricing Highlight */}
             <div className="bg-white/20 rounded-2xl p-6 mb-8 max-w-2xl mx-auto">
-              <div className="text-3xl font-bold mb-2">Prueba GRATIS por 3 días</div>
-              <div className="text-lg text-blue-200 mb-4">Luego desde $39 por 3 meses</div>
-              <div className="text-sm text-gray-300 line-through">Valor normal: $59 por 3 meses</div>
+              <div className="text-3xl font-bold mb-2">Try FREE for 3 days</div>
+              <div className="text-lg text-blue-200 mb-4">Then from £39 for 3 months</div>
+              <div className="text-sm text-gray-300 line-through">Regular price: £59 for 3 months</div>
             </div>
 
             {/* CTA Buttons */}
@@ -655,14 +655,14 @@ export default function Home() {
                 className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2"
               >
                 <Zap className="h-6 w-6" />
-                Probar Demo GRATIS
+                Try FREE Demo
               </a>
               <a 
-                href="/activate-whatsapp" 
+                href="/payment" 
                 className="bg-yellow-400 text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2"
               >
-                <MessageCircle className="h-6 w-6" />
-                Activar Ahora
+                <Crown className="h-6 w-6" />
+                Buy Now
               </a>
             </div>
 
@@ -670,15 +670,15 @@ export default function Home() {
             <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-6 text-sm text-blue-200">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-green-400" />
-                <span>Sin compromiso</span>
+                <span>No commitment</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-green-400" />
-                <span>Cancelar en cualquier momento</span>
+                <span>Cancel anytime</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-green-400" />
-                <span>Soporte 24/7</span>
+                <span>24/7 Support</span>
               </div>
             </div>
           </div>
@@ -690,10 +690,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Tu Seguridad es Nuestra Prioridad
+              Your Security is Our Priority
             </h2>
             <p className="text-lg text-gray-600">
-              Protegemos tu información con los más altos estándares de seguridad
+              We protect your information with the highest security standards
             </p>
           </div>
           
@@ -702,9 +702,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Garantía de 30 Días</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">30-Day Guarantee</h3>
               <p className="text-gray-600">
-                Si no estás satisfecho, te devolvemos tu dinero sin preguntas
+                If you're not satisfied, we'll refund your money, no questions asked
               </p>
             </div>
             
@@ -712,9 +712,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Datos Seguros</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">Secure Data</h3>
               <p className="text-gray-600">
-                Encriptación SSL y cumplimiento con GDPR para proteger tu privacidad
+                SSL encryption and GDPR compliance to protect your privacy
               </p>
             </div>
             
@@ -722,9 +722,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Crown className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Certificado de Calidad</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">Quality Certificate</h3>
               <p className="text-gray-600">
-                Algoritmos verificados y probados por expertos en estadísticas
+                Algorithms verified and tested by statistics experts
               </p>
             </div>
           </div>
@@ -736,9 +736,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
-              <h3 className="text-2xl font-bold mb-4">GanaFácil</h3>
+              <h3 className="text-2xl font-bold mb-4">Gana Fácil</h3>
               <p className="text-gray-300 mb-6">
-                La plataforma de predicción de lotería más avanzada, potenciada por inteligencia artificial.
+                The most advanced lottery prediction platform, powered by artificial intelligence.
               </p>
               
               <div className="flex gap-4">
@@ -758,38 +758,38 @@ export default function Home() {
             </div>
             
             <div>
-              <h3 className="text-xl font-bold mb-4">Enlaces Rápidos</h3>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Inicio</a></li>
-                <li><a href="#features" className="text-gray-300 hover:text-green-400 transition-colors">Características</a></li>
-                <li><a href="#demo" className="text-gray-300 hover:text-green-400 transition-colors">Cómo Funciona</a></li>
-                <li><a href="#stats" className="text-gray-300 hover:text-green-400 transition-colors">Resultados</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Home</a></li>
+                <li><a href="#features" className="text-gray-300 hover:text-green-400 transition-colors">Features</a></li>
+                <li><a href="#demo" className="text-gray-300 hover:text-green-400 transition-colors">How It Works</a></li>
+                <li><a href="#pricing" className="text-gray-300 hover:text-green-400 transition-colors">Pricing</a></li>
               </ul>
             </div>
             
             <div>
               <h3 className="text-xl font-bold mb-4">Legal</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Términos de Servicio</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Política de Privacidad</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Responsabilidad</a></li>
+                <li><a href="/terms" className="text-gray-300 hover:text-green-400 transition-colors">Terms of Service</a></li>
+                <li><a href="/privacy" className="text-gray-300 hover:text-green-400 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-green-400 transition-colors">Disclaimer</a></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="text-xl font-bold mb-4">Contacto</h3>
+              <h3 className="text-xl font-bold mb-4">Contact</h3>
               <ul className="space-y-2">
                 <li className="flex items-center gap-2 text-gray-300">
                   <Mail className="h-4 w-4" />
-                  info@ganafacil.com
+                  support@ganafacil.app
                 </li>
                 <li className="flex items-center gap-2 text-gray-300">
                   <Phone className="h-4 w-4" />
-                  +1 (234) 567-8900
+                  +44 7123 456789
                 </li>
                 <li className="flex items-center gap-2 text-gray-300">
                   <MapPin className="h-4 w-4" />
-                  Ciudad, País
+                  London, United Kingdom
                 </li>
               </ul>
             </div>
@@ -797,7 +797,7 @@ export default function Home() {
           
           <div className="border-t border-gray-700 pt-8 text-center">
             <p className="text-gray-400">
-              &copy; 2023 GanaFácil - Todos los derechos reservados. Juega responsablemente.
+              &copy; 2025 Gana Fácil - All rights reserved. Play responsibly. 18+
             </p>
           </div>
         </div>
@@ -813,9 +813,9 @@ export default function Home() {
       <PWAInstallBannerBilingual 
         isVisible={isPWAInstallVisible}
         onClose={() => setIsPWAInstallVisible(false)}
-        language="es"
+        language="en"
       />
-      <ConnectionStatusBilingual language="es" />
+      <ConnectionStatusBilingual language="en" />
       <PWADiagnostic />
       
       {/* Chatbot */}

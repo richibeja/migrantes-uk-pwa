@@ -150,11 +150,11 @@ module.exports = withPWA({
   outputFileTracingRoot: __dirname,
   
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, // Temporarily ignore for deployment
   },
 
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Temporarily ignore for deployment
   },
 
   onDemandEntries: {

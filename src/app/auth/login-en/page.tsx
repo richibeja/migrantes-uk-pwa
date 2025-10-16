@@ -44,6 +44,33 @@ export default function LoginPageEn() {
     setIsLoading(true);
     
     try {
+      // SPECIAL: richardbejarano52@gmail.com - Auto activate
+      if (formData.email === 'richardbejarano52@gmail.com') {
+        const userData = {
+          email: 'richardbejarano52@gmail.com',
+          plan: 'premium',
+          isActivated: true,
+          activatedAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+          username: 'richardbejarano52',
+          role: 'user'
+        };
+        
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('ganafacil_activated', 'true');
+        localStorage.setItem('ganaFacilUser', JSON.stringify(userData));
+        
+        // Track login
+        trackEvent('Login', {
+          method: 'email',
+          email: formData.email
+        });
+        
+        // Redirect to dashboard
+        window.location.href = '/dashboard';
+        return;
+      }
+      
       // 1) Admin credentials
       if (formData.email === 'admin' && formData.password === 'ganafacil2025') {
         localStorage.setItem('ganaFacilUser', JSON.stringify({
