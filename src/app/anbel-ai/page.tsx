@@ -72,9 +72,22 @@ export default function AnbelAIPageEn() {
     );
   }
 
+  // Check manual authentication if hook fails
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
+      if (!userData) {
+        router.push('/auth/login-en');
+      }
+    }
+  }, [isAuthenticated, isLoading, router]);
+
   if (!isAuthenticated) {
-    router.push('/activate');
-    return null;
+    // Check localStorage as fallback
+    const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
+    if (!userData && !isLoading) {
+      return null; // Will redirect via useEffect
+    }
   }
 
   // Initialize with welcome message

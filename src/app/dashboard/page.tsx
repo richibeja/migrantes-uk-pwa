@@ -13,14 +13,21 @@ export default function DashboardPage() {
     // Check if user is activated
     const userData = localStorage.getItem('user');
     const isActivated = localStorage.getItem('ganafacil_activated');
+    const ganaFacilUser = localStorage.getItem('ganaFacilUser');
     
-    if (!userData || !isActivated) {
-      // Redirect to login if not activated
+    // If any auth data exists, consider user authenticated
+    if (!userData && !ganaFacilUser) {
+      // No user data at all - redirect to login
       window.location.href = '/auth/login-en';
       return;
     }
 
-    setUser(JSON.parse(userData));
+    // Parse user data from any source
+    const user = userData ? JSON.parse(userData) : (ganaFacilUser ? JSON.parse(ganaFacilUser) : null);
+    
+    if (user) {
+      setUser(user);
+    }
     
     // Set lotteries count - 8 active lotteries
     setLotteriesCount(8);

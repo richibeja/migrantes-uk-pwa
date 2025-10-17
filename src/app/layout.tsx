@@ -69,6 +69,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body>
+        <script src="/unregister-sw.js" async></script>
         <MetaPixel />
         <I18nProvider>
           <a href="#main" className="skip-link sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:bg-gold focus:text-black focus:px-4 focus:py-2 focus:rounded-md focus:z-50">Saltar al contenido principal</a>
@@ -83,8 +84,8 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Service Worker temporalmente desactivado para debug del pixel
-              console.log('Service Worker desactivado temporalmente');
+              // Service Worker desactivado - usando script de limpieza
+              console.log('🔧 PWA disabled - old service workers will be removed');
             `,
           }}
         />

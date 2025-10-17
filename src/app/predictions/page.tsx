@@ -75,9 +75,13 @@ export default function PredictionsPageEn() {
   // Verificar autenticación - las predicciones requieren activación
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/activate');
+      // Check localStorage as fallback
+      const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
+      if (!userData) {
+        router.push('/auth/login-en');
+      }
     }
-  }, [isAuthenticated, isLoading]); // Removed router dependency
+  }, [isAuthenticated, isLoading, router]);
 
   // Initialize lotteries with real predictions
   useEffect(() => {
