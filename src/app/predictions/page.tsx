@@ -89,7 +89,6 @@ export default function PredictionsPageEn() {
     setIsLoadingPredictions(false);
 
     const now = new Date();
-    const statistics = getStatistics();
     
     // Group predictions by lottery
     const predictionsByLottery = realPredictions.reduce((acc, pred) => {
