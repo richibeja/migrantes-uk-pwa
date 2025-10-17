@@ -185,15 +185,6 @@ export default function DashboardPage() {
           </Link>
 
           <Link
-            href="/clubs"
-            className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl p-6 text-white hover:scale-105 transition-transform"
-          >
-            <Crown className="h-8 w-8 mb-3" />
-            <h3 className="text-lg font-semibold mb-1">Clubs</h3>
-            <p className="text-sm text-yellow-100">Lottery clubs</p>
-          </Link>
-
-          <Link
             href="/profile"
             className="bg-gradient-to-br from-pink-500 to-red-500 rounded-xl p-6 text-white hover:scale-105 transition-transform"
           >

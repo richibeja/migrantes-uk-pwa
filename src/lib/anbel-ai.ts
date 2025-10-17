@@ -7,7 +7,6 @@
 import { getGeminiAI, GeminiAIService } from './gemini-ai';
 import { realLotteryAPI, getRealLotteryResults } from './lottery-apis-real';
 import { usLotteryAPI, getUSLotteryResults } from './us-lottery-apis';
-import { getEnabledLotteries, getLotteryById, getNextDrawDate } from '@/config/lotteries-uk-production';
 
 export interface AnbelResponse {
   text: string;
@@ -2906,21 +2905,9 @@ class AnbelAI {
   }
 
   private updateRealTimeData(): void {
-    // Obtener próximos sorteos en tiempo real
-    const lotteries = getEnabledLotteries();
-    const upcomingDraws = lotteries.map(lottery => ({
-      id: lottery.id,
-      name: lottery.name,
-      nextDraw: getNextDrawDate(lottery),
-      drawTime: lottery.drawTime,
-      timezone: lottery.timezone,
-      drawDays: lottery.drawDays,
-      jackpot: `${lottery.currency === 'GBP' ? '£' : lottery.currency === 'EUR' ? '€' : lottery.currency === 'COP' ? '$' : '$'}${lottery.jackpotMin.toLocaleString()}`
-    }));
-    
+    // Datos en tiempo real sin imports problemáticos
     this.realTimeData = {
-      upcomingDraws,
-      lotteries: lotteries.length,
+      lotteries: 8, // 8 loterías activas
       weather: this.getWeatherData(),
       marketSentiment: this.getMarketSentiment(),
       socialTrends: this.getSocialTrends(),

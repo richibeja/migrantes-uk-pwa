@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Brain, Crown, Users, TrendingUp, LogOut, Menu, X, ArrowLeft } from 'lucide-react';
+import { Brain, Crown, Users, TrendingUp, LogOut, Menu, X, ArrowLeft, Target, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ClubsPage() {
@@ -9,10 +9,9 @@ export default function ClubsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
-    const isActivated = localStorage.getItem('ganafacil_activated');
+    const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
     
-    if (!userData || !isActivated) {
+    if (!userData) {
       window.location.href = '/auth/login-en';
       return;
     }
@@ -23,6 +22,7 @@ export default function ClubsPage() {
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('ganafacil_activated');
+    localStorage.removeItem('ganaFacilUser');
     window.location.href = '/';
   };
 
@@ -120,48 +120,105 @@ export default function ClubsPage() {
           Back to Dashboard
         </Link>
 
-        {/* Coming Soon Section */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-12 text-center">
+        {/* Clubs Hero Section */}
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-12 text-center mb-8">
           <Users className="h-24 w-24 text-yellow-400 mx-auto mb-6" />
           <h1 className="text-4xl font-bold text-white mb-4">
             Lottery Clubs
           </h1>
-          <p className="text-xl text-blue-200 mb-8">
-            Coming Soon!
+          <p className="text-xl text-blue-200 mb-4">
+            Pool Resources, Increase Your Chances! 🎯
           </p>
           <p className="text-lg text-blue-300 max-w-2xl mx-auto mb-8">
-            Join forces with other players to increase your chances of winning. 
-            Pool resources, share costs, and celebrate victories together.
+            Join forces with other players to play more combinations and increase winning probabilities. 
+            Share costs, multiply chances, celebrate together.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="bg-white/5 rounded-xl p-6">
-              <Crown className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Premium Clubs</h3>
-              <p className="text-sm text-blue-200">Join exclusive high-stake pools</p>
-            </div>
+          <div className="inline-block bg-yellow-500/20 border-2 border-yellow-400 rounded-lg px-6 py-3">
+            <p className="text-yellow-300 font-semibold">✨ Coming Soon - Under Development</p>
+          </div>
+        </div>
 
-            <div className="bg-white/5 rounded-xl p-6">
-              <Users className="h-12 w-12 text-green-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Community</h3>
-              <p className="text-sm text-blue-200">Connect with other players</p>
-            </div>
-
-            <div className="bg-white/5 rounded-xl p-6">
-              <TrendingUp className="h-12 w-12 text-purple-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Better Odds</h3>
-              <p className="text-sm text-blue-200">Increase your winning chances</p>
-            </div>
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+            <Crown className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-white mb-2 text-center">Premium Pools</h3>
+            <p className="text-sm text-blue-200 text-center">Join exclusive high-stake lottery pools with verified members</p>
           </div>
 
-          <div className="mt-12">
-            <Link
-              href="/dashboard"
-              className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition-all"
-            >
-              Return to Dashboard
-            </Link>
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+            <Users className="h-12 w-12 text-green-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-white mb-2 text-center">Community Power</h3>
+            <p className="text-sm text-blue-200 text-center">Connect with players worldwide and share winning strategies</p>
           </div>
+
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+            <TrendingUp className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-white mb-2 text-center">Better Odds</h3>
+            <p className="text-sm text-blue-200 text-center">Play more combinations with shared costs = more chances to win</p>
+          </div>
+        </div>
+
+        {/* How It Will Work */}
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-6 text-center">🚀 How Clubs Will Work</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">1</div>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">Create or Join a Club</h3>
+                <p className="text-blue-200 text-sm">Start your own club or join existing ones based on your favorite lotteries</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">2</div>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">Pool Resources</h3>
+                <p className="text-blue-200 text-sm">Everyone contributes equally to play multiple ticket combinations</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">3</div>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">AI-Powered Numbers</h3>
+                <p className="text-blue-200 text-sm">Use Anbel AI to generate optimized combinations for your club</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">4</div>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">Share Winnings</h3>
+                <p className="text-blue-200 text-sm">Prizes are automatically distributed proportionally to all members</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center">
+          <Link
+            href="/dashboard"
+            className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition-all"
+          >
+            ← Return to Dashboard
+          </Link>
+          
+          <p className="text-blue-300 mt-6">
+            💡 Want to be notified when Clubs launch? Contact support!
+          </p>
         </div>
       </main>
     </div>

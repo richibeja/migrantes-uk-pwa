@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { getAnbelAI } from '@/lib/anbel-ai';
 import { 
@@ -50,8 +49,9 @@ interface Prediction {
 }
 
 export default function AnbelAIPageEn() {
-  const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeView, setActiveView] = useState<'dashboard' | 'chat'>('dashboard');
   const [language, setLanguage] = useState<'es' | 'en'>('en');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -61,34 +61,27 @@ export default function AnbelAIPageEn() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentEmotion, setCurrentEmotion] = useState<string>('neutral');
 
+  // Simple authentication check - runs ONCE
+  useEffect(() => {
+    const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
+    if (!userData) {
+      window.location.href = '/auth/login-en';
+      return;
+    }
+    setUser(JSON.parse(userData));
+    setIsLoading(false);
+  }, []);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold mb-2">Initializing Super Agent...</h2>
+          <h2 className="text-2xl font-bold mb-2">Initializing Anbel AI...</h2>
           <p className="text-purple-300">Loading advanced AI capabilities</p>
         </div>
       </div>
     );
-  }
-
-  // Check manual authentication if hook fails
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
-      if (!userData) {
-        router.push('/auth/login-en');
-      }
-    }
-  }, [isAuthenticated, isLoading, router]);
-
-  if (!isAuthenticated) {
-    // Check localStorage as fallback
-    const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
-    if (!userData && !isLoading) {
-      return null; // Will redirect via useEffect
-    }
   }
 
   // Initialize with welcome message
