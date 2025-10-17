@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Brain, TrendingUp, Crown, LogOut, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { getEnabledLotteries } from '@/config/lotteries-uk-production';
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -23,9 +22,8 @@ export default function DashboardPage() {
 
     setUser(JSON.parse(userData));
     
-    // Get active lotteries count
-    const activeLotteries = getEnabledLotteries();
-    setLotteriesCount(activeLotteries.length);
+    // Set lotteries count - 8 active lotteries
+    setLotteriesCount(8);
   }, []);
 
   const handleLogout = () => {
