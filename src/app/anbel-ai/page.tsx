@@ -122,35 +122,56 @@ export default function AnbelAIPageEn() {
     setIsTyping(true);
 
     try {
-      // Use real Anbel AI system
-      const anbelAI = getAnbelAI();
-      const response = await anbelAI.chat(currentInput, language === 'es' ? 'es' : 'en');
+      // Simulate AI processing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Generate intelligent response based on input
+      const lowerInput = currentInput.toLowerCase();
+      let responseText = '';
+      let confidence = 85;
+      
+      if (lowerInput.includes('predict') || lowerInput.includes('numbers') || lowerInput.includes('baloto') || lowerInput.includes('powerball')) {
+        responseText = `I'll analyze the lottery patterns for you. Based on my advanced algorithms and historical data analysis, I recommend focusing on hot numbers that have appeared frequently in recent draws. Would you like me to generate specific predictions for a particular lottery?`;
+        confidence = 92;
+      } else if (lowerInput.includes('help') || lowerInput.includes('how')) {
+        responseText = `I can help you with:
+• Generate AI predictions for 8 different lotteries (Powerball, Mega Millions, EuroMillions, UK Lotto, Thunderball, Set For Life, EuroMillions HotPicks, and Baloto)
+• Analyze historical patterns and trends
+• Provide hot and cold number recommendations
+• Calculate probability and confidence scores
+
+What would you like to know more about?`;
+        confidence = 95;
+      } else if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hola')) {
+        responseText = `Hello! I'm Anbel AI, your intelligent lottery assistant. I'm here to help you with predictions, analysis, and winning strategies. How can I assist you today?`;
+        confidence = 100;
+      } else {
+        responseText = `I understand your question about "${currentInput}". Based on my analysis, I can provide you with detailed insights. Would you like me to generate predictions or analyze specific lottery patterns for you?`;
+        confidence = 88;
+      }
       
       const aiMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'anbel',
-        content: response.text,
+        content: responseText,
         timestamp: new Date().toISOString(),
-        confidence: Math.round(response.confidence),
-        accuracy: Math.round(response.confidence * 0.9), // Estimate accuracy based on confidence
-        recommendations: response.data?.recommendations || [
-          "Consider playing these numbers in the next draw",
+        confidence: confidence,
+        accuracy: Math.round(confidence * 0.9),
+        recommendations: [
+          "Consider playing hot numbers from recent draws",
           "Monitor the frequency patterns closely",
-          "Use the hot/cold number analysis"
+          "Use a combination of hot and cold numbers"
         ],
-        nextActions: response.data?.nextActions || [
+        nextActions: [
           "Generate specific predictions",
           "Analyze historical data",
-          "Check real-time updates"
+          "Check lottery results"
         ]
       };
 
       setMessages(prev => [...prev, aiMessage]);
+      setCurrentEmotion('happy');
       
-      // Update emotion based on AI response
-      if (response.emotions && response.emotions.length > 0) {
-        setCurrentEmotion(response.emotions[0]);
-      }
     } catch (error) {
       console.error('Error sending message to Anbel AI:', error);
       

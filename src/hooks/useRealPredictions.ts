@@ -215,6 +215,7 @@ export function useRealPredictions() {
     isLoading,
     updateCount,
     refresh,
+    refreshPredictions: refresh, // Alias for compatibility
     getPredictionsForLottery,
     getPredictionsByMethod,
     getHighestConfidencePredictions,
