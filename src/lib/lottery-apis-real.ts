@@ -72,12 +72,13 @@ const REAL_LOTTERY_APIS: Record<string, RealLotteryAPI> = {
       'Accept': 'application/json'
     }
   },
-  // APIs alternativas reales
+  // APIs alternativas reales - LATINOAMÉRICA
   baloto: {
-    baseUrl: 'https://api.baloto.com/api/v1/results/latest',
+    baseUrl: 'https://www.baloto.com/api/resultados',
     headers: {
       'User-Agent': 'GanaFacil/1.0',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     }
   },
   euromillions: {
@@ -358,6 +359,21 @@ export class RealLotteryAPIManager {
           lastUpdated: now.toISOString()
         };
 
+      case 'baloto':
+        return {
+          id: lotteryId,
+          name: 'Baloto',
+          country: 'Colombia',
+          drawDate: data.fecha || data.drawDate || now.toISOString(),
+          numbers: data.numeros || data.numbers || [],
+          specialNumbers: data.superbalota ? [data.superbalota] : data.specialNumbers || [],
+          jackpot: data.acumulado || data.jackpot || '$4,000,000,000 COP',
+          winners: data.ganadores || data.winners || 0,
+          nextDraw: data.proximoSorteo || data.nextDraw || this.calculateNextDraw(['Wednesday', 'Saturday']),
+          source: 'real',
+          lastUpdated: now.toISOString()
+        };
+
       default:
         return this.getFallbackResult(lotteryId);
     }
@@ -400,9 +416,9 @@ export class RealLotteryAPIManager {
       baloto: {
         name: 'Baloto',
         country: 'Colombia',
-        numbers: [1, 8, 14, 22, 30, 6],
+        numbers: [3, 12, 18, 27, 35],
         specialNumbers: [9],
-        jackpot: '$2,500,000,000 COP',
+        jackpot: '$8,500,000,000 COP',
         winners: 0
       },
       lottoUk: {

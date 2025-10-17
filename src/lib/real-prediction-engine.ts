@@ -66,6 +66,15 @@ export class RealPredictionEngine {
       frequency: new Map(),
       lastUpdate: new Date()
     });
+
+    this.patterns.set('baloto', {
+      numberRange: 43,
+      specialRange: 16,
+      hotNumbers: [3, 8, 12, 18, 21, 27, 32, 35, 38, 42, 5, 11, 17, 23, 29],
+      coldNumbers: [1, 2, 4, 6, 7, 9, 10, 13, 14, 15, 16, 19, 20, 22, 24],
+      frequency: new Map(),
+      lastUpdate: new Date()
+    });
   }
 
   // Método principal de predicción REAL
@@ -576,7 +585,8 @@ export class RealPredictionEngine {
     const jackpots = {
       'powerball': '$25,000,000',
       'mega-millions': '$22,000,000',
-      'euromillions': '€50,000,000'
+      'euromillions': '€50,000,000',
+      'baloto': '$8,500,000,000 COP'
     };
     
     return jackpots[lotteryId as keyof typeof jackpots] || '$20,000,000';

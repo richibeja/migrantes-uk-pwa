@@ -8,8 +8,8 @@ export interface LotteryConfig {
   name: string;
   nameEs: string;
   country: string;
-  region: 'UK' | 'Europe' | 'USA';
-  currency: 'GBP' | 'EUR' | 'USD';
+  region: 'UK' | 'Europe' | 'USA' | 'LATAM';
+  currency: 'GBP' | 'EUR' | 'USD' | 'COP';
   enabled: boolean;
   numbersCount: number;
   minNumber: number;
@@ -212,6 +212,34 @@ export const UK_PRODUCTION_LOTTERIES: LotteryConfig[] = [
     descriptionEs: 'Mega premios dos veces por semana con premios que alcanzan $1.6 mil millones',
     officialWebsite: 'https://www.megamillions.com',
   },
+
+  // ============================================
+  // LATINOAMÉRICA
+  // ============================================
+  {
+    id: 'baloto',
+    name: 'Baloto',
+    nameEs: 'Baloto',
+    country: 'Colombia',
+    region: 'LATAM',
+    currency: 'COP',
+    enabled: true,
+    numbersCount: 5,
+    minNumber: 1,
+    maxNumber: 43,
+    bonusNumbersCount: 1,
+    minBonusNumber: 1,
+    maxBonusNumber: 16,
+    drawDays: ['Wednesday', 'Saturday'],
+    drawTime: '23:00',
+    timezone: 'America/Bogota',
+    apiUrl: 'https://www.baloto.com/api/resultados',
+    jackpotMin: 4_000_000_000,
+    jackpotMax: 50_000_000_000,
+    description: 'Colombia\'s most popular lottery with prizes up to 50 billion COP',
+    descriptionEs: 'La lotería más popular de Colombia con premios de hasta 50 mil millones de pesos',
+    officialWebsite: 'https://www.baloto.com',
+  },
 ];
 
 // ============================================
@@ -228,7 +256,7 @@ export function getEnabledLotteries(): LotteryConfig[] {
 /**
  * Obtiene loterías por región
  */
-export function getLotteriesByRegion(region: 'UK' | 'Europe' | 'USA'): LotteryConfig[] {
+export function getLotteriesByRegion(region: 'UK' | 'Europe' | 'USA' | 'LATAM'): LotteryConfig[] {
   return UK_PRODUCTION_LOTTERIES.filter(
     lottery => lottery.enabled && lottery.region === region
   );
@@ -263,6 +291,13 @@ export function getUSALotteries(): LotteryConfig[] {
 }
 
 /**
+ * Obtiene loterías de Latinoamérica
+ */
+export function getLATAMLotteries(): LotteryConfig[] {
+  return getLotteriesByRegion('LATAM');
+}
+
+/**
  * Verifica si una lotería está disponible
  */
 export function isLotteryAvailable(id: string): boolean {
@@ -293,11 +328,12 @@ export function getNextDrawDate(lottery: LotteryConfig): Date {
 /**
  * Formatea el jackpot según la moneda
  */
-export function formatJackpot(amount: number, currency: 'GBP' | 'EUR' | 'USD'): string {
+export function formatJackpot(amount: number, currency: 'GBP' | 'EUR' | 'USD' | 'COP'): string {
   const symbols: Record<string, string> = {
     GBP: '£',
     EUR: '€',
     USD: '$',
+    COP: '$',
   };
   
   const formatted = new Intl.NumberFormat('en-GB', {
@@ -305,7 +341,7 @@ export function formatJackpot(amount: number, currency: 'GBP' | 'EUR' | 'USD'): 
     maximumFractionDigits: 0,
   }).format(amount);
   
-  return `${symbols[currency]}${formatted}`;
+  return `${symbols[currency]}${formatted}${currency === 'COP' ? ' COP' : ''}`;
 }
 
 // ============================================
@@ -315,8 +351,8 @@ export function formatJackpot(amount: number, currency: 'GBP' | 'EUR' | 'USD'): 
 export default UK_PRODUCTION_LOTTERIES;
 
 // Tipos útiles
-export type LotteryRegion = 'UK' | 'Europe' | 'USA';
-export type LotteryCurrency = 'GBP' | 'EUR' | 'USD';
+export type LotteryRegion = 'UK' | 'Europe' | 'USA' | 'LATAM';
+export type LotteryCurrency = 'GBP' | 'EUR' | 'USD' | 'COP';
 export type LotteryId = typeof UK_PRODUCTION_LOTTERIES[number]['id'];
 
 
