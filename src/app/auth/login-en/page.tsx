@@ -86,20 +86,25 @@ export default function LoginPageEn() {
 
       // 2) Hotmart customers authentication
       if (formData.email.includes('@') && formData.password === 'hotmart2025') {
-        localStorage.setItem('ganaFacilUser', JSON.stringify({
+        const userData = {
           id: `hotmart_${Date.now()}`,
           username: formData.email,
           email: formData.email,
           isHotmartCustomer: true,
           isAdmin: false,
-          createdAt: new Date()
-        }));
-        // CRITICAL: Set activation flag for Hotmart customers
+          plan: 'premium',
+          isActivated: true,
+          createdAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('ganaFacilUser', JSON.stringify(userData));
         localStorage.setItem('ganafacil_activated', 'true');
+        
         // Track successful Hotmart login
         trackEvent('Lead', { content_name: 'Hotmart Customer Login', value: 97, currency: 'USD' });
         await new Promise(resolve => setTimeout(resolve, 1500));
-        window.location.href = '/dashboard-en';
+        window.location.href = '/dashboard';
         return;
       }
 
@@ -111,7 +116,7 @@ export default function LoginPageEn() {
       if (user.email === formData.email && user.isActivated) {
         // Activated user - redirect to dashboard
         await new Promise(resolve => setTimeout(resolve, 1500));
-        window.location.href = '/dashboard-en';
+        window.location.href = '/dashboard';
       } else if (pendingUser.email === formData.email && !pendingUser.isActivated) {
         // Pending activation user
         setErrors({ general: 'Your account is not activated. Check your activation code.' });
