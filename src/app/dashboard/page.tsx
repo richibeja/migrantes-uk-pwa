@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react';
 import { Brain, TrendingUp, Crown, LogOut, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { getEnabledLotteries } from '@/config/lotteries-uk-production';
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [lotteriesCount, setLotteriesCount] = useState(8);
 
   useEffect(() => {
     // Check if user is activated
@@ -20,6 +22,10 @@ export default function DashboardPage() {
     }
 
     setUser(JSON.parse(userData));
+    
+    // Get active lotteries count
+    const activeLotteries = getEnabledLotteries();
+    setLotteriesCount(activeLotteries.length);
   }, []);
 
   const handleLogout = () => {
@@ -241,6 +247,24 @@ export default function DashboardPage() {
                 Get Prediction
               </Link>
             </div>
+
+            {/* Baloto - NUEVO */}
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10 relative overflow-hidden">
+              <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                NEW
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-2xl">🇨🇴</span>
+                <h3 className="text-lg font-semibold text-white">Baloto</h3>
+              </div>
+              <p className="text-sm text-blue-200 mb-3">Next Draw: Saturday 23:00 COT</p>
+              <Link
+                href="/predictions"
+                className="block w-full bg-green-500 text-white text-center py-2 rounded-lg hover:bg-green-600 transition-colors font-semibold"
+              >
+                Get Prediction
+              </Link>
+            </div>
           </div>
 
           <div className="mt-6 text-center">
@@ -248,7 +272,7 @@ export default function DashboardPage() {
               href="/predictions"
               className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition-all"
             >
-              View All 7 Lotteries →
+              View All {lotteriesCount} Lotteries →
             </Link>
           </div>
         </div>
@@ -256,6 +280,7 @@ export default function DashboardPage() {
     </div>
   );
 }
+
 
 
 
