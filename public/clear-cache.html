@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clearing Cache - Gana Fácil</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      padding: 3rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 500px;
+    }
+    h1 {
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 2rem auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .status {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f0f0f0;
+      border-radius: 0.5rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    .success {
+      color: #22c55e;
+      font-weight: bold;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔄 Clearing Cache</h1>
+    <p>Removing old service worker and cache...</p>
+    <div class="spinner" id="spinner"></div>
+    <div class="status" id="status">Initializing...</div>
+    <button id="continueBtn" style="display:none;" onclick="window.location.href='/dashboard'">
+      Continue to Dashboard →
+    </button>
+  </div>
+
+  <script>
+    const status = document.getElementById('status');
+    const spinner = document.getElementById('spinner');
+    const continueBtn = document.getElementById('continueBtn');
+
+    async function clearAllCache() {
+      const steps = [];
+      
+      // Step 1: Unregister all service workers
+      if ('serviceWorker' in navigator) {
+        steps.push('Unregistering service workers...');
+        status.textContent = steps.join('\n');
+        
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let registration of registrations) {
+          await registration.unregister();
+        }
+        steps.push('✓ Service workers removed');
+        status.textContent = steps.join('\n');
+      }
+
+      // Step 2: Clear all caches
+      if ('caches' in window) {
+        steps.push('Clearing cache storage...');
+        status.textContent = steps.join('\n');
+        
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames.map(cacheName => caches.delete(cacheName))
+        );
+        steps.push('✓ All caches cleared (' + cacheNames.length + ' caches)');
+        status.textContent = steps.join('\n');
+      }
+
+      // Step 3: Clear localStorage
+      steps.push('Clearing local storage...');
+      status.textContent = steps.join('\n');
+      
+      // Save user data before clearing
+      const user = localStorage.getItem('user');
+      const activated = localStorage.getItem('ganafacil_activated');
+      
+      localStorage.clear();
+      
+      // Restore user data
+      if (user) localStorage.setItem('user', user);
+      if (activated) localStorage.setItem('ganafacil_activated', activated);
+      
+      steps.push('✓ Local storage cleared (user data preserved)');
+      status.textContent = steps.join('\n');
+
+      // Step 4: Clear sessionStorage
+      sessionStorage.clear();
+      steps.push('✓ Session storage cleared');
+      status.textContent = steps.join('\n');
+
+      // Step 5: Done
+      steps.push('');
+      steps.push('✅ ALL CACHE CLEARED SUCCESSFULLY!');
+      steps.push('');
+      steps.push('Click below to continue...');
+      status.innerHTML = steps.join('<br>');
+      status.className = 'status success';
+      
+      spinner.style.display = 'none';
+      continueBtn.style.display = 'block';
+    }
+
+    // Start clearing
+    clearAllCache().catch(error => {
+      status.textContent = '❌ Error: ' + error.message;
+      status.style.color = 'red';
+      spinner.style.display = 'none';
+      continueBtn.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
+
