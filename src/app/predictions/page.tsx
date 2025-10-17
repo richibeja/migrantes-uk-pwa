@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-// import { useRealPredictions } from '@/hooks/useRealPredictions';
-// import PredictionHighlightEn from '@/components/PredictionHighlightEn';
+import { useRealPredictions } from '@/hooks/useRealPredictions';
+import PredictionHighlightEn from '@/components/PredictionHighlightEn';
 import { 
   Target, 
   Zap, 
@@ -60,22 +60,17 @@ export default function PredictionsPageEn() {
   const [lastUpdate, setLastUpdate] = useState<string>('');
   const [isLive, setIsLive] = useState(false);
   
-  // Simulated data to avoid errors
-  const realPredictions: any[] = [];
-  const isLoadingReal = false;
-  const isGenerating = false;
-  const predictionError = null;
-  const accuracy = 85;
-  const refreshPredictions = () => {};
-  const getPredictionsForLottery = () => [];
-  const getStatistics = () => ({
-    totalPredictions: 0,
-    averageConfidence: 85,
-    averageAccuracy: 85,
-    methodCounts: {},
-    lotteryCounts: {},
-    updateCount: 0
-  });
+  // Use real predictions from hook
+  const {
+    predictions: realPredictions,
+    isLoading: isLoadingReal,
+    isGenerating,
+    error: predictionError,
+    accuracy,
+    refreshPredictions,
+    getPredictionsForLottery,
+    getStatistics
+  } = useRealPredictions();
 
   // Verificar autenticación - las predicciones requieren activación
   useEffect(() => {

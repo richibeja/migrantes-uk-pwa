@@ -2,11 +2,22 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { 
+  loadUser, 
+  saveUser, 
+  clearUser, 
+  createUser, 
+  isUserAuthenticated,
+  validateCode,
+  type User as UnifiedUser
+} from '@/lib/unified-auth';
 
 export interface User {
   id: string;
   email: string;
   name: string;
+  username?: string;
+  code?: string;
   plan: 'basic' | 'premium' | 'vip' | 'admin';
   isActive: boolean;
   isAdmin: boolean;
@@ -14,6 +25,7 @@ export interface User {
   isVip: boolean;
   createdAt: Date;
   lastLogin: Date;
+  expiresAt?: Date;
   permissions: string[];
   subscription?: {
     id: string;
@@ -58,26 +70,40 @@ export const useAuth = () => {
     error: null,
   });
 
-  // Cargar estado de autenticación desde localStorage
+  // Cargar estado de autenticación desde localStorage usando unified-auth
   useEffect(() => {
     const loadAuthState = () => {
       try {
-        const storedUser = localStorage.getItem('anbel_user');
-        const storedToken = localStorage.getItem('anbel_token');
+        const unifiedUser = loadUser();
         
-        if (storedUser && storedToken) {
-          const user = JSON.parse(storedUser);
+        if (unifiedUser && isUserAuthenticated()) {
+          const user: User = {
+            id: unifiedUser.id,
+            email: unifiedUser.email || '',
+            name: unifiedUser.username || unifiedUser.email?.split('@')[0] || 'User',
+            username: unifiedUser.username,
+            code: unifiedUser.code,
+            plan: unifiedUser.plan as 'basic' | 'premium' | 'vip' | 'admin',
+            isActive: unifiedUser.isActivated,
+            isAdmin: unifiedUser.isAdmin || false,
+            isPremium: unifiedUser.plan === 'premium' || unifiedUser.plan === 'vip',
+            isVip: unifiedUser.plan === 'vip',
+            createdAt: unifiedUser.createdAt,
+            lastLogin: new Date(),
+            expiresAt: unifiedUser.expiresAt,
+            permissions: getPlanPermissions(unifiedUser.plan, unifiedUser.isAdmin),
+            subscription: unifiedUser.expiresAt ? {
+              id: unifiedUser.id,
+              plan: unifiedUser.plan,
+              status: 'active',
+              startDate: unifiedUser.createdAt,
+              endDate: unifiedUser.expiresAt,
+              autoRenew: false,
+            } : undefined,
+          };
+          
           setAuthState({
-            user: {
-              ...user,
-              createdAt: new Date(user.createdAt),
-              lastLogin: new Date(user.lastLogin),
-              subscription: user.subscription ? {
-                ...user.subscription,
-                startDate: new Date(user.subscription.startDate),
-                endDate: new Date(user.subscription.endDate),
-              } : undefined,
-            },
+            user,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -101,6 +127,25 @@ export const useAuth = () => {
 
     loadAuthState();
   }, []);
+
+  // Helper function to get permissions based on plan
+  const getPlanPermissions = (plan: string, isAdmin?: boolean): string[] => {
+    const basePermissions = ['dashboard:view'];
+    
+    if (isAdmin) {
+      return [...basePermissions, 'admin:all', 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create', 'predictions:edit'];
+    }
+    
+    switch (plan) {
+      case 'vip':
+        return [...basePermissions, 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create', 'predictions:edit', 'clubs:premium'];
+      case 'premium':
+        return [...basePermissions, 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create'];
+      case 'basic':
+      default:
+        return [...basePermissions, 'anbel:chat', 'predictions:view'];
+    }
+  };
 
   // Función de login
   const login = useCallback(async (credentials: LoginCredentials) => {
@@ -220,7 +265,7 @@ export const useAuth = () => {
     }
   }, []);
 
-  // Función de activación
+  // Función de activación usando unified-auth
   const activate = useCallback(async (data: ActivationData) => {
     setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
@@ -233,65 +278,62 @@ export const useAuth = () => {
         throw new Error('Email and activation code are required');
       }
 
-      // Códigos válidos
-      const validCodes = ['GANAFACIL2024', 'PREMIUM123', 'VIP456', 'BASIC789', 'DEMO2024', 'TEST123'];
+      // Validar código usando unified-auth
+      const validation = validateCode(data.code);
       
-      if (!validCodes.includes(data.code.toUpperCase())) {
+      if (!validation.valid || !validation.data) {
         throw new Error('Invalid activation code');
       }
 
-      // Determinar plan basado en código
-      let plan: 'basic' | 'premium' | 'vip' | 'admin' = 'basic';
-      let isPremium = false;
-      let isVip = false;
-      let permissions: string[] = ['dashboard:view', 'anbel:chat'];
+      // Crear usuario usando unified-auth
+      const unifiedUser = createUser(data.code, data.email, data.email.split('@')[0]);
+      
+      // Guardar usuario
+      saveUser(unifiedUser);
 
-      switch (data.code.toUpperCase()) {
-        case 'GANAFACIL2024':
-        case 'PREMIUM123':
-          plan = 'premium';
-          isPremium = true;
-          permissions = ['dashboard:view', 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create'];
-          break;
-        case 'VIP456':
-          plan = 'vip';
-          isVip = true;
-          isPremium = true;
-          permissions = ['dashboard:view', 'anbel:chat', 'anbel:predict', 'predictions:view', 'predictions:create', 'predictions:edit'];
-          break;
-        case 'BASIC789':
-        case 'DEMO2024':
-        case 'TEST123':
-          plan = 'basic';
-          break;
-      }
-
-      // Simulación de usuario activado
-      const user: User = {
-        id: '1',
+      // También guardar en formatos legacy para compatibilidad
+      localStorage.setItem('ganafacil_activated', 'true');
+      localStorage.setItem('user', JSON.stringify({
+        email: data.email,
+        plan: unifiedUser.plan,
+        isActive: true
+      }));
+      localStorage.setItem('anbel_user', JSON.stringify({
+        id: unifiedUser.id,
         email: data.email,
         name: data.email.split('@')[0],
-        plan,
+        plan: unifiedUser.plan,
         isActive: true,
-        isAdmin: false,
-        isPremium,
-        isVip,
-        createdAt: new Date(),
+        isPremium: unifiedUser.plan === 'premium' || unifiedUser.plan === 'vip',
+        permissions: getPlanPermissions(unifiedUser.plan, unifiedUser.isAdmin)
+      }));
+      localStorage.setItem('anbel_token', 'active_token');
+
+      // Convertir a formato User para el estado
+      const user: User = {
+        id: unifiedUser.id,
+        email: unifiedUser.email || data.email,
+        name: unifiedUser.username || data.email.split('@')[0],
+        username: unifiedUser.username,
+        code: unifiedUser.code,
+        plan: unifiedUser.plan as 'basic' | 'premium' | 'vip' | 'admin',
+        isActive: unifiedUser.isActivated,
+        isAdmin: unifiedUser.isAdmin || false,
+        isPremium: unifiedUser.plan === 'premium' || unifiedUser.plan === 'vip',
+        isVip: unifiedUser.plan === 'vip',
+        createdAt: unifiedUser.createdAt,
         lastLogin: new Date(),
-        permissions,
-        subscription: plan !== 'basic' ? {
-          id: `sub_${Date.now()}`,
-          plan,
+        expiresAt: unifiedUser.expiresAt,
+        permissions: getPlanPermissions(unifiedUser.plan, unifiedUser.isAdmin),
+        subscription: unifiedUser.expiresAt ? {
+          id: unifiedUser.id,
+          plan: unifiedUser.plan,
           status: 'active',
-          startDate: new Date(),
-          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 días
-          autoRenew: true,
+          startDate: unifiedUser.createdAt,
+          endDate: unifiedUser.expiresAt,
+          autoRenew: false,
         } : undefined,
       };
-
-      // Guardar en localStorage
-      localStorage.setItem('anbel_user', JSON.stringify(user));
-      localStorage.setItem('anbel_token', 'mock_jwt_token');
 
       setAuthState({
         user,
@@ -314,8 +356,15 @@ export const useAuth = () => {
 
   // Función de logout
   const logout = useCallback(() => {
+    // Limpiar unified-auth
+    clearUser();
+    
+    // Limpiar localStorage legacy
     localStorage.removeItem('anbel_user');
     localStorage.removeItem('anbel_token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('ganafacil_activated');
+    
     setAuthState({
       user: null,
       isAuthenticated: false,
