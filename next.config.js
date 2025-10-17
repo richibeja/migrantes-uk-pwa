@@ -1,26 +1,9 @@
 // next.config.js - CONFIGURACIÓN SIMPLIFICADA PARA VERCEL
 const withPWA = require("next-pwa")({
   dest: "public",
-  disable: process.env.NODE_ENV === "development",
-  register: true,
+  disable: true, // DESACTIVADO TEMPORALMENTE para limpiar caché
+  register: false,
   skipWaiting: true,
-  reloadOnOnline: true,
-  scope: '/',
-  sw: 'sw.js',
-  runtimeCaching: [
-    {
-      urlPattern: /^https?.*/,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'offlineCache',
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 60 * 60 // 1 hour
-        },
-        networkTimeoutSeconds: 10
-      }
-    }
-  ],
   buildExcludes: [
     /app-build-manifest\.json$/,
     /middleware-manifest\.json$/,
