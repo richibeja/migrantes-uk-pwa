@@ -7,6 +7,7 @@
 import { getGeminiAI, GeminiAIService } from './gemini-ai';
 import { realLotteryAPI, getRealLotteryResults } from './lottery-apis-real';
 import { usLotteryAPI, getUSLotteryResults } from './us-lottery-apis';
+import { getEnabledLotteries, getLotteryById, getNextDrawDate } from '@/config/lotteries-uk-production';
 
 export interface AnbelResponse {
   text: string;
@@ -1819,21 +1820,26 @@ class AnbelAI {
    */
   private async getRealLotteryData(lottery: string): Promise<any> {
     try {
-      // Mapear nombres de loterías a IDs de API
+      // Mapear nombres de loterías a IDs de API - LAS 8 LOTERÍAS ACTIVAS
       const lotteryIdMap: Record<string, string> = {
         'Powerball': 'powerball',
-        'Mega Millions': 'megaMillions',
-        'Cash4Life': 'cash4Life',
-        'Lucky for Life': 'luckyForLife',
-        'Hot Lotto': 'hotLotto',
-        'Pick 6': 'pick6',
-        'Fantasy 5': 'fantasy5'
+        'Mega Millions': 'mega-millions',
+        'EuroMillions': 'euromillions',
+        'UK National Lottery': 'uk-lotto',
+        'UK Lotto': 'uk-lotto',
+        'Thunderball': 'thunderball',
+        'Set For Life': 'set-for-life',
+        'EuroMillions HotPicks': 'euromillions-hotpicks',
+        'Baloto': 'baloto',
+        // Aliases
+        'megaMillions': 'mega-millions',
+        'mega-millions': 'mega-millions'
       };
 
-      const lotteryId = lotteryIdMap[lottery] || lottery.toLowerCase();
+      const lotteryId = lotteryIdMap[lottery] || lottery.toLowerCase().replace(/\s+/g, '-');
       
       // Intentar obtener datos reales de USA primero
-      if (['powerball', 'megaMillions', 'cash4Life', 'lottoAmerica'].includes(lotteryId)) {
+      if (['powerball', 'mega-millions', 'megaMillions'].includes(lotteryId)) {
         try {
           const usData = await usLotteryAPI.getLatestResults(lotteryId);
           if (usData && usData.source === 'real') {
@@ -1912,11 +1918,12 @@ class AnbelAI {
     const hotNumbers: Record<string, number[]> = {
       'Powerball': [7, 15, 23, 31, 42, 12, 8, 22, 35, 44],
       'Mega Millions': [3, 11, 19, 27, 35, 8, 18, 25, 33, 41],
-      'Cash4Life': [7, 15, 23, 31, 39, 2, 3, 4, 1],
-      'Lucky for Life': [5, 12, 18, 25, 32, 7, 14, 21, 28, 35],
-      'Hot Lotto': [4, 12, 20, 28, 36, 7, 3, 9, 15, 21],
-      'Pick 6': [6, 17, 25, 32, 38, 13, 7, 14, 21, 28],
-      'Fantasy 5': [3, 8, 15, 22, 29, 5, 12, 19, 26, 33]
+      'EuroMillions': [2, 9, 16, 24, 33, 5, 8, 11, 17, 25],
+      'UK National Lottery': [6, 17, 25, 32, 38, 13, 7, 14, 21, 28],
+      'Thunderball': [5, 12, 18, 25, 32, 7, 14, 21, 28, 35],
+      'Set For Life': [4, 12, 20, 28, 36, 7, 3, 9, 15, 21],
+      'EuroMillions HotPicks': [2, 9, 16, 24, 33, 5, 8, 11, 17, 25],
+      'Baloto': [3, 8, 12, 18, 21, 27, 32, 35, 38, 42]
     };
 
     const hot = hotNumbers[lottery] || [];
@@ -2899,7 +2906,21 @@ class AnbelAI {
   }
 
   private updateRealTimeData(): void {
+    // Obtener próximos sorteos en tiempo real
+    const lotteries = getEnabledLotteries();
+    const upcomingDraws = lotteries.map(lottery => ({
+      id: lottery.id,
+      name: lottery.name,
+      nextDraw: getNextDrawDate(lottery),
+      drawTime: lottery.drawTime,
+      timezone: lottery.timezone,
+      drawDays: lottery.drawDays,
+      jackpot: `${lottery.currency === 'GBP' ? '£' : lottery.currency === 'EUR' ? '€' : lottery.currency === 'COP' ? '$' : '$'}${lottery.jackpotMin.toLocaleString()}`
+    }));
+    
     this.realTimeData = {
+      upcomingDraws,
+      lotteries: lotteries.length,
       weather: this.getWeatherData(),
       marketSentiment: this.getMarketSentiment(),
       socialTrends: this.getSocialTrends(),
