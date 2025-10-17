@@ -3455,3 +3455,11 @@ class AnbelAI {
 
 // Instancia global de Anbel IA
 export const anbelAI = new AnbelAI();
+
+// Helper function para obtener la instancia
+export function getAnbelAI(): AnbelAI {
+  return anbelAI;
+}
+
+// Export default para compatibilidad
+export default anbelAI;
