@@ -312,22 +312,22 @@ class AnbelAI {
     const bonus = prediction.bonusNumbers ? ` + ${prediction.bonusNumbers.join(', ')}` : '';
     const confidence = Math.round(prediction.confidence * 100);
     
-    return `🎯 **PREDICCIÓN ULTRA GANADORA GENERADA** 🎯\n\n` +
+    return `🎯 **ULTRA WINNING PREDICTION GENERATED** 🎯\n\n` +
            `🎲 **${lottery.toUpperCase()}**\n` +
-           `🔢 **Números**: ${numbers}${bonus}\n` +
-           `🧠 **Confianza**: ${confidence}%\n` +
-           `⚡ **Algoritmo**: Emergency Ultra\n\n` +
-           `💰 **¡COMPARTE Y GANA DINERO REAL!**\n` +
-           `• 🎯 **Si alguien gana con estos números → TÚ GANAS 15%**\n` +
-           `• 🔥 **Más compartes = Más oportunidades de ganar**\n` +
-           `• 💪 **Tus números tienen ${confidence}% de confianza**\n` +
-           `• 🌟 **¡Ayuda a otros y gana dinero juntos!**\n\n` +
-           `📱 **COMPARTE AHORA CON 1 CLIC:**\n` +
-           `• Botones de abajo → Comparte automáticamente\n` +
-           `• Incluye tu compromiso de ganancia\n` +
-           `• Enlace directo para nuevos usuarios\n` +
-           `• ¡Sin escribir nada, todo automático!\n\n` +
-           `🎉 **¡USA ESTA COMBINACIÓN Y GANA!** 🎉`;
+           `🔢 **Numbers**: ${numbers}${bonus}\n` +
+           `🧠 **Confidence**: ${confidence}%\n` +
+           `⚡ **Algorithm**: Emergency Ultra\n\n` +
+           `💰 **SHARE & EARN REAL MONEY!**\n` +
+           `• 🎯 **If someone wins with these numbers → YOU GET 15%**\n` +
+           `• 🔥 **More shares = More opportunities to win**\n` +
+           `• 💪 **Your numbers have ${confidence}% confidence**\n` +
+           `• 🌟 **Help others and earn money together!**\n\n` +
+           `📱 **SHARE NOW WITH 1 CLICK:**\n` +
+           `• Buttons below → Share automatically\n` +
+           `• Includes your earnings commitment\n` +
+           `• Direct link for new users\n` +
+           `• No typing needed, all automatic!\n\n` +
+           `🎉 **USE THIS COMBINATION AND WIN!** 🎉`;
   }
 
   /**
@@ -2425,8 +2425,8 @@ class AnbelAI {
    * 🔥 OBTENER NOMBRE DEL MES
    */
   private getMonthName(month: number): string {
-    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                   'July', 'August', 'September', 'October', 'November', 'December'];
     return months[month];
   }
 
@@ -2671,8 +2671,8 @@ class AnbelAI {
     const historicalAnalysis = this.analyzeHistoricalResults(lottery);
     const realAnalysis = this.analyzeNumbersReal(prediction.numbers, lottery);
     
-    // Detectar idioma del usuario
-    const isSpanish = this.detectLanguage(factors?.input || '') === 'es';
+    // Siempre usar INGLÉS por defecto (proyecto para UK)
+    const isSpanish = false; // Cambiar a: this.detectLanguage(factors?.input || '') === 'es' si se quiere detección
     
     if (isSpanish) {
       const dataSource = isRealData ? '🔗 **DATOS REALES DE API**' : '🧠 **ANÁLISIS INTELIGENTE**';
@@ -2821,10 +2821,10 @@ class AnbelAI {
     const primes = this.generatePrimeNumbers(70);
     
     return {
-      hotNumbers: numbers.filter(n => hotNumbers.includes(n)).join(', ') || 'Ninguno',
-      dueNumbers: numbers.filter(n => dueNumbers.includes(n)).join(', ') || 'Ninguno',
-      fibonacciNumbers: numbers.filter(n => fibonacci.includes(n)).join(', ') || 'Ninguno',
-      primeNumbers: numbers.filter(n => primes.includes(n)).join(', ') || 'Ninguno',
+      hotNumbers: numbers.filter(n => hotNumbers.includes(n)).join(', ') || 'None',
+      dueNumbers: numbers.filter(n => dueNumbers.includes(n)).join(', ') || 'None',
+      fibonacciNumbers: numbers.filter(n => fibonacci.includes(n)).join(', ') || 'None',
+      primeNumbers: numbers.filter(n => primes.includes(n)).join(', ') || 'None',
       astrologicalPattern: this.getAstrologicalPattern(numbers),
       sum: numbers.reduce((a, b) => a + b, 0),
       average: Math.round(numbers.reduce((a, b) => a + b, 0) / numbers.length),
@@ -2838,10 +2838,10 @@ class AnbelAI {
    */
   private getAstrologicalPattern(numbers: number[]): string {
     const sum = numbers.reduce((a, b) => a + b, 0);
-    if (sum % 7 === 0) return 'Lunar (múltiplo de 7)';
-    if (sum % 12 === 0) return 'Zodiacal (múltiplo de 12)';
-    if (sum % 9 === 0) return 'Planetario (múltiplo de 9)';
-    return 'Personalizado';
+    if (sum % 7 === 0) return 'Lunar (multiple of 7)';
+    if (sum % 12 === 0) return 'Zodiacal (multiple of 12)';
+    if (sum % 9 === 0) return 'Planetary (multiple of 9)';
+    return 'Personalized';
   }
 
   /**
@@ -2852,10 +2852,10 @@ class AnbelAI {
     const mid = numbers.filter(n => n > 25 && n <= 50).length;
     const high = numbers.filter(n => n > 50).length;
     
-    if (low > mid && low > high) return 'Baja (1-25)';
-    if (mid > low && mid > high) return 'Media (26-50)';
-    if (high > low && high > mid) return 'Alta (51+)';
-    return 'Balanceada';
+    if (low > mid && low > high) return 'Low (1-25)';
+    if (mid > low && mid > high) return 'Mid (26-50)';
+    if (high > low && high > mid) return 'High (51+)';
+    return 'Balanced';
   }
 
   /**
@@ -2865,16 +2865,16 @@ class AnbelAI {
     const even = numbers.filter(n => n % 2 === 0).length;
     const odd = numbers.filter(n => n % 2 !== 0).length;
     
-    if (even > odd) return 'Mayoría pares';
-    if (odd > even) return 'Mayoría impares';
-    return 'Balanceado';
+    if (even > odd) return 'Mostly even';
+    if (odd > even) return 'Mostly odd';
+    return 'Balanced';
   }
 
   /**
    * 🔥 OBTENER NOMBRE DEL DÍA
    */
   private getDayName(day: number): string {
-    const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days[day];
   }
 
@@ -3303,11 +3303,11 @@ class AnbelAI {
    * 🎯 OBTENER RAREZA DE PREDICCIÓN
    */
   private getPredictionRarity(confidence: number): string {
-    if (confidence >= 0.9) return 'LEGENDARIA';
-    if (confidence >= 0.8) return 'ÉPICA';
-    if (confidence >= 0.7) return 'RARA';
-    if (confidence >= 0.6) return 'COMÚN';
-    return 'BÁSICA';
+    if (confidence >= 0.9) return 'LEGENDARY';
+    if (confidence >= 0.8) return 'EPIC';
+    if (confidence >= 0.7) return 'RARE';
+    if (confidence >= 0.6) return 'COMMON';
+    return 'BASIC';
   }
 
   /**
@@ -3467,13 +3467,13 @@ class AnbelAI {
    */
   getAvailableBadges(): { id: string; name: string; description: string; icon: string }[] {
     return [
-      { id: 'first_prediction', name: 'Primera Predicción', description: 'Realizaste tu primera predicción', icon: '🎯' },
-      { id: 'sharer', name: 'Compartidor', description: 'Compartiste 5 predicciones', icon: '📱' },
-      { id: 'recruiter', name: 'Reclutador', description: 'Invitaste 3 amigos', icon: '👥' },
-      { id: 'expert', name: 'Experto', description: 'Alcanzaste nivel 5', icon: '🧠' },
-      { id: 'streak_master', name: 'Maestro de Rachas', description: '7 días consecutivos', icon: '🔥' },
-      { id: 'social_butterfly', name: 'Mariposa Social', description: 'Compartiste 20 veces', icon: '🦋' },
-      { id: 'viral_predictor', name: 'Predictor Viral', description: 'Tu predicción fue compartida 50 veces', icon: '📈' }
+      { id: 'first_prediction', name: 'First Prediction', description: 'Made your first prediction', icon: '🎯' },
+      { id: 'sharer', name: 'Sharer', description: 'Shared 5 predictions', icon: '📱' },
+      { id: 'recruiter', name: 'Recruiter', description: 'Invited 3 friends', icon: '👥' },
+      { id: 'expert', name: 'Expert', description: 'Reached level 5', icon: '🧠' },
+      { id: 'streak_master', name: 'Streak Master', description: '7 consecutive days', icon: '🔥' },
+      { id: 'social_butterfly', name: 'Social Butterfly', description: 'Shared 20 times', icon: '🦋' },
+      { id: 'viral_predictor', name: 'Viral Predictor', description: 'Your prediction was shared 50 times', icon: '📈' }
     ];
   }
 }
