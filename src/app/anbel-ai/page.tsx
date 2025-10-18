@@ -61,16 +61,32 @@ export default function AnbelAIPageEn() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentEmotion, setCurrentEmotion] = useState<string>('neutral');
 
-  // Simple authentication check - runs ONCE
+  // Combined authentication and initialization - runs ONCE
   useEffect(() => {
     const userData = localStorage.getItem('user') || localStorage.getItem('ganaFacilUser');
     if (!userData) {
       window.location.href = '/auth/login-en';
       return;
     }
-    setUser(JSON.parse(userData));
+    
+    const parsedUser = JSON.parse(userData);
+    setUser(parsedUser);
     setIsLoading(false);
-  }, []);
+    
+    // Initialize welcome message after user is set
+    setTimeout(() => {
+      if (messages.length === 0) {
+        const welcomeMessage: ChatMessage = {
+          id: '1',
+          type: 'anbel',
+          content: `Hello ${parsedUser?.username || parsedUser?.email || 'User'}! I'm Anbel, your Super Intelligent AI Agent. I can help you with lottery predictions, analysis, and strategies. What would you like to know?`,
+          timestamp: new Date().toISOString(),
+          confidence: 100
+        };
+        setMessages([welcomeMessage]);
+      }
+    }, 100);
+  }, []); // Empty dependency array to run only once
 
   if (isLoading) {
     return (
@@ -83,26 +99,6 @@ export default function AnbelAIPageEn() {
       </div>
     );
   }
-
-  // Initialize with welcome message
-  useEffect(() => {
-    const initializeChat = () => {
-      if (messages.length === 0) {
-        const welcomeMessage: ChatMessage = {
-          id: '1',
-          type: 'anbel',
-          content: `Hello ${user?.username || user?.email || 'User'}! I'm Anbel, your Super Intelligent AI Agent. I can help you with lottery predictions, analysis, and strategies. What would you like to know?`,
-          timestamp: new Date().toISOString(),
-          confidence: 100
-        };
-        setMessages([welcomeMessage]);
-      }
-    };
-
-    // Use setTimeout to ensure this runs after component mount
-    const timer = setTimeout(initializeChat, 100);
-    return () => clearTimeout(timer);
-  }, []); // Empty dependency array to run only once
 
   const handlePredictionGenerated = (prediction: any) => {
     console.log('Prediction generated:', prediction);
@@ -439,7 +435,7 @@ export default function AnbelAIPageEn() {
                       <p className="text-sm">{message.content}</p>
                       {message.confidence && (
                         <div className="mt-2 text-xs opacity-70">
-                          Confidence: {message.confidence}%
+                          Confidence: {message.confidence < 1 ? Math.round(message.confidence * 100) : Math.round(message.confidence)}%
                         </div>
                       )}
                     </div>
