@@ -1500,31 +1500,42 @@ class AnbelAI {
   private extractLottery(input: string): string {
     const lowerInput = input.toLowerCase();
     
-    // Loterías principales de USA
-    if (lowerInput.includes('powerball') || lowerInput.includes('power ball')) return 'Powerball';
-    if (lowerInput.includes('mega millions') || lowerInput.includes('mega')) return 'Mega Millions';
-    if (lowerInput.includes('cash4life') || lowerInput.includes('cash for life')) return 'Cash4Life';
-    if (lowerInput.includes('lucky for life') || lowerInput.includes('lucky')) return 'Lucky for Life';
-    if (lowerInput.includes('hot lotto') || lowerInput.includes('hotlotto')) return 'Hot Lotto';
-    if (lowerInput.includes('pick 6') || lowerInput.includes('pick6')) return 'Pick 6';
-    if (lowerInput.includes('fantasy 5') || lowerInput.includes('fantasy5')) return 'Fantasy 5';
+    // 🇨🇴 Baloto (Colombia) - PRIORIDAD ALTA
+    if (lowerInput.includes('baloto') || lowerInput.includes('balot')) return 'Baloto';
     
-    // Loterías internacionales
-    if (lowerInput.includes('euromillions')) return 'EuroMillions';
+    // 🇺🇸 Loterías USA
+    if (lowerInput.includes('powerball') || lowerInput.includes('power ball') || lowerInput.includes('pawer')) return 'Powerball';
+    if (lowerInput.includes('mega millions') || lowerInput.includes('megamillions') || lowerInput.includes('mega')) return 'Mega Millions';
+    
+    // 🇪🇺 Loterías Europeas
+    if (lowerInput.includes('euromillions') || lowerInput.includes('euro millions') || lowerInput.includes('euro')) return 'EuroMillions';
+    if (lowerInput.includes('hotpicks') || lowerInput.includes('hot picks')) return 'EuroMillions HotPicks';
+    
+    // 🇬🇧 Loterías UK
+    if (lowerInput.includes('uk lotto') || lowerInput.includes('uk national') || lowerInput.includes('uk lottery')) return 'UK National Lottery';
+    if (lowerInput.includes('thunderball') || lowerInput.includes('thunder ball')) return 'Thunderball';
+    if (lowerInput.includes('set for life') || lowerInput.includes('setforlife')) return 'Set For Life';
     
     return 'Powerball'; // Default
   }
 
   private getLotteryConfig(lottery: string): any {
     const configs = {
+      // 🇨🇴 Colombia
+      'Baloto': { numbersCount: 5, maxNumber: 43, bonusCount: 1, maxBonus: 16, bonusName: 'Superbalota' },
+      
+      // 🇺🇸 USA
       'Powerball': { numbersCount: 5, maxNumber: 69, bonusCount: 1, maxBonus: 26, bonusName: 'Power Ball' },
       'Mega Millions': { numbersCount: 5, maxNumber: 70, bonusCount: 1, maxBonus: 25, bonusName: 'Mega Ball' },
-      'Cash4Life': { numbersCount: 5, maxNumber: 60, bonusCount: 1, maxBonus: 4, bonusName: 'Cash Ball' },
-      'Lucky for Life': { numbersCount: 5, maxNumber: 48, bonusCount: 1, maxBonus: 18, bonusName: 'Lucky Ball' },
-      'Hot Lotto': { numbersCount: 5, maxNumber: 47, bonusCount: 1, maxBonus: 19, bonusName: 'Hot Ball' },
-      'Pick 6': { numbersCount: 6, maxNumber: 49, bonusCount: 0, maxBonus: 0, bonusName: 'Sin Balota Especial' },
-      'Fantasy 5': { numbersCount: 5, maxNumber: 39, bonusCount: 0, maxBonus: 0, bonusName: 'Sin Balota Especial' },
-      'EuroMillions': { numbersCount: 5, maxNumber: 50, bonusCount: 2, maxBonus: 12, bonusName: 'Lucky Stars' }
+      
+      // 🇪🇺 Europa
+      'EuroMillions': { numbersCount: 5, maxNumber: 50, bonusCount: 2, maxBonus: 12, bonusName: 'Lucky Stars' },
+      'EuroMillions HotPicks': { numbersCount: 5, maxNumber: 50, bonusCount: 0, maxBonus: 0, bonusName: 'No Bonus' },
+      
+      // 🇬🇧 UK
+      'UK National Lottery': { numbersCount: 6, maxNumber: 59, bonusCount: 0, maxBonus: 0, bonusName: 'No Bonus' },
+      'Thunderball': { numbersCount: 5, maxNumber: 39, bonusCount: 1, maxBonus: 14, bonusName: 'Thunderball' },
+      'Set For Life': { numbersCount: 5, maxNumber: 47, bonusCount: 1, maxBonus: 10, bonusName: 'Life Ball' }
     };
     return configs[lottery] || configs['Powerball'];
   }
