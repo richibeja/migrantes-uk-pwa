@@ -2598,14 +2598,20 @@ class AnbelAI {
    * 🌤️ ANÁLISIS DE IMPACTO METEOROLÓGICO
    */
   private analyzeWeatherImpact(): any {
-    const weather = this.realTimeData.weather;
-    const weatherNumbers = this.generateWeatherNumbers(weather);
+    const weather = this.realTimeData?.weather || { temp: 20, condition: 'clear' };
+    
+    // Generar números basados en clima sin método faltante
+    const weatherNumbers = [
+      Math.floor((weather.temp || 20) % 50) + 1,
+      Math.floor((weather.humidity || 50) % 50) + 1,
+      Math.floor((weather.pressure || 1000) % 50) + 1
+    ];
     
     return {
       numbers: weatherNumbers,
       confidence: 0.6,
       weather: weather,
-      impact: this.calculateWeatherImpact(weather)
+      impact: weather.temp > 25 ? 'positive' : 'neutral'
     };
   }
 
